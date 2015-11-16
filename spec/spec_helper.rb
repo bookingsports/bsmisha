@@ -1,4 +1,7 @@
 require 'coveralls'
+require 'simplecov'
+
+SimpleCov.start
 Coveralls.wear!
 
 RSpec.configure do |config|
