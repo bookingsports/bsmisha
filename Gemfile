@@ -11,6 +11,8 @@ gem 'jbuilder', '~> 2.0'
 gem 'haml-rails'
 gem 'carrierwave'
 gem 'mini_magick', require: false
+gem 'simplecov', require: false
+gem 'coveralls', require: false
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'

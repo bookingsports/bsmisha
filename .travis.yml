@@ -1,0 +1,8 @@
+language: ruby
+rvm:
+ - '2.2.0'
+notifications:
+  email:
+    - ivanzotov@gmail.com
+
+script: bundle exec rspec spec
