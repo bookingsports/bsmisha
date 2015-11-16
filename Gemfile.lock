@@ -329,7 +329,6 @@ GEM
     remotipart (1.2.1)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
-    rmagick (2.13.3)
     rspec (3.2.0)
       rspec-core (~> 3.2.0)
       rspec-expectations (~> 3.2.0)
@@ -467,6 +466,7 @@ DEPENDENCIES
   launchy
   letter_opener
   lightbox2-rails
+  mini_magick
   momentjs-rails
   pg
   quiet_assets
@@ -481,7 +481,6 @@ DEPENDENCIES
   rb-fchange
   rb-fsevent
   rb-inotify
-  rmagick
   rspec-rails
   sass-rails (~> 5.0)
   selenium-webdriver
@@ -498,4 +497,4 @@ DEPENDENCIES
   yui-compressor
 
 BUNDLED WITH
-   1.10.4
+   1.10.6
