@@ -1,5 +1,3 @@
-
-
 class WithdrawalRequestData
   include Payments::Utility
 
@@ -43,5 +41,4 @@ class WithdrawalRequestData
       ActionController::Base.helpers.hidden_field_tag param, self.send(param.underscore)
     end
   end
-
 end
