@@ -1,7 +1,6 @@
 FactoryGirl.define do
   factory :static_page do
     text "MyText"
-title "MyString"
+    title "MyString"
   end
-
 end

@@ -6,5 +6,4 @@ FactoryGirl.define do
     stadium nil
     order nil
   end
-
 end
