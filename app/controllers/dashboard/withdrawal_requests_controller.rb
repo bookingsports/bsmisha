@@ -1,5 +1,4 @@
 class Dashboard::WithdrawalRequestsController < DashboardController
-  # respond_to :html
   def index
     @requests = current_user.wallet.withdrawal_requests.all
 
@@ -19,7 +18,8 @@ class Dashboard::WithdrawalRequestsController < DashboardController
   end
 
   private
-  def request_params
-    params.require(:withdrawal_request).permit(:amount)
-  end
+
+    def request_params
+      params.require(:withdrawal_request).permit(:amount)
+    end
 end

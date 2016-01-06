@@ -1,5 +1,4 @@
 class Admin::OptionsController < AdminController
-
   def edit
     @options = Option.current
   end
@@ -12,7 +11,8 @@ class Admin::OptionsController < AdminController
   end
 
   private
-  def options_params
-    params.require(:option).permit(:tax, :feedback_email)
-  end
+
+    def options_params
+      params.require(:option).permit(:tax, :feedback_email)
+    end
 end

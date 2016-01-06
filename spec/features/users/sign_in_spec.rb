@@ -54,5 +54,4 @@ feature "Sign in", :devise do
       authentication_keys: "email"
     }))
   end
-
 end

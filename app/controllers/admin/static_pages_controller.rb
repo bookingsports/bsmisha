@@ -1,5 +1,6 @@
 class Admin::StaticPagesController < AdminController
   respond_to :html
+
   def index
     @pages = StaticPage.all
   end
@@ -20,7 +21,7 @@ class Admin::StaticPagesController < AdminController
     respond_with @page, location: admin_static_pages_path
   end
 
-  def create 
+  def create
     @page = StaticPage.create static_page_params
 
     respond_with @page, location: admin_static_pages_path
@@ -35,7 +36,8 @@ class Admin::StaticPagesController < AdminController
   end
 
   private
-  def static_page_params
-    params.require(:static_page).permit(:title, :text)
-  end
+
+    def static_page_params
+      params.require(:static_page).permit(:title, :text)
+    end
 end

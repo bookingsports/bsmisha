@@ -10,5 +10,4 @@ class NestedResourcesController < ApplicationController
   def set_layout
     params[:scope]
   end
-  
 end

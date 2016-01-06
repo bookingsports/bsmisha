@@ -9,7 +9,6 @@ class Court < Product
     attributes["change_price"] || 0
   end
 
-
   def special_prices
     if super.any?
       super
@@ -19,7 +18,7 @@ class Court < Product
   end
 
   def name_with_stadium
-    stadium.name.to_s + ' - корт ' + name.to_s
+    stadium.name.to_s + " — корт " + name.to_s
   end
 
   def product_services

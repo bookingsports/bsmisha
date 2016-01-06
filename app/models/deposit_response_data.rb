@@ -16,5 +16,4 @@ class DepositResponseData
     @currency = params["Currency"]
     @private_security_key = Rails.application.secrets.merchant_key
   end
-
 end

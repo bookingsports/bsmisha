@@ -5,7 +5,7 @@ class RoleRouteConstraint
 
   def matches?(request)
     user = current_user(request)
-    user.present? && user.send(@role + '?')
+    user.present? && user.send(@role + "?")
   end
 
   def current_user request

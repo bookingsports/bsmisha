@@ -1,7 +1,7 @@
 class StadiumUser < User
   has_one :stadium, foreign_key: "user_id", dependent: :destroy
   has_one :product, foreign_key: "user_id", dependent: :destroy
-  
+
   delegate :courts, to: :stadium
 
   enum status: [:pending, :active]
@@ -13,7 +13,7 @@ class StadiumUser < User
   end
 
   def make_stadium
-    self.create_stadium 
+    self.create_stadium
   end
 
   def name
@@ -23,11 +23,6 @@ class StadiumUser < User
   def special_prices
     (stadium.special_prices.to_a + stadium.courts.map { |court| court.special_prices.to_a }.flatten).uniq
   end
-
-  # def model_name
-    # User.model_name
-  # end
-
 
   def products
     stadium.courts

@@ -8,11 +8,11 @@ class Event < ActiveRecord::Base
 
   attr_reader :schedule
 
-  scope :paid, -> { joins("LEFT OUTER JOIN orders ON orders.id = events.order_id").where('orders.status =  ?', Order.statuses[:paid]) }
-  scope :unpaid, -> { joins("LEFT OUTER JOIN orders ON orders.id = events.order_id").where('orders.status =  ? or orders.status is null', Order.statuses[:unpaid]) }
+  scope :paid, -> { joins("LEFT OUTER JOIN orders ON orders.id = events.order_id").where("orders.status =  ?", Order.statuses[:paid]) }
+  scope :unpaid, -> { joins("LEFT OUTER JOIN orders ON orders.id = events.order_id").where("orders.status =  ? or orders.status is null", Order.statuses[:unpaid]) }
   scope :past, -> { where('"end" < ?', Time.current)}
   scope :future, -> { where('"start" > ?', Time.current)}
-  scope :paid_or_owned_by,  -> (user) do 
+  scope :paid_or_owned_by,  -> (user) do
     if user
       joins("LEFT OUTER JOIN orders ON orders.id = events.order_id").where("(orders.user_id <> :id and orders.status = :st) or events.user_id = :id ", { id: user.id, st: Order.statuses[:paid]} )
     else
@@ -74,15 +74,15 @@ class Event < ActiveRecord::Base
   end
 
   def visual_type_for user
-    case 
+    case
     when self.user == user && has_unpaid_changes?
-      'has_unpaid_changes'
+      "has_unpaid_changes"
     when self.paid?
-      'paid'
+      "paid"
     when self.user == user
-      'owned'
+      "owned"
     else
-      'disowned'
+      "disowned"
     end
   end
 
@@ -103,7 +103,7 @@ class Event < ActiveRecord::Base
   end
 
   def coaches
-    products.where(type: 'Coach')
+    products.where(type: "Coach")
   end
 
   def coach
@@ -111,29 +111,29 @@ class Event < ActiveRecord::Base
   end
 
   def stadium
-    products.where(type: 'Stadium').first || court.try(:stadium) || Stadium.new
+    products.where(type: "Stadium").first || court.try(:stadium) || Stadium.new
   end
 
   def courts
-    products.where(type: 'Court')
+    products.where(type: "Court")
   end
 
   def court
     courts.first || Court.new
   end
 
-private
+  private
 
-  def build_schedule
-    @schedule = IceCube::Schedule.new do |s|
-      if recurring?
-        s.add_recurrence_rule(IceCube::Rule.from_ical(recurrence_rule))
-        if recurrence_exception.present? && recurrence_exception =~ /=/
-          s.add_exception_rule(IceCube::Rule.from_ical(recurrence_exception))
+    def build_schedule
+      @schedule = IceCube::Schedule.new do |s|
+        if recurring?
+          s.add_recurrence_rule(IceCube::Rule.from_ical(recurrence_rule))
+          if recurrence_exception.present? && recurrence_exception =~ /=/
+            s.add_exception_rule(IceCube::Rule.from_ical(recurrence_exception))
+          end
+        else
+          s.add_recurrence_rule(IceCube::SingleOccurrenceRule.new start)
         end
-      else
-        s.add_recurrence_rule(IceCube::SingleOccurrenceRule.new start)
       end
     end
-  end
 end

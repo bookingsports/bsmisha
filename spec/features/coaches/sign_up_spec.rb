@@ -28,7 +28,7 @@ feature "Sign Up", :devise do
     Stadium.create!(name: "Стадион")
     sign_up_with("test@example.com", "please123", "please123", "Тренер")
     within(".dashboard-nav") { click_link "Стадионы" }
-    select("Стадион - корт Основной", from: "coaches_court_court_id")
+    select("Стадион — корт Основной", from: "coaches_court_court_id")
     click_button "Привязаться"
     within("#navbar") { click_link "Тренеры" }
     expect(find(:css, ".coaches").all("*")).to_not be_empty

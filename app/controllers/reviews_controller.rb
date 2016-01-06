@@ -11,19 +11,20 @@ class ReviewsController < NestedResourcesController
     @review = @product.reviews.new review_params
     @review.user = current_user
 
-    if @review.save  
-      redirect_to :back, notice: 'Отзыв успешно добавлен'
+    if @review.save
+      redirect_to :back, notice: "Отзыв успешно добавлен"
     else
       render :index
     end
   end
 
   private
-  def find_review
-    @review = Review.find(params[:id]) if params[:id]
-  end
 
-  def review_params
-    params.require(:review).permit(:text, :rating)
-  end
+    def find_review
+      @review = Review.find(params[:id]) if params[:id]
+    end
+
+    def review_params
+      params.require(:review).permit(:text, :rating)
+    end
 end

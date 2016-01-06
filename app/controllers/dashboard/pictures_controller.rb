@@ -10,7 +10,6 @@ class Dashboard::PicturesController < DashboardController
   def create
     @picture = @imageable.pictures.new name: params[:file]
     @imageable.save!
-
   end
 
   def update
@@ -25,15 +24,15 @@ class Dashboard::PicturesController < DashboardController
 
   private
 
-  def find_imageable
-    @imageable = current_user.product
-  end
+    def find_imageable
+      @imageable = current_user.product
+    end
 
-  def find_picture
-    @picture = Picture.find(params[:id]) if params[:id]
-  end
+    def find_picture
+      @picture = Picture.find(params[:id]) if params[:id]
+    end
 
-  def picture_params
-    params.require(:picture).permit(:name, :description)
-  end
+    def picture_params
+      params.require(:picture).permit(:name, :description)
+    end
 end

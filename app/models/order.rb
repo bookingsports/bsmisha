@@ -1,10 +1,9 @@
 class Order < ActiveRecord::Base
-  belongs_to :user 
-  # belongs_to :stadium
-  # belongs_to :coach
+  belongs_to :user
   has_many :events, dependent: :destroy
   has_many :event_changes, dependent: :destroy
   accepts_nested_attributes_for :events
+
   enum status: [:unpaid, :paid, :change, :rain, :other]
 
   def total
@@ -21,9 +20,9 @@ class Order < ActiveRecord::Base
 
   def human_status
     if status?
-      I18n.translate status, scope: 'simple_form.options.order.status'
+      I18n.translate status, scope: "simple_form.options.order.status"
     else
-      ''
+      ""
     end
   end
 

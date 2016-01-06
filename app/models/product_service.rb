@@ -1,5 +1,6 @@
 class ProductService < ActiveRecord::Base
-  self.inheritance_column = 'class'
+  self.inheritance_column = "class"
+
   belongs_to :product
   belongs_to :service
   has_and_belongs_to_many :events
@@ -8,16 +9,16 @@ class ProductService < ActiveRecord::Base
   delegate :owner, to: :product
 
   def service_name_and_price
-    periodicity = self.periodic? ? ' в час' : ''
+    periodicity = self.periodic? ? " в час" : ""
     "#{service.name} (#{price} руб.#{periodicity})"
   end
 
   def periodic?
-    self.type == 'Periodic'
+    self.type == "Periodic"
   end
 
   def periodic= bool
-    self.type = 'Periodic' if bool || bool == '1'
+    self.type = "Periodic" if bool || bool == "1"
   end
 
   def service_attributes= attributes

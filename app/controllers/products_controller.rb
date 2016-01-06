@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
-  layout 'dashboard'
+  layout "dashboard"
+
   def show
     @product = Product.friendly.find params[:id]
 

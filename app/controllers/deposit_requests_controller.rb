@@ -10,8 +10,8 @@ class DepositRequestsController < DashboardController
     @request = current_user.wallet.deposit_requests.new dr_params
     if @request.save
       redirect_to @request.data.payment_url
-    else 
-      redirect_to dashboard_deposit_requests_path, alert: 'Кошелек не удалось пополнить. Свяжитесь с администратором пожалуйста назвав свой логин.'
+    else
+      redirect_to dashboard_deposit_requests_path, alert: "Кошелек не удалось пополнить. Свяжитесь с администратором пожалуйста назвав свой логин."
     end
   end
 
@@ -20,7 +20,7 @@ class DepositRequestsController < DashboardController
 
   private
 
-  def dr_params
-    params.require(:deposit_request).permit(:amount)
-  end
+    def dr_params
+      params.require(:deposit_request).permit(:amount)
+    end
 end

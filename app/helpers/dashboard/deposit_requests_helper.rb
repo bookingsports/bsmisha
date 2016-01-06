@@ -1,2 +1,0 @@
-module Dashboard::DepositRequestsHelper
-end

@@ -1,5 +1,5 @@
 module ApplicationHelper
-  def number_to_integer_currency number
+  def number_to_integer_currency(number)
     number_to_currency number, precision: 0
   end
 
@@ -15,7 +15,7 @@ module ApplicationHelper
     if stadium.active?
       stadium.category.try(:icon)
     elsif stadium.locked?
-      'gray-icon.png'
+      "gray-icon.png"
     end
   end
 
