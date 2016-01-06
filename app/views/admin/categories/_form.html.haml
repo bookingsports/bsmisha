@@ -1,5 +1,4 @@
 = simple_form_for([:admin, @category], html: { class: 'category'} ) do |f|
-
   .form-inputs
     = f.input :name, label: 'Название'
     = f.input :parent_id, collection: Category.all, as: :select, label: 'Под категорией'
@@ -7,7 +6,6 @@
     = image_tag(@category.icon_url(:thumb)) if @category.icon?
     = f.file_field :icon
     = f.hidden_field(:icon_cache)
-
 
   .form-actions
     = f.button :submit, 'Сохранить'

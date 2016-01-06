@@ -17,7 +17,7 @@
 %dl.dl-horizontal
   %dt
     %strong Категория:
-  %dd= @stadium.category_id
+  %dd= @stadium.category.try(:name)
 
 = link_to 'Редактировать', edit_admin_stadium_path(@stadium), class: 'btn btn-default'
 = link_to 'Назад', admin_stadiums_path, class: 'btn btn-default'
