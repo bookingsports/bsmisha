@@ -10,7 +10,6 @@
       = image_tag stadium.pictures.last.try(:name)
     :javascript
       var markers = new Tennis.Collections.MarkerCollection([#{raw stadium.to_json}]);
-      console.log('asdas')
       var map = new Tennis.Views.MapView({collection: markers});
       map.render();
   .col-xs-12.col-sm-12.col-md-12.col-lg-12
