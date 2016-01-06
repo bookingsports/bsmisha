@@ -5,9 +5,9 @@ class Dashboard::CustomersController < DashboardController
     @customers = current_user.product.customers
   end
 
-
   private
-  def find_customer
-    @customer = User.find(params[:id]) if params[:id]
-  end
+
+    def find_customer
+      @customer = User.find(params[:id]) if params[:id]
+    end
 end

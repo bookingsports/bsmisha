@@ -2,8 +2,7 @@
 #   As a user
 #   I want to edit my user profile
 #   So I can change my email address
-feature 'User edit', :devise do
-
+feature "User edit", :devise do
   after(:each) do
     Warden.test_reset!
   end
@@ -29,11 +28,12 @@ feature 'User edit', :devise do
   #   Then I see my own 'edit profile' page
   scenario "user cannot cannot edit another user's profile", :me do
     me = FactoryGirl.create(:user)
-    other = FactoryGirl.create(:user, email: 'other@example.com')
-    login_as(me, :scope => :user)
-    visit edit_user_registration_path(other)
-    expect(page).to have_content 'Заполните эти поля если хотите поменять пароль'
-    expect(page).to have_field('Эл. почта', with: me.email)
-  end
+    other = FactoryGirl.create(:user, email: "other@example.com")
+    login_as(me, scope: :user)
 
+    visit edit_user_registration_path(other)
+
+    expect(page).to have_content "Заполните эти поля если хотите поменять пароль"
+    expect(page).to have_field("Эл. почта", with: me.email)
+  end
 end

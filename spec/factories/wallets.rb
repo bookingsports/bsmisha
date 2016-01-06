@@ -1,7 +1,6 @@
 FactoryGirl.define do
   factory :wallet do
     user nil
-total ""
+    total ""
   end
-
 end

@@ -15,14 +15,14 @@ def create_user(model, email, password)
   puts "CREATED #{model.to_s} USER: " << user.email
   user
 end
-  
+
 # Environment variables (ENV['...']) can be set in the file config/application.yml.
 # See http://railsapps.github.io/rails-environment-variables.html
 SECRETS = Rails.application.secrets
 
 create_user(Admin, SECRETS.admin_email, SECRETS.admin_password)
 stadium_user = create_user(StadiumUser, SECRETS.stadium_email, SECRETS.stadium_password)
-create_user(Coach, SECRETS.coach_email, SECRETS.coach_password)
+create_user(CoachUser, SECRETS.coach_email, SECRETS.coach_password)
 create_user(Customer, SECRETS.customer_email, SECRETS.customer_password)
 
 c = Category.create!(name: "Футбол", parent: Category.create(name: "Стадион"))

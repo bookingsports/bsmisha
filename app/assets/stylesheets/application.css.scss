@@ -17,7 +17,7 @@
  *= require fullcalendar
  *= require jquery.datetimepicker
  *= require kendo.common.min
- *= require kendo.default.min 
+ *= require kendo.default.min
  *= require dropzone/dropzone
  *= require jquery-ui
  *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
@@ -38,7 +38,7 @@ html {
 }
 body {
     /* Margin bottom by footer height */
-    
+
     margin-bottom: 90px;
 }
 body > .container {
@@ -366,7 +366,7 @@ footer {
     bottom: 0;
     width: 100%;
     /* Set the fixed height of the footer here */
-    
+
     height: 90px;
     background-color: #283138;
     color: #fff;
@@ -687,7 +687,7 @@ tr.cart-subtotal, tr.shipping {  height: 40px;}
 
 .woocommerce .cart-collaterals .cart_totals, .woocommerce-page .cart-collaterals .cart_totals {
   float: right;
-  width: 75% !important; 
+  width: 75% !important;
 }
 .woocommerce .cart-collaterals, .woocommerce-page .cart-collaterals {
   width: 35% !important;
@@ -742,11 +742,11 @@ tr.cart-subtotal, tr.shipping {  height: 40px;}
   label[for=isAllDay],
   label[for=description],
   label[for=timezone],
-  [data-container-for=visual_type], 
+  [data-container-for=visual_type],
   [data-container-for=title],
-  [data-container-for=isAllDay], 
-  [data-container-for=timezone], 
-  [data-container-for=description] 
+  [data-container-for=isAllDay],
+  [data-container-for=timezone],
+  [data-container-for=description]
   {
     display: none;
   }
@@ -802,7 +802,7 @@ body.stadium_user, body.coach{
   vertical-align: middle;
   height: 20px;
 }
-    
+
 .legend-paid{
   background-color: #8ED869;
 }
@@ -827,4 +827,20 @@ select.hhmm{
 }
 .form-group.hhmm{
     white-space: nowrap;
+}
+
+.admin-nav {
+  margin: 20px -15px;
+}
+
+.admin-add-button {
+  margin: 0 0 20px 0;
+}
+
+.stadium-nav {
+  margin: 20px 0 30px 0;
+}
+
+.schedule-legend-nav {
+  margin-bottom: 18px;
 }

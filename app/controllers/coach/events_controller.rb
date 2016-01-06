@@ -1,8 +1,9 @@
 class Coach::EventsController < EventsController
   def index
-    @coach_court = CoachesCourt.find params[:coaches_court_id] 
+    @coach_court = CoachesCourt.find params[:coaches_court_id]
     @events = @coach_court.events.paid_or_owned_by(current_user)
-    respond_to do |format| 
+
+    respond_to do |format|
       format.json { render json: @events }
     end
   end

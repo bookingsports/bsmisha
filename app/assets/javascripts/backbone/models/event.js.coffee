@@ -3,10 +3,9 @@ class Tennis.Models.Event extends Backbone.Model
     title: @attributes.title
     start: @attributes.start
     end: @attributes.end
-    color: 'red' if @isOverlapping() 
+    color: 'red' if @isOverlapping()
     editable: true
     cid: @cid
-
 
   isOverlapping: ->
     array = window.grid.$el.fullCalendar('clientEvents')

@@ -1,7 +1,7 @@
 module Changeable
   extend ActiveSupport::Concern
 
-  included do 
+  included do
     has_many :event_changes, -> { order(created_at: :desc) }, dependent: :destroy
 
     before_update :break_update, unless: :skip_change_registering?
@@ -14,10 +14,10 @@ module Changeable
   end
 
   def create_change
-    if @arm_for_change_create 
-      Rails.logger.debug { 'registering change' }
+    if @arm_for_change_create
+      Rails.logger.debug { "registering change" }
       event_changes.delete_all
-      event_changes.create! summary: self.attributes.except('id').to_json, status: :unpaid
+      event_changes.create! summary: self.attributes.except("id").to_json, status: :unpaid
       @arm_for_change_create = false
     end
   end
@@ -27,7 +27,7 @@ module Changeable
   end
 
   def skip_change_registering?
-    unpaid? || @skip_change_registering 
+    unpaid? || @skip_change_registering
   end
 
   def actual_state
@@ -59,7 +59,7 @@ module Changeable
       self.start
     else
       start_before_change
-    end   
+    end
   end
 
   def end_for user
@@ -67,7 +67,7 @@ module Changeable
       self.end
     else
       end_before_change
-    end  
+    end
   end
 
   def has_unpaid_changes?

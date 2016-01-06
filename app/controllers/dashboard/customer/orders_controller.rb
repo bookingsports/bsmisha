@@ -3,7 +3,7 @@ class Dashboard::Customer::OrdersController < DashboardController
   respond_to :html, :json, :js
 
   def index
-    @orders = current_user.orders.order('created_at desc')
+    @orders = current_user.orders.order("created_at desc")
   end
 
   def new
@@ -15,17 +15,6 @@ class Dashboard::Customer::OrdersController < DashboardController
     @order = Order.find params[:id]
   end
 
-  # def create
-  #   @order = Order.new user: current_user, status: 'unpaid'
-  #   params[:order][:events].each do |evt|
-  #     @order.events.new start: evt[:start], end: evt[:end], court_id: params[:order][:court_id]
-  #   end
-  #   @order.save!
-
-  #   respond_with @order
-  # end
-
-
   def pay
     @order = Order.find(params[:id])
     transaction = ActiveRecord::Base.transaction do
@@ -36,7 +25,7 @@ class Dashboard::Customer::OrdersController < DashboardController
             ai.payment_receiver.wallet.deposit! ai.total
           end
         else
-          redirect_to(dashboard_orders_path, alert: "Недостаточно средств") 
+          redirect_to(dashboard_orders_path, alert: "Недостаточно средств")
           raise ActiveRecord::Rollback
         end
       end
@@ -68,7 +57,5 @@ class Dashboard::Customer::OrdersController < DashboardController
   end
 
   def total
-    
   end
-
 end

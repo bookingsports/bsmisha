@@ -5,6 +5,6 @@ class AdminController < ApplicationController
 
     def authenticate_admin!
       authenticate_user!
-      redirect_to root_path, alert: 'Этот раздел только для администраторов, извините.' unless current_user.admin?
+      redirect_to root_path, alert: "Этот раздел только для администраторов, извините." unless current_user.admin?
     end
 end

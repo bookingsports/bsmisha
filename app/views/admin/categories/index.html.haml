@@ -1,6 +1,6 @@
 %h1 Категории
 
-= link_to 'Создать категорию', new_admin_category_path, class: 'btn btn-primary'
+= link_to 'Создать категорию', new_admin_category_path, class: 'btn btn-primary admin-add-button'
 
 %table.table.table-stripped
   %tr
@@ -16,5 +16,3 @@
       %td= category.parent.try(:name)
       %td= link_to 'Редактировать', edit_admin_category_path(category), class: 'btn btn-default btn-xs'
       %td= link_to 'Удалить', [:admin, category], :method => :delete, :data => { :confirm => 'Вы уверены?' }, class: 'btn btn-danger btn-xs'
-
-

@@ -9,15 +9,13 @@ class Coach < Product
     courts.size > 0
   end
 
-
   def name_with_stadium
     name
   end
 
-
   def has_at_least_one_court
     if courts.size < 1
-      errors.add :courts, 'Выберите хотя бы один корт.'
+      errors.add :courts, "Выберите хотя бы один корт."
     end
   end
 

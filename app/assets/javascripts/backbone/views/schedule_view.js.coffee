@@ -1,10 +1,8 @@
 class Tennis.Views.ScheduleView extends Backbone.View
   initialize: (attrs) ->
-    # @model = new Tennis.Models.Event()
-    # @collection = new Tennis.Collections.Events()
     @mainUrl = attrs.url
     @court_id = attrs.court
-    console.log @url()
+
     @bindExternalEvents()
 
   bindExternalEvents: ->
@@ -12,16 +10,17 @@ class Tennis.Views.ScheduleView extends Backbone.View
       scheduler = @scheduler()
       setInterval ->
         if !scheduler._editor.container
-          scheduler.dataSource.read() 
-          console.log('reload')
+          scheduler.dataSource.read()
         else
-          console.log('no reload')
       , 30000
+
       $('a[data-toggle="tab"]').on 'shown.bs.tab', (e) =>
         scheduler.refresh()
+
       $('#court').on 'change', =>
         scheduler.dataSource.read()
         scheduler.resources[1].dataSource.read()
+
       scheduler.wrapper.on 'mouseup touchend', '.k-scheduler-table td, .k-event', (e) ->
         target = $(e.currentTarget)
         if target.hasClass('k-event')
@@ -43,7 +42,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
       height: 700
       views: [
         "day",
-        {type: "week", selected: true},
+        { type: "week", selected: true },
         "month"
       ],
 
@@ -112,7 +111,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
                 resp.product_services
             }
           }
-        }  
+        }
       ]
       dataSource: {
         batch: false,
@@ -157,10 +156,8 @@ class Tennis.Views.ScheduleView extends Backbone.View
   scheduler: ->
     @$el.data('kendoScheduler')
 
-
-
   fields:
-    title: { from: "description", type: 'string'},
+    title: { from: "description", type: "string" },
     start: { type: "date", from: "start" },
     end: { type: "date", from: "end" },
     recurrenceId: { from: "recurrence_id" },

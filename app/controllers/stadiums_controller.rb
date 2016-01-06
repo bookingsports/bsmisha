@@ -1,7 +1,7 @@
 class StadiumsController < ApplicationController
   before_action :set_stadium, only: [:show, :edit, :update]
   respond_to :html, :js, :json
-  layout 'stadium', except: [:index]
+  layout "stadium", except: [:index]
 
   def index
     @q = Stadium.ransack(params[:q])
@@ -19,7 +19,8 @@ class StadiumsController < ApplicationController
   end
 
   private
-  def set_stadium
-    @stadium  = Stadium.friendly.find(params[:id])
-  end  
+
+    def set_stadium
+      @stadium  = Stadium.friendly.find(params[:id])
+    end
 end

@@ -1,4 +1,6 @@
-= link_to 'Создать Стадион', new_admin_stadium_path, class: 'btn btn-primary'
+%h1 Стадионы
+
+= link_to 'Создать Стадион', new_admin_stadium_path, class: 'btn btn-primary admin-add-button'
 
 %table.table.table-stripped
   %tr
@@ -14,7 +16,7 @@
 
   - @stadiums.each do |stadium|
     %tr{ class: stadium.status }
-      %td= t stadium.status, scope: 'statuses' if stadium.status 
+      %td= t stadium.status, scope: 'statuses' if stadium.status
       %td= stadium.name || "-"
       %td= stadium.address || "-"
       %td= stadium.phone || "-"
@@ -22,5 +24,3 @@
       %td= stadium.owner.try(:name) || "-"
       %td= link_to 'Редактировать', edit_admin_stadium_path(stadium), class: 'btn btn-default btn-xs'
       %td= link_to 'Удалить', [:admin, stadium], :method => :delete, :data => { :confirm => 'Вы уверены?' }, class: 'btn btn-danger btn-xs'
-
-
