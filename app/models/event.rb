@@ -26,10 +26,6 @@ class Event < ActiveRecord::Base
 
   after_initialize :build_schedule
 
-  def self.strong_params
-   [ :id, :start, :end, :recurrence_rule, :recurrence_id, :recurrence_exception, :user_id, :is_all_day, :description, :start_timezone, :end_timezone, :owned, product_service_ids: [], product_ids: []]
-  end
-
   def description
     attributes["description"] || ""
   end
