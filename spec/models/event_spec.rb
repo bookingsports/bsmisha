@@ -63,7 +63,7 @@ RSpec.describe Event, type: :model do
 
     it 'special price of stadium affects the price' do
       special_price = SpecialPrice.create start: 2.days.ago, stop: 2.days.from_now
-      price_rules = [DailyPriceRule.create(start: '11:00', stop: '13:00', price: 200, working_days: [DateTime.now.wday]), DailyPriceRule.create(start: '13:00', stop: '14:00', price: 50, working_days: [DateTime.now.wday])]
+      price_rules = [DailyPriceRule.create(start: '11:00', stop: '13:00', price: 200, working_days: [Time.zone.now.wday]), DailyPriceRule.create(start: '13:00', stop: '14:00', price: 50, working_days: [Time.zone.now.wday])]
       special_price.daily_price_rules = price_rules
       special_price.save!
       @stadium.special_prices = [special_price]
@@ -78,7 +78,7 @@ RSpec.describe Event, type: :model do
 
     it 'special price of court affects the price' do
       special_price = SpecialPrice.create start: 2.days.ago, stop: 2.days.from_now
-      price_rules = [DailyPriceRule.create(start: '11:00', stop: '13:00', price: 200, working_days: [DateTime.now.wday]), DailyPriceRule.create(start: '13:00', stop: '14:00', price: 50, working_days: [DateTime.now.wday])]
+      price_rules = [DailyPriceRule.create(start: '11:00', stop: '13:00', price: 200, working_days: [Time.zone.now.wday]), DailyPriceRule.create(start: '13:00', stop: '14:00', price: 50, working_days: [Time.zone.now.wday])]
       special_price.daily_price_rules = price_rules
       special_price.save!
       @court.special_prices = [special_price]
@@ -93,8 +93,8 @@ RSpec.describe Event, type: :model do
     it 'special price of a court takes precedence over stadium' do
       special_price1 = SpecialPrice.create start: 2.days.ago, stop: 2.days.from_now
       special_price2 = SpecialPrice.create start: 2.days.ago, stop: 2.days.from_now
-      price_rules1 = [DailyPriceRule.create(start: '11:00', stop: '13:00', price: 11, working_days: [DateTime.now.wday]), DailyPriceRule.create(start: '13:00', stop: '14:00', price: 12, working_days: [DateTime.now.wday])]
-      price_rules2 = [DailyPriceRule.create(start: '11:00', stop: '13:00', price: 200, working_days: [DateTime.now.wday]), DailyPriceRule.create(start: '13:00', stop: '14:00', price: 50, working_days: [DateTime.now.wday])]
+      price_rules1 = [DailyPriceRule.create(start: '11:00', stop: '13:00', price: 11, working_days: [Time.zone.now.wday]), DailyPriceRule.create(start: '13:00', stop: '14:00', price: 12, working_days: [Time.zone.now.wday])]
+      price_rules2 = [DailyPriceRule.create(start: '11:00', stop: '13:00', price: 200, working_days: [Time.zone.now.wday]), DailyPriceRule.create(start: '13:00', stop: '14:00', price: 50, working_days: [Time.zone.now.wday])]
       special_price1.daily_price_rules = price_rules1
       special_price2.daily_price_rules = price_rules2
       special_price1.save
