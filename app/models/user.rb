@@ -9,8 +9,8 @@ class User < ActiveRecord::Base
   has_many :event_changes, through: :events
   has_one :wallet, dependent: :destroy
   has_many :special_prices
-  after_create :create_wallet
 
+  after_create :create_wallet
   after_initialize :set_customer, if: :new_record?
 
   validates_acceptance_of :terms_agree

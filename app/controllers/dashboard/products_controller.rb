@@ -17,6 +17,15 @@ class Dashboard::ProductsController < DashboardController
     end
 
     def product_params
-      params.require(:product).permit(:name, :password, :password_confirmation, :email, :price, :phone, :avatar, :name, :address, :telephone, :description, :category_id, :phone, :latitude, :longitude, court_ids: [], profile_attributes: [:description], courts_attributes: [:id, :name, :price, :change_price, :category_id, :_destroy], product_services_attributes: [:id, :periodic, :price, :_destroy, service_attributes: [:id, :name]])
+      params.require(:product).permit(
+        :email, :password, :password_confirmation,
+        :name, :description, :price, :phone, :avatar, :opens_at, :closes_at,
+        :category_id,
+        :address, :latitude, :longitude,
+        court_ids: [],
+        profile_attributes: [:description],
+        courts_attributes: [:id, :name, :price, :change_price, :category_id, :_destroy],
+        product_services_attributes: [:id, :periodic, :price, :_destroy, service_attributes: [:id, :name]]
+      )
     end
 end

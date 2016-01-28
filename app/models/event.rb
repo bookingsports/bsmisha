@@ -21,7 +21,7 @@ class Event < ActiveRecord::Base
   end
   scope :of_products, ->(*products) do
     joins(:events_products).
-    where(events_products: {product_id: products.flatten}).uniq
+    where(events_products: { product_id: products.flatten }).uniq
   end
 
   after_initialize :build_schedule
