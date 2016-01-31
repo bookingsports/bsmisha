@@ -20,8 +20,7 @@ class Event < ActiveRecord::Base
     end
   end
   scope :of_products, ->(*products) do
-    joins(:events_products).
-    where(events_products: { product_id: products.flatten }).uniq
+    joins(:events_products).where(events_products: { product_id: products.flatten.map(&:id) }).uniq
   end
 
   after_initialize :build_schedule

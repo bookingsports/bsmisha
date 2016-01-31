@@ -49,7 +49,19 @@ class EventsController < ApplicationController
     respond_with @event
   end
 
+  def destroy
+    event = Event.find(params[:id])
+    event.destroy
+
+    redirect_to my_events_path, notice: "Успешно удален."
+  end
+
   private
+
+    def find_event
+
+    end
+
     def event_params
       params.require(:event).permit(
         :id, :start, :end, :user_id, :is_all_day, :description, :owned,

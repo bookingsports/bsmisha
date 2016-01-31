@@ -7,7 +7,6 @@ class ApplicationController < ActionController::Base
   before_action :find_static_pages
   layout :set_layout
 
-
   def after_sign_in_path_for(resource)
     sign_in_url = new_user_session_url
     if request.referer == sign_in_url
@@ -35,7 +34,7 @@ class ApplicationController < ActionController::Base
     end
 
     def find_static_pages
-      @pages = StaticPage.all
+      @pages ||= StaticPage.all
     end
 
     def current_products

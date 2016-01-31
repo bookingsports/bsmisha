@@ -22,7 +22,8 @@ class MyEventsController < EventsController
   end
 
   def destroy
-    Event.where(id: params[:event_ids]).delete_all
+    event = Event.find(params[:id])
+    event.destroy
 
     redirect_to my_events_path, notice: "Успешно удалены."
   end
