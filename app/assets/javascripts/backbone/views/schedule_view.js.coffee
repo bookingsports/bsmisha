@@ -2,6 +2,8 @@ class Tennis.Views.ScheduleView extends Backbone.View
   initialize: (attrs) ->
     @mainUrl = attrs.url
     @court_id = attrs.court
+    @opens_at = attrs.opens_at
+    @closes_at = attrs.closes_at
 
     @bindExternalEvents()
 
@@ -33,12 +35,13 @@ class Tennis.Views.ScheduleView extends Backbone.View
             end: slot.endDate
         return
 
-
   render: ->
     @$el.kendoScheduler({
       culture: 'ru-RU'
       date: new Date()
-      startTime: new Date("2013/6/13 07:00 AM")
+      workDayStart: new Date(@opens_at)
+      workDayEnd: new Date(@closes_at)
+      showWorkHours: true
       height: 700
       views: [
         "day",

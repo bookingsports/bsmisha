@@ -6,3 +6,4 @@ json.visual_type event.visual_type_for(current_user)
 json.user_name event.user.name || event.user.email
 json.court_name event.court.try(:name)
 json.kendo_court_id event.court.try(:kendo_court_id).try(:to_s)
+json.product_service_ids event.product_service_ids

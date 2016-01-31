@@ -5,7 +5,7 @@ class MyEventsController < EventsController
     @events = current_user.events.order(created_at: :desc)
 
     respond_to do |format|
-      format.json {@events = @events.of_products(current_products)}
+      format.json { @events = @events.of_products(current_products) }
       format.html {}
     end
   end
@@ -22,7 +22,8 @@ class MyEventsController < EventsController
   end
 
   def destroy
-    Event.where(id: params[:event_ids]).delete_all
+    event = Event.find(params[:id])
+    event.destroy
 
     redirect_to my_events_path, notice: "Успешно удалены."
   end
