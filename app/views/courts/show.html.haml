@@ -30,8 +30,8 @@
       var grid = new Tennis.Views.ScheduleView({
         el: '[data-grid]',
         court: #{@court.id},
-        opens_at: "#{@court.stadium.opens_at.to_datetime}",
-        closes_at: "#{@court.stadium.closes_at.to_datetime}"
+        opens_at: "#{@court.stadium.opens_at.try(:to_datetime)}",
+        closes_at: "#{@court.stadium.closes_at.try(:to_datetime)}"
       });
       var changes = new Tennis.Collections.Changes();
       //var checkout = new Tennis.Views.CheckoutView({el: '[data-checkout]'});
