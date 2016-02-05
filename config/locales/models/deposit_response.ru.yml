@@ -1,0 +1,13 @@
+ru:
+  activerecord:
+    models:
+      deposit_response:
+        one: Ответ депозита
+        other: Ответы депозитов
+    attributes:
+      deposit_response:
+        deposit_request: Запрос депозита
+        status: Статус
+        created_at: Дата создания
+        updated_at: Дата изменения
+        data: Информация
