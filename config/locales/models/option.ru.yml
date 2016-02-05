@@ -1,0 +1,12 @@
+ru:
+  activerecord:
+    models:
+      option:
+        one: Опция
+        other: Опции
+    attributes:
+      option:
+        tax: Налог
+        created_at: Дата создания
+        updated_at: Дата изменения
+        feedback_email: Почта для обратной связи
