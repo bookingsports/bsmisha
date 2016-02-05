@@ -1,0 +1,13 @@
+ru:
+  activerecord:
+    models:
+      picture:
+        one:  Изображение
+        other: Изображения
+    attributes:
+      picture:
+        name: Имя
+        imageable: К чему прикреплено
+        created_at: Дата создания
+        updated_at: Дата изменения
+        description: Описание
