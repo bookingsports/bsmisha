@@ -1,0 +1,16 @@
+ru:
+  activerecord:
+    models:
+      additional_event_item:
+        one: Дополнительный элемент события
+        other: Дополнительные элементы события
+    attributes:
+      additional_event_item:
+        related_id: Относительный ID
+        related_type: Относительный тип
+        event_id: ID события
+        amount: Количество
+        created_at: Дата создания
+        updated_at: Дата изменения
+        event: Событие
+        related: Относиттельный объект
