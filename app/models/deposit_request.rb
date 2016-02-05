@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: deposit_requests
+#
+#  id         :integer          not null, primary key
+#  wallet_id  :integer
+#  status     :integer
+#  amount     :decimal(8, 2)
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  data       :text
+#
+
 class DepositRequest < ActiveRecord::Base
   belongs_to :wallet
   composed_of :data, class_name: "DepositRequestData", mapping: [%w(id order_id), %w(amount amount)]

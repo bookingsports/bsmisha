@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: events
+#
+#  id                   :integer          not null, primary key
+#  start                :datetime
+#  end                  :datetime
+#  description          :string
+#  product_id           :integer
+#  order_id             :integer
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  recurrence_rule      :string
+#  recurrence_exception :string
+#  recurrence_id        :integer
+#  is_all_day           :boolean
+#  user_id              :integer
+#
+
 class EventsController < ApplicationController
   respond_to :json, :html
   before_filter :authenticate_user!, except: [:index, :parents_events]

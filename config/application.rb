@@ -49,5 +49,7 @@ module TennisRails
     config.active_record.observers = [
       :order_observer, :event_observer
     ]
+
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
   end
 end

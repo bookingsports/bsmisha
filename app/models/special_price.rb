@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: special_prices
+#
+#  id         :integer          not null, primary key
+#  start      :datetime
+#  stop       :datetime
+#  price      :integer
+#  is_sale    :boolean
+#  product_id :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class SpecialPrice < ActiveRecord::Base
   belongs_to :product 
   has_many :daily_price_rules
