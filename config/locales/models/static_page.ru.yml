@@ -1,0 +1,13 @@
+ru:
+  activerecord:
+    models:
+      static_page:
+        one: Статичная страница
+        other: Статичные страницы
+    attributes:
+      static_page:
+        text: Текст
+        title: Название
+        created_at: Дата создания
+        updated_at: Дата изменения
+        slug: Слуг
