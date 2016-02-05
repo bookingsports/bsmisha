@@ -45,6 +45,7 @@ gem "rails-observers"
 gem "ransack", github: "activerecord-hackery/ransack"
 gem "bootsy"
 gem "jquery-datatables-rails", "~> 3.3.0"
+gem 'rails_admin'
 
 group :development do
   gem "figaro", ">= 1.0.0.rc1"

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   get 'grid/(:court_id)', to: 'dashboard#grid', as: 'dashboard_grid'
   get 'products/show'
 
