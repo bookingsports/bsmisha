@@ -13,6 +13,8 @@
 #
 
 class SpecialPrice < ActiveRecord::Base
+  has_paper_trail
+  
   belongs_to :product 
   has_many :daily_price_rules
   accepts_nested_attributes_for :daily_price_rules, reject_if: proc {|attributes| attributes["price"].blank?}

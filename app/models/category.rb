@@ -12,6 +12,8 @@
 #
 
 class Category < ActiveRecord::Base
+  has_paper_trail
+  
   include FriendlyId
 
   has_many :stadiums

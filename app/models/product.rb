@@ -26,6 +26,8 @@
 #
 
 class Product < ActiveRecord::Base
+  has_paper_trail
+  
   include FriendlyId
 
   belongs_to :category

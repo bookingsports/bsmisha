@@ -12,6 +12,8 @@
 #
 
 class WithdrawalRequest < ActiveRecord::Base
+  has_paper_trail
+  
   belongs_to :wallet
   composed_of :request_data, class_name: "WithdrawalRequestData", mapping: [ %w(id order_id), %w(amount amount)]
 

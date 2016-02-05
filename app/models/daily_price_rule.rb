@@ -13,6 +13,8 @@
 #
 
 class DailyPriceRule < ActiveRecord::Base
+  has_paper_trail
+  
   belongs_to :special_price
 
   def start=(val)

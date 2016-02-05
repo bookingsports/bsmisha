@@ -12,6 +12,8 @@
 #
 
 class ProductService < ActiveRecord::Base
+  has_paper_trail
+  
   self.inheritance_column = "class"
 
   belongs_to :product

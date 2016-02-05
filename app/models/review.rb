@@ -14,6 +14,8 @@
 #
 
 class Review < ActiveRecord::Base
+  has_paper_trail
+  
   belongs_to :reviewable, polymorphic: true
   belongs_to :user
 
