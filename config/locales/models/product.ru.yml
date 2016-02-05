@@ -4,6 +4,15 @@ ru:
       product:
         one: Продукт
         other: Продукты
+      coach:
+        one: Тренер
+        other: Тренеры
+      court:
+        one: Корт
+        other: Корты
+      stadium:
+        one: Стадион
+        other: Стадионы
     attributes:
       product: &product
         category: Категория
@@ -31,5 +40,18 @@ ru:
         special_prices: Специальные цены
         events: События
         orders: Заказы
-        product_services: Службы продуктов
-        services: Службы
+        product_services: Услуги продуктов
+        services: Услуги
+      coach:
+        <<: *product
+        coaches_courts: Корты тренера
+        courts: Корты
+      court:
+        <<: *product
+        stadium: Стадион
+        coaches_courts: Корты тренера
+        coaches: Тренеры
+      stadium:
+        <<: *product
+        user: Пользователь
+        courts: Корты

@@ -30,7 +30,9 @@ ru:
     other: "%{count} переносов"
   activerecord:
     models:
-      stadium: Стадион
+      stadium: 
+        one: Стадион
+        other: Стадионы
       special_price: Период
     attributes:
       user:
