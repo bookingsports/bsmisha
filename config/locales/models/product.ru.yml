@@ -1,0 +1,35 @@
+ru:
+  activerecord:
+    models:
+      product:
+        one: Продукт
+        other: Продукты
+    attributes:
+      product: &product
+        category: Категория
+        owner: Владелец
+        pictures: Изображения
+        reviews: Обзоры
+        name: Название
+        phone: Телефон
+        description: Описание
+        created_at: Дата создания
+        updated_at: Дата изменения
+        address: Адрес
+        latitude: Широта
+        longitude: Долгота
+        slug: Слуг
+        status: Статус
+        type: Тип
+        parent_id:  ID родителя
+        email: Эл. почта
+        avatar: Аватар
+        price: Цена
+        change_price: Измененная цена
+        opens_at: Открывается в
+        closes_at: Закрывается в
+        special_prices: Специальные цены
+        events: События
+        orders: Заказы
+        product_services: Службы продуктов
+        services: Службы
