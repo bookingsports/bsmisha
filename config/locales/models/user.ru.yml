@@ -4,6 +4,9 @@ ru:
       user:
         one: Пользователь
         other: Пользователи
+      customer:
+        one: Покупатель
+        other: Покупатели
       admin:
         one: Администратор
         other: Администраторы
@@ -58,3 +61,73 @@ ru:
         events: События
         event_changes: Изменение событий
         wallet: Кошелек
+      customer:
+        email: Адрес email
+        sign_in_count: Количество входов в профиль
+        current_sign_in_at: Текущая дата входа
+        last_sign_in_at: Последняя дата входа
+        reset_password_sent_at: Куда послали пароль для восстановления
+        remember_created_at: Когда последний раз зашел с "Запомнить меня"
+        current_sign_in_ip: Текущий IP
+        last_sign_in_ip: Последний IP, с которого заходил пользователь
+        created_at: Дата создания
+        updated_at: Дата изменения
+        name: Имя
+        role: Роль
+        type: Тип
+        slug: Слуг
+        avatar: Аватар
+        status: Статус
+        phone: Телефон
+        orders: Заказы
+        events: События
+        event_changes: Изменение событий
+        wallet: Кошелек
+      coach_user:
+        email: Адрес email
+        sign_in_count: Количество входов в профиль
+        current_sign_in_at: Текущая дата входа
+        last_sign_in_at: Последняя дата входа
+        reset_password_sent_at: Куда послали пароль для восстановления
+        remember_created_at: Когда последний раз зашел с "Запомнить меня"
+        current_sign_in_ip: Текущий IP
+        last_sign_in_ip: Последний IP, с которого заходил пользователь
+        created_at: Дата создания
+        updated_at: Дата изменения
+        name: Имя
+        role: Роль
+        type: Тип
+        slug: Слуг
+        avatar: Аватар
+        status: Статус
+        phone: Телефон
+        orders: Заказы
+        events: События
+        event_changes: Изменение событий
+        wallet: Кошелек
+        coach: Информация о тренере
+        product: Продукт
+      stadium_user:
+        email: Адрес email
+        sign_in_count: Количество входов в профиль
+        current_sign_in_at: Текущая дата входа
+        last_sign_in_at: Последняя дата входа
+        reset_password_sent_at: Куда послали пароль для восстановления
+        remember_created_at: Когда последний раз зашел с "Запомнить меня"
+        current_sign_in_ip: Текущий IP
+        last_sign_in_ip: Последний IP, с которого заходил пользователь
+        created_at: Дата создания
+        updated_at: Дата изменения
+        name: Имя
+        role: Роль
+        type: Тип
+        slug: Слуг
+        avatar: Аватар
+        status: Статус
+        phone: Телефон
+        orders: Заказы
+        events: События
+        event_changes: Изменение событий
+        wallet: Кошелек
+        stadium: Информация о стадионе
+        product: Продукт
