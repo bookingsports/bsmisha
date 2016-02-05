@@ -1,0 +1,17 @@
+ru:
+  activerecord:
+    models:
+      review:
+        one: Обзор
+        other: Обзоры
+    attributes:
+      review:
+        reviewable_id: ID обозреваемого
+        reviewable_type: Тип обозреваемого
+        reviewable: Обозреваемое
+        text: Текст
+        user: Пользователь
+        verified: Подтверждено?
+        rating: Рейтинг
+        created_at: Дата создания
+        updated_at: Дата изменения
