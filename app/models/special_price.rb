@@ -13,6 +13,8 @@
 #
 
 class SpecialPrice < ActiveRecord::Base
+  include SpecialPriceConcern
+  
   has_paper_trail
   
   belongs_to :product 
