@@ -1,4 +1,5 @@
 RailsAdmin.config do |config|
+  config.main_app_name = ['Booking Sports', 'Admin']
 
   ### Popular gems integration
 

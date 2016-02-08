@@ -1,0 +1,51 @@
+.nav-stacked > li > a {
+  color: #f5f5f5;
+}
+
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+  background-color: #fff !important;
+  border-color: #ddd !important;
+}
+
+.nav-stacked > li > a:hover, .nav-stacked > li > a:focus {
+  background-color: #000;
+}
+
+.sidebar-nav .dropdown-header {
+  color: #777 !important;
+}
+
+.nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
+  background-color: #fff;
+}
+
+.img-thumbnail {
+  padding: 0;
+  border: none;
+  border-radius: 2px;
+}
+
+h1 {
+  font-weight: normal;
+}
+
+.well {
+  background-color: #fff;
+  border-radius: 0;
+}
+
+.label {
+  border-radius: 0;
+}
+
+.navbar-default {
+  background-color: #4171B8;
+}
+
+.page-header {
+  margin-bottom: 0;
+}
+
+.breadcrumb {
+  padding-left: 0;
+}
