@@ -29,6 +29,7 @@ class Product < ActiveRecord::Base
   has_paper_trail
   
   include FriendlyId
+  include ProductConcern
 
   belongs_to :category
   belongs_to :owner, class_name: "User", foreign_key: :user_id

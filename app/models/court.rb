@@ -26,6 +26,8 @@
 #
 
 class Court < Product
+  include CourtConcern
+  
   belongs_to :stadium, foreign_key: :parent_id
   has_many :coaches_courts
   has_many :coaches, through: :coaches_courts
