@@ -1,6 +1,7 @@
 {
   "name": "bookingsports",
   "scripts": {
+    "postdeploy": "bin/setup"
   },
   "env": {
     "ADMIN_EMAIL": {
