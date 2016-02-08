@@ -3,6 +3,7 @@ module AdminConcern
 
   included do
     rails_admin do
+      navigation_label I18n.t("users_types")
       list do
         field :name
         field :email        
