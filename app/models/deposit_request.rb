@@ -12,6 +12,8 @@
 #
 
 class DepositRequest < ActiveRecord::Base
+  include DepositRequestConcern
+  
   has_paper_trail
   
   belongs_to :wallet
