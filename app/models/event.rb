@@ -18,6 +18,8 @@
 #
 
 class Event < ActiveRecord::Base
+  include EventConcern
+  
   has_paper_trail
   
   include Changeable
