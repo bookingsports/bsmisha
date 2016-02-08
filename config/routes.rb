@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  authenticate :user do
+    mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  end
+  
   get 'grid/(:court_id)', to: 'dashboard#grid', as: 'dashboard_grid'
   get 'products/show'
 

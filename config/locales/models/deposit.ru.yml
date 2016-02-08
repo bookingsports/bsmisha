@@ -1,0 +1,13 @@
+ru:
+  activerecord:
+    models:
+      deposit:
+        one: Депозит
+        other: Депозиты
+    attributes:
+      deposit:
+        wallet: Кошелек
+        status: Статус
+        amount: Количество
+        created_at: Дата создания
+        updated_at: Дата изменения

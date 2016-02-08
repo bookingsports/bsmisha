@@ -1,4 +1,20 @@
+# == Schema Information
+#
+# Table name: special_prices
+#
+#  id         :integer          not null, primary key
+#  start      :datetime
+#  stop       :datetime
+#  price      :integer
+#  is_sale    :boolean
+#  product_id :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class SpecialPrice < ActiveRecord::Base
+  has_paper_trail
+  
   belongs_to :product 
   has_many :daily_price_rules
   accepts_nested_attributes_for :daily_price_rules, reject_if: proc {|attributes| attributes["price"].blank?}

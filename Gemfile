@@ -45,6 +45,9 @@ gem "rails-observers"
 gem "ransack", github: "activerecord-hackery/ransack"
 gem "bootsy"
 gem "jquery-datatables-rails", "~> 3.3.0"
+gem 'rails_admin', github: 'sferik/rails_admin'
+gem 'paper_trail'
+gem 'rails_admin_history_rollback', github: 'ivanzotov/rails_admin_history_rollback'
 
 group :development do
   gem "figaro", ">= 1.0.0.rc1"
@@ -67,6 +70,7 @@ group :development do
   gem "spring-commands-rspec"
   gem "letter_opener"
   gem "traceroute"
+  gem "annotate"
 end
 
 group :test do

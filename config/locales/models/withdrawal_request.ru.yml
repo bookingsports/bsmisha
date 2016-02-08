@@ -1,0 +1,14 @@
+ru:
+  activerecord:
+    models:
+      withdrawal_request:
+        one: Запрос на снятие денег
+        other: Запросы на снятие денег
+    attributes:
+      withdrawal_request:
+        wallet: Кошелек
+        status: Статус
+        amount: Количество
+        data: Информация
+        created_at: Дата создания
+        updated_at: Дата изменения

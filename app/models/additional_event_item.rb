@@ -1,4 +1,19 @@
+# == Schema Information
+#
+# Table name: additional_event_items
+#
+#  id           :integer          not null, primary key
+#  related_id   :integer
+#  related_type :string
+#  event_id     :integer
+#  amount       :integer          default(1)
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+
 class AdditionalEventItem < ActiveRecord::Base
+  has_paper_trail
+  
   belongs_to :event
   belongs_to :related, polymorphic: true
 

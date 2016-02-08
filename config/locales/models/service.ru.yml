@@ -1,0 +1,12 @@
+ru:
+  activerecord:
+    models:
+      service:
+        one: Услуга
+        other: Услуги
+    attributes:
+      service:
+        name: Имя
+        icon: Иконка
+        created_at: Дата создания
+        updated_at: Дата изменения

@@ -1,0 +1,13 @@
+ru:
+  activerecord:
+    models:
+      coaches_court:
+        one: Корт тренера
+        other: Корты тренера
+    attributes:
+      coaches_court:
+        coach_id: ID тренера
+        court_id: ID корта
+        price: Цена
+        coach: Тренер
+        court: Корт

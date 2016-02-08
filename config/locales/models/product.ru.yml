@@ -1,0 +1,57 @@
+ru:
+  activerecord:
+    models:
+      product:
+        one: Продукт
+        other: Продукты
+      coach:
+        one: Тренер
+        other: Тренеры
+      court:
+        one: Корт
+        other: Корты
+      stadium:
+        one: Стадион
+        other: Стадионы
+    attributes:
+      product: &product
+        category: Категория
+        owner: Владелец
+        pictures: Изображения
+        reviews: Обзоры
+        name: Название
+        phone: Телефон
+        description: Описание
+        created_at: Дата создания
+        updated_at: Дата изменения
+        address: Адрес
+        latitude: Широта
+        longitude: Долгота
+        slug: Слуг
+        status: Статус
+        type: Тип
+        parent_id:  ID родителя
+        email: Эл. почта
+        avatar: Аватар
+        price: Цена
+        change_price: Измененная цена
+        opens_at: Открывается в
+        closes_at: Закрывается в
+        special_prices: Специальные цены
+        events: События
+        orders: Заказы
+        product_services: Услуги продуктов
+        services: Услуги
+      coach:
+        <<: *product
+        coaches_courts: Корты тренера
+        courts: Корты
+      court:
+        <<: *product
+        stadium: Стадион
+        coaches_courts: Корты тренера
+        coaches: Тренеры
+      stadium:
+        <<: *product
+        user: Пользователь
+        courts: Корты

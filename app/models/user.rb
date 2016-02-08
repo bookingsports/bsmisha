@@ -1,6 +1,34 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                     :integer          not null, primary key
+#  email                  :string           default(""), not null
+#  encrypted_password     :string           default(""), not null
+#  reset_password_token   :string
+#  reset_password_sent_at :datetime
+#  remember_created_at    :datetime
+#  sign_in_count          :integer          default(0), not null
+#  current_sign_in_at     :datetime
+#  last_sign_in_at        :datetime
+#  current_sign_in_ip     :inet
+#  last_sign_in_ip        :inet
+#  created_at             :datetime
+#  updated_at             :datetime
+#  name                   :string
+#  role                   :integer
+#  type                   :string
+#  slug                   :string
+#  avatar                 :string
+#  status                 :integer
+#  phone                  :string
+#
+
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
+  has_paper_trail
+  
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
@@ -8,7 +36,6 @@ class User < ActiveRecord::Base
   has_many :events
   has_many :event_changes, through: :events
   has_one :wallet, dependent: :destroy
-  has_many :special_prices
 
   after_create :create_wallet
   after_initialize :set_customer, if: :new_record?

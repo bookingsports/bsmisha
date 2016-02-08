@@ -30,11 +30,39 @@ GIT
       railties
 
 GIT
+  remote: git://github.com/ivanzotov/rails_admin_history_rollback.git
+  revision: 7b67bc625d21fbede4efbd69d50ce7b5bc02e950
+  specs:
+    rails_admin_history_rollback (0.0.6)
+      paper_trail (>= 3.0.6)
+      rails (~> 4.2.0)
+      rails_admin (>= 0.6.6)
+
+GIT
   remote: git://github.com/mib32/rails-admin-scaffold.git
   revision: f4a74caeb6bb525fb7460c487eb683493369c7bc
   specs:
     rails-admin-scaffold (0.1.0)
       rails (>= 4.0)
+
+GIT
+  remote: git://github.com/sferik/rails_admin.git
+  revision: c73de8347c99a6f3598033655c216b8d60bd9fe6
+  specs:
+    rails_admin (0.8.1)
+      builder (~> 3.1)
+      coffee-rails (~> 4.0)
+      font-awesome-rails (>= 3.0, < 5)
+      haml (~> 4.0)
+      jquery-rails (>= 3.0, < 5)
+      jquery-ui-rails (~> 5.0)
+      kaminari (~> 0.14)
+      nested_form (~> 0.3)
+      rack-pjax (~> 0.7)
+      rails (>= 4.0, < 6)
+      remotipart (~> 1.0)
+      safe_yaml (~> 1.0)
+      sass-rails (>= 4.0, < 6)
 
 GEM
   remote: https://rubygems.org/
@@ -79,6 +107,9 @@ GEM
     addressable (2.3.8)
     ancestry (2.1.0)
       activerecord (>= 3.0.0)
+    annotate (2.7.0)
+      activerecord (>= 3.2, < 6.0)
+      rake (~> 10.4)
     arel (6.0.3)
     autoprefixer-rails (6.1.0.1)
       execjs
@@ -251,6 +282,9 @@ GEM
     jquery-ui-rails (5.0.5)
       railties (>= 3.2.16)
     json (1.8.3)
+    kaminari (0.16.3)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     kgio (2.10.0)
     launchy (2.4.3)
       addressable (~> 2.3)
@@ -275,6 +309,7 @@ GEM
       railties (>= 3.1)
     multi_json (1.11.2)
     nenv (0.2.0)
+    nested_form (0.3.2)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.0.1)
@@ -285,6 +320,10 @@ GEM
       nenv (~> 0.1)
       shellany (~> 0.0)
     orm_adapter (0.5.0)
+    paper_trail (4.1.0)
+      activerecord (>= 3.0, < 6.0)
+      activesupport (>= 3.0, < 6.0)
+      request_store (~> 1.1)
     pg (0.18.4)
     polyamorous (1.2.0)
       activerecord (>= 3.0)
@@ -295,6 +334,9 @@ GEM
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.4)
+    rack-pjax (0.8.0)
+      nokogiri (~> 1.5)
+      rack (~> 1.1)
     rack-test (0.6.3)
       rack (>= 1.0)
     railroady (1.4.1)
@@ -341,6 +383,7 @@ GEM
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
     remotipart (1.2.1)
+    request_store (1.3.0)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
     rest-client (1.8.0)
@@ -371,6 +414,7 @@ GEM
     ruby_parser (3.7.2)
       sexp_processor (~> 4.1)
     rubyzip (1.1.7)
+    safe_yaml (1.0.4)
     sass (3.4.19)
     sass-rails (5.0.4)
       railties (>= 4.0.0, < 5.0)
@@ -450,6 +494,7 @@ PLATFORMS
 DEPENDENCIES
   active_link_to
   ancestry
+  annotate
   better_errors
   bootstrap-sass
   bootsy
@@ -497,6 +542,7 @@ DEPENDENCIES
   lightbox2-rails
   mini_magick
   momentjs-rails
+  paper_trail
   pg
   quiet_assets
   railroady
@@ -506,6 +552,8 @@ DEPENDENCIES
   rails-i18n (~> 4.0.0)
   rails-observers
   rails_12factor
+  rails_admin!
+  rails_admin_history_rollback!
   rails_layout
   ransack!
   rb-fchange
@@ -528,4 +576,4 @@ DEPENDENCIES
   yui-compressor
 
 BUNDLED WITH
-   1.10.6
+   1.11.2

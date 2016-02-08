@@ -1,0 +1,15 @@
+ru:
+  activerecord:
+    models:
+      daily_price_rule:
+        one: Ежедневное правило цены
+        other: Ежедневные правила цены
+    attributes:
+      daily_price_rule:
+        special_price: Специальная цена
+        start: Начало
+        stop: Конец
+        price: Цена
+        working_days: Рабочие дни
+        created_at: Дата создания
+        updated_at: Дата изменения

@@ -1,0 +1,23 @@
+ru:
+  activerecord:
+    models:
+      event:
+        one: Событие
+        other: События
+    attributes:
+      event:
+        start: Начало
+        stop: Конец
+        description: Описание
+        products: Продукты
+        order: Заказ
+        recurrence_rule: Правило повторения
+        recurrence_exception: Исключение повторения
+        recurrence_id: Повторение
+        product_services: Услуги продуктов
+        event_changes: Изменения события
+        additional_event_items: Дополнительные элементы события
+        created_at: Дата создания
+        updated_at: Дата изменения
+        is_all_day: На весь день?
+        user: Пользователь

@@ -1,0 +1,14 @@
+ru:
+  activerecord:
+    models:
+      event_change:
+        one: Изменение события
+        other: Изменения событий
+    attributes:
+      event_change:
+        event: Событие
+        order: Заказ
+        created_at: Дата создания
+        updated_at: Дата изменения
+        status: Статус
+        summary: Суммарная информация

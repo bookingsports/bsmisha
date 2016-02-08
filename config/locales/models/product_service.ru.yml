@@ -1,0 +1,15 @@
+ru:
+  activerecord:
+    models:
+      product_service:
+        one: Услуга продукта
+        other: Услуги продуктов
+    attributes:
+      product_service:
+        product: Продукт
+        service: Услуга
+        events: События
+        price: Цена
+        type: Тип
+        created_at: Дата создания
+        updated_at: Дата изменения
