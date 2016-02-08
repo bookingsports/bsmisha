@@ -30,6 +30,15 @@ GIT
       railties
 
 GIT
+  remote: git://github.com/ivanzotov/rails_admin_history_rollback.git
+  revision: 7b67bc625d21fbede4efbd69d50ce7b5bc02e950
+  specs:
+    rails_admin_history_rollback (0.0.6)
+      paper_trail (>= 3.0.6)
+      rails (~> 4.2.0)
+      rails_admin (>= 0.6.6)
+
+GIT
   remote: git://github.com/mib32/rails-admin-scaffold.git
   revision: f4a74caeb6bb525fb7460c487eb683493369c7bc
   specs:
@@ -544,6 +553,7 @@ DEPENDENCIES
   rails-observers
   rails_12factor
   rails_admin!
+  rails_admin_history_rollback!
   rails_layout
   ransack!
   rb-fchange
