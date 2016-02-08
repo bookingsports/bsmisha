@@ -12,6 +12,7 @@
 #
 
 class AdditionalEventItem < ActiveRecord::Base
+  include AdditionalEventItemConcern
   has_paper_trail
   
   belongs_to :event
