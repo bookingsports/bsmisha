@@ -22,7 +22,9 @@ RailsAdmin.config do |config|
   config.actions do
     dashboard                     # mandatory
     index                         # mandatory
-    new
+    new do
+      except ['User', 'Product']
+    end
     export
     bulk_delete
     show
