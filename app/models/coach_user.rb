@@ -25,6 +25,8 @@
 #
 
 class CoachUser < User
+  include CoachUserConcern
+
   has_one :coach, foreign_key: "user_id", dependent: :destroy
   has_one :product, foreign_key: "user_id", dependent: :destroy
   accepts_nested_attributes_for :coach
