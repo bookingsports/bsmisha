@@ -32,8 +32,8 @@ ru:
         type: Тип
         parent_id:  ID родителя
         email: Эл. почта
-        avatar: Аватар
-        price: Цена
+        avatar: Фото
+        price: Стоимость часа
         change_price: Измененная цена
         opens_at: Открывается в
         closes_at: Закрывается в

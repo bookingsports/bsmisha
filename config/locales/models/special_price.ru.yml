@@ -1,0 +1,16 @@
+ru:
+  activerecord:
+    models:
+      special_price:
+        one: Период
+        other: Периоды
+    attributes:
+      special_price:
+        start: Начало
+        stop: Конец
+        price: Цена
+        is_sale: Скидка
+        product: Продукт
+        working_days: Рабочие дни
+        created_at: Дата создания
+        updated_at: Дата изменения

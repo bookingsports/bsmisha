@@ -30,53 +30,6 @@ ru:
     many: "%{count} переносов"
     one: "%{count} перенос"
     other: "%{count} переносов"
-  activerecord:
-    models:
-      stadium: 
-        one: Стадион
-        other: Стадионы
-      special_price: Период
-    attributes:
-      user:
-        name: Имя
-        password: Пароль
-        avatar: Аватар
-        type: Тип
-        public_type: Тип
-        current_password: Пароль
-        password_confirmation: Подтверждение пароля
-        email: Эл. почта
-      stadium:
-        category: Категория
-        name: Имя
-        address: Адрес
-        latitude: Широта
-        longitude: Долгота
-        phone: Телефон
-        description: Описание
-        status: Статус
-      coach:
-        avatar: Фото
-        name: Имя
-        phone: Телефон
-        price: Стоимость
-        courts: Корты
-        court: Корты
-        email: Почта
-        price: Стоимость часа
-        password: Пароль
-        password_confirmation: Подтверждение пароля
-      special_price:
-        product: Продукт
-        start: Начало
-        stop: Конец
-        price: Цена
-        is_sale: Скидка
-      profile:
-        description: Описание
-      event:
-        start: Начало
-        end: Конец
   simple_form:
     options:
       defaults:
