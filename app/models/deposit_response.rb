@@ -11,7 +11,6 @@
 #
 
 class DepositResponse < ActiveRecord::Base
-  include DepositResponseConcern
   has_paper_trail
   
   belongs_to :deposit_request
