@@ -10,5 +10,6 @@
 #
 
 class Service < ActiveRecord::Base
+  include ServiceConcern
 	has_paper_trail
 end
