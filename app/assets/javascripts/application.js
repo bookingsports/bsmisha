@@ -15,8 +15,6 @@
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require jquery-ui
-//= require turbolinks
-//= require jquery.turbolinks
 //= require underscore
 //= require gmaps/google
 //= require kendo.all.min

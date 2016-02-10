@@ -1,0 +1,27 @@
+= render 'map'
+
+.body-bg
+  .container-fluid.homepage-container
+    h1 Спортивные объекты для бронирования
+    .row
+      = link_to category_path('tennis') do
+        .col-md-8.homepage-categories-first
+          .homepage-txt-block
+            .hpt-border Теннис
+      = link_to category_path('futbol') do
+        .col-md-4.homepage-categories-second
+          .homepage-txt-block
+            .hpt-border Футбол
+    .row
+      = link_to category_path('gruppovye-zanyatiya') do
+        .col-xs-12.col-sm-6.col-md-6.image-grid-item.homepage-categories-third
+          .homepage-txt-block
+            .hpt-border Групповые занятия
+      = link_to category_path('fitness') do
+        .col-xs-12.col-sm-6.col-md-3.image-grid-item.homepage-categories-fourth
+          .homepage-txt-block
+            .hpt-border Фитнес
+      = link_to category_path('yoga') do
+        .col-xs-12.col-sm-6.col-md-3.image-grid-item.homepage-categories-fifth
+          .homepage-txt-block
+            .hpt-border Йога

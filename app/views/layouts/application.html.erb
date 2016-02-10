@@ -5,8 +5,8 @@
     <title><%= content_for?(:title) ? yield(:title) : "Booking Sports - Бронируйте спорт надежно" %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Booking Sports - Бронируйте спорт надежно" %>">
     <%= favicon_link_tag 'favicon.png' %>
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
     <%= javascript_include_tag '//maps.google.com/maps/api/js?v=3.13&sensor=false&language=ru&libraries=places' %>
     <%= javascript_include_tag '//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js' %>
     <%= csrf_meta_tags %>

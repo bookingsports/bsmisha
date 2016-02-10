@@ -11,6 +11,7 @@ gem 'pg'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'haml-rails'
+gem 'slim'
 gem 'bootstrap-sass'
 gem 'simple_form'
 gem 'coffee-rails', '~> 4.1.0'
@@ -28,10 +29,7 @@ gem 'font-awesome-rails'
 gem 'dropzonejs-rails'
 gem 'lightbox2-rails'
 gem 'ckeditor'
-
-# TURBOLINKS
-gem 'turbolinks'
-gem 'jquery-turbolinks'
+gem 'autoprefixer-rails'
 
 # IMAGES
 gem 'fog'
