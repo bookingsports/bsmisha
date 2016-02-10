@@ -7,7 +7,7 @@ ru:
     attributes:
       category:
         name: Имя
-        ancestry: Предок
+        parent_id: Родитель
         created_at: Дата создания
         updated_at: Дата изменения
         slug: Короткий URL

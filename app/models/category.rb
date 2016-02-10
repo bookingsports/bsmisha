@@ -9,19 +9,24 @@
 #  updated_at :datetime         not null
 #  slug       :string
 #  icon       :string
+#  position   :integer
 #
 
 class Category < ActiveRecord::Base
   include CategoryConcern
-  has_paper_trail
-
   include FriendlyId
 
-  has_many :stadiums
+  has_paper_trail
 
-  default_scope -> { order(created_at: :desc) }
+  has_many :stadiums
 
   friendly_id :name, use: [:slugged]
   mount_uploader :icon, MapIconUploader
   has_ancestry
+
+  default_scope ->{ order(:position) }
+
+  def parent_enum
+    Category.where.not(id: id).map { |c| [ c.name, c.id ] }
+  end
 end

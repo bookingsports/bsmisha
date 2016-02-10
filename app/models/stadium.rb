@@ -28,6 +28,7 @@
 class Stadium < Product
   include StadiumConcern
 
+  belongs_to :category
   belongs_to :user, class_name: "StadiumUser", foreign_key: "user_id"
   has_many :courts, dependent: :destroy, foreign_key: :parent_id
   accepts_nested_attributes_for :courts, :reject_if => :all_blank, :allow_destroy => true

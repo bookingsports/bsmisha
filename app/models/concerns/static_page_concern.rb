@@ -4,7 +4,7 @@ module StaticPageConcern
   included do
     rails_admin do
       navigation_label I18n.t(:website)
-      weight -1
+      weight -2
 
       list do
         field :title

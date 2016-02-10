@@ -3,9 +3,23 @@ module CategoryConcern
 
   included do
     rails_admin do
+      navigation_label I18n.t(:stadiums)
+      weight -1
+
+      nestable_tree({position_field: :position, max_depth: 3})
+
       list do
-        field :name
-        field :ancestry
+        sort_by :position
+        field :name do
+          pretty_value do
+            "#{'-'*bindings[:object].depth*3} #{bindings[:object].name}"
+          end
+        end
+        field :parent_id, :enum do
+          enum_method do
+            :parent_enum
+          end
+        end
         field :slug
         field :icon
         field :created_at
@@ -14,7 +28,6 @@ module CategoryConcern
 
       edit do
         field :name
-        field :ancestry
         field :slug
         field :icon
         field :created_at

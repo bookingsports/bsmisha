@@ -9,6 +9,7 @@
 #  updated_at :datetime         not null
 #  slug       :string
 #  icon       :string
+#  position   :integer
 #
 
 require 'rails_helper'

@@ -35,5 +35,6 @@ RailsAdmin.config do |config|
     delete
     history_index
     history_show
+    nestable
   end
 end

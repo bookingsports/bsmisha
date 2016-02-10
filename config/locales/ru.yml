@@ -1,5 +1,7 @@
 ru:
   website: Сайт
+  stadiums: Стадионы
+
   users_types: Виды пользователей
   products_types: Виды продуктов
   statuses: &statuses
