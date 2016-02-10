@@ -53,11 +53,6 @@ group :development do
   gem "figaro", ">= 1.0.0.rc1"
   gem "rails-admin-scaffold", github: "mib32/rails-admin-scaffold"
   gem "better_errors"
-  gem "capistrano", "~> 3.4"
-  gem "capistrano-bundler"
-  gem "capistrano-rails", github: "capistrano/rails", branch: :master
-  gem "capistrano-rails-console"
-  gem "capistrano-rvm", "~> 0.1.1"
   gem "guard-bundler"
   gem "guard-rails"
   gem "guard-rspec"
