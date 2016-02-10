@@ -55,7 +55,7 @@ gem 'rails_admin_nestable', '~> 0.3.2'
 gem 'ancestry'
 
 # MAPS
-gem 'rails_admin_map_field', path: './../rails_admin_map_field' #, github: 'ivanzotov/rails_admin_map_field'
+gem 'rails_admin_map_field', github: 'ivanzotov/rails_admin_map_field'
 gem 'gmaps4rails'
 
 # ENUM
