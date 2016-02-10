@@ -36,7 +36,6 @@
 //= require jquery.datetimepicker
 //= require dropzone
 //= require lightbox
-//= require bootsy
 //= require_directory .
 
 

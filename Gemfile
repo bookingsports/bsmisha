@@ -27,6 +27,7 @@ gem 'jquery-datetimepicker-rails'
 gem 'font-awesome-rails'
 gem 'dropzonejs-rails'
 gem 'lightbox2-rails'
+gem 'ckeditor'
 
 # TURBOLINKS
 gem 'turbolinks'
@@ -59,7 +60,6 @@ gem 'ice_cube'
 gem 'switch_user'
 gem 'rails-observers'
 gem 'ransack', github: 'activerecord-hackery/ransack'
-gem 'bootsy'
 gem 'jquery-datatables-rails', '~> 3.3.0'
 
 # ADMIN

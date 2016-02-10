@@ -22,7 +22,6 @@
  *= require jquery-ui
  *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
  *= require lightbox
- *= require bootsy
  *= require_self
  */
 
@@ -787,11 +786,6 @@ body.stadium_user, body.coach{
     text-decoration: none;
     white-space: nowrap;
     line-height: 24px;
-}
-
-
-.bootsy .bootsy_text_area{
-  height: 200px;
 }
 
 .legend-label{

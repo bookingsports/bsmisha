@@ -2,8 +2,8 @@ ru:
   activerecord:
     models:
       static_page:
-        one: Статичная страница
-        other: Статичные страницы
+        one: страница
+        other: страницы
     attributes:
       static_page:
         text: Текст

@@ -46,7 +46,6 @@ Rails.application.routes.draw do
 
   resources :static_pages, only: :show
 
-  mount Bootsy::Engine => '/bootsy', as: 'bootsy'
   namespace :admin do
     resources :users
   end

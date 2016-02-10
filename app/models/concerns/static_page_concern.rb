@@ -3,20 +3,21 @@ module StaticPageConcern
 
   included do
     rails_admin do
+      navigation_label I18n.t(:website)
+      weight -1
+
       list do
         field :title
-        field :text
         field :slug
+        field :text
         field :created_at
         field :updated_at
       end
 
       edit do
         field :title
-        field :text
         field :slug
-        field :created_at
-        field :updated_at
+        field :text, :ck_editor
       end
     end
   end
