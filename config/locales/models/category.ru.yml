@@ -10,6 +10,6 @@ ru:
         ancestry: Предок
         created_at: Дата создания
         updated_at: Дата изменения
-        slug: Слуг
+        slug: Короткий URL
         icon: Иконка
         stadiums: Стадионы

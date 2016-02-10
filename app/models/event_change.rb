@@ -12,6 +12,7 @@
 #
 
 class EventChange < ActiveRecord::Base
+  include EventChangeConcern
   has_paper_trail
   
   belongs_to :event

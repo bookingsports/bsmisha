@@ -9,6 +9,7 @@
 #
 
 class Wallet < ActiveRecord::Base
+  include WalletConcern
   has_paper_trail
   
   belongs_to :user

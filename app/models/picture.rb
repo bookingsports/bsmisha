@@ -12,6 +12,8 @@
 #
 
 class Picture < ActiveRecord::Base
+  include PictureConcern
+
   has_paper_trail
   
   belongs_to :imageable, polymorphic: true

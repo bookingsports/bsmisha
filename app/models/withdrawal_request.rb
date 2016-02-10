@@ -12,6 +12,7 @@
 #
 
 class WithdrawalRequest < ActiveRecord::Base
+  include WithdrawalRequestConcern
   has_paper_trail
   
   belongs_to :wallet

@@ -10,4 +10,4 @@ ru:
         title: Название
         created_at: Дата создания
         updated_at: Дата изменения
-        slug: Слуг
+        slug: Короткий URL

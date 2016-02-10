@@ -25,6 +25,8 @@
 #
 
 class Customer < User
+  include CustomerConcern
+  
   def products
     Product.where(id: events.map(&:product_ids).flatten)
   end

@@ -12,6 +12,7 @@
 #
 
 class Category < ActiveRecord::Base
+  include CategoryConcern
   has_paper_trail
   
   include FriendlyId
