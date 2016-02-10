@@ -3,16 +3,18 @@ module UserConcern
 
   included do
     rails_admin do
+      navigation_icon 'icon-user'
+
       list do
         field :name
-        field :email        
+        field :email
         field :type
         field :avatar
         field :status
         field :phone
       end
 
-      edit do        
+      edit do
         field :name
         field :email
         field :password

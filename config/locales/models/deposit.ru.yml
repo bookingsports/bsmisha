@@ -2,8 +2,10 @@ ru:
   activerecord:
     models:
       deposit:
-        one: Депозит
-        other: Депозиты
+        one: депозит
+        parent: депозит
+        accusative: депозит
+        other: депозиты
     attributes:
       deposit:
         wallet: Кошелек

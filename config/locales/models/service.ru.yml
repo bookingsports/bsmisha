@@ -2,8 +2,10 @@ ru:
   activerecord:
     models:
       service:
-        one: Услуга
-        other: Услуги
+        one: услуга
+        parent: услуги
+        accusative: услугу
+        other: услуги
     attributes:
       service:
         name: Имя

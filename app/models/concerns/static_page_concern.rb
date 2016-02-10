@@ -4,6 +4,7 @@ module StaticPageConcern
   included do
     rails_admin do
       navigation_label I18n.t(:website)
+      navigation_icon 'icon-file'
       weight -2
 
       list do

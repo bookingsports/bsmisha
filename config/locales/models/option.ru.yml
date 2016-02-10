@@ -2,8 +2,10 @@ ru:
   activerecord:
     models:
       option:
-        one: Опция
-        other: Опции
+        one: опция
+        parent: опции
+        accusative: опцию
+        other: опции
     attributes:
       option:
         tax: Налог

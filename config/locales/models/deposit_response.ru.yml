@@ -2,8 +2,10 @@ ru:
   activerecord:
     models:
       deposit_response:
-        one: Ответ депозита
-        other: Ответы депозитов
+        one: ответ депозита
+        parent: ответа депозита
+        accusative: ответ депозита
+        other: ответы депозитов
     attributes:
       deposit_response:
         deposit_request: Запрос депозита

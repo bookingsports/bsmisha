@@ -28,16 +28,17 @@
 class Stadium < Product
   include StadiumConcern
 
-  belongs_to :category
-  belongs_to :user, class_name: "StadiumUser", foreign_key: "user_id"
+  belongs_to :category, inverse_of: :stadiums
+  belongs_to :user, class_name: 'StadiumUser', foreign_key: 'user_id'
   has_many :courts, dependent: :destroy, foreign_key: :parent_id
-  accepts_nested_attributes_for :courts, :reject_if => :all_blank, :allow_destroy => true
+
+  accepts_nested_attributes_for :courts, reject_if: :all_blank, allow_destroy: true
 
   after_create :make_court
   after_save :parse_address
 
   def make_court
-    courts.create! name: "Основной"
+    courts.create! name: 'Основной'
   end
 
   def coaches
@@ -56,7 +57,7 @@ class Stadium < Product
   end
 
   def name
-    attributes["name"] || 'Без названия'
+    attributes['name'] || 'Без названия'
   end
 
   private

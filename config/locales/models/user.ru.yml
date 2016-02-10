@@ -2,20 +2,30 @@ ru:
   activerecord:
     models:
       user:
-        one: Пользователь
-        other: Пользователи
+        one: пользователь
+        parent: пользователя
+        accusative: пользователя
+        other: пользователи
       customer:
-        one: Покупатель
-        other: Покупатели
+        one: покупатель
+        parent: покупателя
+        accusative: покупателя
+        other: покупатели
       admin:
-        one: Администратор
-        other: Администраторы
+        one: администратор
+        parent: администратора
+        accusative: администратора
+        other: администраторы
       coach_user:
-        one: Тренер
-        other: Тренеры
+        one: тренер
+        parent: тренера
+        accusative: тренера
+        other: тренеры
       stadium_user:
-        one: Администратор стадиона
-        other: Администраторы стадиона
+        one: администратор стадиона
+        parent: администратора стадиона
+        accusative: администратора стадиона
+        other: администраторы стадиона
     attributes:
       user: &user
         email: Эл. почта

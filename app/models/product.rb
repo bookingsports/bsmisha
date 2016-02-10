@@ -32,7 +32,7 @@ class Product < ActiveRecord::Base
   include ProductConcern
 
   belongs_to :category
-  belongs_to :owner, class_name: "User", foreign_key: :user_id
+  belongs_to :owner, class_name: 'User', foreign_key: :user_id
   has_many :pictures, as: :imageable
   has_many :reviews, as: :reviewable
   has_many :special_prices
@@ -42,11 +42,13 @@ class Product < ActiveRecord::Base
   has_many :services, through: :product_services
 
   accepts_nested_attributes_for :product_services
+  accepts_nested_attributes_for :pictures, allow_destroy: true
 
   default_scope -> { order(created_at: :desc) }
 
   friendly_id :name, use: [:slugged]
   mount_uploader :avatar, PictureUploader
+
   enum status: [:pending, :active, :locked]
 
   def customers

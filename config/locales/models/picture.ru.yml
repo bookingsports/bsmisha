@@ -2,8 +2,10 @@ ru:
   activerecord:
     models:
       picture:
-        one:  Изображение
-        other: Изображения
+        one:  изображение
+        parent: изображения
+        accusative: изображение
+        other: изображения
     attributes:
       picture:
         name: Имя

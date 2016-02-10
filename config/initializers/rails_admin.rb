@@ -1,3 +1,5 @@
+require 'rails_admin/config/model_ru'
+
 RailsAdmin.config do |config|
   config.main_app_name = ['Booking Sports', 'Admin']
 
@@ -26,15 +28,13 @@ RailsAdmin.config do |config|
   config.actions do
     dashboard
     index
-    new do
-      except ['User', 'Product']
-    end
+    new
+    nestable
     export
     bulk_delete
     edit
     delete
     history_index
     history_show
-    nestable
   end
 end

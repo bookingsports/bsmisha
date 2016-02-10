@@ -15,8 +15,6 @@ module PictureConcern
         field :name
         field :imageable
         field :description
-        field :created_at
-        field :updated_at
       end
     end
   end

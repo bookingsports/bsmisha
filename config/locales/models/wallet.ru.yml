@@ -2,8 +2,10 @@ ru:
   activerecord:
     models:
       wallet:
-        one: Кошелек
-        other: Кошельки
+        one: кошелек
+        parent: кошелька
+        accusative: кошелек
+        other: кошельки
     attributes:
       wallet:
         user: Пользователь

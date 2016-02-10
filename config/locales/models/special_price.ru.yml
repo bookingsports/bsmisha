@@ -2,8 +2,10 @@ ru:
   activerecord:
     models:
       special_price:
-        one: Период
-        other: Периоды
+        one: период
+        parent: периода
+        accusative: период
+        other: периоды
     attributes:
       special_price:
         start: Начало

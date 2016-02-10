@@ -2,8 +2,10 @@ ru:
   activerecord:
     models:
       withdrawal:
-        one: Снятие денег
-        other: Снятия денег
+        one: снятие денег
+        parent: снятия денег
+        accusative: снятие денег
+        other: снятия денег
     attributes:
       withdrawal:
         wallet: Кошелек

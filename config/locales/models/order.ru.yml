@@ -2,8 +2,10 @@ ru:
   activerecord:
     models:
       order:
-        one: Заказ
-        other: Заказы
+        one: заказ
+        parent: заказа
+        accusative: заказ
+        other: заказы
     attributes:
       order:
         user: Пользователь

@@ -2,17 +2,25 @@ ru:
   activerecord:
     models:
       product:
-        one: Продукт
-        other: Продукты
+        one: продукт
+        parent: продукта
+        accusative: продукт
+        other: продукты
       coach:
-        one: Тренер
-        other: Тренеры
+        one: тренер
+        parent: тренера
+        accusative: тренера
+        other: тренеры
       court:
-        one: Корт
-        other: Корты
+        one: корт
+        parent: корта
+        accusative: корт
+        other: корты
       stadium:
-        one: Стадион
-        other: Стадионы
+        one: cтадион
+        parent: стадиона
+        accusative: стадион
+        other: стадионы
     attributes:
       product: &product
         category: Категория
@@ -27,7 +35,7 @@ ru:
         address: Адрес
         latitude: Широта
         longitude: Долгота
-        slug: Слуг
+        slug: Имя ссылки
         status: Статус
         type: Тип
         parent_id:  ID родителя

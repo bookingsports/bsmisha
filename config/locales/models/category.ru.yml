@@ -2,8 +2,10 @@ ru:
   activerecord:
     models:
       category:
-        one: Категория
-        other: Категории
+        one: категория
+        parent: категории
+        accusative: категорию
+        other: категории
     attributes:
       category:
         name: Имя

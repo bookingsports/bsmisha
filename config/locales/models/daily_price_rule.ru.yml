@@ -2,8 +2,10 @@ ru:
   activerecord:
     models:
       daily_price_rule:
-        one: Ежедневное правило цены
-        other: Ежедневные правила цены
+        one: ежедневное правило цены
+        parent: eжедневное правило цены
+        accusative: eжедневное правило цены
+        other: ежедневные правила цены
     attributes:
       daily_price_rule:
         special_price: Специальная цена

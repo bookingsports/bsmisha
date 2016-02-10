@@ -2,8 +2,10 @@ ru:
   activerecord:
     models:
       additional_event_item:
-        one: Дополнительный элемент события
-        other: Дополнительные элементы события
+        one: дополнительный элемент события
+        parent: дополнительного элемента события
+        accusative: дополнительный элемент события
+        other: дополнительные элементы события
     attributes:
       additional_event_item:
         related_id: Относительный ID

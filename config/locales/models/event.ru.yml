@@ -2,8 +2,10 @@ ru:
   activerecord:
     models:
       event:
-        one: Событие
-        other: События
+        one: событие
+        parent: событие
+        accusative: событие
+        other: события
     attributes:
       event:
         start: Начало

@@ -1,3 +1,5 @@
+# Russian. Updated 2014-04-01
+
 ru:
   admin:
     js:
@@ -71,16 +73,16 @@ ru:
       show_in_app:
         menu: "Показать в приложении"
       new:
-        title: "Новый %{model_label}"
+        title: "Создание %{model_label_parent}"
         menu: "Создание"
         breadcrumb: "Новая запись"
-        link: "Добавить новый %{model_label}"
+        link: "Добавить %{model_label_accusative}"
         done: "создать"
       edit:
-        title: "Редактирование %{model_label} '%{object_label}'"
+        title: "Редактирование %{model_label_parent} «%{object_label}»"
         menu: "Редактирование"
         breadcrumb: "Редактирование записи"
-        link: "Редактировать %{model_label}"
+        link: "Редактировать %{model_label_accusative}"
         done: "сохранить"
       delete:
         title: "Удаление %{model_label} '%{object_label}'"
@@ -124,6 +126,7 @@ ru:
       confirmation: "Да, уверен"
       delete_confirmation: "Подтвердить удаление"
       bulk_delete: "Следующие объекты будут удалены, что может сломать связи с другими объектами:"
+      new_model: "%{name} (новый)"
     export:
       confirmation: "Экспортировать как %{name}"
       select: "Выберите поля для экспорта"

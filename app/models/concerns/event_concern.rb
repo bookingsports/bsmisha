@@ -3,7 +3,6 @@ module EventConcern
 
   included do
     rails_admin do
-      parent Order
       list do
         field :start
         field :end

@@ -3,6 +3,8 @@ ru:
     models:
       static_page:
         one: страница
+        parent: страницы
+        accusative: страницу
         other: страницы
     attributes:
       static_page:

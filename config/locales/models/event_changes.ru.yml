@@ -2,8 +2,10 @@ ru:
   activerecord:
     models:
       event_change:
-        one: Изменение события
-        other: Изменения событий
+        one: изменение события
+        parent: изменение события
+        accusative: изменение события
+        other: изменения событий
     attributes:
       event_change:
         event: Событие

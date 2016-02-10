@@ -48,12 +48,15 @@ gem 'high_voltage'
 
 gem 'jbuilder', '~> 2.0'
 gem 'gravtastic'
-gem 'gmaps4rails'
 gem 'gritter', '1.1.0'
 
 # NESTED
 gem 'rails_admin_nestable', '~> 0.3.2'
 gem 'ancestry'
+
+# MAPS
+gem 'rails_admin_map_field', path: './../rails_admin_map_field' #, github: 'ivanzotov/rails_admin_map_field'
+gem 'gmaps4rails'
 
 gem 'friendly_id', '~> 5'
 gem 'yui-compressor'

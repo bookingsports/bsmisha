@@ -2,8 +2,10 @@ ru:
   activerecord:
     models:
       coaches_court:
-        one: Корт тренера
-        other: Корты тренера
+        one: корт тренера
+        parent: корта тренера
+        accusative: корт тренера
+        other: корты тренера
     attributes:
       coaches_court:
         coach_id: ID тренера

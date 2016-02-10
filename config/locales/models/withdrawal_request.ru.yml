@@ -2,8 +2,10 @@ ru:
   activerecord:
     models:
       withdrawal_request:
-        one: Запрос на снятие денег
-        other: Запросы на снятие денег
+        one: запрос на снятие денег
+        parent: запроса на снятие денег
+        accusative: запрос на снятие денег
+        other: запросы на снятие денег
     attributes:
       withdrawal_request:
         wallet: Кошелек

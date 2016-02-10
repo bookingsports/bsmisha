@@ -4,6 +4,7 @@ module CategoryConcern
   included do
     rails_admin do
       navigation_label I18n.t(:stadiums)
+      navigation_icon 'icon-list'
       weight -1
 
       nestable_tree({position_field: :position, max_depth: 3})
@@ -30,8 +31,6 @@ module CategoryConcern
         field :name
         field :slug
         field :icon
-        field :created_at
-        field :updated_at
       end
     end
   end
