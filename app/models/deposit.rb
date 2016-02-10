@@ -12,8 +12,8 @@
 
 class Deposit < ActiveRecord::Base
   include DepositConcern
-  
+
   has_paper_trail
-  
+
   belongs_to :wallet
 end

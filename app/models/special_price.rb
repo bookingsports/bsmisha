@@ -14,10 +14,10 @@
 
 class SpecialPrice < ActiveRecord::Base
   include SpecialPriceConcern
-  
+
   has_paper_trail
-  
-  belongs_to :product 
+
+  belongs_to :product
   has_many :daily_price_rules
   accepts_nested_attributes_for :daily_price_rules, reject_if: proc {|attributes| attributes["price"].blank?}
 
@@ -33,7 +33,7 @@ class SpecialPrice < ActiveRecord::Base
     else
       []
     end
-    
+
     if price_rules.any?
       price_rules.first.price
     else

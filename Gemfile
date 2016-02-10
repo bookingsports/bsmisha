@@ -1,53 +1,71 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-ruby "2.2.3"
+ruby '2.2.3'
 
-gem "rails", "4.2.5"
-gem "sass-rails", "~> 5.0"
-gem "uglifier", ">= 1.3.0"
-gem "coffee-rails", "~> 4.1.0"
-gem "jquery-rails"
-gem "turbolinks"
-gem "jquery-turbolinks"
-gem "jbuilder", "~> 2.0"
-gem "haml-rails"
-gem "carrierwave"
-gem "mini_magick", require: false
-gem "bootstrap-sass"
-gem "devise"
-gem "devise-i18n"
-gem "high_voltage"
-gem "pg"
-gem "simple_form"
-gem "cocoon"
-gem "rails-i18n", "~> 4.0.0"
-gem "gretel"
-gem "gravtastic"
-gem "gmaps4rails"
-gem "underscore-rails"
-gem "rails-backbone", github: "codebrew/backbone-rails", branch: "master"
-gem "momentjs-rails"
-gem "fullcalendar-rails"
-gem "jquery-ui-rails"
-gem "handlebars_assets"
-gem "jquery-datetimepicker-rails"
-gem "font-awesome-rails"
-gem "dropzonejs-rails"
-gem "lightbox2-rails"
-gem "gritter", "1.1.0"
-gem "ancestry"
-gem "friendly_id", "~> 5"
-gem "yui-compressor"
-gem "active_link_to"
-gem "ice_cube"
-gem "switch_user"
-gem "rails-observers"
-gem "ransack", github: "activerecord-hackery/ransack"
-gem "bootsy"
-gem "jquery-datatables-rails", "~> 3.3.0"
+gem 'rails', '4.2.5'
+
+# DATABASE
+gem 'pg'
+
+#MARKUP
+gem 'sass-rails', '~> 5.0'
+gem 'uglifier', '>= 1.3.0'
+gem 'haml-rails'
+gem 'bootstrap-sass'
+gem 'simple_form'
+gem 'coffee-rails', '~> 4.1.0'
+gem 'jquery-rails'
+gem 'cocoon'
+gem 'gretel'
+gem 'underscore-rails'
+gem 'rails-backbone', github: 'codebrew/backbone-rails'
+gem 'momentjs-rails'
+gem 'fullcalendar-rails'
+gem 'jquery-ui-rails'
+gem 'handlebars_assets'
+gem 'jquery-datetimepicker-rails'
+gem 'font-awesome-rails'
+gem 'dropzonejs-rails'
+gem 'lightbox2-rails'
+
+# TURBOLINKS
+gem 'turbolinks'
+gem 'jquery-turbolinks'
+
+# IMAGES
+gem 'fog'
+gem 'carrierwave'
+gem 'rmagick'
+
+# AUTH
+gem 'devise'
+
+# LOCALIZE
+gem 'rails-i18n', '~> 4.0.0'
+gem 'devise-i18n'
+
+# STATIC PAGES
+gem 'high_voltage'
+
+gem 'jbuilder', '~> 2.0'
+gem 'gravtastic'
+gem 'gmaps4rails'
+gem 'gritter', '1.1.0'
+gem 'ancestry'
+gem 'friendly_id', '~> 5'
+gem 'yui-compressor'
+gem 'active_link_to'
+gem 'ice_cube'
+gem 'switch_user'
+gem 'rails-observers'
+gem 'ransack', github: 'activerecord-hackery/ransack'
+gem 'bootsy'
+gem 'jquery-datatables-rails', '~> 3.3.0'
+
+# ADMIN
+gem 'rails_admin_history_rollback', github: 'ivanzotov/rails_admin_history_rollback'
 gem 'rails_admin', github: 'sferik/rails_admin'
 gem 'paper_trail'
-gem 'rails_admin_history_rollback', github: 'ivanzotov/rails_admin_history_rollback'
 
 group :development do
   gem "figaro", ">= 1.0.0.rc1"
@@ -88,6 +106,6 @@ group :development, :test do
 end
 
 group :production do
-  gem "unicorn"
-  gem "rails_12factor"
+  gem 'unicorn'
+  gem 'rails_12factor'
 end

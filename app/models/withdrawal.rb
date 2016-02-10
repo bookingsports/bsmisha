@@ -13,6 +13,6 @@
 class Withdrawal < ActiveRecord::Base
   include WithdrawalConcern
   has_paper_trail
-  
+
   belongs_to :wallet
 end

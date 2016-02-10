@@ -15,7 +15,7 @@
 class DailyPriceRule < ActiveRecord::Base
   include DailyPriceRuleConcern
   has_paper_trail
-  
+
   belongs_to :special_price
 
   def start=(val)

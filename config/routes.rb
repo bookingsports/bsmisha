@@ -1,33 +1,34 @@
 Rails.application.routes.draw do
   authenticate :user do
-    mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+    mount RailsAdmin::Engine => '/rails_admin', as: 'rails_admin'
   end
-  
+
   get 'grid/(:court_id)', to: 'dashboard#grid', as: 'dashboard_grid'
   get 'products/show'
 
-  concern :bookable do 
+  concern :bookable do
     resources :events
     resources :my_events
-    collection do 
+    collection do
       get 'events', to: 'events#parents_events'
     end
   end
-  concern :totalable do 
-    member do 
+  concern :totalable do
+    member do
       get 'total'
     end
   end
 
-  concern :has_pictures do 
+  concern :has_pictures do
     resources :pictures
   end
-  concern :has_special_prices do 
+
+  concern :has_special_prices do
     resources :special_prices
   end
 
-  resources :events, :my_events do 
-    collection do 
+  resources :events, :my_events do
+    collection do
       get 'paid'
       get 'grid'
       post 'bulk_process', constraints: ButtonParamRouting.new('pay'), action: 'create', controller: 'orders'
@@ -58,8 +59,6 @@ Rails.application.routes.draw do
       patch 'pay'
     end
   end
-
-
 
   namespace :admin do
     resources :stadiums
@@ -117,7 +116,7 @@ Rails.application.routes.draw do
       end
     end
   end
-  # scope '(:scope)' do 
+  # scope '(:scope)' do
   resources :courts, concerns: [:bookable, :totalable]
   # end
   resources :coaches, defaults: { scope: 'coach' } do 

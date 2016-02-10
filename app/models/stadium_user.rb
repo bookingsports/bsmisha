@@ -26,7 +26,7 @@
 
 class StadiumUser < User
   include StadiumUserConcern
-  
+
   has_one :stadium, foreign_key: "user_id", dependent: :destroy
   has_one :product, foreign_key: "user_id", dependent: :destroy
 

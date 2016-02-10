@@ -27,7 +27,7 @@
 
 class Product < ActiveRecord::Base
   has_paper_trail
-  
+
   include FriendlyId
   include ProductConcern
 

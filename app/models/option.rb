@@ -12,7 +12,7 @@
 class Option < ActiveRecord::Base
   include OptionConcern
   has_paper_trail
-  
+
   validates :tax, numericality: { greater_than: 0 }
 
   def self.current

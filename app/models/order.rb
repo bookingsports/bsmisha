@@ -13,9 +13,9 @@
 
 class Order < ActiveRecord::Base
   include OrderConcern
-  
+
   has_paper_trail
-  
+
   belongs_to :user
   has_many :events, dependent: :destroy
   has_many :event_changes, dependent: :destroy

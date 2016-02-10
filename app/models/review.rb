@@ -16,7 +16,7 @@
 class Review < ActiveRecord::Base
   include ReviewConcern
   has_paper_trail
-  
+
   belongs_to :reviewable, polymorphic: true
   belongs_to :user
 

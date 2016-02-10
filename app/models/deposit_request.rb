@@ -13,9 +13,9 @@
 
 class DepositRequest < ActiveRecord::Base
   include DepositRequestConcern
-  
+
   has_paper_trail
-  
+
   belongs_to :wallet
   composed_of :data, class_name: "DepositRequestData", mapping: [%w(id order_id), %w(amount amount)]
   has_many :deposit_responses

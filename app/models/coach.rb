@@ -27,7 +27,7 @@
 
 class Coach < Product
   include CoachConcern
-  
+
   has_many :coaches_courts
   has_many :courts, through: :coaches_courts
   validate :has_at_least_one_court, on: :stadium_dashboard

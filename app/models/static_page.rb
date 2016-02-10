@@ -13,7 +13,7 @@
 class StaticPage < ActiveRecord::Base
   include StaticPageConcern
   has_paper_trail
-  
+
   include FriendlyId
   friendly_id :title, use: [:slugged]
 end
