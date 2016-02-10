@@ -58,6 +58,9 @@ gem 'ancestry'
 gem 'rails_admin_map_field', path: './../rails_admin_map_field' #, github: 'ivanzotov/rails_admin_map_field'
 gem 'gmaps4rails'
 
+# ENUM
+gem 'enumerize'
+
 gem 'friendly_id', '~> 5'
 gem 'yui-compressor'
 gem 'active_link_to'

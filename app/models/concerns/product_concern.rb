@@ -5,7 +5,7 @@ module ProductConcern
     rails_admin do
       list do
         field :category
-        field :owner 
+        field :owner
         field :email
         field :description
         field :type
@@ -23,7 +23,7 @@ module ProductConcern
 
       edit do
         field :category
-        field :owner 
+        field :owner
         field :email
         field :description
         field :type

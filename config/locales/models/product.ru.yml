@@ -1,4 +1,10 @@
 ru:
+  enumerize:
+    product:
+      status:
+        active: Активный
+        pending: В ожидании
+        locked: Заблокирован
   activerecord:
     models:
       product:
