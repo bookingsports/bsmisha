@@ -50,7 +50,7 @@ class Product < ActiveRecord::Base
   friendly_id :name, use: [:slugged]
   mount_uploader :avatar, PictureUploader
 
-  enumerize :status, in: [:pending, :active, :locked], default: :active
+  enumerize :status, in: [:pending, :active, :locked], scope: true, predicates: true, default: :active
 
   def customers
     User.find(events.joins(:order).pluck("orders.user_id").uniq)

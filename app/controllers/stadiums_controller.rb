@@ -32,7 +32,7 @@ class StadiumsController < ApplicationController
 
   def index
     @q = Stadium.ransack(params[:q])
-    @stadiums = @q.result(distinct: true).active
+    @stadiums = @q.result(distinct: true).with_status(:active)
 
     if params[:category_id].present?
       @category = Category.friendly.find(params[:category_id])
