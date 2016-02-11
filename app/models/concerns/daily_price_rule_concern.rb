@@ -20,8 +20,6 @@ module DailyPriceRuleConcern
         field :stop
         field :price
         field :working_days
-        field :created_at
-        field :updated_at
       end
     end
   end

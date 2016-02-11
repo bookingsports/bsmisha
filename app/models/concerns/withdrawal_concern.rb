@@ -16,8 +16,6 @@ module WithdrawalConcern
         field :wallet
         field :status
         field :amount
-        field :created_at
-        field :updated_at
       end
     end
   end

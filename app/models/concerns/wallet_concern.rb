@@ -15,12 +15,7 @@ module WalletConcern
       end
 
       edit do
-        field :event
-        field :status
-        field :summary
-        field :order
-        field :created_at
-        field :updated_at
+        field :user
       end
     end
   end

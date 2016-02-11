@@ -3,7 +3,7 @@ module DepositResponseConcern
 
   included do
     rails_admin do
-      parent DepositRequest
+      parent Deposit
       list do
         field :deposit_request
         field :status

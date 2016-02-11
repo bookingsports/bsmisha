@@ -25,8 +25,6 @@ module EventConcern
         field :description
         field :products
         field :order
-        field :created_at
-        field :updated_at
         field :recurrence_rule
         field :recurrence_exception
         field :recurrence_id

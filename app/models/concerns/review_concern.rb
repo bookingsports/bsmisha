@@ -20,8 +20,6 @@ module ReviewConcern
         field :user
         field :verified
         field :rating
-        field :created_at
-        field :updated_at
       end
     end
   end

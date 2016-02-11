@@ -18,8 +18,6 @@ module EventChangeConcern
         field :status
         field :summary
         field :order
-        field :created_at
-        field :updated_at
       end
     end
   end
