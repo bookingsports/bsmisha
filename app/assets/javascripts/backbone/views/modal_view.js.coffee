@@ -1,7 +1,4 @@
 class Tennis.Views.ModalView extends Backbone.View
-  # childview can extend events with 
-  #  events: -> 
-  #    _.extend {}, super,  
   events: ->
     'show':           'modalWillShow'
     'show.bs.modal':  'modalWillShow'

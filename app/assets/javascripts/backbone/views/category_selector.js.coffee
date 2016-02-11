@@ -17,6 +17,6 @@ class Tennis.Views.CategorySelectorView extends Backbone.View
   setCategory: (e) ->
     category = $(e.currentTarget).data('category')
     window.options.set('category', category)
-    
+
     window.markerCollection.category = category
     window.markerCollection.category.fetch()

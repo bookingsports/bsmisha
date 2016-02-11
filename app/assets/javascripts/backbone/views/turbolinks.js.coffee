@@ -1,2 +1,0 @@
-$ ->
-  Turbolinks.enableProgressBar()

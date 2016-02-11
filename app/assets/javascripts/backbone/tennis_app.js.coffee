@@ -3,7 +3,6 @@
 #= require_tree ./templates
 #= require_tree ./models
 #= require_tree ./views
-#= require_tree ./routers
 
 class window.CustomMarkerBuilder extends Gmaps.Google.Builders.Marker
   create_marker: ->
@@ -26,8 +25,4 @@ class window.CustomMarkerBuilder extends Gmaps.Google.Builders.Marker
 window.Tennis =
   Models: {}
   Collections: {}
-  Routers: {}
   Views: {}
-
-$ ->
-  # do notin

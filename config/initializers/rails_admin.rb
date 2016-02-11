@@ -1,5 +1,5 @@
 RailsAdmin.config do |config|
-  config.main_app_name = ['Booking Sports', 'Admin']
+  config.main_app_name = ['Booking Sports', 'Панель управления']
 
   config.authenticate_with do
     warden.authenticate! scope: :user
