@@ -1,5 +1,3 @@
-require 'rails_admin/config/model_ru'
-
 RailsAdmin.config do |config|
   config.main_app_name = ['Booking Sports', 'Admin']
 
