@@ -72,7 +72,7 @@ gem 'jquery-datatables-rails', '~> 3.3.0'
 
 # ADMIN
 gem 'rails_admin_history_rollback', github: 'ivanzotov/rails_admin_history_rollback'
-gem 'rails_admin', github: 'sferik/rails_admin'
+gem 'rails_admin', github: 'ivanzotov/rails_admin', branch: 'railsmob'
 gem 'paper_trail'
 
 group :development do

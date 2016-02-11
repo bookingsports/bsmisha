@@ -20,6 +20,26 @@ GIT
       railties
 
 GIT
+  remote: git://github.com/ivanzotov/rails_admin.git
+  revision: e0857e867f7db3b07b2791e44563905df3816dc6
+  branch: railsmob
+  specs:
+    rails_admin (0.8.1)
+      builder (~> 3.1)
+      coffee-rails (~> 4.0)
+      font-awesome-rails (>= 3.0, < 5)
+      haml (~> 4.0)
+      jquery-rails (>= 3.0, < 5)
+      jquery-ui-rails (~> 5.0)
+      kaminari (~> 0.14)
+      nested_form (~> 0.3)
+      rack-pjax (~> 0.7)
+      rails (>= 4.0, < 6)
+      remotipart (~> 1.0)
+      safe_yaml (~> 1.0)
+      sass-rails (>= 4.0, < 6)
+
+GIT
   remote: git://github.com/ivanzotov/rails_admin_history_rollback.git
   revision: 7b67bc625d21fbede4efbd69d50ce7b5bc02e950
   specs:
@@ -41,25 +61,6 @@ GIT
   specs:
     rails-admin-scaffold (0.1.0)
       rails (>= 4.0)
-
-GIT
-  remote: git://github.com/sferik/rails_admin.git
-  revision: c73de8347c99a6f3598033655c216b8d60bd9fe6
-  specs:
-    rails_admin (0.8.1)
-      builder (~> 3.1)
-      coffee-rails (~> 4.0)
-      font-awesome-rails (>= 3.0, < 5)
-      haml (~> 4.0)
-      jquery-rails (>= 3.0, < 5)
-      jquery-ui-rails (~> 5.0)
-      kaminari (~> 0.14)
-      nested_form (~> 0.3)
-      rack-pjax (~> 0.7)
-      rails (>= 4.0, < 6)
-      remotipart (~> 1.0)
-      safe_yaml (~> 1.0)
-      sass-rails (>= 4.0, < 6)
 
 GEM
   remote: https://rubygems.org/
