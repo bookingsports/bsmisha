@@ -3,6 +3,7 @@ module WalletConcern
 
   included do
     rails_admin do
+      parent User
       list do
         field :user
         field :deposits
