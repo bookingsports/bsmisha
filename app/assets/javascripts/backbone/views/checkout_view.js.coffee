@@ -4,9 +4,9 @@ class Tennis.Views.CheckoutView extends Backbone.View
   initialize: ->
     $ =>
       @refreshPrice()
-      $('#court').on 'change', => 
+      $('#court').on 'change', =>
         @refreshPrice()
-        
+
 
   refreshPrice: ->
     $.get("/courts/#{$('#court').find(":selected").val()}.json")

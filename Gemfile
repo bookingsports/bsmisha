@@ -62,7 +62,6 @@ gem 'gmaps4rails'
 gem 'enumerize'
 
 gem 'friendly_id', '~> 5'
-gem 'yui-compressor'
 gem 'active_link_to'
 gem 'ice_cube'
 gem 'switch_user'
@@ -72,7 +71,7 @@ gem 'jquery-datatables-rails', '~> 3.3.0'
 
 # ADMIN
 gem 'rails_admin_history_rollback', github: 'ivanzotov/rails_admin_history_rollback'
-gem 'rails_admin', github: 'sferik/rails_admin'
+gem 'rails_admin', github: 'ivanzotov/rails_admin', branch: 'railsmob'
 gem 'paper_trail'
 
 group :development do

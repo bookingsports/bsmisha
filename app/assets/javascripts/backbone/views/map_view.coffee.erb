@@ -6,7 +6,7 @@ class Tennis.Views.MapView extends Backbone.View
     @externalDomListeners()
 
   externalDomListeners: ->
-    $ => 
+    $ =>
       $('a[data-toggle="tab"]').on 'shown.bs.tab', (e) =>
         google.maps.event.trigger(@handler.getMap(), 'resize')
 
@@ -16,7 +16,7 @@ class Tennis.Views.MapView extends Backbone.View
           navigator.geolocation.getCurrentPosition(@putMeToMap)
       if $('#searcher').length
         input = $('#searcher #place')[0]
-        options = 
+        options =
           bounds: @moscowBounds()
           type: ['geocode']
         @autocomplete = new google.maps.places.Autocomplete(input, options)
@@ -61,14 +61,14 @@ class Tennis.Views.MapView extends Backbone.View
   render: ->
     @handler.buildMap { provider: {scrollwheel: false}, internal: {id: 'map'}}, =>
       if @collection
-        @markers = @handler.addMarkers(@collection.models) 
+        @markers = @handler.addMarkers(@collection.models)
         # @handler.bounds.extendWith(@markers)
         # @handler.fitMapToBounds()
         @handler.getMap().setCenter(@moscowCoords())
         @handler.getMap().setZoom(12)
       else
         @handler.getMap().setCenter(@coords())
-      if @markers.length == 1 
+      if @markers.length == 1
         @handler.getMap().setZoom(14)
         @handler.getMap().setCenter(@collection.models[0].get('position'))
       @afterMap() if @afterMap

@@ -8,7 +8,7 @@
               lat: s.latitude.to_f,
               lng: s.longitude.to_f
             },
-            name: s.name,  
+            name: s.name,
             infowindow: "#{s.name}<br>#{link_to 'Перейти на страницу', s}"
           }
         end.to_json %>
