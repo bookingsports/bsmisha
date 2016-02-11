@@ -15,4 +15,8 @@ class Withdrawal < ActiveRecord::Base
   has_paper_trail
 
   belongs_to :wallet
+
+  def name
+    "Снятие #{amount} рублей #{wallet_id.present? ? "с кошелька №" + wallet_id.to_s : ""}"
+  end
 end

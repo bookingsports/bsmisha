@@ -9,6 +9,8 @@ module OrderConcern
         field :total
         field :status
         field :comment
+        field :events
+        field :event_changes
         field :created_at
         field :updated_at
       end
@@ -17,6 +19,8 @@ module OrderConcern
         field :user
         field :total
         field :status
+        field :events
+        field :event_changes
         field :comment
       end
     end

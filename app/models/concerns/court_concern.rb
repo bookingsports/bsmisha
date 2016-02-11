@@ -5,6 +5,10 @@ module CourtConcern
     rails_admin do
       navigation_label I18n.t("products_types")
       parent false
+
+      object_label_method do
+        :display_name
+      end
       list do
         field :category
         field :owner

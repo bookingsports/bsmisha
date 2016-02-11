@@ -6,12 +6,11 @@ module AdminConcern
       navigation_label I18n.t("users_types")
       parent false
       weight -1
-      
+
       list do
         field :name
         field :email
         field :avatar
-        field :status
         field :phone
       end
 
@@ -21,7 +20,6 @@ module AdminConcern
         field :password
         field :password_confirmation
         field :avatar
-        field :status
         field :phone
       end
     end

@@ -16,6 +16,10 @@ module WalletConcern
 
       edit do
         field :user
+        field :deposits
+        field :deposit_requests
+        field :withdrawals
+        field :withdrawal_requests
       end
     end
   end

@@ -14,12 +14,16 @@
 class AdditionalEventItem < ActiveRecord::Base
   include AdditionalEventItemConcern
   has_paper_trail
-  
+
   belongs_to :event
   belongs_to :related, polymorphic: true
 
   scope :coach, -> { where("related_type = ?", "User") }
   scope :not_coach, -> { where("related_type <> ?", "User") }
+
+  def name
+    "Дополнительный элемент события"
+  end
 
   def total
     (related.price.to_i * amount.to_i).to_i

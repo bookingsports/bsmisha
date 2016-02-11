@@ -16,3 +16,4 @@ ru:
         working_days: Рабочие дни
         created_at: Дата создания
         updated_at: Дата изменения
+        daily_price_rules: Ежедневные правила цены

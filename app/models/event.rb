@@ -48,6 +48,10 @@ class Event < ActiveRecord::Base
 
   after_initialize :build_schedule
 
+  def name
+    "Событие с #{start} по #{self.end}"
+  end
+
   def description
     attributes["description"] || ""
   end

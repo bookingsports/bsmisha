@@ -9,7 +9,6 @@ module CoachUserConcern
         field :name
         field :email
         field :avatar
-        field :status
         field :phone
       end
 
@@ -19,7 +18,6 @@ module CoachUserConcern
         field :password
         field :password_confirmation
         field :avatar
-        field :status
         field :phone
       end
     end

@@ -23,6 +23,10 @@ class Order < ActiveRecord::Base
 
   enum status: [:unpaid, :paid, :change, :rain, :other]
 
+  def name
+    "Заказ №#{id} на сумму #{total} #{user_id.present? ? "пользователя " + user_id.to_s : ""}"
+  end
+
   def total
     events.map(&:total).inject(:+).to_i + event_changes.map(&:total).inject(:+).to_i
   end

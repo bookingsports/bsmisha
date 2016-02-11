@@ -18,6 +18,10 @@ class Wallet < ActiveRecord::Base
   has_many :withdrawals, dependent: :destroy
   has_many :withdrawal_requests, dependent: :destroy
 
+  def name
+    "Кошелек №#{id} #{user_id.present? ? "пользователя №" + user_id.to_s : ""}"
+  end
+
   def deposit_with_tax_deduction!(amount)
     deposit! amount - tax_for(amount)
     deduct_tax(amount)

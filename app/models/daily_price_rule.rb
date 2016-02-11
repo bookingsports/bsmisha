@@ -18,6 +18,10 @@ class DailyPriceRule < ActiveRecord::Base
 
   belongs_to :special_price
 
+  def name
+    "Правило цены с #{start} по #{stop}"
+  end
+
   def start=(val)
     string = val.kind_of?(String) ? val : val.values.join(":")
     super(string)

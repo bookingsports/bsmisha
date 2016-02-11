@@ -25,6 +25,10 @@ class SpecialPrice < ActiveRecord::Base
     where('LOCALTIMESTAMP BETWEEN "start" AND "stop"').last || new
   end
 
+  def name
+    "Период с #{start} по #{stop}"
+  end
+
   def price options={}
     hour = options.delete(:hour)
     event = options.delete(:event)

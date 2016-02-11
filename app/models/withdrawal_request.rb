@@ -22,6 +22,10 @@ class WithdrawalRequest < ActiveRecord::Base
 
   enum status: [:pending, :success, :failure]
 
+  def name
+    "Запрос на снятие #{amount} рублей #{wallet_id.present? ? "с кошелька №" + wallet_id.to_s : ""}"
+  end
+
   def amount_no_more_than_can_spend
     unless wallet.can_spend? amount
       errors.add :base, "Недостаточно средств"

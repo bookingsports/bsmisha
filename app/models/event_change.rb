@@ -27,6 +27,10 @@ class EventChange < ActiveRecord::Base
 
   delegate :products, to: :event
 
+  def name
+    "Изменение #{id} #{event_id.present? ? "события №" + event_id.to_s : ""} "
+  end
+
   def total
     event.court.change_price.to_i
   end

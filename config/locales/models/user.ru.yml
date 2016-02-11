@@ -38,6 +38,8 @@ ru:
         last_sign_in_ip: Последний IP, с которого заходил пользователь
         created_at: Дата создания
         updated_at: Дата изменения
+        password: Пароль
+        password_confirmation: Подтверждение пароля
         name: Имя
         role: Роль
         type: Тип
