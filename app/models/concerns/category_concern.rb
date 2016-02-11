@@ -5,7 +5,7 @@ module CategoryConcern
     rails_admin do
       navigation_label I18n.t(:stadiums)
       navigation_icon 'icon-list'
-      weight -1
+      weight -2
 
       nestable_tree({position_field: :position, max_depth: 3})
 

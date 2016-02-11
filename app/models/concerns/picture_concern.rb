@@ -3,9 +3,9 @@ module PictureConcern
 
   included do
     rails_admin do
+      visible false
       list do
         field :name
-        field :imageable
         field :description
         field :created_at
         field :updated_at
@@ -13,7 +13,6 @@ module PictureConcern
 
       edit do
         field :name
-        field :imageable
         field :description
       end
     end

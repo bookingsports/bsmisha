@@ -3,7 +3,7 @@ module WalletConcern
 
   included do
     rails_admin do
-      parent User
+      navigation_label I18n.t(:money)
       list do
         field :user
         field :deposits

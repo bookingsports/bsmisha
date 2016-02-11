@@ -4,7 +4,7 @@ module UserConcern
   included do
     rails_admin do
       navigation_icon 'icon-user'
-
+      visible false
       list do
         field :name
         field :email
