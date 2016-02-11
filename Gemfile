@@ -62,7 +62,6 @@ gem 'gmaps4rails'
 gem 'enumerize'
 
 gem 'friendly_id', '~> 5'
-gem 'yui-compressor'
 gem 'active_link_to'
 gem 'ice_cube'
 gem 'switch_user'
