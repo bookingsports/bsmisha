@@ -4,6 +4,8 @@ ru:
 
   users_types: Виды пользователей
   products_types: Виды продуктов
+  products: Продукты
+  money: Отдел продаж
   statuses: &statuses
     pending: Не активирован
     active: Активирован

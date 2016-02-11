@@ -20,8 +20,6 @@ module SpecialPriceConcern
         field :price
         field :is_sale
         field :product
-        field :created_at
-        field :updated_at
       end
     end
   end

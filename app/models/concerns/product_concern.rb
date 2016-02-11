@@ -3,6 +3,7 @@ module ProductConcern
 
   included do
     rails_admin do
+      navigation_label I18n.t(:products)
       list do
         field :category
         field :owner
@@ -30,8 +31,6 @@ module ProductConcern
         field :latitude
         field :longitude
         field :pictures
-        field :created_at
-        field :updated_at
         field :avatar
         field :status
         field :price

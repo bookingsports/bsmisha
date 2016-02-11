@@ -3,6 +3,7 @@ module OrderConcern
 
   included do
     rails_admin do
+      navigation_label I18n.t(:money)
       list do
         field :user
         field :total
@@ -17,8 +18,6 @@ module OrderConcern
         field :total
         field :status
         field :comment
-        field :created_at
-        field :updated_at
       end
     end
   end
