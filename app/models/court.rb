@@ -34,6 +34,10 @@ class Court < Product
 
   # delegate :owner, to: :stadium
 
+  def display_name
+    "#{parent_id.present? ? stadium.name + " - " : "" }#{name}"
+  end
+
   def change_price
     attributes["change_price"] || 0
   end

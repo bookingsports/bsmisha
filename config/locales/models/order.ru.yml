@@ -9,10 +9,9 @@ ru:
     attributes:
       order:
         user: Пользователь
-        events: События
-        event_changes: Изменения событий
+        total: Сумма заказа
         status: Статус
         amount: Количество
         comment: Комментарий
-        created_at: Дата создания
-        updated_at: Дата изменения
+        events: События
+        event_changes: Изменения событий

@@ -24,6 +24,10 @@ class DepositRequest < ActiveRecord::Base
 
   after_initialize :set_pending, if: :new_record?
 
+  def name
+    "Запрос депозита №#{id} #{wallet_id.present? ? "кошелька №" + wallet.id.to_s : ""}"
+  end
+
   def set_pending
     self.status = :pending
   end

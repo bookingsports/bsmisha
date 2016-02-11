@@ -15,6 +15,8 @@ module EventConcern
         field :recurrence_rule
         field :recurrence_exception
         field :recurrence_id
+        field :additional_event_items
+        field :event_changes
         field :is_all_day
         field :user
       end
@@ -28,6 +30,8 @@ module EventConcern
         field :recurrence_rule
         field :recurrence_exception
         field :recurrence_id
+        field :additional_event_items
+        field :event_changes
         field :is_all_day
         field :user
       end

@@ -16,4 +16,8 @@ class Deposit < ActiveRecord::Base
   has_paper_trail
 
   belongs_to :wallet
+
+  def name
+    "Депозит №#{id} #{wallet_id.present? ? "кошелька №" + wallet.id.to_s : ""}"
+  end
 end

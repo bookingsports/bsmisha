@@ -26,6 +26,7 @@ RailsAdmin.config do |config|
   config.actions do
     dashboard
     index
+    show
     new
     nestable
     export

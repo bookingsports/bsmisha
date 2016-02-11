@@ -23,4 +23,8 @@ class Review < ActiveRecord::Base
   default_scope -> { order(created_at: :desc) }
 
   validates :rating, inclusion: { in: 0..5 }
+
+  def name
+    "Обзор №{id} #{user_id.present? ? "пользователя " + user_id : ""} #{reviewable_id.present? ? "на продукт " + reviewable_id.to_s : ""}"
+  end
 end

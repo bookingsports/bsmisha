@@ -42,6 +42,8 @@ class User < ActiveRecord::Base
 
   validates_acceptance_of :terms_agree
 
+  mount_uploader :avatar, PictureUploader
+
   default_scope -> { order(created_at: :desc) }
 
   def set_customer
