@@ -39,6 +39,8 @@ class StadiumsController < ApplicationController
       @stadiums = @category.stadiums
     end
 
+    @stadiums = @stadiums.includes(:courts, :pictures)
+
     respond_with @stadiums
   end
 
