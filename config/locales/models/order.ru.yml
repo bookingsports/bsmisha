@@ -1,4 +1,12 @@
 ru:
+  enumerize:
+    order:
+      status:
+        unpaid: Не оплачен
+        paid: Оплачен
+        rain: Дождь
+        change: Изменен
+        other: Другое
   activerecord:
     models:
       order:

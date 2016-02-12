@@ -10,8 +10,6 @@ module CoachConcern
         field :owner
         field :email
         field :description
-        field :latitude
-        field :longitude
         field :pictures
         field :created_at
         field :updated_at
@@ -27,8 +25,6 @@ module CoachConcern
         field :owner
         field :email
         field :description
-        field :latitude
-        field :longitude
         field :pictures
         field :avatar
         field :status

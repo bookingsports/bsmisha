@@ -13,6 +13,7 @@
 
 class Order < ActiveRecord::Base
   include OrderConcern
+  extend Enumerize
 
   has_paper_trail
 
@@ -21,7 +22,7 @@ class Order < ActiveRecord::Base
   has_many :event_changes, dependent: :destroy
   accepts_nested_attributes_for :events
 
-  enum status: [:unpaid, :paid, :change, :rain, :other]
+  enumerize :status, in: [:unpaid, :paid, :change, :rain, :other]
 
   def name
     "Заказ №#{id} на сумму #{total} #{user_id.present? ? "пользователя " + user.name : ""}"

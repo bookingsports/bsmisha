@@ -1,4 +1,9 @@
 ru:
+  enumerize:
+    stadium_user:
+      status:
+        pending: В ожидании
+        active: Активный
   activerecord:
     models:
       user:

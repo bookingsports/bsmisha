@@ -1,4 +1,10 @@
 ru:
+  enumerize:
+    deposit_request:
+      status:
+        success: Успешно
+        failure: Неудача
+        pending: В ожидании
   activerecord:
     models:
       deposit_request:
