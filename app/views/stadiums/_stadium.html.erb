@@ -1,0 +1,15 @@
+<%- if stadium.courts.any? %>
+  <li class="clearfix">
+    <div class="row">
+      <div class="col-xs-2">
+        <%= link_to stadium do %>
+          <%= image_tag stadium.pictures.last.try(:name).try(:small_square).try(:url) || 'placeholder.png', class: 'avatar photo pull-left' %>
+        <% end %>
+      </div>
+      <div class="col-xs-10">
+        <h3><%= link_to stadium.name, stadium %></h3>
+        <p><%= stadium.address %></p>
+      </div>
+    </div>
+  </li>
+<% end %>
