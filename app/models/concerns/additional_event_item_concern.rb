@@ -4,6 +4,7 @@ module AdditionalEventItemConcern
   included do
     rails_admin do
       parent Event
+      visible false
       list do
         field :related
         field :event
