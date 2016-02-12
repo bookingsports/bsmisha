@@ -123,6 +123,8 @@ GEM
     bootstrap-sass (3.3.5.1)
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.3.0)
+    bugsnag (3.0.0)
+      json (~> 1.7, >= 1.7.7)
     builder (3.2.2)
     byebug (8.2.0)
     capybara (2.5.0)
@@ -607,6 +609,7 @@ DEPENDENCIES
   autoprefixer-rails
   better_errors
   bootstrap-sass
+  bugsnag
   byebug
   capybara
   carrierwave
