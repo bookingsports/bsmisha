@@ -24,7 +24,7 @@ class Order < ActiveRecord::Base
   enum status: [:unpaid, :paid, :change, :rain, :other]
 
   def name
-    "Заказ №#{id} на сумму #{total} #{user_id.present? ? "пользователя " + user_id.to_s : ""}"
+    "Заказ №#{id} на сумму #{total} #{user_id.present? ? "пользователя " + user.name : ""}"
   end
 
   def total
