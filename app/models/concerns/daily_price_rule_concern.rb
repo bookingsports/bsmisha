@@ -4,6 +4,7 @@ module DailyPriceRuleConcern
   included do
     rails_admin do
       parent SpecialPrice
+      visible false
       list do
         field :special_price
         field :start

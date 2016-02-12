@@ -3,7 +3,7 @@ module EventConcern
 
   included do
     rails_admin do
-      parent Product
+      navigation_label I18n.t(:products)
       list do
         field :start
         field :end
@@ -27,9 +27,6 @@ module EventConcern
         field :description
         field :products
         field :order
-        field :recurrence_rule
-        field :recurrence_exception
-        field :recurrence_id
         field :additional_event_items
         field :event_changes
         field :is_all_day

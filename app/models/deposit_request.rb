@@ -13,6 +13,7 @@
 
 class DepositRequest < ActiveRecord::Base
   include DepositRequestConcern
+  extend Enumerize
 
   has_paper_trail
 
@@ -20,7 +21,7 @@ class DepositRequest < ActiveRecord::Base
   composed_of :data, class_name: "DepositRequestData", mapping: [%w(id order_id), %w(amount amount)]
   has_many :deposit_responses
 
-  enum status: [:pending, :success, :failure]
+  enumerize :status, in: [:pending, :success, :failure]
 
   after_initialize :set_pending, if: :new_record?
 

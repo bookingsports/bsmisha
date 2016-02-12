@@ -9,7 +9,7 @@ ru:
     attributes:
       event:
         start: Начало
-        stop: Конец
+        end: Конец
         description: Описание
         products: Продукты
         order: Заказ

@@ -3,7 +3,7 @@ module SpecialPriceConcern
 
   included do
     rails_admin do
-      parent Product
+      navigation_label I18n.t(:products)
       list do
         field :start
         field :stop
