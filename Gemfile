@@ -113,6 +113,7 @@ group :development, :test do
 end
 
 group :production do
+  gem 'skylight'
   gem 'unicorn'
   gem 'rails_12factor'
 end
