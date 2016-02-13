@@ -22,14 +22,27 @@ class Order < ActiveRecord::Base
   has_many :event_changes, dependent: :destroy
   accepts_nested_attributes_for :events
 
-  enumerize :status, in: [:unpaid, :paid, :change, :rain, :other]
+  # Backwards compatibility for enum. Remove once fixed
+  def self.statuses
+    @@statuses ||= {
+      unpaid: 0,
+      paid: 1,
+      change: 2,
+      rain: 3,
+      other: 4
+    }
+  end
+
+  enumerize :status, in: Order.statuses.keys
 
   def name
     "Заказ №#{id} на сумму #{total} #{user_id.present? ? "пользователя " + user.name : ""}"
   end
 
   def total
-    events.map(&:total).inject(:+).to_i + event_changes.map(&:total).inject(:+).to_i
+    _total = events.map(&:total).inject(:+).to_i + event_changes.map(&:total).inject(:+).to_i
+    return attributes["total"] if _total.zero?
+    _total
   end
 
   def total_hours
