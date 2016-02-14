@@ -4,17 +4,21 @@ describe Event::TransferService do
   let!(:stadium) { FactoryGirl.create(:stadium) }
   let!(:court) { FactoryGirl.create(:court, stadium: stadium, price: 100, change_price: 10) }
   let!(:event) { FactoryGirl.create(:event) }
+  let!(:special_price) { FactoryGirl.create(:special_price) }
   let!(:params) { Hash.new }
   let!(:subject) { described_class.new(event, params) }
 
   before do
     event.products << court
     event.save
+
+    court.special_prices << special_price
+    court.save
   end
 
   describe "#perform" do
     it "should update event attributes" do
-      timestamp = Time.zone.now
+      timestamp = Time.zone.now.to_s
       params[:start] = timestamp
 
       expect {
@@ -45,8 +49,27 @@ describe Event::TransferService do
         end
 
         it "should count prices difference" do
-          # TODO: Write complex spec
-          expect(true).to eq(false)
+          Event::TransferService::EventChangeBuilder.any_instance.stub(:new_total).and_return(1500)
+          order = Order.create
+          event.update_columns(order_id: order.id)
+
+          subject.perform
+
+          expect(subject.event_change_builder.order.reload.total).to eq(500)
+        end
+
+        describe "#new_total" do
+          let!(:timestamp) { Time.zone.now.beginning_of_year + 36.hours }
+          let!(:params) {
+            {
+              start: timestamp.to_s,
+              end: (timestamp + 5.hours).to_s
+            }
+          }
+
+          it "should count new total correctly" do
+            expect(subject.event_change_builder.new_total).to eq(5000)
+          end
         end
       end
 
@@ -67,7 +90,7 @@ describe Event::TransferService do
 
           subject.perform
 
-          expect(subject.event_change_builder.order.reload.total).to eq(10)
+          expect(subject.event_change_builder.order.reload.total).to eq(100.0)
         end
       end
     end

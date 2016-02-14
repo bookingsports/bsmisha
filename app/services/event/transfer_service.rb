@@ -83,6 +83,7 @@ class Event::TransferService
     end
 
     def new_total
+      return 0 if new_start.blank? || new_end.blank?
       return @new_total unless @new_total.blank?
 
       old_start, old_end = event.start, event.end
@@ -105,11 +106,11 @@ class Event::TransferService
     end
 
     def new_start
-      @start ||= Time.zone.parse(params.start)
+      @new_start ||= Time.zone.parse(params.start) if params.start
     end
 
-    def new_ends
-      @end ||= Time.zone.parse(params.end)
+    def new_end
+      @new_end ||= Time.zone.parse(params.end) if params.end
     end
 
     def court
