@@ -34,7 +34,8 @@ module TennisHelpers
       @court = Court.create!({
         stadium: @stadium,
         name: "court",
-        price: 100
+        price: 100,
+        owner: @user
       })
 
       @court_two = Court.create!({
