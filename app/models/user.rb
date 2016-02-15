@@ -27,6 +27,7 @@
 class User < ActiveRecord::Base
   has_paper_trail
 
+  include PapertrailStiFixConcern
   include UserConcern
 
   devise :database_authenticatable, :registerable,
@@ -56,6 +57,10 @@ class User < ActiveRecord::Base
     elsif ["StadiumUser", "CoachUser", "Customer"].include? type
       self.becomes! type.constantize
     end
+  end
+
+  def update_user_type
+    self.version.last.update(iter_type: "Type")
   end
 
   def total(options = {})

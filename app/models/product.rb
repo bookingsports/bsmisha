@@ -30,6 +30,7 @@ class Product < ActiveRecord::Base
 
   include FriendlyId
   include ProductConcern
+  include PapertrailStiFixConcern
   extend Enumerize
 
   belongs_to :category
