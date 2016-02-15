@@ -59,10 +59,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  def update_user_type
-    self.version.last.update(iter_type: "Type")
-  end
-
   def total(options = {})
     events_maybe_scoped_by(options).unpaid.map(&:total).inject(:+)
   end
