@@ -27,6 +27,7 @@
 class User < ActiveRecord::Base
   has_paper_trail
 
+  include PapertrailStiFixConcern
   include UserConcern
 
   devise :database_authenticatable, :registerable,
