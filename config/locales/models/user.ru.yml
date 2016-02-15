@@ -1,9 +1,17 @@
 ru:
-  enumerize:
-    stadium_user:
+  enums:
+    stadium_user: &status
       status:
         pending: В ожидании
         active: Активный
+    customer:
+      <<: *status
+    admin:
+      <<: *status
+    coach_user:
+      <<: *status
+    stadium_user:
+      <<: *status
   activerecord:
     models:
       user:

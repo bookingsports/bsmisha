@@ -13,7 +13,6 @@
 
 class DepositRequest < ActiveRecord::Base
   include DepositRequestConcern
-  extend Enumerize
 
   has_paper_trail
 

@@ -21,7 +21,7 @@ GIT
 
 GIT
   remote: git://github.com/ivanzotov/rails_admin.git
-  revision: e0857e867f7db3b07b2791e44563905df3816dc6
+  revision: 6f8c5b7890956396cf7cd1a95c81f0621fc26f8a
   branch: railsmob
   specs:
     rails_admin (0.8.1)
@@ -181,8 +181,6 @@ GEM
     dropzonejs-rails (0.7.2)
       rails (> 3.1)
     ejs (1.1.1)
-    enumerize (1.1.1)
-      activesupport (>= 3.2)
     erubis (2.7.0)
     excon (0.45.4)
     execjs (2.6.0)
@@ -407,7 +405,7 @@ GEM
     method_source (0.8.2)
     mime-types (2.99)
     mini_portile2 (2.0.0)
-    minitest (5.8.3)
+    minitest (5.8.4)
     momentjs-rails (2.10.6)
       railties (>= 3.1)
     multi_json (1.11.2)
@@ -621,7 +619,6 @@ DEPENDENCIES
   devise
   devise-i18n
   dropzonejs-rails
-  enumerize
   factory_girl_rails
   faker
   figaro (>= 1.0.0.rc1)

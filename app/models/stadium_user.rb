@@ -26,14 +26,13 @@
 
 class StadiumUser < User
   include StadiumUserConcern
-  extend Enumerize
 
   has_one :stadium, foreign_key: "user_id", dependent: :destroy
   has_one :product, foreign_key: "user_id", dependent: :destroy
 
   delegate :courts, to: :stadium
 
-  enumerize :status, in: [:pending, :active]
+  enum status: [:pending, :active]
   after_initialize :set_status, if: :new_record?
   after_initialize :make_stadium, unless: "stadium.present?"
 
