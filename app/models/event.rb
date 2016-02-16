@@ -22,12 +22,12 @@ class Event < ActiveRecord::Base
 
   has_paper_trail
 
-  include Changeable
+  belongs_to :user
   belongs_to :order
+  has_many :event_changes, -> { order(created_at: :desc) }, dependent: :destroy
+  has_many :additional_event_items, dependent: :destroy
   has_and_belongs_to_many :products
   has_and_belongs_to_many :product_services # , dependent: :destroy - not sure
-  has_many :additional_event_items, dependent: :destroy
-  belongs_to :user
 
   attr_reader :schedule
 
@@ -142,6 +142,26 @@ class Event < ActiveRecord::Base
 
   def court
     courts.first || Court.new
+  end
+
+  def start_for(user)
+    if self.user == user
+      self.start
+    else
+      attributes["start"]
+    end
+  end
+
+  def end_for(user)
+    if self.user == user
+      self.end
+    else
+      attributes["end"]
+    end
+  end
+
+  def has_unpaid_changes?
+    event_changes.unpaid.present?
   end
 
   private

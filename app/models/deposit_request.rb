@@ -22,6 +22,9 @@ class DepositRequest < ActiveRecord::Base
 
   enum status: [:pending, :success, :failure]
 
+  # Backwards compatibility for enum. Remove once fixed
+  scope :success, -> { where(status: :success) }
+
   after_initialize :set_pending, if: :new_record?
 
   def name
