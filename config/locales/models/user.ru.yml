@@ -53,6 +53,7 @@ ru:
         updated_at: Дата изменения
         password: Пароль
         password_confirmation: Подтверждение пароля
+        current_password: Текущий пароль
         name: Имя
         role: Роль
         type: Тип
