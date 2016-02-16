@@ -35,15 +35,6 @@ Rails.application.configure do
   # number of complex assets.
   config.assets.debug = true
 
-  config.action_mailer.smtp_settings = {
-    address: "smtp.yandex.ru",
-    port: 587,
-    domain: 'tennis-rails.dev',
-    authentication: "plain",
-    enable_starttls_auto: true,
-    user_name: '<%= ENV["YANDEX_NAME"] %>',
-    password: '<%= ENV["YANDEX_PASSWORD"] %>'
-  }
   # ActionMailer Config
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
   config.action_mailer.delivery_method = :letter_opener
@@ -62,8 +53,8 @@ Rails.application.configure do
   config.assets.raise_runtime_errors = true
 
   # Raises error for missing translations
-  # config.action_view.raise_on_missing_translations = true  # 
-  
+  # config.action_view.raise_on_missing_translations = true  #
+
   # config.action_controller.action_on_unpermitted_parameters = :raise
 
 end
