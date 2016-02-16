@@ -13,7 +13,6 @@
 
 class DepositRequest < ActiveRecord::Base
   include DepositRequestConcern
-  extend Enumerize
 
   has_paper_trail
 
@@ -21,7 +20,7 @@ class DepositRequest < ActiveRecord::Base
   composed_of :data, class_name: "DepositRequestData", mapping: [%w(id order_id), %w(amount amount)]
   has_many :deposit_responses
 
-  enumerize :status, in: [:pending, :success, :failure]
+  enum status: [:pending, :success, :failure]
 
   # Backwards compatibility for enum. Remove once fixed
   scope :success, -> { where(status: :success) }

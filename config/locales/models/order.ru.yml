@@ -1,5 +1,5 @@
 ru:
-  enumerize:
+  enums:
     order:
       status:
         unpaid: Не оплачен

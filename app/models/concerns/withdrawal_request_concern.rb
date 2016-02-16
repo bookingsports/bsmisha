@@ -3,7 +3,7 @@ module WithdrawalRequestConcern
 
   included do
     rails_admin do
-      parent Wallet
+      visible false
       list do
         field :wallet
         field :status

@@ -9,6 +9,6 @@ feature "Home page" do
   #   Then I see "Welcome"
   scenario "visit the home page" do
     visit root_path
-    expect(page).to have_content("СПОРТИВНЫЕ ОБЪЕКТЫ ДЛЯ БРОНИРОВАНИЯ")
+    expect(page).to have_content("Спортивные объекты для бронирования")
   end
 end

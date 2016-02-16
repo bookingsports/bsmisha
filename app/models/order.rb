@@ -13,7 +13,6 @@
 
 class Order < ActiveRecord::Base
   include OrderConcern
-  extend Enumerize
 
   has_paper_trail
 

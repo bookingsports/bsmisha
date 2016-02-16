@@ -1,5 +1,5 @@
 ru:
-  enumerize:
+  enums:
     deposit_request:
       status:
         success: Успешно

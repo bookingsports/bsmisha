@@ -1,10 +1,16 @@
 ru:
-  enumerize:
-    product:
+  enums:
+    product: &status
       status:
-        active: Активный
         pending: В ожидании
+        active: Активный
         locked: Заблокирован
+    stadium:
+      <<: *status
+    court:
+      <<: *status
+    coach:
+      <<: *status
   activerecord:
     models:
       product:
@@ -33,7 +39,7 @@ ru:
         owner: Владелец
         pictures: Изображения
         reviews: Обзоры
-        name: Название
+        name: Имя
         phone: Телефон
         description: Описание
         created_at: Дата создания

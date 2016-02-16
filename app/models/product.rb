@@ -30,7 +30,7 @@ class Product < ActiveRecord::Base
 
   include FriendlyId
   include ProductConcern
-  extend Enumerize
+  include PapertrailStiFixConcern
 
   belongs_to :category
   belongs_to :owner, class_name: 'User', foreign_key: :user_id
@@ -50,7 +50,7 @@ class Product < ActiveRecord::Base
   friendly_id :name, use: [:slugged]
   mount_uploader :avatar, PictureUploader
 
-  enumerize :status, in: [:pending, :active, :locked], scope: true, predicates: true, default: :active
+  enum status: [:pending, :active, :locked]
 
   def customers
     User.find(events.joins(:order).pluck("orders.user_id").uniq)
