@@ -32,7 +32,7 @@ class Order < ActiveRecord::Base
     }
   end
 
-  enumerize :status, in: Order.statuses.keys
+  enum status: Order.statuses.keys
 
   def name
     "Заказ №#{id} на сумму #{total} #{user_id.present? ? "пользователя " + user.name : ""}"
