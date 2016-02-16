@@ -2,7 +2,7 @@ class PaymentsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def success
-    @request = DepositRequest.find(params["OrderId"])
+    @request = DepositRequest.find_by(uuid: params["OrderId"])
 
     @response = @request.deposit_responses.create(data: params.to_json)
 

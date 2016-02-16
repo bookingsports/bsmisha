@@ -9,6 +9,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  data       :text
+#  uuid       :string
 #
 
 class DepositRequest < ActiveRecord::Base
@@ -17,21 +18,17 @@ class DepositRequest < ActiveRecord::Base
   has_paper_trail
 
   belongs_to :wallet
-  composed_of :data, class_name: "DepositRequestData", mapping: [%w(id order_id), %w(amount amount)]
+  composed_of :data, class_name: 'DepositRequestData', mapping: [%w(uuid order_id), %w(amount amount)]
   has_many :deposit_responses
+
+  before_save { self.uuid = SecureRandom.uuid }
 
   enum status: [:pending, :success, :failure]
 
   # Backwards compatibility for enum. Remove once fixed
   scope :success, -> { where(status: :success) }
 
-  after_initialize :set_pending, if: :new_record?
-
   def name
-    "Запрос депозита №#{id} #{wallet_id.present? ? "кошелька №" + wallet.id.to_s : ""}"
-  end
-
-  def set_pending
-    self.status = :pending
+    "Запрос депозита №#{id} #{wallet_id.present? ? 'кошелька №' + wallet.id.to_s : ''}"
   end
 end
