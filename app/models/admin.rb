@@ -26,6 +26,7 @@
 
 class Admin < User
   include AdminConcern
+
   def admin?
     true
   end
