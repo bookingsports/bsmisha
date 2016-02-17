@@ -52,6 +52,7 @@ Rails.application.routes.draw do
   # resources :changes, only: :create
 
   post 'payments/success'
+  post 'payments/failure'
 
   resources :orders do
     member do
