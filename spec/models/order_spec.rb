@@ -55,7 +55,7 @@ RSpec.describe Order, type: :model do
       ActionMailer::Base.deliveries.clear
       @event.reload
       @event.update start: Time.now
-      @new_order = Order.create event_changes: [@event.event_change], user: @user
+      @new_order = Order.create event_changes: @event.event_changes, user: @user
       @new_order.pay!
 
       # puts ActionMailer::Base.deliveries.last.body

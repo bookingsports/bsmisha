@@ -12,8 +12,8 @@ require "rails_helper"
 
 RSpec.describe Wallet, type: :model do
   before(:each) do
-    @user = User.create(email: "user@example.com", password: "blankertag")
-    @admin = Admin.create(email: "admin@example.com", password: "blinkenblag")
+    @user = User.create(name: 'Test User', email: "user@example.com", password: "blankertag")
+    @admin = Admin.create(name: 'Test Admin', email: "admin@example.com", password: "blinkenblag")
     Option.create tax: 5
   end
 

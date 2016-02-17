@@ -38,7 +38,7 @@ RSpec.describe "EventsApi", type: :request do
 
         expect(data.count).to eq(@user.events.of_products(@court).count)
         expect(grouped.keys.count).to eq(1)
-        expect(grouped.keys.first).to eq(@user.email)
+        expect(grouped.keys.first).to eq(@user.name)
       end
     end
 
