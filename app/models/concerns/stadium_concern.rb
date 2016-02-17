@@ -35,7 +35,7 @@ module StadiumConcern
         field :slug
         field :address
         field :email
-        field :description
+        field :description, :ck_editor
         field :pictures
         field :avatar
         field :status
