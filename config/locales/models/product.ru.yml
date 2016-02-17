@@ -29,7 +29,7 @@ ru:
         accusative: корт
         other: корты
       stadium:
-        one: cтадион
+        one: стадион
         parent: стадиона
         accusative: стадион
         other: стадионы

@@ -25,7 +25,7 @@ feature "Sign Up", :devise do
   end
 
   scenario "Стадион доступен для пользователей после регистрации стадиона и подтверждения админом" do
-    Admin.create!(email: "admin@test.com", password: "please123")
+    Admin.create!(name: 'Test Admin', email: "admin@test.com", password: "please123")
 
     sign_up_with("test@example.com", "please123", "please123", "Стадион")
     logout()

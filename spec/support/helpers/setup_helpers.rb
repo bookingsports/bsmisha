@@ -2,11 +2,13 @@ module TennisHelpers
   module SetupHelpers
     def full_setup
       @user = User.create!({
+        name: 'Test User',
         email: "user@example.com",
         password: "blankertag"
       })
 
       @user_two = User.create!({
+        name: 'Test User',
         email: "user2@example.com",
         password: "blankertag"
       })
@@ -14,16 +16,19 @@ module TennisHelpers
       @user.wallet.deposit!(1000)
 
       @admin = Admin.create!({
+        name: 'Test User',
         email: "admin@example.com",
         password: "blinkenblag"
       })
 
       @stadium_owner = StadiumUser.create!({
+        name: 'Test User',
         email: "stadium@example.com",
         password: "blinkenbleg"
       })
 
       @coach_owner = CoachUser.create!({
+        name: 'Test User',
         email: "coach@example.com",
         password: "blinkenblug"
       })
@@ -35,7 +40,7 @@ module TennisHelpers
         stadium: @stadium,
         name: "court",
         price: 100,
-        owner: @user
+        owner: @stadium_owner
       })
 
       @court_two = Court.create!({

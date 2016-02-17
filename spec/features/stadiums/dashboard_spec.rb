@@ -1,6 +1,7 @@
 feature "dashboard" do
   before(:each) do
     @stadium_owner = StadiumUser.create!({
+      name: 'Test User',
       email: "test@example.com",
       password: "shooshoo"
     })
@@ -61,7 +62,7 @@ feature "dashboard" do
         select "Футбол", from: "product_courts_attributes_0_category_id"
       end
 
-      click_button "Сохранить Стадион"
+      click_button "Сохранить стадион"
 
       @court.reload
 

@@ -19,7 +19,7 @@ class DepositRequest < ActiveRecord::Base
 
   belongs_to :wallet
   composed_of :data, class_name: 'DepositRequestData', mapping: [%w(uuid order_id), %w(amount amount)]
-  has_many :deposit_responses
+  has_many :deposit_responses, dependent: :destroy
 
   validates :amount, numericality: { greater_than: 0, less_than_or_equal_to: Rails.application.secrets.amount_limit }
 
