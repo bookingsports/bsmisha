@@ -3,8 +3,11 @@ module CustomerConcern
 
   included do
     rails_admin do
-      navigation_label I18n.t("users_types")
+      navigation_label I18n.t(:money)
+      navigation_icon 'icon-user'
       parent false
+      weight -2
+
       list do
         field :name
         field :email

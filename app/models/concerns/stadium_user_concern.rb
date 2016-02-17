@@ -3,8 +3,8 @@ module StadiumUserConcern
 
   included do
     rails_admin do
-      navigation_label I18n.t("users_types")
-      parent false
+      navigation_icon 'icon-user'
+      parent Stadium
       list do
         field :name
         field :email

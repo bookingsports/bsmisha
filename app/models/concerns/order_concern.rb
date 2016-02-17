@@ -4,6 +4,8 @@ module OrderConcern
   included do
     rails_admin do
       navigation_label I18n.t(:money)
+      weight 0
+
       list do
         field :user
         field :total

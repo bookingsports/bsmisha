@@ -3,8 +3,11 @@ module CoachConcern
 
   included do
     rails_admin do
-    navigation_label I18n.t("products_types")
+      navigation_label I18n.t(:stadiums)
+      navigation_icon 'icon-file'
       parent false
+      weight 1
+
       list do
         field :category
         field :owner

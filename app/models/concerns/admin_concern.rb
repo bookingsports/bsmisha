@@ -5,7 +5,7 @@ module AdminConcern
     rails_admin do
       navigation_label I18n.t("users_types")
       parent false
-      weight -1
+      weight 1
 
       list do
         field :name

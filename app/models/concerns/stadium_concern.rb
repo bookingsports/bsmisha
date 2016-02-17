@@ -5,7 +5,7 @@ module StadiumConcern
     rails_admin do
       navigation_label I18n.t(:stadiums)
       navigation_icon 'icon-file'
-      weight 0
+      weight -1
       parent false
 
       list do

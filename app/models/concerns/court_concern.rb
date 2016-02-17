@@ -3,7 +3,9 @@ module CourtConcern
 
   included do
     rails_admin do
-      navigation_label I18n.t("products_types")
+      navigation_label I18n.t(:stadiums)
+      navigation_icon 'icon-file'
+      weight 0
       parent false
 
       object_label_method do
