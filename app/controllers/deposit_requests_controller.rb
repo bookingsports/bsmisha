@@ -25,7 +25,7 @@ class DepositRequestsController < DashboardController
     if @request.save
       redirect_to @request.data.payment_url
     else
-      redirect_to dashboard_deposit_requests_path, alert: "Кошелек не удалось пополнить. Свяжитесь с администратором пожалуйста назвав свой логин."
+      redirect_to deposit_requests_path, alert: "Кошелек не удалось пополнить. Свяжитесь с администратором пожалуйста назвав свой логин."
     end
   end
 

@@ -2,7 +2,7 @@
 = simple_form_for [DepositRequest.new], wrapper: 'horizontal_form' do |f|
   .row
     .col-xs-4
-      = f.input :amount, label: 'Сумма', as: :string, input_html: { value: 5000 }
+      = f.input :amount, label: 'Сумма', hint: "Макс. сумма: #{number_to_currency(Rails.application.secrets.amount_limit, locale: :ru)}", as: :integer, input_html: { max: Rails.application.secrets.amount_limit, value: 5000 }
     .col-xs-8
       = f.button :submit, 'Пополнить'
 
