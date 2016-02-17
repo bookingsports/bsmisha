@@ -15,7 +15,7 @@ class OrdersController < DashboardController
   before_filter :authenticate_user!
   respond_to :json, :js, :html
 
-  def index 
+  def index
   end
 
   def show
