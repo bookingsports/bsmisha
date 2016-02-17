@@ -35,7 +35,7 @@ class Order < ActiveRecord::Base
   enum status: Order.statuses.keys
 
   def name
-    "Заказ №#{id} на сумму #{total} #{user_id.present? ? "пользователя " + user.name : ""}"
+    "Заказ №#{id} на сумму #{total} #{user_id.present? ? "пользователя " + user.try(:name).to_s : ""}"
   end
 
   def total

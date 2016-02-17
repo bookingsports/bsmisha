@@ -38,6 +38,8 @@ class User < ActiveRecord::Base
   has_many :event_changes, through: :events
   has_one :wallet, dependent: :destroy
 
+  validates :name, presence: true
+
   after_create :create_wallet
   after_initialize :set_customer, if: :new_record?
 

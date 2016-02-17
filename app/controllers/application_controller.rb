@@ -8,15 +8,10 @@ class ApplicationController < ActionController::Base
   layout :set_layout
 
   def after_sign_in_path_for(resource)
-    sign_in_url = new_user_session_url
-    if request.referer == sign_in_url
-      if current_user.type == "Admin"
-        admin_stadiums_path
-      else
-        dashboard_grid_path
-      end
+    if current_user.type == "Admin"
+      admin_stadiums_path
     else
-      stored_location_for(resource) || request.referer || dashboard_grid_path
+      dashboard_grid_path
     end
   end
 
