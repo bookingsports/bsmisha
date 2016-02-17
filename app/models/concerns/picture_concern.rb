@@ -4,6 +4,11 @@ module PictureConcern
   included do
     rails_admin do
       visible false
+
+      object_label_method do
+        :description
+      end
+
       list do
         field :name
         field :description

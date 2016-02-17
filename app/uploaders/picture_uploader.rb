@@ -1,4 +1,8 @@
 class PictureUploader < BaseImageUploader
+  def default_url
+    'placeholder.png'
+  end
+
   def store_dir
     'images/pictures'
   end
@@ -8,7 +12,7 @@ class PictureUploader < BaseImageUploader
   end
 
   version :medium do
-    process resize_to_fit: [400, 400]
+    process resize_to_fill: [400, 400]
   end
 
   version :small_square do

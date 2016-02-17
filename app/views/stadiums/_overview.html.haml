@@ -7,7 +7,7 @@
         %p.tel_field
           %tel
             Тел.: #{stadium.phone}
-      = image_tag stadium.pictures.last.try(:name)
+      = image_tag stadium.avatar.medium.url
     :javascript
       var markers = new Tennis.Collections.MarkerCollection([#{raw stadium.to_json}]);
       var map = new Tennis.Views.MapView({collection: markers});
