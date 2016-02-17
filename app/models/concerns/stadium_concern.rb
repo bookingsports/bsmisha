@@ -9,6 +9,8 @@ module StadiumConcern
       parent false
 
       list do
+        field :name
+        field :phone
         field :category
         field :owner
         field :slug
@@ -26,6 +28,8 @@ module StadiumConcern
       end
 
       edit do
+        field :name
+        field :phone
         field :category
         field :owner
         field :slug
