@@ -21,7 +21,7 @@ class DepositRequest < ActiveRecord::Base
   composed_of :data, class_name: 'DepositRequestData', mapping: [%w(uuid order_id), %w(amount amount)]
   has_many :deposit_responses
 
-  validates :amount, numericality: { only_integer: true, greater_than: 0, less_than_or_equal_to: Rails.application.secrets.amount_limit }
+  validates :amount, numericality: { greater_than: 0, less_than_or_equal_to: Rails.application.secrets.amount_limit }
 
   before_save { self.uuid = SecureRandom.uuid }
 
