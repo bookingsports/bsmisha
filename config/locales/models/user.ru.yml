@@ -57,7 +57,6 @@ ru:
         name: Имя
         role: Роль
         type: Тип
-        public_type: Тип
         slug: Слуг
         avatar: Аватар
         status: Статус

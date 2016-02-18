@@ -53,14 +53,6 @@ class User < ActiveRecord::Base
     self.type = "Customer" unless self.type
   end
 
-  def public_type= type
-    if type == "Admin"
-      raise "Нельзя стать админом просто так!"
-    elsif ["StadiumUser", "CoachUser", "Customer"].include? type
-      self.becomes! type.constantize
-    end
-  end
-
   def total(options = {})
     events_maybe_scoped_by(options).unpaid.map(&:total).inject(:+)
   end

@@ -34,14 +34,11 @@ class StadiumUser < User
 
   enum status: [:pending, :active]
   after_initialize :set_status, if: :new_record?
-  after_initialize :make_stadium, unless: "stadium.present?"
+
+  after_create :create_stadium
 
   def set_status
     self.status = "pending" unless self.status
-  end
-
-  def make_stadium
-    self.create_stadium
   end
 
   def name
