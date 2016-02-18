@@ -9,7 +9,7 @@
         %span.title-tire –
       = search_form_for @q, remote: true, wrapper: :inline_form, html: { class: 'form-inline' } do |f|
         = f.input :name_cont, placeholder: 'Название', label: false
-        = f.input :courts_stadium_category_id_eq, collection: Category.all,  prompt: 'Категория', label: false
+        = f.input :category_id_eq, collection: Category.all, prompt: 'Все категории', label: false
         = f.button :submit, 'Поиск'
       = render 'filter_map', objects: @stadiums
       %hr/

@@ -76,12 +76,10 @@ code {
   margin-right: 12px;
 }
 #map-container {
-    -webkit-box-shadow: 0px 7px 11px 0px rgba(50, 50, 50, 0.2);
-    -moz-box-shadow: px 7px 11px 0px rgba(50, 50, 50, 0.2);
-    box-shadow: 0px 7px 11px 0px rgba(50, 50, 50, 0.2);
     width: 100%;
 }
 #map {
+    margin-top: 10px;
     width: 100%;
     height: 450px;
 }
@@ -96,10 +94,10 @@ code {
 }
 .searchonmap {
     position: absolute;
-    width: 760px;
-    top: 410px;
+    width: 424px;
+    top: 450px;
     left: 50%;
-    margin-left: -375px;
+    margin-left: -212px;
     padding: 10px;
     border-radius: 7px;
     background-color: #F5F5F5;

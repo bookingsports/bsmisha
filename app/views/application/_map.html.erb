@@ -24,12 +24,10 @@
 
 <!-- Begin searcher -->
 <div class="searchonmap">
-  <%= form_tag stadiums_path(format: 'json'), remote: true, method: :get, id: 'searcher' do %>
-      <%= text_field_tag :name, nil, placeholder: 'Ключевое слово...' %>
-      <%= text_field_tag :place, nil, placeholder: 'Расположение' %>
-      <div class="location-detector"><input type="button" class="location-detector-btn" value=" "></div>
-      <%= select_tag :category_id, options_from_collection_for_select(Category.all, 'id', 'name'), class: 'chosen-select', prompt: 'Выбор категории...' %>
-      <%= submit_tag 'Подобрать', class: 'submit-btn', data: {search_on_map: true} %>
+  <%= search_form_for @q, remote: true, wrapper: :inline_form, html: { id: 'searcher', class: 'form-inline' } do |f| %>
+    <%= f.input :name_cont, placeholder: 'Название', label: false %>
+    <%= f.input :category_id_eq, collection: Category.all, prompt: 'Все категории', label: false %>
+    <%= f.button :submit, 'Поиск', data: {search_on_map: true} %>
   <% end %>
 </div>
 <!-- End searcher -->

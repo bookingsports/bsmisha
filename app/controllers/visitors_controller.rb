@@ -1,5 +1,9 @@
 class VisitorsController < ApplicationController
   def index
-    @stadiums = Stadium.where("status <> ?", Stadium.statuses[:pending])
+    @q = Stadium.ransack(params[:q])
+
+    @stadiums = @q.result(distinct: true)
+                  .includes(:courts, :pictures)
+                  .active
   end
 end
