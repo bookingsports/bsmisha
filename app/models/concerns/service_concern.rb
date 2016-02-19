@@ -3,6 +3,7 @@ module ServiceConcern
 
   included do
     rails_admin do
+      navigation_label I18n.t(:money)
       list do
         field :name
         field :icon
@@ -11,6 +12,11 @@ module ServiceConcern
       end
 
       edit do
+        field :name
+        field :icon
+      end
+
+      show do
         field :name
         field :icon
         field :created_at

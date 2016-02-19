@@ -12,6 +12,7 @@
 #
 
 class ProductService < ActiveRecord::Base
+  include ProductServiceConcern
   has_paper_trail
 
   self.inheritance_column = "class"
