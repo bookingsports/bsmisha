@@ -20,13 +20,13 @@
 					</td>
 					<td><%= l item.start, format: :short %></td>
 					<td><%= l item.end, format: :short %></td>
-					<td><%= t('hours', count: item.duration_in_hours) %></td>
+					<td><%= t('hours', count: number_with_precision(item.duration_in_hours, precision: 2)) %></td>
 					<td>
 						<%# if item.related.present? %>
 						<%= render item.additional_event_items %>
 					</td>
-					<td><%= t('repeats', count: item.occurrences) + ' ' + (item.schedule.to_s if item.recurring?).to_s %></td>	
-					<td><%= number_to_integer_currency item.total %></td>	
+					<td><%= t('repeats', count: item.occurrences) + ' ' + (item.schedule.to_s if item.recurring?).to_s %></td>
+					<td><%= number_to_integer_currency item.total %></td>
 				</tr>
 			<% end %>
 		</tbody>

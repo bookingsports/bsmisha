@@ -25,7 +25,7 @@
 	      				<td><%= link_to item.court.stadium.name, item.court.stadium %></td>
 	      				<td><%= item.start %></td>
 	      				<td><%= item.end %></td>
-	      				<td><%= t('hours', count: item.duration_in_hours) %></td>
+	      				<td><%= t('hours', count: number_with_precision(item.duration_in_hours, precision: 2)) %></td>
 	      				<td><%= item.total %></td>
 	      			</tr>
 	      		<% end %>

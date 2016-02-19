@@ -85,7 +85,7 @@ Rails.application.routes.draw do
 
   resources :courts, concerns: [:bookable, :totalable]
 
-  resources :coaches, defaults: { scope: 'coach' } do 
+  resources :coaches, defaults: { scope: 'coach' } do
     resources :courts, concerns: [:bookable, :totalable]
   end
 

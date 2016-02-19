@@ -56,9 +56,8 @@
     = f.input :avatar, as: :image_file, version: :small_square
     = f.input :name
     = f.input :phone
-    -#= f.input :price, as: :string
-    = f.simple_fields_for :profile do |pf|
-      = pf.input :description, as: :text
+    = f.input :price, as: :string
+    = f.input :description, as: :text
 
     .form-group
       = link_to fa_icon('edit') + ' Сменить пароль или почту', edit_user_registration_path, class: 'btn btn-default'

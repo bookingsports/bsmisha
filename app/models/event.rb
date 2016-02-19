@@ -69,7 +69,7 @@ class Event < ActiveRecord::Base
   end
 
   def duration_in_hours
-    (duration / 1.hour).ceil * occurrences
+    (duration / 1.hour) * occurrences
   end
 
   def duration
