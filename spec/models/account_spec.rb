@@ -1,19 +1,22 @@
 # == Schema Information
 #
-# Table name: deposit_requests
+# Table name: accounts
 #
 #  id         :integer          not null, primary key
-#  wallet_id  :integer
-#  status     :integer          default(0)
-#  amount     :decimal(8, 2)
+#  number     :string
+#  company    :string
+#  inn        :string
+#  kpp        :string
+#  bank       :string
+#  bank_city  :string
+#  bik        :string
+#  kor        :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  data       :text
-#  uuid       :string
 #
 
 require 'rails_helper'
 
-RSpec.describe DepositRequest, type: :model do
+RSpec.describe Account, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end
