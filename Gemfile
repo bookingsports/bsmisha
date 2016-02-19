@@ -32,6 +32,7 @@ gem 'ckeditor'
 gem 'autoprefixer-rails'
 
 gem 'gon'
+gem 'cancancan'
 
 # IMAGES
 gem 'fog'
