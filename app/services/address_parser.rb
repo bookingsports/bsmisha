@@ -12,19 +12,11 @@ class AddressParser
   private
 
     def latitude
-      if parsed_address["results"].empty?
-        nil
-      else
-        parsed_address["results"][0]["geometry"]["location"]["lat"]
-      end
+      !parsed_address["results"].empty? && parsed_address["results"][0]["geometry"]["location"]["lat"]
     end
 
     def longitude
-      if parsed_address["results"].empty?
-        nil
-      else
-        parsed_address["results"][0]["geometry"]["location"]["lng"]
-      end
+      !parsed_address["results"].empty? && parsed_address["results"][0]["geometry"]["location"]["lng"]
     end
 
     def parsed_address
