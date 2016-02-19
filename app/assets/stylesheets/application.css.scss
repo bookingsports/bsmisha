@@ -82,14 +82,14 @@ code {
   width: 100%;
 }
 #map-container {
-    // margin-top: 51px;
+  position: relative;
 }
 @media (min-width: 768px) {
 }
 .searchonmap {
     position: absolute;
     width: auto;
-    top: 450px;
+    bottom: 20px;
     left: 50%;
     margin-left: -212px;
     padding: 10px;

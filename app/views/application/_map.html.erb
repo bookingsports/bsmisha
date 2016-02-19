@@ -1,5 +1,12 @@
 <div id="map-container">
   <div id="map"></div>
+  <div class="searchonmap">
+    <%= search_form_for @q, remote: true, wrapper: :inline_form, html: { id: 'searcher', class: 'form-inline' } do |f| %>
+      <%= f.input :name_cont, placeholder: 'Название', label: false %>
+      <%= f.input :category_id_eq, collection: Category.all, prompt: 'Все категории', label: false %>
+      <%= f.button :submit, 'Поиск', data: {search_on_map: true} %>
+    <% end %>
+  </div>
 </div>
 <script type="text/javascript">
     var markers = new Tennis.Collections.MarkerCollection(
@@ -21,16 +28,6 @@
     });
     map.render();
 </script>
-
-<!-- Begin searcher -->
-<div class="searchonmap">
-  <%= search_form_for @q, remote: true, wrapper: :inline_form, html: { id: 'searcher', class: 'form-inline' } do |f| %>
-    <%= f.input :name_cont, placeholder: 'Название', label: false %>
-    <%= f.input :category_id_eq, collection: Category.all, prompt: 'Все категории', label: false %>
-    <%= f.button :submit, 'Поиск', data: {search_on_map: true} %>
-  <% end %>
-</div>
-<!-- End searcher -->
 
 <script type="text/javascript">
     var config = {
