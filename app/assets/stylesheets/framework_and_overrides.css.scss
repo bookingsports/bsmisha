@@ -101,6 +101,13 @@ main {
   color: #fff;
 }
 
+@media (min-width: 1200px) {
+  .navbar > .container {
+    width: 100%;
+    padding: 0 40px;
+  }
+}
+
 @include table-row-variant('pending', $table-bg-active);
 @include table-row-variant('active', $table-bg);
 @include table-row-variant('locked', $state-danger-bg);
