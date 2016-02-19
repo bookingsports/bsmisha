@@ -22,9 +22,11 @@ class MyEventsController < EventsController
   end
 
   def destroy
-    event = Event.find(params[:id])
-    event.destroy
-
-    redirect_to my_events_path, notice: "Успешно удалены."
+    if params[:event_ids].present?
+      current_user.events.unpaid.where(id: params[:event_ids]).destroy_all
+      redirect_to my_events_path, notice: "Успешно удалены."
+    else
+      redirect_to my_events_path, alert: "Не выбрано ни одного заказа!"
+    end
   end
 end

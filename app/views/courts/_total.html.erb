@@ -6,7 +6,7 @@
     <h4>В корзине:</h4>
     <p data-total>
       <% if current_user.total_hours(product: @court) %>
-        <%= t('hours', count: current_user.total_hours(product: @court)) %> на сумму <%= number_to_currency current_user.total(product: @court), precision: 0 %></p>
+        <%= t('hours', count: number_with_precision(current_user.total_hours(product: @court), precision: 2)) %> на сумму <%= number_to_currency current_user.total(product: @court), precision: 0 %></p>
       <% end %>
     <% if current_user.event_changes.unpaid.present? %>
       <%= t('changes', count: current_user.events.of_products(@court).flat_map(&:event_changes).count) %> на сумму <%= number_to_currency current_user.changes_total(product: @court), precision: 0 %></p>
