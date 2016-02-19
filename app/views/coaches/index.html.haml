@@ -4,9 +4,8 @@
   .row
     .entry
       %h1
-        %span.title-tire –
         Тренеры
-        %span.title-tire –
+      %hr/
       = search_form_for @q, remote: true, wrapper: :inline_form, html: { class: 'form-inline' } do |f|
         = f.input :courts_stadium_category_id_eq, collection: Category.all,  prompt: 'Категория', label: false
         = f.button :submit, 'Поиск'

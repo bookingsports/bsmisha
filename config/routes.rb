@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   authenticate :user do
-    mount RailsAdmin::Engine => '/rails_admin', as: 'rails_admin'
+    mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   end
 
   get 'grid/(:court_id)', to: 'dashboard#grid', as: 'dashboard_grid'
@@ -60,47 +60,13 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :admin do
-    resources :stadiums
-    resources :users
-    resource :options,  only: [:edit, :update]
-    resources :static_pages
-    resources :categories
-    root to: 'stadiums#index'
-  end
-
-  # constraints RoleRouteConstraint.new('stadium_user') do
-  #   namespace :dashboard do
-  #     scope module: :stadium do
-  #       resource :stadium do
-  #         resources :pictures, defaults: { imageable_type: 'Stadium'}
-  #         resources :coaches
-  #       end
-  #       resources :courts, concerns: :bookable do
-  #         resources :special_prices
-  #       end
-  #       resources :orders
-  #        do
-  #         member do
-  #           get 'confirm'
-  #         end
-  #       end
-  #       get 'orders', to: 'orders#index', as: 'wallet'
-  #     end
-  #   end
-  # end
-
-  # constraints RoleRouteConstraint.new('coach_user') do
-
   namespace :dashboard do
     resource :product, concerns: [:has_pictures]
     resources :special_prices
-    # resource :events
     resources :customers
     resources :employments
     resources :coach_users
     resources :withdrawal_requests
-    # resources :orders
   end
 
   resources :deposit_requests
@@ -116,9 +82,9 @@ Rails.application.routes.draw do
       end
     end
   end
-  # scope '(:scope)' do
+
   resources :courts, concerns: [:bookable, :totalable]
-  # end
+
   resources :coaches, defaults: { scope: 'coach' } do 
     resources :courts, concerns: [:bookable, :totalable]
   end
@@ -129,8 +95,6 @@ Rails.application.routes.draw do
     resources :reviews
     resources :courts, concerns: [:bookable, :totalable]
   end
-
-  # get 'events/grid', to: 'events#grid', as: 'dashboard'
 
   resources :stadium_users
   resources :sales

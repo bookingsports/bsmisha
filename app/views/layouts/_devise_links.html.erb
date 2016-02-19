@@ -1,12 +1,9 @@
 <% if user_signed_in? %>
   <% if current_user.admin? %>
-    <li><%= link_to 'Админка', admin_stadiums_path %></li>
+    <li><%= link_to 'Админка', rails_admin_path %></li>
   <% else %>
   <li><%= link_to dashboard_grid_path(@user) do %>
     Личный кабинет
-    <div class="delimiter">
-      <%= image_tag 'menu-separ.png' %>
-    </div>
     <% end %>
   </li>
   <% end %>

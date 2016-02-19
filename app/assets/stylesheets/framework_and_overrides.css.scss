@@ -56,7 +56,11 @@ section {
 .authform form {
   @extend .well;
   @extend .well-lg;
-  padding-bottom: 40px;
+  padding: 0 24px 24px;
+
+  h3 {
+    padding: 5px 0 10px;
+  }
 }
 .authform .right {
   float: right !important;
@@ -84,6 +88,18 @@ section {
 .nav > li > a{
   padding: 10px 10px;
 }
+
+main {
+  padding-left: 0;
+  padding-right: 0;
+  margin-top: 71px;
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+  background-color: transparent;
+  color: #fff;
+}
+
 @include table-row-variant('pending', $table-bg-active);
 @include table-row-variant('active', $table-bg);
 @include table-row-variant('locked', $state-danger-bg);

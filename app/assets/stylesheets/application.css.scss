@@ -1,5 +1,5 @@
 /*
- *= require_tree .
+ *= require ./framework_and_overrides
  *= require chosen
  *= require gritter
  *= require font-awesome
@@ -12,54 +12,49 @@
  *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
  *= require lightbox
  *= require_self
- */
-
-/*
-Theme Name: Tennis Radar
-Author: MindCraft Systems
-Version: 1.0
 */
 
 html {
-    position: relative;
-    min-height: 100%;
+  position: relative;
+  min-height: 100%;
 }
-body {
-    /* Margin bottom by footer height */
 
-    margin-bottom: 90px;
+body {
+  font-family: 'Roboto', Helvetica, Arial, sans-serif !important;
+  margin-bottom: 90px;
 }
+
 body > .container {
     padding: 5px 15px 0;
 }
+
 .container .text-muted {
     margin: 20px 0;
 }
+
 .footer > .container {
     padding-right: 15px;
     padding-left: 15px;
 }
+
 code {
     font-size: 80%;
 }
+
 .navbar-default {
     height: 71px;
-    -webkit-box-shadow: 0px 7px 11px 0px rgba(50, 50, 50, 0.2);
-    -moz-box-shadow: px 7px 11px 0px rgba(50, 50, 50, 0.2);
-    box-shadow: 0px 7px 11px 0px rgba(50, 50, 50, 0.2);
-    text-transform: uppercase;
-    font-family: 'Ubuntu', Helvetica, Arial, serif !important;
     color: #fff;
     font-weight: 400;
-    background-color: #f8f8f8;
+    background-color: #4070B6;
+    border: none !important;
 }
 .navbar-brand img, .navbar-brand  {
     padding-top: 0;
 }
 .navbar-default .navbar-nav>li>a {
-    color: #3D3D3D !important;
-    font-weight: 600;
-    font-size: 13px;
+    color: #fff !important;
+    font-weight: 400;
+    font-size: 16px;
     padding-top: 25px;
 }
 .delimiter {
@@ -79,7 +74,6 @@ code {
     width: 100%;
 }
 #map {
-    margin-top: 10px;
     width: 100%;
     height: 450px;
 }
@@ -94,17 +88,14 @@ code {
 }
 .searchonmap {
     position: absolute;
-    width: 424px;
+    width: auto;
     top: 450px;
     left: 50%;
     margin-left: -212px;
     padding: 10px;
     border-radius: 7px;
     background-color: #F5F5F5;
-    border: solid 1px #ccc;
-    -webkit-box-shadow: 0px 5px 14px 0px rgba(50, 50, 50, 0.6);
-    -moz-box-shadow: 0px 5px 14px 0px rgba(50, 50, 50, 0.6);
-    box-shadow: 0px 5px 14px 0px rgba(50, 50, 50, 0.6);
+    box-shadow: 0 5px 14px 0 rgba(50, 50, 50, .2);
 }
 .location-detector {
     position: absolute;
@@ -147,7 +138,7 @@ select,
     margin-left: 25px;
 }
 .total-price-title {
-    font-family: 'Ubuntu', Arial;
+    font-family: 'Roboto', Arial;
     font-weight: 700;
     font-size: 18px;
 }
@@ -183,7 +174,7 @@ select,
     -webkit-box-shadow: 0px 2px 3px #5e73a8 !important;
     -moz-box-shadow: 0px 2px 3px #5e73a8 !important;
     box-shadow: 0px 2px 3px #5e73a8 !important;
-    font-family: 'Ubuntu', Arial !important;
+    font-family: 'Roboto', Arial !important;
     font-weight: normal !important;
     color: #ffffff !important;
     font-size: 17px !important;
@@ -226,7 +217,7 @@ select,
     -webkit-box-shadow: 0px 2px 3px #5e73a8;
     -moz-box-shadow: 0px 2px 3px #5e73a8;
     box-shadow: 0px 2px 3px #5e73a8;
-    font-family: 'Ubuntu', Arial;
+    font-family: 'Roboto', Arial;
     font-weight: normal;
     color: #ffffff;
     font-size: 17px;
@@ -235,7 +226,7 @@ select,
     text-decoration: none;
 }
 .amount {
-    font-family: 'Ubuntu', Arial;
+    font-family: 'Roboto', Arial;
     font-weight: 700;
     font-size: 19px;
 }
@@ -259,7 +250,7 @@ select {
     padding-right: 10px;
 }
 h1 {
-    font-family: 'Ubuntu', Helvetica, Arial, serif !important;
+    font-family: 'Roboto', Helvetica, Arial, serif !important;
     font-size: 24px !important;
     text-align: center;
 }
@@ -267,7 +258,7 @@ h1 {
     padding-left: 25px;
     padding-right: 25px;
     padding-bottom: 20px;
-    margin: 50px auto;
+    margin: 0 auto;
 }
 .nav .navbar-nav li {
     padding-top: 10px;
@@ -311,7 +302,7 @@ h1 {
     text-transform: uppercase;
     color: #fff;
     text-align: center;
-    font-family: 'Ubuntu', Helvetica, Arial, serif;
+    font-family: 'Roboto', Helvetica, Arial, serif;
     font-weight: 700;
     margin-top: 60px;
 }
@@ -330,17 +321,12 @@ footer {
 .footer-right,
 .footer-center,
 .footer-left {
-    font-family: 'Ubuntu', Helvetica, Arial, serif;
+    font-family: 'Roboto', Helvetica, Arial, serif;
     font-weight: 700;
     list-style-type: none;
     font-size: 14px;
     padding-top: 10px;
     color: #fff;
-}
-.title-tire {
-    color: #d2b99b;
-    font-size: 28px;
-    font-weight: 700;
 }
 .hpt-border {
     width: 40%;
@@ -354,8 +340,8 @@ footer {
     margin: 90px 0 -55px;
 }
 .breadcrumb {
-    padding: 8px 100px;
-    margin-bottom: 20px;
+    padding: 8px 40px;
+    margin-bottom: 0;
     list-style: none;
     border-radius: 4px;
 }
@@ -491,7 +477,7 @@ html .km-pane-wrapper .k-header {
     width: 100%;
 }
 .reviews-header {
-    font-family: 'Ubuntu', Helvetica, Arial, serif;
+    font-family: 'Roboto', Helvetica, Arial, serif;
     font-weight: 700;
     font-size: 20px;
     padding-bottom: 15px;
@@ -518,7 +504,7 @@ html .km-pane-wrapper .k-header {
     -webkit-box-shadow: 0px 3px 11px 0px rgba(50, 50, 50, 0.50);
     -moz-box-shadow: 0px 3px 11px 0px rgba(50, 50, 50, 0.50);
     box-shadow: 0px 3px 11px 0px rgba(50, 50, 50, 0.50);
-    font-family: 'Ubuntu', Helvetica, Arial, serif;
+    font-family: 'Roboto', Helvetica, Arial, serif;
 }
 .img-gall-box img {
     margin-top: -10px;
@@ -531,7 +517,7 @@ html .km-pane-wrapper .k-header {
 }
 .address {
     color: #fff;
-    font-family: 'Ubuntu', Helvetica, Arial, serif;
+    font-family: 'Roboto', Helvetica, Arial, serif;
     font-weight: 700;
     position: absolute;
     z-index: 9;
@@ -562,7 +548,7 @@ html .km-pane-wrapper .k-header {
     box-shadow: 0px 3px 11px 0px rgba(50, 50, 50, 0.40);
 }
 .avatar {
-    border-radius: 20px;
+    border-radius: 0;
     width: 100%;
 }
 .star-1,
@@ -580,7 +566,7 @@ html .km-pane-wrapper .k-header {
 .comment-reply-title,
 label {
     font-weight: 700;
-    font-family: 'Ubuntu', Arial;
+    font-family: 'Roboto', Arial;
 }
 .star-rating {
     float: right;
@@ -596,14 +582,14 @@ label {
     outline: 0;
 }
 .balance a {
-    color: #000;
+    color: #fff;
     margin-top: 20px;
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: none;
-    border: 1px solid #ccc;
+    margin-left: 15px;
+    font-size: 12px;
+    font-weight: 300;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 2px;
     padding: 7px;
-    border-radius: 5px;
     float: right;
     text-align: center;
 }
@@ -778,18 +764,19 @@ select.hhmm{
     white-space: nowrap;
 }
 
-.admin-nav {
-  margin: 20px -15px;
-}
-
-.admin-add-button {
-  margin: 0 0 20px 0;
-}
-
 .stadium-nav {
-  margin: 20px 0 30px 0;
+  margin: 20px 0;
 }
 
 .schedule-legend-nav {
   margin-bottom: 18px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 400;
+}
+
+.stadium-link {
+  display: block;
+  margin: 20px 0;
 }

@@ -1,31 +1,19 @@
 <%# add navigation links to this file %>
 <li><%= link_to coaches_path do %>
   Тренеры
-  <div class="delimiter">
-    <%= image_tag 'menu-separ.png' %>
-  </div>
 <% end %>
 </li>
 <li><%= link_to stadiums_path do %>
   Стадионы
-  <div class="delimiter">
-    <%= image_tag 'menu-separ.png' %>
-  </div>
 <% end %>
 </li>
 <li class="hidden"><%= link_to sales_path do %>
   Акции
-  <div class="delimiter">
-    <%= image_tag 'menu-separ.png' %>
-  </div>
 <% end %>
 </li>
 <li id="menu-item-120" class="menu-item menu-item-120 dropdown">
   <%= link_to '#', class: 'dropdown-toggle', data: { toggle: 'dropdown' } do %>
     Учетная запись
-    <div class="delimiter">
-      <%= image_tag 'menu-separ.png' %>
-    </div> 
     <span class="caret"></span>
   <% end %>
 

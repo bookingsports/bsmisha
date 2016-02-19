@@ -3,7 +3,7 @@
 <div class="body-bg">
   <div class="row">
     <div class="entry">
-      <h1><span class="title-tire">–</span> Личный кабинет <span class="title-tire">–</span></h1>
+      <h1>Личный кабинет</h1>
       <hr>
       <div class="row">
         <div class="col-md-6">
@@ -22,7 +22,6 @@
                 <%= f.label :password %>
                 <%= f.password_field :password, class: 'form-control' %>
               </div>
-                <%= f.submit 'Войти', :class => 'button right' %>
                 <% if devise_mapping.rememberable? -%>
                   <div class="checkbox" style="width:150px">
                     <label>
@@ -30,6 +29,7 @@
                     </label>
                   </div>
                 <% end -%>
+                <%= f.submit 'Войти', :class => 'button' %>
             <% end %>
           </div>
         </div>

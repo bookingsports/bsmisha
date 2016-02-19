@@ -1,7 +1,7 @@
 <% if user_signed_in? and !current_user.admin? %>
   <div class='balance'>
     <%= link_to deposit_requests_path do %>
-      Ваш баланс: <%= number_to_currency(current_user.wallet.total, precision: 0) %>
+      Баланс: <%= number_to_currency(current_user.wallet.total, precision: 0) %>
     <% end %>
   </div>
 <% end %>

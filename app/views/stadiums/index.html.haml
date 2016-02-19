@@ -4,13 +4,13 @@
   .row
     .entry
       %h1
-        %span.title-tire –
         Стадионы
-        %span.title-tire –
+      %hr/
       = search_form_for @q, remote: true, wrapper: :inline_form, html: { class: 'form-inline' } do |f|
         = f.input :name_cont, placeholder: 'Название', label: false
         = f.input :category_id_eq, collection: Category.all, prompt: 'Все категории', label: false
         = f.button :submit, 'Поиск'
+      %hr/
       = render 'filter_map', objects: @stadiums
       %hr/
       %ul.list-unstyled.stadiums
