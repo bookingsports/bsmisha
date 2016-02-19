@@ -5,12 +5,13 @@
  *= require font-awesome
  *= require fullcalendar
  *= require jquery.datetimepicker
- *= require kendo.common.min
- *= require kendo.default.min
  *= require dropzone/dropzone
  *= require jquery-ui
  *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
  *= require lightbox
+ *= require kendo.common-material.core.min
+ *= require kendo.common-material.min
+ *= require kendo.material.min
  *= require_self
 */
 
@@ -20,7 +21,6 @@ html {
 }
 
 body {
-  position: relative;
   font-family: 'Roboto', Helvetica, Arial, sans-serif !important;
 }
 
@@ -351,93 +351,9 @@ footer {
     float: left;
     text-align: left !important;
 }
-.k-tabstrip:focus {
-    -webkit-box-shadow: none !important;
-    box-shadow: none !important;
-}
-.k-block,
-.k-header,
-.k-grid-header,
-.k-toolbar,
-.k-grouping-header,
-.k-pager-wrap,
-.k-draghandle,
-.k-treemap-tile,
-html .km-pane-wrapper .k-header {
-    background-color: #FFFFFF !important;
-}
-.k-tab-on-top,
-.k-scheduler-update {
-    border: 0 !important;
-    font-size: 90% !important;
-    background: #339bcc !important;
-    background-image: -webkit-linear-gradient(top, #339bcc, #0b559a) !important;
-    background-image: -moz-linear-gradient(top, #339bcc, #0b559a) !important;
-    background-image: -ms-linear-gradient(top, #339bcc, #0b559a) !important;
-    background-image: -o-linear-gradient(top, #339bcc, #0b559a) !important;
-    background-image: linear-gradient(to bottom, #339bcc, #0b559a) !important;
-    -webkit-border-radius: 7 !important;
-    -moz-border-radius: 7 !important;
-    border-radius: 7px !important;
-    text-shadow: 2px 1px 3px #474747 !important;
-    -webkit-box-shadow: 0px 2px 3px #5e73a8 !important;
-    -moz-box-shadow: 0px 2px 3px #5e73a8 !important;
-    box-shadow: 0px 2px 3px #5e73a8 !important;
-    font-family: Arial !important;
-    color: #ffffff !important;
-    font-size: 17px !important;
-    border-bottom: solid #1b6db5 3px !important;
-    text-decoration: none !important;
-    text-align: center;
-}
-.k-tabstrip-items .k-state-active .k-link {
-    color: #fff !important;
-}
-.k-content {
-    background: none !important;
-    box-shadow: none !important;
-    color: #000;
-    border-bottom: none !important;
-}
 .tab {
     color: #000 !important;
     text-shadow: none !important;
-}
-.k-tabstrip-items .k-item {
-    background: transparent;
-    height: 35px !important;
-    cursor: pointer;
-    border-left: 1px solid #ccc !important;
-}
-.k-tabstrip-items .k-state-default,
-.k-ie7 .k-tabstrip-items .k-state-default .k-loading {
-    border-color: transparent;
-    width: 24%;
-    text-align: center;
-}
-.k-tabstrip .k-tabstrip-items {
-    padding: 10px;
-    border-radius: 7px;
-    border: solid 1px #E8E8E8;
-    -webkit-box-shadow: 0px 5px 14px 0px rgba(50, 50, 50, 0.4);
-    -moz-box-shadow: 0px 5px 14px 0px rgba(50, 50, 50, 0.4);
-    box-shadow: 0px 5px 14px 0px rgba(50, 50, 50, 0.4);
-    background: rgba(255, 255, 255, 1);
-    background: -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(235, 235, 235, 1) 76%, rgba(237, 237, 237, 1) 96%, rgba(255, 255, 255, 1) 100%);
-    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255, 255, 255, 1)), color-stop(76%, rgba(235, 235, 235, 1)), color-stop(96%, rgba(237, 237, 237, 1)), color-stop(100%, rgba(255, 255, 255, 1)));
-    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(235, 235, 235, 1) 76%, rgba(237, 237, 237, 1) 96%, rgba(255, 255, 255, 1) 100%);
-    background: -o-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(235, 235, 235, 1) 76%, rgba(237, 237, 237, 1) 96%, rgba(255, 255, 255, 1) 100%);
-    background: -ms-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(235, 235, 235, 1) 76%, rgba(237, 237, 237, 1) 96%, rgba(255, 255, 255, 1) 100%);
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(235, 235, 235, 1) 76%, rgba(237, 237, 237, 1) 96%, rgba(255, 255, 255, 1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff', GradientType=0);
-}
-.k-tabstrip-items .k-state-default .k-link,
-.k-panelbar>li.k-state-default>.k-link {
-    color: #717171;
-}
-.k-tabstrip .k-content.k-state-active,
-.k-tabstrip .k-tabstrip-items {
-    border: none;
 }
 .product-subheader {
     width: 100%;
@@ -667,31 +583,12 @@ tr.cart-subtotal, tr.shipping {  height: 40px;}
 .top17 { margin-top:17px; }
 .top30 { margin-top:30px; }
 
-
-
-.k-edit-form-container{
-  label[for=visual_type],
-  label[for=title],
-  label[for=isAllDay],
-  label[for=description],
-  label[for=timezone],
-  [data-container-for=visual_type],
-  [data-container-for=title],
-  [data-container-for=isAllDay],
-  [data-container-for=timezone],
-  [data-container-for=description]
-  {
-    display: none;
-  }
-}
 body.stadium_user, body.coach{
   label[for=title],
   [data-container-for=title]{
     display: block;
   }
-
 }
-
 
 .invalid-slot {
   background: red !important;
@@ -701,9 +598,6 @@ body.stadium_user, body.coach{
 .button{
     white-space: nowrap;
 }
-
-
-
 
 .chosen-container-single .chosen-single {
     height: 40px;
