@@ -14,4 +14,5 @@ class Service < ActiveRecord::Base
 	has_paper_trail
 
   has_many :product_services, dependent: :destroy
+  has_many :products, through: :product_services
 end

@@ -4,6 +4,7 @@ module ProductServiceConcern
   included do
     rails_admin do
       parent Service
+      visible false
       list do
         field :product
         field :service

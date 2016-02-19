@@ -7,6 +7,7 @@ module ServiceConcern
       list do
         field :name
         field :icon
+        field :products
         field :created_at
         field :updated_at
       end
@@ -14,11 +15,13 @@ module ServiceConcern
       edit do
         field :name
         field :icon
+        field :product_services
       end
 
       show do
         field :name
         field :icon
+        field :products
         field :created_at
         field :updated_at
       end
