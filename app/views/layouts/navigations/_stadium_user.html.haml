@@ -1,11 +1,7 @@
 - with_options wrap_tag: :li, active: :inclusive do |nav|
+  = nav.active_link_to 'Стадион', edit_dashboard_product_path
   = nav.active_link_to 'Расписание', dashboard_grid_path
   = nav.active_link_to 'Тренеры', dashboard_coach_users_path
+  = nav.active_link_to 'Настройки', edit_user_registration_path
   = nav.active_link_to 'Заказы', paid_my_events_path
-  %li
-    = link_to  '#', class: 'dropdown-toggle', data: {toggle: 'dropdown'} do
-      Настройки
-      %span.caret
-    %ul.dropdown-menu( role="menu" )
-      = nav.active_link_to 'Стадион', edit_dashboard_product_path, active: /stadium/
-      = nav.active_link_to 'Вывод средств', dashboard_withdrawal_requests_path
+  = nav.active_link_to 'Вывод средств', dashboard_withdrawal_requests_path

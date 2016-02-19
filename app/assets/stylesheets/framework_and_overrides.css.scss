@@ -39,6 +39,7 @@ main {
   padding-bottom: 10px;
   width: 100%;
   margin-top: 80px; // accommodate the navbar
+  min-height: 600px;
   }
 section {
   @extend .row;
