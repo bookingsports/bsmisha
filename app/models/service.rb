@@ -12,4 +12,6 @@
 class Service < ActiveRecord::Base
   include ServiceConcern
 	has_paper_trail
+
+  has_many :product_services, dependent: :destroy
 end
