@@ -42,6 +42,27 @@ module StadiumConcern
         field :price
         field :opens_at
         field :closes_at
+        field :services
+      end
+
+      show do
+        field :name
+        field :phone
+        field :category
+        field :owner
+        field :slug
+        field :address
+        field :email
+        field :description
+        field :pictures
+        field :created_at
+        field :updated_at
+        field :avatar
+        field :status
+        field :price
+        field :opens_at
+        field :closes_at
+        field :services
       end
     end
   end

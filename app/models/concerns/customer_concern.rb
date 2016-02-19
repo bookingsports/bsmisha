@@ -13,6 +13,19 @@ module CustomerConcern
         field :email
         field :avatar
         field :phone
+        field :events
+        field :orders
+        field :wallet
+      end
+
+      show do
+        field :name
+        field :email
+        field :avatar
+        field :phone
+        field :events
+        field :orders
+        field :wallet
       end
 
       edit do
@@ -22,6 +35,9 @@ module CustomerConcern
         field :password_confirmation
         field :avatar
         field :phone
+        field :events
+        field :orders
+        field :wallet
       end
     end
   end

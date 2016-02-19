@@ -10,6 +10,15 @@ module CoachUserConcern
         field :email
         field :avatar
         field :phone
+        field :wallet
+      end
+
+      show do
+        field :name
+        field :email
+        field :avatar
+        field :phone
+        field :wallet
       end
 
       edit do
