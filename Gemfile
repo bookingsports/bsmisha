@@ -31,7 +31,6 @@ gem 'lightbox2-rails'
 gem 'ckeditor'
 gem 'autoprefixer-rails'
 
-gem 'gon'
 gem 'cancancan'
 
 # IMAGES
@@ -49,7 +48,8 @@ gem 'devise-i18n'
 # STATIC PAGES
 gem 'high_voltage'
 
-gem 'jbuilder', '~> 2.0'
+gem 'jbuilder'
+gem 'gon', github: 'gazay/gon'
 gem 'gravtastic'
 gem 'gritter', '1.1.0'
 
@@ -76,7 +76,6 @@ gem 'paper_trail'
 
 group :development do
   gem "figaro", ">= 1.0.0.rc1"
-  gem "rails-admin-scaffold", github: "mib32/rails-admin-scaffold"
   gem "better_errors"
   gem "guard-bundler"
   gem "guard-rails"
