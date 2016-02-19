@@ -672,6 +672,22 @@ h1, h2, h3, h4, h5, h6 {
   margin: 20px 0 0;
 }
 
+.k-edit-form-container{
+  label[for=visual_type],
+  label[for=isAllDay],
+  label[for=description],
+  label[for=recurrenceRule],
+  label[for=timezone],
+  [data-container-for=visual_type],
+  [data-container-for=isAllDay],
+  [data-container-for=timezone],
+  [data-container-for=description],
+  [data-container-for=recurrenceRule]
+  {
+    display: none;
+  }
+}
+
 #switch_user_identifier {
   background-color: #fff;
 }

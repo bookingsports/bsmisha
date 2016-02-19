@@ -31,6 +31,8 @@ gem 'lightbox2-rails'
 gem 'ckeditor'
 gem 'autoprefixer-rails'
 
+gem 'gon'
+
 # IMAGES
 gem 'fog'
 gem 'carrierwave'

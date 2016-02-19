@@ -7,6 +7,12 @@ class Tennis.Views.ScheduleView extends Backbone.View
 
     @bindExternalEvents()
 
+  url: ->
+    @mainUrl || window.location.pathname + '/events'
+
+  scheduler: ->
+    @$el.data('kendoScheduler')
+
   bindExternalEvents: ->
     $ =>
       scheduler = @scheduler()
@@ -36,7 +42,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
         return
 
   render: ->
-    @$el.kendoScheduler({
+    @$el.kendoScheduler
       culture: 'ru-RU'
       date: new Date()
       workDayStart: new Date(@opens_at)
@@ -47,12 +53,11 @@ class Tennis.Views.ScheduleView extends Backbone.View
         "day",
         { type: "week", selected: true },
         "month"
-      ],
+      ]
 
       edit: (e) =>
-        # console.log e.event
         if (e.event.visual_type == 'disowned') || @getCookie('signed_in') != '1'
-          alert('Пожалуйста, сначала авторизуйтесь.')
+          alert 'Пожалуйста, сначала авторизуйтесь.'
           e.preventDefault()
       resize: (e) =>
         if @timeIsOccupied(e.start, e.end, e.event)
@@ -61,7 +66,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
         return
       resizeEnd: (e) =>
         if @timeIsOccupied(e.start, e.end, e.event)
-          alert('Это время занято')
+          alert 'Это время занято'
           e.preventDefault()
         return
       move: (e) =>
@@ -70,22 +75,22 @@ class Tennis.Views.ScheduleView extends Backbone.View
         return
       moveEnd: (e) =>
         if @timeIsOccupied(e.start, e.end, e.event)
-          alert('Это время занято')
+          alert 'Это время занято'
           e.preventDefault()
         return
       add: (e) =>
         if @timeIsOccupied(e.event.start, e.event.end, e.event)
-          alert('Это время занято')
+          alert 'Это время занято'
           e.preventDefault()
         return
       save: (e) =>
         if @timeIsOccupied(e.event.start, e.event.end, e.event)
-          alert('Это время занято')
+          alert 'Это время занято'
           e.preventDefault()
         else
           e.sender.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.js')
         return
-      resources:[
+      resources: [
         {
           field: 'visual_type'
           dataSource:[
@@ -96,79 +101,71 @@ class Tennis.Views.ScheduleView extends Backbone.View
           ]
         },
         {
-          field: 'product_service_ids',
-          title: "Дополнительные услуги",
-          multiple: true,
-          dataTextField: 'service_name_and_price',
+          field: 'product_service_ids'
+          title: 'Доп. услуги'
+          multiple: true
+          dataTextField: 'service_name_and_price'
           dataValueField: 'id'
-          dataSource: {
-            transport: {
-              read: {
+          dataSource:
+            transport:
+              read:
                 url: => "/products/#{@court_id}.json"
-              },
               parameterMap: (options, operation) ->
-                return options.product_services
-            },
-            schema: {
-              data: (resp) ->
-                resp.product_services
-            }
-          }
+                options.product_services
+            schema:
+              data: (resp) -> resp.product_services
         }
       ]
-      dataSource: {
-        batch: false,
-        transport: {
-          read: {
-            dataType: 'json',
-            url: (e, s)=>
-             @url() + '.json'
-          },
-          update: {
-            dataType: 'json',
-            url: (options) => "#{@url()}/#{options.id}",
+      dataSource:
+        batch: false
+        transport:
+          read:
+            dataType: 'json'
+            url: (e, s) => @url() + '.json'
+          update:
+            dataType: 'json'
+            url: (options) => "#{@url()}/#{options.id}"
             type: 'PUT'
-          },
-          create: {
-            dataType: 'json',
-            url: =>
-             @url()
+          create:
+            dataType: 'json'
+            url: => @url()
             type: 'POST'
-          },
-          destroy: {
-            dataType: 'json',
-            url: (options) => "#{@url()}/#{options.id}",
+          destroy:
+            dataType: 'json'
+            url: (options) => "#{@url()}/#{options.id}"
             method: 'DELETE'
-        },
         parameterMap: (options, operation) =>
-          if operation == "read"
+          if operation == 'read'
             return options
-          if operation != "read" && options
-            return {event: options};
-      },
-      schema: {
-        timezone: 'Europe/Moscow'
-        model: {
-          id: "id",
-          fields: @fields
-        },
-        }
-      }
-    })
-
-  scheduler: ->
-    @$el.data('kendoScheduler')
-
-  fields:
-    title: { from: "description", type: "string" },
-    start: { type: "date", from: "start" },
-    end: { type: "date", from: "end" },
-    recurrenceId: { from: "recurrence_id" },
-    recurrenceRule: { from: "recurrence_rule" },
-    recurrenceException: { from: "recurrence_exception" },
-    startTimezone: { from: "start_timezone" },
-    endTimezone: { from: "end_timezone" },
-    isAllDay: { type: "boolean", from: "is_all_day" }
+          if operation != 'read' && options
+            return {event: options}
+        schema:
+          timezone: 'Europe/Moscow'
+          model:
+            id: 'id'
+            fields:
+              title:
+                from: 'description'
+                type: 'string'
+              start:
+                type: 'date'
+                from: 'start'
+              end:
+                type: 'date'
+                from: 'end'
+              recurrenceId:
+                from: 'recurrence_id'
+              recurrenceRule:
+                from: 'recurrence_rule'
+              recurrenceException:
+                from: 'recurrence_exception'
+              startTimezone:
+                from: 'start_timezone'
+              endTimezone:
+                from: 'end_timezone'
+              isAllDay:
+                type: 'boolean'
+                from: 'is_all_day'
 
   getCookie: (cname) ->
     name = cname + '='
@@ -192,6 +189,3 @@ class Tennis.Views.ScheduleView extends Backbone.View
       true
     else
       false
-
-  url: ->
-    @mainUrl || window.location.pathname + '/events'

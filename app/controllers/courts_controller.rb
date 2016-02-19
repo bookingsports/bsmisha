@@ -34,6 +34,10 @@ class CourtsController < ApplicationController
 
   def show
     @court = Court.friendly.find params[:id]
+
+    gon.court_id = @court.id
+    gon.opens_at = @court.stadium.opens_at.try(:to_datetime)
+    gon.closes_at = @court.stadium.closes_at.try(:to_datetime)
   end
 
   def total

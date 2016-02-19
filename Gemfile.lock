@@ -317,6 +317,11 @@ GEM
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     gmaps4rails (2.1.2)
+    gon (6.0.1)
+      actionpack (>= 3.0)
+      json
+      multi_json
+      request_store (>= 1.0)
     gravtastic (3.2.6)
     gretel (3.0.8)
       rails (>= 3.2.0)
@@ -627,6 +632,7 @@ DEPENDENCIES
   friendly_id (~> 5)
   fullcalendar-rails
   gmaps4rails
+  gon
   gravtastic
   gretel
   gritter (= 1.1.0)
