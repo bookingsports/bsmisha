@@ -39,6 +39,7 @@ class StadiumUser < User
   after_initialize :set_status, if: :new_record?
 
   after_create :create_stadium
+  after_create :create_account
 
   def set_status
     self.status = "pending" unless self.status

@@ -31,6 +31,7 @@ class CoachUser < User
   has_one :product, foreign_key: "user_id", dependent: :destroy
 
   has_one :account, as: :accountable
+  after_create :create_account
 
   accepts_nested_attributes_for :coach, :account
 
