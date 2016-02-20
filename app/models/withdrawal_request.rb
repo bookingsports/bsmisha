@@ -31,7 +31,7 @@ class WithdrawalRequest < ActiveRecord::Base
   def set_payment
     account = self.wallet.user.account
     self.payment = <<-ENDLINE
-    1CClientBankExchange
+1CClientBankExchange
 ВерсияФормата=1.02
 Кодировка=Windows
 Отправитель=Контур.Бухгалтерия
