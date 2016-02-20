@@ -9,6 +9,7 @@ module StadiumUserConcern
         field :name
         field :email
         field :avatar
+        field :account
         field :status
         field :phone
       end
@@ -19,6 +20,7 @@ module StadiumUserConcern
         field :password
         field :password_confirmation
         field :avatar
+        field :account
         field :status
         field :phone
       end

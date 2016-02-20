@@ -32,6 +32,9 @@ class StadiumUser < User
 
   delegate :courts, to: :stadium
 
+  has_one :account, as: :accountable
+  accepts_nested_attributes_for :account
+
   enum status: [:pending, :active]
   after_initialize :set_status, if: :new_record?
 
