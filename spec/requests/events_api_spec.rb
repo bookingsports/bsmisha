@@ -256,7 +256,7 @@ RSpec.describe "EventsApi", type: :request do
           get court_my_events_path(@court, format: :json)
 
           data = JSON.parse(response.body)
-          event = data.select {|e| e["id"] == @event.id }.first
+          event = data.detect {|e| e["id"] == @event.id }
 
           expect(event["start"]).to eq(Time.zone.parse("12:00:00").as_json)
           expect(event["visual_type"]).to eq("paid")

@@ -49,7 +49,10 @@ class Event::TransferService
     end
 
     def event_change
-      @event_change ||= event.event_changes.build
+      @event_change ||= event.event_changes.build(
+        summary: event.attributes.except(:id).to_json,
+        status: :unpaid
+      )
     end
 
     def order

@@ -40,7 +40,7 @@ class Order < ActiveRecord::Base
 
   def total
     _total = events.map(&:total).inject(:+).to_i + event_changes.map(&:total).inject(:+).to_i
-    return attributes["total"] if _total.zero?
+    return attributes["total"].to_i if _total.zero?
     _total
   end
 

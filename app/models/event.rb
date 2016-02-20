@@ -148,7 +148,7 @@ class Event < ActiveRecord::Base
     if self.user == user
       self.start
     else
-      attributes["start"]
+      start_before_change
     end
   end
 
@@ -156,12 +156,32 @@ class Event < ActiveRecord::Base
     if self.user == user
       self.end
     else
-      attributes["end"]
+      end_before_change
     end
   end
 
   def has_unpaid_changes?
     event_changes.unpaid.present?
+  end
+
+  def start_before_change
+    event_before_change ? Time.zone.parse(event_before_change["start"]) : attributes["start"]
+  end
+
+  def end_before_change
+    event_before_change ? Time.zone.parse(event_before_change["end"]) : attributes["end"]
+  end
+
+  def event_before_change
+    @event_before_change ||= JSON.parse(event_changes.unpaid.last.summary) if event_changes.unpaid.last
+  end
+
+  def start
+    attributes["start"]
+  end
+
+  def end
+    attributes["end"]
   end
 
   private

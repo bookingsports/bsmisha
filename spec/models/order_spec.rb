@@ -54,8 +54,9 @@ RSpec.describe Order, type: :model do
       @order.pay!
       ActionMailer::Base.deliveries.clear
       @event.reload
-      @event.update start: Time.now
-      @new_order = Order.create event_changes: @event.event_changes, user: @user
+      @event.update(start: Time.now)
+      @event.event_changes.create(summary: @event.attributes.except(:id).to_json, status: :unpaid)
+      @new_order = Order.create(event_changes: @event.event_changes, user: @user)
       @new_order.pay!
 
       # puts ActionMailer::Base.deliveries.last.body
