@@ -2,13 +2,13 @@ ru:
   activerecord:
     models:
       account:
-        one: платежная квитанция
-        parent: платежной квитанции
-        accusative: платежная квитанция
-        other: платежные квитанции
+        one: реквизит
+        parent: реквизита
+        accusative: реквизит
+        other: реквизиты
     attributes:
       account:
-        number: Номер
+        number: Расчетный счет
         company: Компания
         inn: ИНН
         kpp: КПП

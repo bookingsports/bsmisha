@@ -5,8 +5,8 @@ module AccountConcern
     rails_admin do
       navigation_label I18n.t(:money)
       list do
-        field :number
         field :company
+        field :number
         field :inn
         field :kpp
         field :bank
@@ -18,8 +18,8 @@ module AccountConcern
       end
 
       show do
-        field :number
         field :company
+        field :number
         field :inn
         field :kpp
         field :bank
@@ -31,8 +31,8 @@ module AccountConcern
       end
 
       edit do
-        field :number
         field :company
+        field :number
         field :inn
         field :kpp
         field :bank
