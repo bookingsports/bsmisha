@@ -24,6 +24,10 @@ class ProductService < ActiveRecord::Base
 
   delegate :owner, to: :product
 
+  def name
+    "Услуга #{service_id.present? ? service.name : ""} продукта #{product_id.present? ? product.name : ""}"
+  end
+
   def service_name_and_price
     periodicity = self.periodic? ? " в час" : ""
     "#{service.name} (#{price} руб.#{periodicity})"
