@@ -16,4 +16,5 @@
 #
 
 class Account < ActiveRecord::Base
+  include AccountConcern
 end
