@@ -1,19 +1,20 @@
 require 'rails_helper'
 
-# Feature: Navigation links
-#   As a visitor
-#   I want to see navigation links
-#   So I can find home, sign in, or sign up
-RSpec.feature "Navigation links", :devise do
-  # Scenario: View navigation links
-  #   Given I am a visitor
-  #   When I visit the home page
-  #   Then I see "home," "sign in," and "sign up"
-  scenario "view navigation links" do
+RSpec.feature 'Navigation links' do
+  before :each do
     visit root_path
 
-    expect(page).to have_content("Тренеры")
-    expect(page).to have_content("Вход")
-    expect(page).to have_content("Стадионы")
+    within 'ul.nav' do
+      expect(page).to have_link('Тренеры', href: coaches_path)
+      expect(page).to have_link('Стадионы', href: stadiums_path)
+      expect(page).to have_link('Учетная запись', href: '#')
+    end
+  end
+
+  scenario 'for clients' do
+    within 'ul.nav .dropdown-menu' do
+      expect(page).to have_css('a', count: 1)
+      expect(page).to have_link('Вход / Регистрация', href: new_user_session_path)
+    end
   end
 end

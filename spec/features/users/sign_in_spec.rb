@@ -4,7 +4,7 @@ require 'rails_helper'
 #   As a user
 #   I want to sign in
 #   So I can visit protected areas of the site
-RSpec.feature "Sign in", :devise do
+RSpec.feature "Sign in" do
 
   # Scenario: User cannot sign in if not registered
   #   Given I do not exist as a user

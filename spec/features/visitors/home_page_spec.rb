@@ -9,7 +9,7 @@ RSpec.feature 'Home page' do
     expect(page.status_code).to be(200)
   end
 
-  scenario 'home page title check', js: true do
+  scenario 'home page title check', :js do
     visit root_path
     expect(page.title).to eq('Booking Sports - Бронируйте спорт надежно')
   end

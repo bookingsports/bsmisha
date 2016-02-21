@@ -4,7 +4,7 @@ require 'rails_helper'
 #   As a user
 #   I want to sign out
 #   So I can protect my account from unauthorized access
-RSpec.feature "Sign out", :devise do
+RSpec.feature "Sign out" do
   # Scenario: User signs out successfully
   #   Given I am signed in
   #   When I sign out

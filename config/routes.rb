@@ -97,7 +97,6 @@ Rails.application.routes.draw do
   end
 
   resources :stadium_users
-  resources :sales
 
   get 'categories/:category_id', to: 'stadiums#index', as: 'category'
 
