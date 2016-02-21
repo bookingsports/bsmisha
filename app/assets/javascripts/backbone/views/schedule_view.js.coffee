@@ -45,6 +45,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
     @$el.kendoScheduler
       culture: 'ru-RU'
       date: new Date()
+      allDaySlot: false
       workDayStart: new Date(@opens_at)
       workDayEnd: new Date(@closes_at)
       showWorkHours: true

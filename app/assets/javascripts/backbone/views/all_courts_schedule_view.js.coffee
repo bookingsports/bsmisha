@@ -12,6 +12,7 @@ class Tennis.Views.AllCourtsScheduleView extends Backbone.View
   render: ->
     @$el.kendoScheduler
       date: new Date()
+      allDaySlot: false
       startTime: new Date('2013/6/13 07:00 AM')
       height: 700
       views: [
