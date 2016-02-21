@@ -49,7 +49,6 @@ class EventsController < ApplicationController
     @event = current_user.new_event event_params.delete_if {|k,v| v.empty? }
     @event.products = current_products
     @event.save!
-    respond_with @event
   end
 
   def update
@@ -86,7 +85,7 @@ class EventsController < ApplicationController
 
     def event_params
       params.require(:event).permit(
-        :id, :start, :end, :user_id, :is_all_day, :description, :owned,
+        :id, :start, :end, :user_id, :is_all_day, :owned,
         :recurrence_rule, :recurrence_id, :recurrence_exception,
         product_service_ids: [],
         product_ids: []

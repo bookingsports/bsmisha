@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_params, if: :devise_controller?
   before_action :find_static_pages
+  before_action :set_gon_user
+
   layout :set_layout
 
   protected
@@ -15,6 +17,12 @@ class ApplicationController < ActionController::Base
     def set_layout
       if current_user && devise_controller?
         "dashboard"
+      end
+    end
+
+    def set_gon_user
+      if user_signed_in?
+        gon.current_user = {name: current_user.name}
       end
     end
 

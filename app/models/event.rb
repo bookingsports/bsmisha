@@ -52,10 +52,6 @@ class Event < ActiveRecord::Base
     "Событие с #{start} по #{self.end}"
   end
 
-  def description
-    attributes["description"] || ""
-  end
-
   def total
     associated_payables_with_price.map {|p| p[:total] }.inject(&:+)
   end

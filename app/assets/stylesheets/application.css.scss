@@ -673,10 +673,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .k-edit-form-container{
+  label[for=title],
   label[for=visual_type],
   label[for=isAllDay],
   label[for=description],
   label[for=timezone],
+  [data-container-for=title],
   [data-container-for=visual_type],
   [data-container-for=isAllDay],
   [data-container-for=timezone],

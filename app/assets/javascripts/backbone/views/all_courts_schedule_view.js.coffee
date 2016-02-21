@@ -21,7 +21,7 @@ class Tennis.Views.AllCourtsScheduleView extends Backbone.View
       ]
 
       edit: (e) =>
-        if (e.event.visual_type == 'disowned') || @getCookie('signed_in') != '1'
+        if (e.event.visual_type == 'disowned') || !gon.current_user
           alert 'Пожалуйста, сначала авторизуйтесь.'
           e.preventDefault()
       resize: (e) =>
@@ -94,11 +94,11 @@ class Tennis.Views.AllCourtsScheduleView extends Backbone.View
             dataType: 'json'
             url: (options) => "#{@url()}/#{options.id}"
             method: 'DELETE'
-        parameterMap: (options, operation) =>
-          if operation == 'read'
-            return options
-          if operation != 'read' && options
-            return {event: options}
+          parameterMap: (options, operation) =>
+            if operation == 'read'
+              return options
+            if operation != 'read' && options
+              return {event: options}
 
         schema:
           timezone: 'Europe/Moscow'
@@ -159,19 +159,6 @@ class Tennis.Views.AllCourtsScheduleView extends Backbone.View
             start: slot.startDate
             end: slot.endDate
         return
-
-  getCookie: (cname) ->
-    name = cname + '='
-    ca = document.cookie.split(';')
-    i = 0
-    while i < ca.length
-      c = ca[i]
-      while c.charAt(0) == ' '
-        c = c.substring(1)
-      if c.indexOf(name) == 0
-        return c.substring(name.length, c.length)
-      i++
-    ''
 
   timeIsOccupied: (start, end, event) =>
     occurences = @scheduler().occurrencesInRange(start, end)
