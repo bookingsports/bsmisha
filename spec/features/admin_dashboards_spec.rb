@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.feature "AdminDashboards", type: :feature do
+RSpec.feature "AdminDashboards" do
   before(:all) do
     full_setup
   end

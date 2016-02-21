@@ -19,7 +19,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Event, type: :model do
+RSpec.describe Event do
   before(:each) do
     full_setup
     @event = Event.create({

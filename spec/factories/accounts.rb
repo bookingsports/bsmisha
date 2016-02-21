@@ -18,13 +18,12 @@
 FactoryGirl.define do
   factory :account do
     number "MyString"
-company "MyString"
-inn=string "MyString"
-kpp "MyString"
-bank "MyString"
-bank_city "MyString"
-bik "MyString"
-kor "MyString"
+    company "MyString"
+    inn=string "MyString"
+    kpp "MyString"
+    bank "MyString"
+    bank_city "MyString"
+    bik "MyString"
+    kor "MyString"
   end
-
 end

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "EventsApi", type: :request do
+RSpec.describe "EventsApi" do
   before(:each) do
     full_setup
     login_via_post_as(@user)

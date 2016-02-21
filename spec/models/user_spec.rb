@@ -24,7 +24,9 @@
 #  phone                  :string
 #
 
-describe User do
+require 'rails_helper'
+
+Rspec.describe User do
   before(:each) do
     @user = User.new(email: "user@example.com")
     @valid_user = create(:user)

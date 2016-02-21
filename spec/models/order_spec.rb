@@ -11,9 +11,9 @@
 #  comment    :string
 #
 
-require "rails_helper"
+require 'rails_helper'
 
-RSpec.describe Order, type: :model do
+RSpec.describe Order do
   before(:each) do
     full_setup
   end

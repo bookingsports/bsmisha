@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Dashboard", type: :request do
+RSpec.describe "Dashboard" do
   context "StadiumUser" do
     before(:all) do
       @user = StadiumUser.create({

@@ -8,9 +8,9 @@
 #  updated_at :datetime         not null
 #
 
-require "rails_helper"
+require 'rails_helper'
 
-RSpec.describe Wallet, type: :model do
+RSpec.describe Wallet do
   before(:each) do
     @user = User.create(name: 'Test User', email: "user@example.com", password: "blankertag")
     @admin = Admin.create(name: 'Test Admin', email: "admin@example.com", password: "blinkenblag")

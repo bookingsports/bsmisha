@@ -107,8 +107,6 @@ group :development, :test do
   gem "web-console", "~> 2.0"
   gem "spring"
   gem "railroady"
-  gem "simplecov", require: false
-  gem "coveralls", require: false
 end
 
 group :production, :staging do
