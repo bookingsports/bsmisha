@@ -134,11 +134,11 @@ class Tennis.Views.ScheduleView extends Backbone.View
             dataType: 'json'
             url: (options) => "#{@url()}/#{options.id}"
             method: 'DELETE'
-        parameterMap: (options, operation) =>
-          if operation == 'read'
-            return options
-          if operation != 'read' && options
-            return {event: options}
+          parameterMap: (options, operation) =>
+            if operation == 'read'
+              return options
+            if operation != 'read' && options
+              return {event: options}
         schema:
           timezone: 'Europe/Moscow'
           model:
