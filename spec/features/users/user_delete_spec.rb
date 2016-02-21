@@ -1,11 +1,13 @@
 include Warden::Test::Helpers
 Warden.test_mode!
 
+require 'rails_helper'
+
 # Feature: User delete
 #   As a user
 #   I want to delete my user profile
 #   So I can close my account
-feature "User delete", :devise, :js do
+RSpec.feature "User delete", :devise, :js do
   after(:each) do
     Warden.test_reset!
   end

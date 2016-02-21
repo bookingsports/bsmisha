@@ -1,8 +1,10 @@
+require 'rails_helper'
+
 # Feature: User edit
 #   As a user
 #   I want to edit my user profile
 #   So I can change my email address
-feature "User edit", :devise do
+RSpec.feature "User edit", :devise do
   after(:each) do
     Warden.test_reset!
   end

@@ -1,4 +1,6 @@
-feature "dashboard" do
+require 'rails_helper'
+
+RSpec.feature "dashboard" do
   before(:each) do
     @stadium_owner = StadiumUser.create!({
       name: 'Test User',
