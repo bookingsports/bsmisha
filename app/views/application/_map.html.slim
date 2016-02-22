@@ -1,14 +1,11 @@
 - content_for :scripts do
   = javascript_include_tag 'map'
-  = javascript_include_tag '//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js'
-  = javascript_include_tag '//maps.google.com/maps/api/js?language=ru&libraries=places&callback=initMap'
+  = render 'google_maps'
+
+- search_on_map ||= false
 
 #map-container
   #map
-  .searchonmap
-    = search_form_for @q, remote: true, format: :json, wrapper: :inline_form, html: { id: 'searcher', class: 'form-inline' } do |f|
-      = f.input :name_cont, placeholder: 'Название', label: false
-      .location-detector.btn
-      = text_field_tag :place, nil, placeholder: 'Место'
-      = f.input :category_id_eq, collection: Category.all, prompt: 'Все категории', label: false
-      = f.button :submit, 'Поиск', data: {search_on_map: true}
+  - if search_on_map
+    .searchonmap
+      = render 'search_on_map', q: q

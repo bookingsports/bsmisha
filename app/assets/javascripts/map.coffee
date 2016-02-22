@@ -1,4 +1,4 @@
-window.initMap = ->
+$ =>
   markers = new Tennis.Collections.MarkerCollection gon.markers
 
   window.map = new Tennis.Views.MapView collection: markers
@@ -18,4 +18,4 @@ window.initMap = ->
   for selector in config
     $(selector).chosen(config[selector])
 
-  $('#name').autocomplete source: stadium_names
+  $('#q_name_cont').autocomplete source: stadium_names

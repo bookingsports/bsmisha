@@ -26,6 +26,14 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    def set_markers
+      gon.markers = JSON.parse(VisitorsController.new.render_to_string(
+          locals: { stadiums: @stadiums },
+          template: 'stadiums/_markers',
+          formats: 'json',
+          layout: false))['markers']
+    end
+
     def find_static_pages
       @pages ||= StaticPage.all
     end

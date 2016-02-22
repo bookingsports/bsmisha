@@ -27,7 +27,7 @@
 
 class StadiumsController < ApplicationController
   before_action :set_stadium, only: [:show, :edit, :update]
-  layout "stadium", except: [:index]
+  layout 'stadium', except: [:index]
 
   def index
     @q = Stadium.ransack(params[:q])
@@ -37,6 +37,8 @@ class StadiumsController < ApplicationController
                   .active
 
     @stadiums.where(category_id: params[:category_id]) if params[:category_id].present?
+
+    set_markers
   end
 
   def show
