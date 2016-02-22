@@ -24,7 +24,7 @@ class Tennis.Views.MapView extends Backbone.View
 
         $('#searcher').on 'ajax:success', (e, data) =>
           @renderMarkers(new Tennis.Collections.MarkerCollection(data.markers))
-            $('.stadiums').html(data.stadiums) if data.stadiums
+          $('.stadiums').html(data.stadiums) if data.stadiums
 
   putMeToMap: (pos) =>
     latLng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude)
