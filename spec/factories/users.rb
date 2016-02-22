@@ -30,8 +30,9 @@ FactoryGirl.define do
     email "test@example.com"
     password "please123"
 
-    trait :admin do
-      role 'admin'
-    end
+    factory :customer, class: 'Customer'
+    factory :coach_user, class: 'CoachUser'
+    factory :stadium_user, class: 'StadiumUser'
+    factory :admin, class: 'Admin'
   end
 end
