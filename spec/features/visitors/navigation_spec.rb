@@ -29,6 +29,10 @@ RSpec.feature 'Navigation links' do
       expect(page).to have_link('Тренеры', href: coaches_path)
       expect(page).to have_link('Стадионы', href: stadiums_path)
       expect(page).to have_link('Учетная запись', href: '#')
+
+      expect(page).to have_selector(@subnav, visible: false)
+      click_link 'Учетная запись'
+      expect(page).to have_selector(@subnav, visible: true)
     end
   end
 
