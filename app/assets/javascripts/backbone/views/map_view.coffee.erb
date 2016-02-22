@@ -10,8 +10,8 @@ class Tennis.Views.MapView extends Backbone.View
       $('a[data-toggle="tab"]').on 'shown.bs.tab', (e) =>
         google.maps.event.trigger(@handler.getMap(), 'resize')
 
-      $('.location-detector-btn').click (e) =>
-        $('.location-detector-btn').addClass('fa-spin')
+      $('.location-detector').click (e) =>
+        $('.location-detector').addClass('fa-spin')
         if navigator.geolocation
           navigator.geolocation.getCurrentPosition(@putMeToMap)
       if $('#searcher').length
@@ -19,23 +19,11 @@ class Tennis.Views.MapView extends Backbone.View
         options =
           bounds: @moscowBounds()
           type: ['geocode']
+
         @autocomplete = new google.maps.places.Autocomplete(input, options)
 
-
-        $('[data-search-on-map]').on 'click', (e) =>
-          if $('#searcher #place').val() && @autocomplete.getPlace()
-            e.preventDefault()
-            map.handler.getMap().panTo(map.autocomplete.getPlace().geometry.location)
-          else if $('#searcher #name').val()
-            e.preventDefault()
-            marker = markers.where(name: $('#searcher #name').val())[0]
-            @handler.getMap().addListener 'center_changed', (e) =>
-              @handler.getMap().setZoom(16)
-            @handler.getMap().panTo(marker.attributes.position)
-          else if $('#searcher #category_id').val()
-            $('#searcher').on 'ajax:success', (e, data) =>
-              @renderMarkers(new Tennis.Collections.MarkerCollection(data))
-
+        $('#searcher').on 'ajax:success', (e, data) =>
+          @renderMarkers(new Tennis.Collections.MarkerCollection(data))
 
   putMeToMap: (pos) =>
     latLng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude)
@@ -43,9 +31,21 @@ class Tennis.Views.MapView extends Backbone.View
     @geolocationMarker = new google.maps.Marker
       position: latLng
       map: @handler.getMap()
-      icon: '<%= asset_url('locate.png') %>'
 
-    $('.location-detector-btn').removeClass('fa-spin')
+    @geocoder.geocode latLng: latLng, (results, status) ->
+      if status == google.maps.GeocoderStatus.OK
+        if results[1]
+          arrAddress = results
+
+          $.each arrAddress, (i, address_component) ->
+            if address_component.types[0] == 'locality'
+              itemLocality = address_component.address_components[0].long_name
+              $('#searcher #place').val(itemLocality)
+        else
+          alert 'Адрес не найден'
+
+    $('.location-detector').removeClass('fa-spin')
+
   moscowCoords: ->
     lat: 55.75
     lng: 37.61
@@ -59,25 +59,23 @@ class Tennis.Views.MapView extends Backbone.View
   coords: -> @moscowCoords()
 
   render: ->
-    @handler.buildMap { provider: {scrollwheel: false}, internal: {id: 'map'}}, =>
-      if @collection
-        @markers = @handler.addMarkers(@collection.models)
-        # @handler.bounds.extendWith(@markers)
-        # @handler.fitMapToBounds()
-        @handler.getMap().setCenter(@moscowCoords())
-        @handler.getMap().setZoom(12)
-      else
-        @handler.getMap().setCenter(@coords())
-      if @markers.length == 1
-        @handler.getMap().setZoom(14)
-        @handler.getMap().setCenter(@collection.models[0].get('position'))
-      @afterMap() if @afterMap
+    @handler.buildMap provider: {scrollwheel: false}, internal: {id: 'map'}, =>
+      @renderMarkers(@collection)
 
-    this
+    @afterMap() if @afterMap
 
   renderMarkers: (collection) ->
-    console.log 'Re-rendering marker data'
     @handler.removeMarkers(@markers)
     @markers = @handler.addMarkers collection.models
     @handler.bounds.extendWith(@markers)
-    @handler.fitMapToBounds()
+
+    if $('#searcher #place').val() && @autocomplete.getPlace()
+      map.handler.getMap().panTo(map.autocomplete.getPlace().geometry.location)
+    else
+      if @markers.length == 0
+        @handler.getMap().setCenter(@moscowCoords())
+      else if @markers.length == 1
+        @handler.getMap().panTo(@markers[0].serviceObject.position)
+        @handler.getMap().setZoom(14)
+      else
+        @handler.fitMapToBounds()

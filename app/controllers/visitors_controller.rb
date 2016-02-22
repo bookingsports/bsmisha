@@ -14,7 +14,7 @@ class VisitorsController < ApplicationController
     def set_markers
       gon.markers = JSON.parse(VisitorsController.new.render_to_string(
           locals: { stadiums: @stadiums },
-          template: 'visitors/index',
+          template: 'stadiums/_stadiums',
           formats: 'json',
           layout: false))
     end

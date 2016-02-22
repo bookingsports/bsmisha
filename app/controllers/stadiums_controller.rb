@@ -27,7 +27,6 @@
 
 class StadiumsController < ApplicationController
   before_action :set_stadium, only: [:show, :edit, :update]
-  respond_to :html, :js, :json
   layout "stadium", except: [:index]
 
   def index
@@ -38,8 +37,6 @@ class StadiumsController < ApplicationController
                   .active
 
     @stadiums.where(category_id: params[:category_id]) if params[:category_id].present?
-
-    respond_with @stadiums
   end
 
   def show
