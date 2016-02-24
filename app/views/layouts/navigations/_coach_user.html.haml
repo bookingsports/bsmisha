@@ -1,5 +1,6 @@
 - with_options wrap_tag: :li, active: :inclusive do |nav|
   = nav.active_link_to 'Расписание', dashboard_grid_path()
+  = nav.active_link_to 'Реквизиты', edit_account_dashboard_product_path
   = nav.active_link_to 'Стадионы', dashboard_employments_path
   = nav.active_link_to 'Клиенты', dashboard_customers_path
   = nav.active_link_to 'Кошелек', deposit_requests_path
