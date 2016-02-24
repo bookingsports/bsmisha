@@ -2,12 +2,12 @@ class Dashboard::ProductsController < DashboardController
   before_filter :find_product
 
   def edit
+    gon.latLng = {lat: @product.latitude || 55.75, lng: @product.longitude || 37.61}
   end
 
   def update
     @product.update product_params
-
-    render :edit
+    redirect_to edit_dashboard_product_path
   end
 
   private

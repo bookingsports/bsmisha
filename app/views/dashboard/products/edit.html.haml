@@ -18,10 +18,7 @@
         = f.input :closes_at, as: :datetime, discard_year: true, discard_month: true, label: false
       .col-md-6
         %label Выберите месторасположение:
-        #map{:style => "height: 400px;"}
-        :javascript
-          var map = new Tennis.Views.DraggableMapView({latLng: {lat: #{@product.latitude || 55.75}, lng: #{@product.longitude || 37.61}}});
-          map.render();
+        = render 'draggable_map'
     .row
       .col-xs-12
         %h4 Цены

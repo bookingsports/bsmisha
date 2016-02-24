@@ -62,8 +62,7 @@ class Tennis.Views.MapView extends Backbone.View
   render: ->
     @handler.buildMap provider: {scrollwheel: false}, internal: {id: 'map'}, =>
       @renderMarkers(@collection)
-
-    @afterMap() if @afterMap
+      @afterMap() if @afterMap
 
   renderMarkers: (collection) ->
     @handler.removeMarkers(@markers)
