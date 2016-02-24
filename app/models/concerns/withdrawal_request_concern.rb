@@ -3,7 +3,7 @@ module WithdrawalRequestConcern
 
   included do
     rails_admin do
-      visible false
+      parent Wallet
       list do
         field :wallet
         field :status
@@ -11,6 +11,7 @@ module WithdrawalRequestConcern
         field :data
         field :created_at
         field :updated_at
+        field :payment
       end
 
       edit do
@@ -18,6 +19,7 @@ module WithdrawalRequestConcern
         field :status
         field :amount
         field :data
+        field :payment
       end
     end
   end
