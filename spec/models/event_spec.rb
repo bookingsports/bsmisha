@@ -45,7 +45,7 @@ RSpec.describe Event do
 
   describe '#duration_in_hours' do
     it 'shows duration in hours' do
-      expect(@event.duration_in_hours).to eq 3
+      expect(@event.duration_in_hours).to eq 2.5
     end
   end
 
