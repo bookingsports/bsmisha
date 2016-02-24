@@ -1,4 +1,4 @@
-class ChageDataTypeForOpensAndClosesAt < ActiveRecord::Migration
+class ChangeDataTypeForOpensAndClosesAt < ActiveRecord::Migration
   def self.up
     change_table :products do |t|
       t.change :opens_at, :time
