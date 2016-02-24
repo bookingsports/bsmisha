@@ -1,0 +1,15 @@
+= simple_form_for @product, as: :product, url: dashboard_product_path do |f|
+  .row
+    .col-xs-12
+      %h4 Реквизиты
+      = f.simple_fields_for :owner do |o|
+        = o.simple_fields_for :account do |acc|
+          = acc.input :company
+          = acc.input :number
+          = acc.input :inn
+          = acc.input :kpp
+          = acc.input :bank
+          = acc.input :bank_city
+          = acc.input :bik
+          = acc.input :kor
+  = f.button :submit, 'Сохранить'

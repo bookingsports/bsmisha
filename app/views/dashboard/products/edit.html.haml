@@ -21,19 +21,6 @@
         = render 'draggable_map'
     .row
       .col-xs-12
-        %h4 Реквизиты
-        = f.simple_fields_for :owner do |o|
-          = o.simple_fields_for :account do |acc|
-            = acc.input :company
-            = acc.input :number
-            = acc.input :inn
-            = acc.input :kpp
-            = acc.input :bank
-            = acc.input :bank_city
-            = acc.input :bik
-            = acc.input :kor
-    .row
-      .col-xs-12
         %h4 Цены
         = link_to 'Настроить цены', dashboard_special_prices_path, class: 'btn btn-primary'
         %h4 Корты
@@ -68,20 +55,6 @@
     = f.input :phone
     = f.input :price, as: :string
     = f.input :description, as: :text
-
-    .row
-      .col-xs-12
-        %h4 Реквизиты
-        = f.simple_fields_for :owner do |o|
-          = o.simple_fields_for :account do |acc|
-            = acc.input :company
-            = acc.input :number
-            = acc.input :inn
-            = acc.input :kpp
-            = acc.input :bank
-            = acc.input :bank_city
-            = acc.input :bik
-            = acc.input :kor
 
     .form-group
       = link_to fa_icon('edit') + ' Сменить пароль или почту', edit_user_registration_path, class: 'btn btn-default'
