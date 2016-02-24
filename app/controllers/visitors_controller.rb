@@ -6,6 +6,6 @@ class VisitorsController < ApplicationController
                   .includes(:courts, :pictures)
                   .active
 
-    set_markers
+    set_markers @stadiums
   end
 end

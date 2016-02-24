@@ -38,10 +38,11 @@ class StadiumsController < ApplicationController
 
     @stadiums.where(category_id: params[:category_id]) if params[:category_id].present?
 
-    set_markers
+    set_markers @stadiums
   end
 
   def show
+    set_markers [@stadium]
   end
 
   private

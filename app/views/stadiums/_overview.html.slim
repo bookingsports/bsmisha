@@ -1,0 +1,14 @@
+.row
+  .product-subheader
+    .product-map
+      = render 'map'
+    .product-image
+      .address
+        = stadium.address
+        p.tel_field
+          tel
+            | Тел.: #{stadium.phone}
+      = image_tag stadium.avatar.medium.url
+  .col-xs-12.col-sm-12.col-md-12.col-lg-12
+    p
+      = stadium.description.html_safe

@@ -350,21 +350,18 @@ footer {
 }
 .product-subheader {
     width: 100%;
-    height: 260px;
-    -webkit-box-shadow: 0px 7px 11px 0px rgba(50, 50, 50, 0.2);
-    -moz-box-shadow: px 7px 11px 0px rgba(50, 50, 50, 0.2);
-    box-shadow: 0px 7px 11px 0px rgba(50, 50, 50, 0.2);
+    margin-bottom: 50px;
 }
 .product-image,
 .product-map {
-    float: left;
-    // margin-top: -40px;
-    height: 300px ;
+    display: inline-block;
+    vertical-align: top;
 }
 .product-map {
     width: 65% !important;
 }
 .product-image {
+    height: 300px;
     width: 35%;
     overflow: hidden;
     background-color: #000;
