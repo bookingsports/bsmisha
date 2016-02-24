@@ -97,7 +97,7 @@ group :test do
   gem "database_cleaner"
   gem "launchy"
   gem "selenium-webdriver"
-  gem "faker"
+  gem "faker", github: 'stympy/faker'
   gem "rspec-rails"
 end
 
