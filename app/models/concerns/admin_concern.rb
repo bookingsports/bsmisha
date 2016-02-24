@@ -14,6 +14,13 @@ module AdminConcern
         field :phone
       end
 
+      show do
+        field :name
+        field :email
+        field :avatar
+        field :phone
+      end
+
       edit do
         field :name
         field :email

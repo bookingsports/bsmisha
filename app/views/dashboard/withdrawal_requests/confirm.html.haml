@@ -1,5 +1,0 @@
-%h2 Подтвердить вывод средств
-%h3= number_to_currency @request.amount
-= form_tag @request.request_data.payment_url do
-  = safe_join @request.request_data.form_fields
-  = submit_tag 'Вывести', class: 'btn btn-success'

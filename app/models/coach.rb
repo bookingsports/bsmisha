@@ -32,6 +32,8 @@ class Coach < Product
   has_many :courts, through: :coaches_courts
   validate :has_at_least_one_court, on: :stadium_dashboard
 
+  accepts_nested_attributes_for :owner
+
   delegate :email, to: :owner
 
   def has_courts?

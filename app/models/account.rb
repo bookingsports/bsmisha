@@ -16,4 +16,6 @@
 #
 
 class Account < ActiveRecord::Base
+  include AccountConcern
+  belongs_to :accountable, polymorphic: true
 end

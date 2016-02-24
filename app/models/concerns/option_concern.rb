@@ -3,6 +3,7 @@ module OptionConcern
 
   included do
     rails_admin do
+      visible false
       list do
         field :tax
         field :feedback_email

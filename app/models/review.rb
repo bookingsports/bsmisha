@@ -25,6 +25,6 @@ class Review < ActiveRecord::Base
   validates :rating, inclusion: { in: 0..5 }
 
   def name
-    "Обзор №{id} #{user_id.present? ? "пользователя " + user.name : ""} #{reviewable_id.present? ? "на продукт " + reviewable_id.to_s : ""}"
+    "Обзор #{user_id.present? ? "пользователя " + user.name : ""} #{reviewable_id.present? ? "на продукт " + reviewable.name.to_s : ""}"
   end
 end

@@ -10,11 +10,23 @@ class Dashboard::WithdrawalRequestsController < DashboardController
 
     @request.save
 
-    render action: :confirm
+    redirect_to dashboard_withdrawal_requests_url
   end
 
-  def confirm
+  def destroy
     @request = current_user.wallet.withdrawal_requests.find params[:id]
+    @request.destroy!
+
+    redirect_to dashboard_withdrawal_requests_url
+  end
+
+  def print
+    if current_user.admin?
+      @request = WithdrawalRequest.find params[:id]
+      send_data @request.payment, type: 'text/plain', filename: "Платежная квитанция №#{@request.id}.txt"
+    else
+      redirect_to root_url
+    end
   end
 
   private

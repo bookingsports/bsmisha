@@ -66,7 +66,9 @@ Rails.application.routes.draw do
     resources :customers
     resources :employments
     resources :coach_users
-    resources :withdrawal_requests
+    resources :withdrawal_requests do
+      get :print, on: :member
+    end
   end
 
   resources :deposit_requests

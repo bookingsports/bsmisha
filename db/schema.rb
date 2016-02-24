@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160219204852) do
+ActiveRecord::Schema.define(version: 20160224083008) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,8 +25,10 @@ ActiveRecord::Schema.define(version: 20160219204852) do
     t.string   "bank_city"
     t.string   "bik"
     t.string   "kor"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.string   "accountable_type"
+    t.string   "accountable_id"
   end
 
   create_table "additional_event_items", force: :cascade do |t|
@@ -213,8 +215,8 @@ ActiveRecord::Schema.define(version: 20160219204852) do
     t.string   "avatar"
     t.decimal  "price",        precision: 8, scale: 2
     t.decimal  "change_price", precision: 8, scale: 2
-    t.datetime "opens_at"
-    t.datetime "closes_at"
+    t.time     "opens_at"
+    t.time     "closes_at"
   end
 
   add_index "products", ["category_id"], name: "index_products_on_category_id", using: :btree
@@ -289,9 +291,7 @@ ActiveRecord::Schema.define(version: 20160219204852) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
-    t.integer  "role"
     t.string   "type"
-    t.string   "slug"
     t.string   "avatar"
     t.integer  "status"
     t.string   "phone"
@@ -333,11 +333,12 @@ ActiveRecord::Schema.define(version: 20160219204852) do
 
   create_table "withdrawal_requests", force: :cascade do |t|
     t.integer  "wallet_id"
-    t.integer  "status"
+    t.integer  "status",                             default: 0
     t.decimal  "amount",     precision: 8, scale: 2
     t.text     "data"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
+    t.text     "payment"
   end
 
   add_index "withdrawal_requests", ["wallet_id"], name: "index_withdrawal_requests_on_wallet_id", using: :btree

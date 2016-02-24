@@ -30,7 +30,10 @@ class CoachUser < User
   has_one :coach, foreign_key: 'user_id', dependent: :destroy
   has_one :product, foreign_key: "user_id", dependent: :destroy
 
-  accepts_nested_attributes_for :coach
+  has_one :account, as: :accountable
+  after_create :create_account
+
+  accepts_nested_attributes_for :coach, :account
 
   after_initialize :build_coach, unless: 'coach.present?'
 

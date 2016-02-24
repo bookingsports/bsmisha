@@ -14,6 +14,16 @@ module WalletConcern
         field :updated_at
       end
 
+      show do
+        field :user
+        field :deposits
+        field :deposit_requests
+        field :withdrawals
+        field :withdrawal_requests
+        field :created_at
+        field :updated_at
+      end
+
       edit do
         field :user
         field :deposits
