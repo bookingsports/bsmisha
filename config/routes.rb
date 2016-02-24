@@ -61,7 +61,9 @@ Rails.application.routes.draw do
   end
 
   namespace :dashboard do
-    resource :product, concerns: [:has_pictures]
+    resource :product, concerns: [:has_pictures] do
+      get 'edit_account', on: :member
+    end
     resources :special_prices
     resources :customers
     resources :employments
