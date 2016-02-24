@@ -33,6 +33,7 @@ class Stadium < Product
   has_many :courts, dependent: :destroy, inverse_of: :stadium, foreign_key: :parent_id
 
   accepts_nested_attributes_for :courts, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :owner
 
   after_create :make_court
   after_save :parse_address

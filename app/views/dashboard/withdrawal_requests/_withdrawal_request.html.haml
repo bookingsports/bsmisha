@@ -1,3 +1,5 @@
 %tr
-  %td= link_to withdrawal_request.amount, confirm_dashboard_withdrawal_request_path(withdrawal_request)
+  %td= withdrawal_request.amount
   %td= withdrawal_request.created_at
+  %td= withdrawal_request.status
+  %td= link_to "Удалить", dashboard_withdrawal_request_path(withdrawal_request), method: :delete

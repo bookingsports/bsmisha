@@ -9,6 +9,7 @@
 #
 
 class CoachesCourt < ActiveRecord::Base
+  include CoachesCourtConcern
   has_paper_trail
 
   belongs_to :coach

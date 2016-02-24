@@ -10,5 +10,6 @@ ru:
       service:
         name: Имя
         icon: Иконка
+        products: Продукты
         created_at: Дата создания
         updated_at: Дата изменения

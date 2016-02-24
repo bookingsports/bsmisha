@@ -14,6 +14,16 @@ module ReviewConcern
         field :updated_at
       end
 
+      show do
+        field :reviewable
+        field :text
+        field :user
+        field :verified
+        field :rating
+        field :created_at
+        field :updated_at
+      end
+
       edit do
         field :reviewable
         field :text

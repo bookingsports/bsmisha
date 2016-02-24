@@ -12,6 +12,7 @@
 #
 
 class ProductService < ActiveRecord::Base
+  include ProductServiceConcern
   has_paper_trail
 
   self.inheritance_column = "class"
@@ -22,6 +23,10 @@ class ProductService < ActiveRecord::Base
   accepts_nested_attributes_for :service
 
   delegate :owner, to: :product
+
+  def name
+    "Услуга #{service_id.present? ? service.name : ""} продукта #{product_id.present? ? product.name : ""}"
+  end
 
   def service_name_and_price
     periodicity = self.periodic? ? " в час" : ""

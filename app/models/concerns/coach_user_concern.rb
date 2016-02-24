@@ -9,7 +9,18 @@ module CoachUserConcern
         field :name
         field :email
         field :avatar
+        field :account
         field :phone
+        field :wallet
+      end
+
+      show do
+        field :name
+        field :email
+        field :avatar
+        field :account
+        field :phone
+        field :wallet
       end
 
       edit do
@@ -18,6 +29,7 @@ module CoachUserConcern
         field :password
         field :password_confirmation
         field :avatar
+        field :account
         field :phone
       end
     end
