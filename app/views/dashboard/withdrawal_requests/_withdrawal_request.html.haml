@@ -2,4 +2,4 @@
   %td= withdrawal_request.amount
   %td= withdrawal_request.created_at
   %td= withdrawal_request.status
-  %td= link_to "Удалить", dashboard_withdrawal_request_path(withdrawal_request), method: :delete
+  %td= link_to "Удалить", dashboard_withdrawal_request_path(withdrawal_request), data: { confirm: 'Вы уверены?' }, method: :delete

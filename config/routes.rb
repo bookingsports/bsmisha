@@ -67,9 +67,7 @@ Rails.application.routes.draw do
     resources :employments
     resources :coach_users
     resources :withdrawal_requests do
-      member do
-        get :print
-      end
+      get :print, on: :member
     end
   end
 

@@ -21,8 +21,8 @@ class Dashboard::WithdrawalRequestsController < DashboardController
   end
 
   def print
-    @request = WithdrawalRequest.find params[:id]
     if current_user.admin?
+      @request = WithdrawalRequest.find params[:id]
       send_data @request.payment, type: 'text/plain', filename: "Платежная квитанция №#{@request.id}.txt"
     else
       redirect_to root_url
