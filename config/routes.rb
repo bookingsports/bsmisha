@@ -68,8 +68,7 @@ Rails.application.routes.draw do
     resources :coach_users
     resources :withdrawal_requests do
       member do
-        get :confirm
-        post :print_payment
+        get :print
       end
     end
   end
