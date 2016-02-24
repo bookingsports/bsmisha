@@ -16,23 +16,26 @@
 #  created_at             :datetime
 #  updated_at             :datetime
 #  name                   :string
-#  role                   :integer
 #  type                   :string
-#  slug                   :string
 #  avatar                 :string
 #  status                 :integer
 #  phone                  :string
 #
 
 FactoryGirl.define do
-  factory :user do
-    name "Test User"
-    email "test@example.com"
-    password "please123"
+  factory :user, class: 'Customer' do
+    avatar { Faker::Avatar.image }
+    name { Faker::Name.name }
+    email { Faker::Internet.email }
+    password { Faker::Internet.password }
+    phone { Faker::PhoneNumber.cell_phone }
 
     factory :customer, class: 'Customer'
     factory :coach_user, class: 'CoachUser'
-    factory :stadium_user, class: 'StadiumUser'
     factory :admin, class: 'Admin'
+
+    factory :stadium_user, class: 'StadiumUser' do
+      status :active
+    end
   end
 end
