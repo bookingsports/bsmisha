@@ -24,7 +24,7 @@ class Dashboard::ProductsController < DashboardController
         :address, :latitude, :longitude,
         court_ids: [],
         profile_attributes: [:description],
-        owner_attributes: [:id, account_attributes: [:number, :company, :inn, :kpp, :bank, :bank_city, :bik, :kor]],
+        owner_attributes: [:id, account_attributes: [:number, :company, :inn, :kpp, :agreement_number, :date, :bik]],
         courts_attributes: [:id, :name, :price, :change_price, :category_id, :_destroy],
         product_services_attributes: [:id, :periodic, :price, :_destroy, service_attributes: [:id, :name]]
       )

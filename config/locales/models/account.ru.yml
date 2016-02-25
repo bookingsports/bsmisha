@@ -10,11 +10,14 @@ ru:
       account:
         number: Расчетный счет
         company: Компания
+        accountable: Владелец
         inn: ИНН
         kpp: КПП
         bank: Банк
         bank_city: Город банка
         bik: БИК
         kor: Корреспонденский счет
+        agreement_number: Номер договора
+        date: Дата договора
         created_at: Дата создания
         updated_at: Дата изменения
