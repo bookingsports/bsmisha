@@ -13,7 +13,7 @@ module CourtConcern
       end
       list do
         field :category
-        field :owner
+        field :user
         field :email
         field :description
         field :latitude
@@ -30,7 +30,7 @@ module CourtConcern
 
       edit do
         field :category
-        field :owner
+        field :user
         field :email
         field :description
         field :latitude
@@ -45,7 +45,7 @@ module CourtConcern
 
       show do
         field :category
-        field :owner
+        field :user
         field :email
         field :description
         field :latitude

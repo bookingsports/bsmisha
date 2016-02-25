@@ -33,7 +33,7 @@ class Product < ActiveRecord::Base
   include PapertrailStiFixConcern
 
   belongs_to :category
-  belongs_to :owner, class_name: 'User', foreign_key: :user_id
+  belongs_to :user
   has_many :pictures, as: :imageable
   has_many :reviews, as: :reviewable
   has_many :special_prices

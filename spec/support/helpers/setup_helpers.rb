@@ -21,26 +21,26 @@ module TennisHelpers
         password: "blinkenblag"
       })
 
-      @stadium_owner = StadiumUser.create!({
+      @stadium_user = StadiumUser.create!({
         name: 'Test User',
         email: "stadium@example.com",
         password: "blinkenbleg"
       })
 
-      @coach_owner = CoachUser.create!({
+      @coach_user = CoachUser.create!({
         name: 'Test User',
         email: "coach@example.com",
         password: "blinkenblug"
       })
 
-      @stadium = @stadium_owner.product
+      @stadium = @stadium_user.product
       @stadium.update(name: "Name")
 
       @court = Court.create!({
         stadium: @stadium,
         name: "court",
         price: 100,
-        owner: @stadium_owner
+        user: @stadium_user
       })
 
       @court_two = Court.create!({
@@ -51,7 +51,7 @@ module TennisHelpers
 
       @coach = Coach.create!({
         price: 100,
-        owner: @coach_owner
+        user: @coach_user
       })
 
       @service = ProductService.create!({

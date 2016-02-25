@@ -6,7 +6,7 @@ module ProductConcern
       visible false
       list do
         field :category
-        field :owner
+        field :user
         field :email
         field :description
         field :type
@@ -24,7 +24,7 @@ module ProductConcern
 
       edit do
         field :category
-        field :owner
+        field :user
         field :email
         field :description
         field :type

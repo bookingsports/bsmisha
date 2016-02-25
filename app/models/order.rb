@@ -70,7 +70,7 @@ class Order < ActiveRecord::Base
         user.wallet.withdraw! self.total
         self.events.each do |event|
           event.associated_payables_with_price.each do |item|
-            item[:product].owner.wallet.deposit_with_tax_deduction! item[:total]
+            item[:product].user.wallet.deposit_with_tax_deduction! item[:total]
           end
         end
       end

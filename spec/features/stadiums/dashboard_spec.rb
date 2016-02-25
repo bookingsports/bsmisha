@@ -37,7 +37,7 @@ RSpec.feature "dashboard" do
 
     it "lets you edit coach" do
       @court.coaches.create!({
-        owner: CoachUser.create!({
+        user: CoachUser.create!({
           name: "Антон",
           email: "test32@example.com",
           password: "shooshoo"
