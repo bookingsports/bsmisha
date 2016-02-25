@@ -1,3 +1,5 @@
+#= require ./map_bundle
+
 $ =>
   markers = new Tennis.Collections.MarkerCollection gon.markers
 
