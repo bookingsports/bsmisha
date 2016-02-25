@@ -72,15 +72,13 @@ RSpec.describe Event do
   describe '#event_associated_payables_with_price' do
     context 'should return hash with product and total price for each associated payable' do
       context 'without occurrences and special prices' do
-        it 'for one hour' do
-          court = create(:court, price: 125)
-          product_service = create(:product_service, price: 258)
+        let(:court) { create(:court, price: 125) }
+        let(:product_service) { create(:product_service, price: 258) }
+        let(:event) { create(:event, products: [court], product_services: [product_service]) }
 
+        it 'for one hour' do
           event.start = Time.zone.parse('14:00')
           event.end = Time.zone.parse('15:00')
-
-          event.products = [court]
-          event.product_services = [product_service]
 
           expect(event.associated_payables_with_price).to eq [
               {product: court, total: 125},
@@ -88,15 +86,19 @@ RSpec.describe Event do
           ]
         end
 
-        it 'for more than one hour' do
-          court = create(:court, price: 125)
-          product_service = create(:product_service, price: 258)
+        it 'for integer duration' do
+          event.start = Time.zone.parse('14:00')
+          event.end = Time.zone.parse('17:00') # duration 3
 
+          expect(event.associated_payables_with_price).to eq [
+              {product: court, total: 125*3},
+              {product: product_service, total: 258*3}
+          ]
+        end
+
+        it 'for float duration' do
           event.start = Time.zone.parse('14:00')
           event.end = Time.zone.parse('17:30') # duration 3.5
-
-          event.products = [court]
-          event.product_services = [product_service]
 
           expect(event.associated_payables_with_price).to eq [
               {product: court, total: 125*3.5},
@@ -122,7 +124,7 @@ RSpec.describe Event do
       expect(event.total).to eq 200.0
     end
 
-    it 'shows price of a courts hours times occurrences', :event_total do
+    it 'shows price of a courts hours times occurrences' do
       event.recurrence_rule = 'FREQ=DAILY;COUNT=10'
 
       court = create(:court, price: 250)
