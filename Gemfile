@@ -115,4 +115,5 @@ group :production, :staging do
   gem 'bugsnag'
   gem 'unicorn'
   gem 'rails_12factor'
+  gem 'heroku-deflater'
 end

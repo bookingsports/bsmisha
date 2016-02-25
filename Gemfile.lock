@@ -353,6 +353,8 @@ GEM
       multi_json (~> 1.0)
       sprockets (>= 2.0.0, < 4.0)
       tilt (~> 1.2)
+    heroku-deflater (0.6.2)
+      rack (>= 1.4.5)
     high_voltage (2.4.0)
     html2haml (2.0.0)
       erubis (~> 2.7.0)
@@ -629,6 +631,7 @@ DEPENDENCIES
   guard-rspec
   haml-rails
   handlebars_assets
+  heroku-deflater
   high_voltage
   hub
   ice_cube
