@@ -1,3 +1,6 @@
+- content_for :main_cache_key do
+  = [cache_key_for_categories, cache_key_for_stadiums]
+
 - breadcrumb :stadiums
 - breadcrumb :category, @category  if @category
 .body-bg
