@@ -4,11 +4,12 @@
 #
 #  id         :integer          not null, primary key
 #  wallet_id  :integer
-#  status     :integer
+#  status     :integer          default(0)
 #  amount     :decimal(8, 2)
 #  data       :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  payment    :text
 #
 
 class WithdrawalRequest < ActiveRecord::Base

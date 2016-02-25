@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20160225125259) do
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.string   "accountable_type"
-    t.string   "accountable_id"
+    t.integer  "accountable_id"
     t.string   "agreement_number"
     t.datetime "date"
   end

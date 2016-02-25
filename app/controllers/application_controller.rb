@@ -41,8 +41,8 @@ class ApplicationController < ActionController::Base
     def set_gon_court
       if @court
         gon.court_id = @court.id
-        gon.opens_at = @court.stadium.opens_at.try(:to_datetime)
-        gon.closes_at = @court.stadium.closes_at.try(:to_datetime)
+        gon.opens_at = Time.zone.parse(@court.stadium.opens_at.to_s)
+        gon.closes_at = Time.zone.parse(@court.stadium.closes_at.to_s)
         gon.court_my_events_path = court_my_events_path(@court)
       end
     end

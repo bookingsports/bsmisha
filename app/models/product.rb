@@ -21,8 +21,8 @@
 #  avatar       :string
 #  price        :decimal(8, 2)
 #  change_price :decimal(8, 2)
-#  opens_at     :datetime
-#  closes_at    :datetime
+#  opens_at     :time
+#  closes_at    :time
 #
 
 class Product < ActiveRecord::Base

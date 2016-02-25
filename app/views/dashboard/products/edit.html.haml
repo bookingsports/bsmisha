@@ -14,8 +14,8 @@
         = f.input :description
 
         %label Время работы стадиона:
-        = f.input :opens_at, as: :datetime, discard_year: true, discard_month: true, label: false
-        = f.input :closes_at, as: :datetime, discard_year: true, discard_month: true, label: false
+        = f.input :opens_at, as: :time, label: false
+        = f.input :closes_at, as: :time, label: false
       .col-md-6
         %label Выберите месторасположение:
         = render 'draggable_map'
