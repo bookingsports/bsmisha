@@ -32,8 +32,6 @@ class Court < Product
   has_many :coaches_courts
   has_many :coaches, through: :coaches_courts
 
-  # delegate :owner, to: :stadium
-
   def display_name
     "#{parent_id.present? ? stadium.name + " - " : "" }#{name}"
   end

@@ -11,4 +11,4 @@
       = image_tag stadium.avatar.medium.url
   .col-xs-12.col-sm-12.col-md-12.col-lg-12
     p
-      = stadium.description.html_safe
+      = stadium.description.try(:html_safe)

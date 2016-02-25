@@ -27,16 +27,13 @@ RSpec.feature "Sign Up", :devise do
   end
 
   scenario "Стадион доступен для пользователей после регистрации стадиона и подтверждения админом" do
-    Admin.create!(name: 'Test Admin', email: "admin@test.com", password: "please123")
+    stadium_user = create(:stadium_user, password: 'password')
+    stadium_user.stadium.update status: :active
 
-    sign_up_with("test@example.com", "please123", "please123", "Стадион")
-    logout()
-    signin "admin@test.com", "please123"
-    click_link "Редактировать", match: :first
-    select "Активирован", from: "Статус"
-    click_button "Сохранить"
-    within("#navbar") { click_link "Стадионы" }
-    expect(find(:css, ".stadiums").all("*")).to_not be_empty
+    login_as create(:user)
+    visit root_path
+    within('#navbar') { click_link "Стадионы" }
+    expect(find(:css, '.stadiums').all('*')).to_not be_empty
     click_link "Без названия"
 
     expect(page).to have_text("Без названия")

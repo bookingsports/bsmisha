@@ -16,9 +16,7 @@
 #  created_at             :datetime
 #  updated_at             :datetime
 #  name                   :string
-#  role                   :integer
 #  type                   :string
-#  slug                   :string
 #  avatar                 :string
 #  status                 :integer
 #  phone                  :string

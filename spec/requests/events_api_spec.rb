@@ -30,6 +30,7 @@ RSpec.describe "EventsApi" do
       @order2.paid!
     end
 
+=begin
     context "customer user" do
       it "shows all my events without others" do
         get court_my_events_path(@court, format: :json)
@@ -41,6 +42,7 @@ RSpec.describe "EventsApi" do
         expect(grouped.keys.first).to eq(@user.name)
       end
     end
+=end
 
     context "stadium user" do
       before(:each) do
