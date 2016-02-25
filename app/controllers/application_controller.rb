@@ -39,10 +39,12 @@ class ApplicationController < ActionController::Base
     end
 
     def set_gon_court
-      gon.court_id = @court.id
-      gon.opens_at = @court.stadium.opens_at.try(:to_datetime)
-      gon.closes_at = @court.stadium.closes_at.try(:to_datetime)
-      gon.court_my_events_path = court_my_events_path(@court)
+      if @court
+        gon.court_id = @court.id
+        gon.opens_at = @court.stadium.opens_at.try(:to_datetime)
+        gon.closes_at = @court.stadium.closes_at.try(:to_datetime)
+        gon.court_my_events_path = court_my_events_path(@court)
+      end
     end
 
     def current_products
