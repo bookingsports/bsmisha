@@ -47,7 +47,7 @@ RSpec.describe "EventsApi" do
     context "stadium user" do
       before(:each) do
         logout_via_delete
-        login_via_post_as(@stadium_owner)
+        login_via_post_as(@stadium_user)
       end
 
       it "shows all paid events from all users" do
@@ -75,7 +75,7 @@ RSpec.describe "EventsApi" do
         }
 
         expect(Event.count).to eq(5)
-        expect(Event.last.user.id).to eq(@stadium_owner.id)
+        expect(Event.last.user.id).to eq(@stadium_user.id)
       end
     end
   end
@@ -254,7 +254,7 @@ RSpec.describe "EventsApi" do
       context "change is unpaid" do
         scenario "stadium owner should not see changed datetimes" do
           logout_via_delete
-          login_via_post_as(@stadium_owner)
+          login_via_post_as(@stadium_user)
           get court_my_events_path(@court, format: :json)
 
           data = JSON.parse(response.body)

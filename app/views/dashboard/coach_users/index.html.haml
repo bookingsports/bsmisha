@@ -1,6 +1,6 @@
 = link_to new_dashboard_coach_user_path, class: 'btn btn-default' do
   = fa_icon 'user-plus'
-  Создать тренера 
+  Создать тренера
 
 - if @coaches.any?
   %table.table
@@ -10,7 +10,7 @@
         %th Почта
         %th Стоимость
         %th Дата создания
-        %th 
+        %th
     %tbody
       - @coaches.each do |coach|
         %tr
@@ -18,6 +18,6 @@
           %td= coach.email
           %td= number_to_integer_currency coach.price
           %td= coach.created_at
-          %td= link_to fa_icon('edit') + ' Редактировать', edit_dashboard_coach_user_path(coach.owner.id)
+          %td= link_to fa_icon('edit') + ' Редактировать', edit_dashboard_coach_user_path(coach.user.id)
 - else
   Пока нет тренеров

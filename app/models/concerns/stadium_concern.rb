@@ -12,7 +12,7 @@ module StadiumConcern
         field :name
         field :phone
         field :category
-        field :owner
+        field :user
         field :slug
         field :address
         field :email
@@ -31,7 +31,7 @@ module StadiumConcern
         field :name
         field :phone
         field :category
-        field :owner
+        field :user
         field :slug
         field :address
         field :email
@@ -49,7 +49,7 @@ module StadiumConcern
         field :name
         field :phone
         field :category
-        field :owner
+        field :user
         field :slug
         field :address
         field :email

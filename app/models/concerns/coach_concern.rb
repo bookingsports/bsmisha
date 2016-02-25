@@ -10,7 +10,7 @@ module CoachConcern
 
       list do
         field :category
-        field :owner
+        field :user
         field :email
         field :description
         field :pictures
@@ -25,7 +25,7 @@ module CoachConcern
 
       show do
         field :category
-        field :owner
+        field :user
         field :email
         field :description
         field :pictures
@@ -39,7 +39,7 @@ module CoachConcern
       end
       edit do
         field :category
-        field :owner
+        field :user
         field :email
         field :description
         field :pictures

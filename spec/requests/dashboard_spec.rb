@@ -9,7 +9,7 @@ RSpec.describe "Dashboard" do
       })
 
       @court = Court.create({
-        stadium: Stadium.create(owner: @user),
+        stadium: Stadium.create(user: @user),
         price: 100
       })
 
@@ -38,7 +38,7 @@ RSpec.describe "Dashboard" do
 
       @coach = Coach.create({
         price: 100,
-        owner: @user
+        user: @user
       })
 
       login_via_post_as @user

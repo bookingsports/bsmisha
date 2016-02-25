@@ -22,7 +22,7 @@ class ProductService < ActiveRecord::Base
   has_and_belongs_to_many :events
   accepts_nested_attributes_for :service
 
-  delegate :owner, to: :product
+  delegate :user, to: :product
 
   def name
     "Услуга #{service_id.present? ? service.name : ""} продукта #{product_id.present? ? product.name : ""}"

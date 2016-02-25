@@ -36,7 +36,7 @@ ru:
     attributes:
       product: &product
         category: Категория
-        owner: Владелец
+        user: Владелец
         pictures: Изображения
         reviews: Обзоры
         name: Имя
