@@ -33,7 +33,7 @@ class AdditionalEventItem < ActiveRecord::Base
     if related.kind_of? Coach
       related
     else
-      event.stadium.user
+      event.stadium.owner
     end
   end
 end
