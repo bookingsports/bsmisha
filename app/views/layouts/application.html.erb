@@ -5,9 +5,8 @@
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Booking Sports - Бронируйте спорт надежно" %>">
     <%= favicon_link_tag 'favicon.png' %>
     <%= stylesheet_link_tag 'application', media: 'all' %>
-    <%= include_gon %>
-    <%= javascript_include_tag 'application' %>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,300italic,400italic,500,500italic,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <%= include_gon %>
     <%= csrf_meta_tags %>
   </head>
   <body class="<%= current_user.try(:type).try(:underscore) %>">
@@ -25,6 +24,7 @@
         <%= render "layouts/footer" %>
       </footer>
     <%- end %>
+    <%= javascript_include_tag 'application' %>
     <%= yield :scripts %>
   </body>
 </html>

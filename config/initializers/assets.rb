@@ -12,5 +12,7 @@ Rails.application.config.assets.version = '1.0'
 Rails.application.config.assets.precompile += %w( ie-spacer.gif gritter.png gritter-close.png success.png )
 Rails.application.config.assets.precompile += %w( map.js draggable_map.js )
 Rails.application.config.assets.precompile += %w( all-courts.js show-court.js )
+Rails.application.config.assets.precompile += %w( markerclusterer.js )
+Rails.application.config.assets.precompile += %w( kendo.js )
 Rails.application.config.assets.precompile += %w( lightbox/* )
 Rails.application.config.assets.precompile += %w( ckeditor/* )
