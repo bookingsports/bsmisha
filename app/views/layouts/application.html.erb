@@ -1,20 +1,20 @@
-<% cache_if content_for?(:main_cache_key), yield(:main_cache_key) do %>
-  <!DOCTYPE html>
-  <html>
-    <head>
-      <title><%= content_for?(:title) ? yield(:title) : "Booking Sports - Бронируйте спорт надежно" %></title>
-      <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Booking Sports - Бронируйте спорт надежно" %>">
-      <%= favicon_link_tag 'favicon.png' %>
-      <%= stylesheet_link_tag 'application', media: 'all' %>
-      <%= include_gon %>
-      <%= javascript_include_tag 'application' %>
-      <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,300italic,400italic,500,500italic,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
-      <%= csrf_meta_tags %>
-    </head>
-    <body class="<%= current_user.try(:type).try(:underscore) %>">
-      <header>
-        <%= render 'layouts/navigation' %>
-      </header>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for?(:title) ? yield(:title) : "Booking Sports - Бронируйте спорт надежно" %></title>
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Booking Sports - Бронируйте спорт надежно" %>">
+    <%= favicon_link_tag 'favicon.png' %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= include_gon %>
+    <%= javascript_include_tag 'application' %>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,300italic,400italic,500,500italic,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <%= csrf_meta_tags %>
+  </head>
+  <body class="<%= current_user.try(:type).try(:underscore) %>">
+    <header>
+      <%= render 'layouts/navigation' %>
+    </header>
+    <% cache_if content_for?(:main_cache_key), yield(:main_cache_key) do %>
       <main role="main">
         <%= breadcrumbs style: :bootstrap %>
         <%= render 'layouts/messages' %>
@@ -24,7 +24,7 @@
       <footer class="footer">
         <%= render "layouts/footer" %>
       </footer>
-      <%= yield :scripts %>
-    </body>
-  </html>
-<%- end %>
+    <%- end %>
+    <%= yield :scripts %>
+  </body>
+</html>
