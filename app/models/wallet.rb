@@ -24,7 +24,6 @@ class Wallet < ActiveRecord::Base
 
   def deposit_with_tax_deduction!(amount)
     deposit! amount - tax_for(amount)
-    deduct_tax(amount)
   end
 
   def deposit!(amount)
@@ -48,12 +47,6 @@ class Wallet < ActiveRecord::Base
   end
 
   def tax_for(amount)
-    amount.to_f * Option.current.tax / 100
+    amount.to_f * Rails.application.secrets.tax / 100
   end
-
-  private
-
-    def deduct_tax(amount)
-      AdminWallet.find.deposit!(tax_for(amount))
-    end
 end

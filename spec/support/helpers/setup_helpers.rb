@@ -99,10 +99,6 @@ module TennisHelpers
         events: [@event],
         user: @user
       })
-
-      Option.create!({
-        tax: 5
-      })
     end
 
     def login_via_post_as(user)
