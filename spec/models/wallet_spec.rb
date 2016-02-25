@@ -14,7 +14,6 @@ RSpec.describe Wallet do
   before(:each) do
     @user = User.create(name: 'Test User', email: "user@example.com", password: "blankertag")
     @admin = Admin.create(name: 'Test Admin', email: "admin@example.com", password: "blinkenblag")
-    Option.create tax: 5
   end
 
   subject { @user.wallet }
@@ -30,10 +29,9 @@ RSpec.describe Wallet do
     it "enlarges the money slightly but admin gets something too" do
       amt = 500
       @user.wallet.deposit_with_tax_deduction! amt
-      tax_amt = (amt / 100 )* Option.current.tax
+      tax_amt = (amt / 100 )* Rails.application.secrets.tax
 
       expect(@user.wallet.total).to eq(amt - tax_amt)
-      expect(AdminWallet.find.total).to eq(tax_amt)
     end
   end
 end
