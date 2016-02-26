@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160225155639) do
+ActiveRecord::Schema.define(version: 20160226064920) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -176,10 +176,17 @@ ActiveRecord::Schema.define(version: 20160225155639) do
   create_table "product_services", force: :cascade do |t|
     t.integer  "product_id"
     t.integer  "service_id"
+<<<<<<< HEAD
     t.decimal  "price",      precision: 8, scale: 2
     t.string   "type"
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
+=======
+    t.float    "price"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "periodic",   default: false
+>>>>>>> 0cc88b8... Improve periodic service model and specs
   end
 
   add_index "product_services", ["product_id"], name: "index_product_services_on_product_id", using: :btree
@@ -192,16 +199,21 @@ ActiveRecord::Schema.define(version: 20160225155639) do
     t.string   "name"
     t.string   "phone"
     t.text     "description"
+<<<<<<< HEAD
+=======
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+>>>>>>> 0cc88b8... Improve periodic service model and specs
     t.string   "address"
-    t.float    "latitude",                             default: 55.75
-    t.float    "longitude",                            default: 37.61
+    t.float    "latitude",     default: 55.75
+    t.float    "longitude",    default: 37.61
     t.string   "slug"
-    t.integer  "status",                               default: 0
+    t.integer  "status",       default: 0
     t.string   "type"
     t.string   "email"
     t.string   "avatar"
-    t.decimal  "price",        precision: 8, scale: 2
-    t.decimal  "change_price", precision: 8, scale: 2
+    t.float    "price"
+    t.float    "change_price"
     t.time     "opens_at"
     t.time     "closes_at"
     t.datetime "created_at",                                           null: false

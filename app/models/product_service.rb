@@ -15,8 +15,6 @@ class ProductService < ActiveRecord::Base
   include ProductServiceConcern
   has_paper_trail
 
-  self.inheritance_column = "class"
-
   belongs_to :product
   belongs_to :service
   has_and_belongs_to_many :events
@@ -29,16 +27,8 @@ class ProductService < ActiveRecord::Base
   end
 
   def service_name_and_price
-    periodicity = self.periodic? ? " в час" : ""
+    periodicity = periodic? ? ' в час' : ''
     "#{service.name} (#{price} руб.#{periodicity})"
-  end
-
-  def periodic?
-    self.type == "Periodic"
-  end
-
-  def periodic= bool
-    self.type = "Periodic" if bool || bool == "1"
   end
 
   def service_attributes= attributes
@@ -50,10 +40,6 @@ class ProductService < ActiveRecord::Base
   end
 
   def price_for_event event
-    if periodic?
-      price.to_i * event.duration_in_hours.to_i
-    else
-      price.to_i
-    end
+    periodic? ? price * event.duration_in_hours : price
   end
 end
