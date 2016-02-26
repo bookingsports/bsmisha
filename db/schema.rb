@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160225125259) do
+ActiveRecord::Schema.define(version: 20160226082639) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20160225125259) do
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.string   "accountable_type"
-    t.integer  "accountable_id"
+    t.string   "accountable_id"
     t.string   "agreement_number"
     t.datetime "date"
   end
@@ -157,9 +157,9 @@ ActiveRecord::Schema.define(version: 20160225125259) do
   create_table "orders", force: :cascade do |t|
     t.integer  "user_id"
     t.decimal  "total",      precision: 8, scale: 2
-    t.integer  "status"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.integer  "status",                             default: 0
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
     t.string   "comment"
   end
 
@@ -270,12 +270,12 @@ ActiveRecord::Schema.define(version: 20160225125259) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                  default: "",         null: false
+    t.string   "encrypted_password",     default: "",         null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,          null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
@@ -283,9 +283,9 @@ ActiveRecord::Schema.define(version: 20160225125259) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
-    t.string   "type"
+    t.string   "type",                   default: "Customer"
     t.string   "avatar"
-    t.integer  "status"
+    t.integer  "status",                 default: 0
     t.string   "phone"
   end
 

@@ -21,18 +21,7 @@ class Order < ActiveRecord::Base
   has_many :event_changes, dependent: :destroy
   accepts_nested_attributes_for :events
 
-  # Backwards compatibility for enum. Remove once fixed
-  def self.statuses
-    @@statuses ||= {
-      unpaid: 0,
-      paid: 1,
-      change: 2,
-      rain: 3,
-      other: 4
-    }
-  end
-
-  enum status: Order.statuses.keys
+  enum status: [:unpaid, :paid, :change, :rain, :other]
 
   def name
     "Заказ №#{id} на сумму #{total} #{user_id.present? ? "пользователя " + user.try(:name).to_s : ""}"
