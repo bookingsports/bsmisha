@@ -1,4 +1,4 @@
-class CreateHabtmProducts < ActiveRecord::Migration
+class CreateEventProducts < ActiveRecord::Migration
   def change
     create_table :events_products do |t|
       t.belongs_to :event, index: true
