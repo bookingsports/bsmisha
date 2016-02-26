@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160226064920) do
+ActiveRecord::Schema.define(version: 20160226091959) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -128,11 +128,17 @@ ActiveRecord::Schema.define(version: 20160226064920) do
     t.string   "recurrence_exception"
     t.integer  "recurrence_id"
     t.boolean  "is_all_day"
+<<<<<<< HEAD
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+=======
+    t.integer  "user_id"
+    t.integer  "product_id"
+>>>>>>> 056fb41... Improve event specs and disable special prices specs temporarly
   end
 
   add_index "events", ["order_id"], name: "index_events_on_order_id", using: :btree
+  add_index "events", ["product_id"], name: "index_events_on_product_id", using: :btree
   add_index "events", ["user_id"], name: "index_events_on_user_id", using: :btree
 
   create_table "events_product_services", force: :cascade do |t|
@@ -142,14 +148,6 @@ ActiveRecord::Schema.define(version: 20160226064920) do
 
   add_index "events_product_services", ["event_id"], name: "index_events_product_services_on_event_id", using: :btree
   add_index "events_product_services", ["product_service_id"], name: "index_events_product_services_on_product_service_id", using: :btree
-
-  create_table "events_products", force: :cascade do |t|
-    t.integer "event_id"
-    t.integer "product_id"
-  end
-
-  add_index "events_products", ["event_id"], name: "index_events_products_on_event_id", using: :btree
-  add_index "events_products", ["product_id"], name: "index_events_products_on_product_id", using: :btree
 
   create_table "orders", force: :cascade do |t|
     t.integer  "user_id"

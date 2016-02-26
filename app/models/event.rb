@@ -14,6 +14,7 @@
 #  recurrence_id        :integer
 #  is_all_day           :boolean
 #  user_id              :integer
+#  product_id           :integer
 #
 
 class Event < ActiveRecord::Base
@@ -23,10 +24,16 @@ class Event < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :order
+  belongs_to :product
+
   has_many :event_changes, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :additional_event_items, dependent: :destroy
-  has_and_belongs_to_many :products
-  has_and_belongs_to_many :product_services # , dependent: :destroy - not sure
+
+  has_many :special_prices, -> {
+    where("('start' >= :event_start AND 'start < :event_end) OR ('end' > :event_start AND 'end' <= :event_end) OR ('start' < :event_start AND 'end' > :event_end)", event_start: start, event_end: self.end)
+  }, through: :product
+
+  has_and_belongs_to_many :product_services
 
   attr_reader :schedule
 
@@ -34,15 +41,13 @@ class Event < ActiveRecord::Base
   scope :unpaid, -> { joins("LEFT OUTER JOIN orders ON orders.id = events.order_id").where("orders.status =  ? or orders.status is null", Order.statuses[:unpaid]) }
   scope :past, -> { where('"end" < ?', Time.current)}
   scope :future, -> { where('"start" > ?', Time.current)}
+
   scope :paid_or_owned_by,  -> (user) do
     if user
       joins("LEFT OUTER JOIN orders ON orders.id = events.order_id").where("(orders.user_id <> :id and orders.status = :st) or events.user_id = :id ", { id: user.id, st: Order.statuses[:paid]} )
     else
       paid
     end
-  end
-  scope :of_products, ->(*products) do
-    joins(:events_products).where(events_products: { product_id: products.flatten.map(&:id) }).uniq
   end
 
   after_initialize :build_schedule
@@ -56,7 +61,7 @@ class Event < ActiveRecord::Base
   end
 
   def associated_payables
-    (products + product_services)
+    ([product] + product_services)
   end
 
   def associated_payables_with_price
@@ -64,20 +69,11 @@ class Event < ActiveRecord::Base
   end
 
   def duration_in_hours
-    (duration / 1.hour) * occurrences
+    duration / 1.hour
   end
 
   def duration
-    self.end - self.start
-  end
-
-  def hours
-    arr = (self.start.hour..self.end.hour).to_a
-    if self.end.min == 0
-      arr[0..-2]
-    else
-      arr
-    end
+    self.end - start
   end
 
   def occurrences

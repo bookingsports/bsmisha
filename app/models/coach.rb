@@ -19,8 +19,8 @@
 #  parent_id    :integer
 #  email        :string
 #  avatar       :string
-#  price        :decimal(8, 2)
-#  change_price :decimal(8, 2)
+#  price        :float
+#  change_price :float
 #  opens_at     :time
 #  closes_at    :time
 #

@@ -14,6 +14,7 @@
 #  recurrence_id        :integer
 #  is_all_day           :boolean
 #  user_id              :integer
+#  product_id           :integer
 #
 
 class EventsController < ApplicationController

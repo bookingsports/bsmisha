@@ -5,10 +5,10 @@
 #  id         :integer          not null, primary key
 #  product_id :integer
 #  service_id :integer
-#  price      :decimal(8, 2)
+#  price      :float
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  type       :string
+#  periodic   :boolean          default(FALSE)
 #
 
 FactoryGirl.define do
