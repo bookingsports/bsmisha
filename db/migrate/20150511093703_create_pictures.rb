@@ -3,6 +3,7 @@ class CreatePictures < ActiveRecord::Migration
     create_table :pictures do |t|
       t.string :name
       t.references :imageable, polymorphic: true, index: true
+      t.string :description
       t.timestamps null: false
     end
   end

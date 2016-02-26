@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160226082639) do
+ActiveRecord::Schema.define(version: 20160219204852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,12 +22,12 @@ ActiveRecord::Schema.define(version: 20160226082639) do
     t.string   "inn"
     t.string   "kpp"
     t.string   "bik"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.string   "accountable_type"
-    t.string   "accountable_id"
     t.string   "agreement_number"
     t.datetime "date"
+    t.string   "accountable_type"
+    t.integer  "accountable_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "additional_event_items", force: :cascade do |t|
@@ -45,11 +45,11 @@ ActiveRecord::Schema.define(version: 20160226082639) do
   create_table "categories", force: :cascade do |t|
     t.string   "name"
     t.string   "ancestry"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string   "slug"
     t.string   "icon"
     t.integer  "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_index "categories", ["ancestry"], name: "index_categories_on_ancestry", using: :btree
@@ -79,10 +79,10 @@ ActiveRecord::Schema.define(version: 20160226082639) do
     t.integer  "wallet_id"
     t.integer  "status",                             default: 0
     t.decimal  "amount",     precision: 8, scale: 2
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
     t.text     "data"
     t.string   "uuid"
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
   end
 
   add_index "deposit_requests", ["wallet_id"], name: "index_deposit_requests_on_wallet_id", using: :btree
@@ -109,11 +109,11 @@ ActiveRecord::Schema.define(version: 20160226082639) do
 
   create_table "event_changes", force: :cascade do |t|
     t.integer  "event_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.integer  "status"
     t.string   "summary"
     t.integer  "order_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_index "event_changes", ["event_id"], name: "index_event_changes_on_event_id", using: :btree
@@ -125,13 +125,13 @@ ActiveRecord::Schema.define(version: 20160226082639) do
     t.string   "description"
     t.integer  "product_id"
     t.integer  "order_id"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.integer  "user_id"
     t.string   "recurrence_rule"
     t.string   "recurrence_exception"
     t.integer  "recurrence_id"
     t.boolean  "is_all_day"
-    t.integer  "user_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
   end
 
   add_index "events", ["order_id"], name: "index_events_on_order_id", using: :btree
@@ -158,9 +158,9 @@ ActiveRecord::Schema.define(version: 20160226082639) do
     t.integer  "user_id"
     t.decimal  "total",      precision: 8, scale: 2
     t.integer  "status",                             default: 0
+    t.string   "comment"
     t.datetime "created_at",                                     null: false
     t.datetime "updated_at",                                     null: false
-    t.string   "comment"
   end
 
   add_index "orders", ["user_id"], name: "index_orders_on_user_id", using: :btree
@@ -169,9 +169,9 @@ ActiveRecord::Schema.define(version: 20160226082639) do
     t.string   "name"
     t.integer  "imageable_id"
     t.string   "imageable_type"
+    t.string   "description"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
-    t.string   "description"
   end
 
   add_index "pictures", ["imageable_type", "imageable_id"], name: "index_pictures_on_imageable_type_and_imageable_id", using: :btree
@@ -180,9 +180,9 @@ ActiveRecord::Schema.define(version: 20160226082639) do
     t.integer  "product_id"
     t.integer  "service_id"
     t.decimal  "price",      precision: 8, scale: 2
+    t.string   "type"
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
-    t.string   "type"
   end
 
   add_index "product_services", ["product_id"], name: "index_product_services_on_product_id", using: :btree
@@ -191,24 +191,24 @@ ActiveRecord::Schema.define(version: 20160226082639) do
   create_table "products", force: :cascade do |t|
     t.integer  "category_id"
     t.integer  "user_id"
+    t.integer  "parent_id"
     t.string   "name"
     t.string   "phone"
     t.text     "description"
-    t.datetime "created_at",                                           null: false
-    t.datetime "updated_at",                                           null: false
     t.string   "address"
     t.float    "latitude",                             default: 55.75
     t.float    "longitude",                            default: 37.61
     t.string   "slug"
     t.integer  "status",                               default: 0
     t.string   "type"
-    t.integer  "parent_id"
     t.string   "email"
     t.string   "avatar"
     t.decimal  "price",        precision: 8, scale: 2
     t.decimal  "change_price", precision: 8, scale: 2
     t.time     "opens_at"
     t.time     "closes_at"
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
   end
 
   add_index "products", ["category_id"], name: "index_products_on_category_id", using: :btree
@@ -221,9 +221,9 @@ ActiveRecord::Schema.define(version: 20160226082639) do
     t.text     "text"
     t.integer  "user_id"
     t.boolean  "verified"
+    t.integer  "rating"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.integer  "rating"
   end
 
   add_index "reviews", ["reviewable_type", "reviewable_id"], name: "index_reviews_on_reviewable_type_and_reviewable_id", using: :btree
@@ -248,25 +248,12 @@ ActiveRecord::Schema.define(version: 20160226082639) do
 
   add_index "special_prices", ["product_id"], name: "index_special_prices_on_product_id", using: :btree
 
-  create_table "stadia", force: :cascade do |t|
-    t.integer  "category_id"
-    t.integer  "user_id"
-    t.string   "name"
-    t.string   "phone"
-    t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "stadia", ["category_id"], name: "index_stadia_on_category_id", using: :btree
-  add_index "stadia", ["user_id"], name: "index_stadia_on_user_id", using: :btree
-
   create_table "static_pages", force: :cascade do |t|
     t.text     "text"
     t.string   "title"
+    t.string   "slug"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string   "slug"
   end
 
   create_table "users", force: :cascade do |t|
@@ -280,13 +267,13 @@ ActiveRecord::Schema.define(version: 20160226082639) do
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.string   "name"
     t.string   "type",                   default: "Customer"
     t.string   "avatar"
     t.integer  "status",                 default: 0
     t.string   "phone"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -328,9 +315,9 @@ ActiveRecord::Schema.define(version: 20160226082639) do
     t.integer  "status",                             default: 0
     t.decimal  "amount",     precision: 8, scale: 2
     t.text     "data"
+    t.text     "payment"
     t.datetime "created_at",                                     null: false
     t.datetime "updated_at",                                     null: false
-    t.text     "payment"
   end
 
   add_index "withdrawal_requests", ["wallet_id"], name: "index_withdrawal_requests_on_wallet_id", using: :btree
@@ -353,6 +340,7 @@ ActiveRecord::Schema.define(version: 20160226082639) do
   add_foreign_key "event_changes", "events"
   add_foreign_key "event_changes", "orders"
   add_foreign_key "events", "orders"
+  add_foreign_key "events", "products"
   add_foreign_key "events", "users"
   add_foreign_key "events_product_services", "events"
   add_foreign_key "events_product_services", "product_services"
@@ -362,8 +350,7 @@ ActiveRecord::Schema.define(version: 20160226082639) do
   add_foreign_key "products", "categories"
   add_foreign_key "products", "users"
   add_foreign_key "reviews", "users"
-  add_foreign_key "stadia", "categories"
-  add_foreign_key "stadia", "users"
+  add_foreign_key "special_prices", "products"
   add_foreign_key "wallets", "users"
   add_foreign_key "withdrawal_requests", "wallets"
   add_foreign_key "withdrawals", "wallets"

@@ -5,10 +5,11 @@ class CreateAccounts < ActiveRecord::Migration
       t.string :company
       t.string :inn
       t.string :kpp
-      t.string :bank
-      t.string :bank_city
       t.string :bik
-      t.string :kor
+      t.string :agreement_number
+      t.datetime :date
+      t.string :accountable_type
+      t.integer :accountable_id
 
       t.timestamps null: false
     end
