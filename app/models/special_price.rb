@@ -30,6 +30,10 @@ class SpecialPrice < ActiveRecord::Base
     "Период с #{start} по #{stop}"
   end
 
+  def duration
+    self.end - start
+  end
+
   def price options={}
     hour = options.delete(:hour)
     event = options.delete(:event)

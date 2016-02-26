@@ -14,12 +14,13 @@
 #  recurrence_id        :integer
 #  is_all_day           :boolean
 #  user_id              :integer
+#  product_id           :integer
 #
 
 require 'rails_helper'
 
 RSpec.describe Event do
-  let(:event) { create(:event) }
+  let(:event) { create(:event, start: Time.zone.parse('14:00')) }
 
   describe '#occurrences' do
     it 'shows 1 if it is no repeats' do
@@ -27,42 +28,25 @@ RSpec.describe Event do
     end
 
     it 'shows number of repeats' do
-      event.update recurrence_rule: 'FREQ=DAILY;COUNT=10'
+      event.recurrence_rule = 'FREQ=DAILY;COUNT=10'
       expect(event.occurrences).to eq 10
     end
   end
 
   describe '#duration_in_hours' do
     it 'shows duration in hours' do
-      event.start = Time.zone.parse('14:00')
-      event.end = Time.zone.parse('16:30')
+      event.end = event.start + 2.5.hours
 
       expect(event.duration_in_hours).to eq 2.5
     end
   end
 
-  describe '#hours' do
-    it 'returns array of hours on which event is going' do
-      event.start = Time.zone.parse('12:00')
-      event.end = Time.zone.parse('15:00')
-
-      expect(event.hours).to eq [12,13,14]
-    end
-
-    it 'handles one hour well' do
-      event.start = Time.zone.parse('12:30')
-      event.end = Time.zone.parse('13:00')
-
-      expect(event.hours).to eq [12]
-    end
-  end
-
-  describe '#event_associated_payables_with_price' do
-    it 'should return products and product_services in one array' do
+  describe '#event_associated_payables' do
+    it 'should return product and product_services in one array' do
       court = create(:court)
       product_service = create(:product_service)
 
-      event.products = [court]
+      event.product = court
       event.product_services = [product_service]
 
       expect(event.associated_payables).to eq [court, product_service]
@@ -71,10 +55,10 @@ RSpec.describe Event do
 
   describe '#event_associated_payables_with_price' do
     context 'should return hash with product and total price for each associated payable' do
-      context 'without occurrences and special prices' do
+      context 'without special prices' do
         let(:court) { create(:court, price: 125.0) }
         let(:product_service) { create(:product_service, price: 258.0, periodic: true) }
-        let(:event) { create(:event, start: Time.zone.parse('14:00'), products: [court], product_services: [product_service]) }
+        let(:event) { create(:event, start: Time.zone.parse('14:00'), product: court, product_services: [product_service]) }
 
         it 'for one hour' do
           event.end = event.start + 1.hour
@@ -112,36 +96,41 @@ RSpec.describe Event do
             {product: product_service, total: 258*3.5}
           ]
         end
+
+        it 'with 10 occurrences' do
+          event.recurrence_rule = 'FREQ=DAILY;COUNT=10'
+          event.end = event.start + 3.5.hours
+
+          expect(event.associated_payables_with_price).to eq [
+            {product: court, total: 125*3.5*10},
+            {product: product_service, total: 258*3.5*10}
+          ]
+        end
       end
     end
   end
 
   describe '#total' do
     it 'shows price of a courts hour' do
-      court = create(:court)
-      event.products = [court]
+      court = create(:court, price: 100)
 
-      expect(event.total).to eq court.price * event.duration_in_hours
-
-      court.price = 100
-      event.start = Time.zone.parse('12:00')
-      event.end = Time.zone.parse('14:00')
-      event.products = [court]
+      event.end = event.start + 2.hours
+      event.product = court
 
       expect(event.total).to eq 200.0
     end
 
     it 'shows price of a courts hours times occurrences' do
-      event.recurrence_rule = 'FREQ=DAILY;COUNT=10'
-
       court = create(:court, price: 250)
-      event.start = Time.zone.parse('07:00')
-      event.end = Time.zone.parse('10:30') # duration 3.5
-      event.products = [court]
+
+      event.recurrence_rule = 'FREQ=DAILY;COUNT=10'
+      event.product = court
+      event.end = event.start + 3.5.hours
 
       expect(event.total).to eq 250 * 3.5 * 10
     end
 
+=begin Disable special prices feature temporarly
     it 'special price of stadium affects the price' do
       special_price = create(:special_price, start: 2.days.ago, stop: 2.days.from_now)
 
@@ -190,30 +179,39 @@ RSpec.describe Event do
 
       expect(event.total).to eq 11 * 1 + 12 * 1 + 100 * 1
     end
-
-=begin
-    it 'has right total for periodic service' do
-      @periodic_service = ProductService.create service: Service.new(name: 'Синема'), price: 10, product: @court, periodic: "1"
-
-      event.product_services << @periodic_service
-
-      expect(event.total).to eq 10 * 3
-    end
 =end
 
-    it 'has right total for non-periodic service' do
-      @non_periodic_service = ProductService.create service: Service.new(name: 'Синема'), price: 77, product: @court
+    context 'periodic services' do
+      let(:court) { create(:court, price: 100) }
+      let(:service) { create(:service) }
+      let(:product_service) { create(:product_service, service: service, product: court, price: 10, periodic: true) }
 
-      event.product_services << @non_periodic_service
+      before :each do
+        event.product = court
+        event.product_services << product_service
 
-      expect(event.total).to eq 77
+        event.end = event.start + 3.hours
+      end
+
+      it 'has right total for periodic service' do
+        expect(event.total).to eq (100 + 10) * 3
+      end
+
+      it 'has right total for non-periodic service' do
+        product_service.periodic = false
+        expect(event.total).to eq 100*3+10
+      end
     end
   end
 
   describe '#paid_or_owned_by user' do
+    let(:my_event) { create(:event) }
+    let(:order) { create(:order, events: [event], status: :paid) }
+    let(:user) { create(:user, events: [my_event]) }
+
     it 'shows all users events' do
-      expect(@user.events.count).to eq 4
-      expect(Event.paid_or_owned_by(@user).count).to eq 4
+      expect(user.events.count).to eq 1
+      expect(Event.paid_or_owned_by(user).count).to eq 2
     end
 
     it 'show another users only paid events' do

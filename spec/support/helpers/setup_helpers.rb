@@ -68,7 +68,7 @@ module TennisHelpers
       })
 
       @event = Event.create!({
-        products: [@court, @coach],
+        product: @court,
         product_services: [@service, @periodic_service],
         start: Time.zone.parse("12:00:00"),
         end: Time.zone.parse("14:30:00"),
@@ -76,7 +76,7 @@ module TennisHelpers
       })
 
       @event_two = Event.create!({
-        products: [@court],
+        product: @court,
         product_services: [@service, @periodic_service],
         start: Time.zone.parse("12:00:00"),
         end: Time.zone.parse("14:30:00"),
@@ -84,7 +84,7 @@ module TennisHelpers
       })
 
       @event_three = Event.create!({
-        products: [@court_two],
+        product: @court_two,
         product_services: [@service, @periodic_service],
         start: Time.zone.parse("12:00:00"),
         end: Time.zone.parse("14:30:00"),

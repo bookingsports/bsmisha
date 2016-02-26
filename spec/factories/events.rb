@@ -14,6 +14,7 @@
 #  recurrence_id        :integer
 #  is_all_day           :boolean
 #  user_id              :integer
+#  product_id           :integer
 #
 
 FactoryGirl.define do
@@ -22,10 +23,11 @@ FactoryGirl.define do
     self.end { start + Faker::Number.between(1, 3).hour }
     description ''
     is_all_day false
+    product nil
     user
 
-    after :create do |event|
-      create(:stadium, events: [event])
+    factory :event_with_court do
+      court
     end
   end
 end

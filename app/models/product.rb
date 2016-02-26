@@ -19,8 +19,8 @@
 #  parent_id    :integer
 #  email        :string
 #  avatar       :string
-#  price        :decimal(8, 2)
-#  change_price :decimal(8, 2)
+#  price        :float
+#  change_price :float
 #  opens_at     :time
 #  closes_at    :time
 #
@@ -34,10 +34,11 @@ class Product < ActiveRecord::Base
 
   belongs_to :category
   belongs_to :user
+
   has_many :pictures, as: :imageable
   has_many :reviews, as: :reviewable
   has_many :special_prices
-  has_and_belongs_to_many :events
+  has_many :events
   has_many :orders, through: :events
   has_many :product_services, dependent: :destroy
   has_many :services, through: :product_services
@@ -57,10 +58,10 @@ class Product < ActiveRecord::Base
   end
 
   def price options=nil
-    (options && special_prices.current.price(options)) || attributes["price"] || 0
+    (options && special_prices.current.price(options)) || attributes['price'] || 0
   end
 
   def price_for_event event
-    event.hours.map{ |hour| price(hour: hour, event: event) }.reduce(:+) || 0
+    price * event.duration_in_hours
   end
 end

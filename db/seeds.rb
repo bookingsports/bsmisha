@@ -7,7 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 def create_user(model, email, password)
-  user = model.find_or_create_by!(email: email) do |user|
+  user = model.find_or_create_by!(name: 'Test User', email: email) do |user|
     user.password = password
     user.password_confirmation = password
   end
