@@ -13,8 +13,10 @@
 #
 FactoryGirl.define do
   factory :special_price do
-    price "1000"
-    start Time.zone.now.beginning_of_year
-    stop Time.zone.now.end_of_year
+    start { Time.zone.now.beginning_of_year }
+    stop { start + Faker::Number.between(1, 12).months }
+    price { Faker::Commerce.price }
+    is_sale true
+    association :product, factory: :court
   end
 end
