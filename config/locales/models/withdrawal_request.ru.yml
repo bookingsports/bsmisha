@@ -1,4 +1,10 @@
 ru:
+  enums:
+    withdrawal_request:
+      status:
+        pending: В ожидании
+        success: Успешно
+        failure: Неудача
   activerecord:
     models:
       withdrawal_request:

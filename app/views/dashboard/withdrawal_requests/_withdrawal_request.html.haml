@@ -1,5 +1,5 @@
 %tr
   %td= withdrawal_request.amount
   %td= withdrawal_request.created_at
-  %td= withdrawal_request.status
+  %td= I18n.t "enums.withdrawal_request.status.#{withdrawal_request.status.to_s}"
   %td= link_to "Удалить", dashboard_withdrawal_request_path(withdrawal_request), data: { confirm: 'Вы уверены?' }, method: :delete
