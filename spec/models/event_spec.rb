@@ -72,37 +72,44 @@ RSpec.describe Event do
   describe '#event_associated_payables_with_price' do
     context 'should return hash with product and total price for each associated payable' do
       context 'without occurrences and special prices' do
-        let(:court) { create(:court, price: 125) }
-        let(:product_service) { create(:product_service, price: 258) }
-        let(:event) { create(:event, products: [court], product_services: [product_service]) }
+        let(:court) { create(:court, price: 125.0) }
+        let(:product_service) { create(:product_service, price: 258.0, periodic: true) }
+        let(:event) { create(:event, start: Time.zone.parse('14:00'), products: [court], product_services: [product_service]) }
 
         it 'for one hour' do
-          event.start = Time.zone.parse('14:00')
-          event.end = Time.zone.parse('15:00')
+          event.end = event.start + 1.hour
 
           expect(event.associated_payables_with_price).to eq [
-              {product: court, total: 125},
-              {product: product_service, total: 258}
+            {product: court, total: 125.0},
+            {product: product_service, total: 258.0}
           ]
         end
 
         it 'for integer duration' do
-          event.start = Time.zone.parse('14:00')
-          event.end = Time.zone.parse('17:00') # duration 3
+          event.end = event.start + 3.hours
 
           expect(event.associated_payables_with_price).to eq [
-              {product: court, total: 125*3},
-              {product: product_service, total: 258*3}
+            {product: court, total: 125.0*3},
+            {product: product_service, total: 258.0*3}
+          ]
+        end
+
+        it 'for not periodic service' do
+          product_service.periodic = false
+          event.end = event.start + 3.hours
+
+          expect(event.associated_payables_with_price).to eq [
+            {product: court, total: 125.0*3},
+            {product: product_service, total: 258.0}
           ]
         end
 
         it 'for float duration' do
-          event.start = Time.zone.parse('14:00')
-          event.end = Time.zone.parse('17:30') # duration 3.5
+          event.end = event.start + 3.5.hours
 
           expect(event.associated_payables_with_price).to eq [
-              {product: court, total: 125*3.5},
-              {product: product_service, total: 258*3.5}
+            {product: court, total: 125*3.5},
+            {product: product_service, total: 258*3.5}
           ]
         end
       end
