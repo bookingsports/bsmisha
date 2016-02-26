@@ -34,14 +34,9 @@ class StadiumUser < User
   accepts_nested_attributes_for :account
 
   enum status: [:pending, :active]
-  after_initialize :set_status, if: :new_record?
 
   after_create :create_stadium
   after_create :create_account
-
-  def set_status
-    self.status = "pending" unless self.status
-  end
 
   def name
     attributes["name"] || attributes["email"]
