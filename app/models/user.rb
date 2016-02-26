@@ -40,17 +40,12 @@ class User < ActiveRecord::Base
   validates :name, presence: true
 
   after_create :create_wallet
-  after_initialize :set_customer, if: :new_record?
 
   validates_acceptance_of :terms_agree
 
   mount_uploader :avatar, PictureUploader
 
   default_scope -> { order(created_at: :desc) }
-
-  def set_customer
-    self.type = "Customer" unless self.type
-  end
 
   def total(options = {})
     events_maybe_scoped_by(options).unpaid.map(&:total).inject(:+)
