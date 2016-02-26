@@ -6,7 +6,6 @@
 #  start                :datetime
 #  end                  :datetime
 #  description          :string
-#  product_id           :integer
 #  order_id             :integer
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
@@ -19,9 +18,14 @@
 
 FactoryGirl.define do
   factory :event do
-    start "2015-04-21 13:12:09"
-    self.end "2015-04-21 13:12:09"
-    description "MyString"
-    order nil
+    start { Date.today + Faker::Number.between(7, 20).hours }
+    self.end { start + Faker::Number.between(1, 3).hour }
+    description ''
+    is_all_day false
+    user
+
+    after :create do |event|
+      create(:stadium, events: [event])
+    end
   end
 end
