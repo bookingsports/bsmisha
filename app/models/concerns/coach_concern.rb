@@ -11,7 +11,6 @@ module CoachConcern
       list do
         field :category
         field :user
-        field :email
         field :description
         field :pictures
         field :created_at
@@ -26,7 +25,6 @@ module CoachConcern
       show do
         field :category
         field :user
-        field :email
         field :description
         field :pictures
         field :created_at
@@ -40,7 +38,6 @@ module CoachConcern
       edit do
         field :category
         field :user
-        field :email
         field :description
         field :pictures
         field :avatar
