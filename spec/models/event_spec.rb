@@ -204,22 +204,19 @@ RSpec.describe Event do
     end
   end
 
-  describe '#paid_or_owned_by user' do
-    let(:my_event) { create(:event) }
-    let(:order) { create(:order, events: [event], status: :paid) }
-    let(:user) { create(:user, events: [my_event]) }
-
-    it 'shows all users events' do
-      expect(user.events.count).to eq 1
-      expect(Event.paid_or_owned_by(user).count).to eq 2
+  describe '.paid_or_owned_by user' do
+    before :each do
+      @my_event = create(:event)
+      @order = create(:order)
+      @event = create(:event, order: @order)
+      @user = create(:user, events: [@my_event])
     end
 
-    it 'show another users only paid events' do
-      @order.pay!
-
-      expect(Event.paid.count).to eq 1
-      expect(@user_two.events.count).to eq 0
-      expect(Event.paid_or_owned_by(@user_two).count).to eq 1
+    it 'shows all users events' do
+      expect(@user.events.count).to eq 1
+      expect(Event.paid_or_owned_by(@user).count).to eq 1
+      @order.paid!
+      expect(Event.paid_or_owned_by(@user).count).to eq 2
     end
 
     it 'shows only paid if user is nil' do

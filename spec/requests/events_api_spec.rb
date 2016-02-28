@@ -9,7 +9,7 @@ RSpec.describe "EventsApi" do
   describe "grid at dashboard" do
     before(:each) do
       @event_four = Event.create!({
-        products: [@court],
+        product: @court,
         product_services: [@service, @periodic_service],
         start: Time.zone.parse("12:00:00"),
         end: Time.zone.parse("14:30:00"),

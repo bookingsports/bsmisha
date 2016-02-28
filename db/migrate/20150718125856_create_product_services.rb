@@ -3,8 +3,8 @@ class CreateProductServices < ActiveRecord::Migration
     create_table :product_services do |t|
       t.belongs_to :product, index: true, foreign_key: true
       t.belongs_to :service, index: true, foreign_key: true
-      t.decimal :price, precision: 8, scale: 2
-      t.string :type
+      t.float :price
+      t.boolean :periodic, default: false
 
       t.timestamps null: false
     end

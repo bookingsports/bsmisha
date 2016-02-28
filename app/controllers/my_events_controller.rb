@@ -5,7 +5,7 @@ class MyEventsController < EventsController
     @events = current_user.events.order(created_at: :desc)
 
     respond_to do |format|
-      format.json { @events = @events.of_products(current_products) }
+      format.json { @events = @events.of_products([current_product]) }
       format.html {}
     end
   end

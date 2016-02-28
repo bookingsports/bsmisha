@@ -42,9 +42,13 @@ class Event < ActiveRecord::Base
   scope :past, -> { where('"end" < ?', Time.current)}
   scope :future, -> { where('"start" > ?', Time.current)}
 
+  scope :of_products, ->(*products) do
+    where(product_id: products.flatten.map(&:id)).uniq
+  end
+
   scope :paid_or_owned_by,  -> (user) do
     if user
-      joins("LEFT OUTER JOIN orders ON orders.id = events.order_id").where("(orders.user_id <> :id and orders.status = :st) or events.user_id = :id ", { id: user.id, st: Order.statuses[:paid]} )
+      joins("LEFT OUTER JOIN orders ON orders.id = events.order_id").where("orders.status = :st or events.user_id = :id ", { id: user.id, st: Order.statuses[:paid]} )
     else
       paid
     end
@@ -109,30 +113,6 @@ class Event < ActiveRecord::Base
 
   def unpaid?
     !paid?
-  end
-
-  def product_names
-    products.map(&:name).join(', ')
-  end
-
-  def coaches
-    products.where(type: "Coach")
-  end
-
-  def coach
-    coaches.first
-  end
-
-  def stadium
-    products.where(type: "Stadium").first || court.try(:stadium) || Stadium.new
-  end
-
-  def courts
-    products.where(type: "Court")
-  end
-
-  def court
-    courts.first || Court.new
   end
 
   def start_for(user)

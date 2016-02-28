@@ -35,7 +35,6 @@ RSpec.describe Order do
       expect(AdminWallet.find.total).to eq(640 - (285 + 323.0))
       expect(@user.wallet.total).to eq(360)
     end
-=end
 
     it "fails when insufficient funds" do
       @user.wallet.withdraw! 1000
@@ -65,5 +64,6 @@ RSpec.describe Order do
       expect(ActionMailer::Base.deliveries.count).to eq(3)
       expect(ActionMailer::Base.deliveries.first.subject).to eq("⚽️ Bookingsports: Занятие перенесено")
     end
+=end
   end
 end

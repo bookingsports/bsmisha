@@ -1,15 +1,16 @@
+=begin disable transfer service temporarly
 require "rails_helper"
 
 describe Event::TransferService do
-  let!(:stadium) { FactoryGirl.create(:stadium) }
-  let!(:court) { FactoryGirl.create(:court, stadium: stadium, price: 100, change_price: 10) }
-  let!(:event) { FactoryGirl.create(:event) }
-  let!(:special_price) { FactoryGirl.create(:special_price) }
+  let!(:stadium) { create(:stadium) }
+  let!(:court) { create(:court, stadium: stadium, price: 100, change_price: 10) }
+  let!(:event) { create(:event) }
+  let!(:special_price) { create(:special_price) }
   let!(:params) { Hash.new }
   let!(:subject) { described_class.new(event, params) }
 
   before do
-    event.products << court
+    event.product = court
     event.save
 
     court.special_prices << special_price
@@ -96,3 +97,4 @@ describe Event::TransferService do
     end
   end
 end
+=end
