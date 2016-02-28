@@ -106,6 +106,7 @@ group :development, :test do
   gem "jasmine"
   gem "byebug"
   gem "web-console", "~> 2.0"
+  gem "rubocop", require: false
   gem "spring"
   gem "railroady"
 end
