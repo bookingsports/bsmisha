@@ -15,8 +15,8 @@ class CreateProducts < ActiveRecord::Migration
       t.string :type
       t.string :email
       t.string :avatar
-      t.decimal :price, precision: 8, scale: 2
-      t.decimal :change_price, precision: 8, scale: 2
+      t.float :price
+      t.float :change_price
       t.time :opens_at
       t.time :closes_at
 

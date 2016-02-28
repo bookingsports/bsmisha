@@ -11,7 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160226091959) do
+ActiveRecord::Schema.define(version: 20160219204852) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -122,19 +123,15 @@ ActiveRecord::Schema.define(version: 20160226091959) do
     t.datetime "start"
     t.datetime "end"
     t.string   "description"
+    t.integer  "product_id"
     t.integer  "order_id"
     t.integer  "user_id"
     t.string   "recurrence_rule"
     t.string   "recurrence_exception"
     t.integer  "recurrence_id"
     t.boolean  "is_all_day"
-<<<<<<< HEAD
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
-=======
-    t.integer  "user_id"
-    t.integer  "product_id"
->>>>>>> 056fb41... Improve event specs and disable special prices specs temporarly
   end
 
   add_index "events", ["order_id"], name: "index_events_on_order_id", using: :btree
@@ -174,17 +171,10 @@ ActiveRecord::Schema.define(version: 20160226091959) do
   create_table "product_services", force: :cascade do |t|
     t.integer  "product_id"
     t.integer  "service_id"
-<<<<<<< HEAD
-    t.decimal  "price",      precision: 8, scale: 2
-    t.string   "type"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
-=======
     t.float    "price"
+    t.boolean  "periodic",   default: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
-    t.boolean  "periodic",   default: false
->>>>>>> 0cc88b8... Improve periodic service model and specs
   end
 
   add_index "product_services", ["product_id"], name: "index_product_services_on_product_id", using: :btree
@@ -197,11 +187,6 @@ ActiveRecord::Schema.define(version: 20160226091959) do
     t.string   "name"
     t.string   "phone"
     t.text     "description"
-<<<<<<< HEAD
-=======
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
->>>>>>> 0cc88b8... Improve periodic service model and specs
     t.string   "address"
     t.float    "latitude",     default: 55.75
     t.float    "longitude",    default: 37.61
@@ -214,8 +199,8 @@ ActiveRecord::Schema.define(version: 20160226091959) do
     t.float    "change_price"
     t.time     "opens_at"
     t.time     "closes_at"
-    t.datetime "created_at",                                           null: false
-    t.datetime "updated_at",                                           null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
   end
 
   add_index "products", ["category_id"], name: "index_products_on_category_id", using: :btree

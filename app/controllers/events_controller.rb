@@ -22,9 +22,7 @@ class EventsController < ApplicationController
   before_filter :authenticate_user!, except: [:index, :parents_events]
 
   def index
-    logger.debug { current_products.inspect }
-
-    @events = Event.of_products(current_products).paid_or_owned_by(current_user)
+    @events = Event.of_products([current_product]).paid_or_owned_by(current_user)
     respond_with @events
   end
 
@@ -47,18 +45,19 @@ class EventsController < ApplicationController
 
   def create
     @event = current_user.new_event event_params.delete_if {|k,v| v.empty? }
-    @event.products = current_products
+    @event.product = current_product
     @event.save!
   end
 
   def update
     @event = current_user.events.find(params[:id])
-    service = Event::TransferService.new(@event, event_params)
-    if service.perform
-      respond_with @event
-    else
-      render json: { error: "Transfer error" }
-    end
+    # disable transfer service temporarly
+    #service = Event::TransferService.new(@event, event_params)
+    #if service.perform
+    #else
+    #  render json: { error: "Transfer error" }
+    #end
+    respond_with @event
   end
 
   def edit
@@ -92,10 +91,7 @@ class EventsController < ApplicationController
       )
     end
 
-    def current_products
-      [Court.where(slug: params[:court_id].to_s).last,
-       Coach.where(slug: params[:coach_id].to_s).last,
-       Stadium.where(slug: params[:stadium_id].to_s).last,
-       Product.where(slug: params[:product_id].to_s).last].compact
+    def current_product
+      Court.where(slug: params[:court_id].to_s).last
     end
 end

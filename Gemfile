@@ -95,6 +95,7 @@ group :test do
   gem "factory_girl_rails"
   gem "capybara"
   gem "database_cleaner"
+  gem "shoulda-matchers"
   gem "launchy"
   gem "selenium-webdriver"
   gem "faker", github: 'stympy/faker'
