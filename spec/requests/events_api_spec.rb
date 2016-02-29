@@ -42,7 +42,6 @@ RSpec.describe "EventsApi" do
         expect(grouped.keys.first).to eq(@user.name)
       end
     end
-=end
 
     context "stadium user" do
       before(:each) do
@@ -265,5 +264,6 @@ RSpec.describe "EventsApi" do
         end
       end
     end
+=end
   end
 end

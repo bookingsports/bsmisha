@@ -20,7 +20,24 @@
 require 'rails_helper'
 
 RSpec.describe Event do
-  let(:event) { create(:event, start: Time.zone.parse('14:00')) }
+  it { should belong_to(:user) }
+  it { should belong_to(:order) }
+  it { should belong_to(:product) }
+
+  it { should have_many(:event_changes) }
+  it { should have_many(:additional_event_items) }
+  it { should have_many(:special_prices) }
+
+  it { should have_and_belong_to_many(:product_services) }
+
+  let(:event) { create(:event, start: Time.zone.parse('2016-02-29 14:00')) }
+
+  describe '#name' do
+    it 'should show title for event' do
+      event.end = event.start + 2.5.hours
+      expect(event.name).to eq 'Событие с 2016-02-29 14:00 по 2016-02-29 16:30'
+    end
+  end
 
   describe '#occurrences' do
     it 'shows 1 if it is no repeats' do
