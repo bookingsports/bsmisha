@@ -36,16 +36,16 @@ module TennisHelpers
       @stadium = @stadium_user.product
       @stadium.update(name: "Name")
 
-      @court = Court.create!({
+      @area = Area.create!({
         stadium: @stadium,
-        name: "court",
+        name: "area",
         price: 100,
         user: @stadium_user
       })
 
-      @court_two = Court.create!({
+      @area_two = Area.create!({
         stadium: @stadium,
-        name: "court_two",
+        name: "area_two",
         price: 150
       })
 
@@ -57,18 +57,18 @@ module TennisHelpers
       @service = ProductService.create!({
         service: Service.new(name: "WC"),
         price: 10,
-        product: @court
+        product: @area
       })
 
       @periodic_service = ProductService.create!({
         service: Service.new(name: "Синема"),
         price: 10,
-        product: @court,
+        product: @area,
         periodic: "1"
       })
 
       @event = Event.create!({
-        product: @court,
+        product: @area,
         product_services: [@service, @periodic_service],
         start: Time.zone.parse("12:00:00"),
         end: Time.zone.parse("14:30:00"),
@@ -76,7 +76,7 @@ module TennisHelpers
       })
 
       @event_two = Event.create!({
-        product: @court,
+        product: @area,
         product_services: [@service, @periodic_service],
         start: Time.zone.parse("12:00:00"),
         end: Time.zone.parse("14:30:00"),
@@ -84,7 +84,7 @@ module TennisHelpers
       })
 
       @event_three = Event.create!({
-        product: @court_two,
+        product: @area_two,
         product_services: [@service, @periodic_service],
         start: Time.zone.parse("12:00:00"),
         end: Time.zone.parse("14:30:00"),

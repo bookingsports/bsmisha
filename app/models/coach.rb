@@ -28,25 +28,25 @@
 class Coach < Product
   include CoachConcern
 
-  has_many :coaches_courts
-  has_many :courts, through: :coaches_courts
-  validate :has_at_least_one_court, on: :stadium_dashboard
+  has_many :coaches_areas
+  has_many :areas, through: :coaches_areas
+  validate :has_at_least_one_area, on: :stadium_dashboard
 
   accepts_nested_attributes_for :user
 
   delegate :email, to: :user
 
-  def has_courts?
-    courts.size > 0
+  def has_areas?
+    areas.size > 0
   end
 
   def name_with_stadium
     name
   end
 
-  def has_at_least_one_court
-    if courts.size < 1
-      errors.add :courts, "Выберите хотя бы один корт."
+  def has_at_least_one_area
+    if areas.size < 1
+      errors.add :areas, "Выберите хотя бы одну площадку."
     end
   end
 

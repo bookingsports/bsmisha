@@ -58,7 +58,7 @@ class Tennis.Views.ScheduleModalView extends Tennis.Views.ModalView
     @calculatePrice()
 
   calculatePrice: ->
-    $.get "/courts/#{window.grid.court}", (data) =>
+    $.get "/areas/#{window.grid.area}", (data) =>
       dur = Math.ceil(@model.get('end').diff(@model.get('start'), 'hours', true))
       total = data.price * dur
       time = moment.duration(dur, "hours").humanize()

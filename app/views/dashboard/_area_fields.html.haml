@@ -1,0 +1,7 @@
+%tr.nested-fields
+  %td= f.input :name, label: false
+  %td= f.input :price, label: false
+  %td= f.input :change_price, label: false
+  %td= f.association :category, label: false
+  -#%td= link_to 'Настроить цены', area_special_prices_path(area_id: f.object.id) if f.object.persisted?
+  %td= link_to_remove_association 'Удалить площадку', f

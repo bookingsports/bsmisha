@@ -29,20 +29,20 @@ class Stadium < Product
   include StadiumConcern
 
   belongs_to :category, inverse_of: :stadiums
-  has_many :courts, dependent: :destroy, inverse_of: :stadium, foreign_key: :parent_id
+  has_many :areas, dependent: :destroy, inverse_of: :stadium, foreign_key: :parent_id
 
-  accepts_nested_attributes_for :courts, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :areas, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :user
 
-  after_create :make_court
+  after_create :make_area
   after_save :parse_address
 
-  def make_court
-    courts.create! name: 'Основной'
+  def make_area
+    areas.create! name: 'Основная'
   end
 
   def coaches
-    courts.map(&:coaches).flatten.uniq
+    areas.map(&:coaches).flatten.uniq
   end
 
   def as_json(params = {})

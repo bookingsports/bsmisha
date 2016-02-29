@@ -20,12 +20,12 @@
             .panel-heading
               %h3.panel-title Бронирование
             .panel-body.woocommerce{"data-checkout" => ""}
-              %div{ "data-coach-price" => @coach.coaches_courts.first.price.to_i }
-              = render "orders/total", price: @coach.coaches_courts.first.price.to_i
+              %div{ "data-coach-price" => @coach.coaches_areas.first.price.to_i }
+              = render "orders/total", price: @coach.coaches_areas.first.price.to_i
         .col-md-8
           = label_tag "Стадион"
-          = select_tag :court, options_for_select(@coach.coaches_courts.map {|c| ["#{c.stadium.name} - корт: #{c.name}", c.id ] }), class: 'form-control'
-          %div{"data-grid" => true, "data-source" => coach_court_events_path(court_id: @coach.courts.first)}
+          = select_tag :area, options_for_select(@coach.coaches_areas.map {|c| ["#{c.stadium.name} - площадка: #{c.name}", c.id ] }), class: 'form-control'
+          %div{"data-grid" => true, "data-source" => coach_area_events_path(area_id: @coach.areas.first)}
 :javascript
   kendo.culture("ru-RU");
   var grid = new Tennis.Views.ScheduleView({el: '[data-grid]'});

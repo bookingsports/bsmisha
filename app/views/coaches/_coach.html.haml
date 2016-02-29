@@ -1,10 +1,10 @@
-- if coach.has_courts?
+- if coach.has_areas?
   %li.clearfix
     .row
       .col-md-2
         = image_tag coach.avatar.small_square.presence || 'placeholder.png', class: 'avatar photo pull-left'
       .col-md-10
-        = link_to coach.name, coach_court_path(coach, coach.courts.first)
+        = link_to coach.name, coach_area_path(coach, coach.areas.first)
         - if coach.phone?
           %h5= fa_icon('phone') + ' ' + coach.phone
         - if coach.description?

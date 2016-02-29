@@ -23,5 +23,5 @@ create_user(Customer, 'customer@bookingsports.ru', 'changeme')
 
 c = Category.create!(name: "Футбол", parent: Category.create(name: "Стадион"))
 stadium_user.stadium = Stadium.create!(name: 'Арена "Открытие"', category: c, phone: '123')
-stadium_user.stadium.courts.create! name: 'Первый'
-stadium_user.stadium.courts.create! name: 'Второй'
+stadium_user.stadium.areas.create! name: 'Первый'
+stadium_user.stadium.areas.create! name: 'Второй'

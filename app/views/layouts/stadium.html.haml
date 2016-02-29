@@ -9,7 +9,7 @@
           .col-xs-12.col-sm-12.col-md-12.col-lg-12
             %ul.nav.nav-pills.nav-justified.stadium-nav
               = active_link_to "Описание", @stadium, wrap_tag: :li, active: :exclusive
-              = active_link_to "Расписание", stadium_court_path(@stadium, @stadium.courts.first), wrap_tag: :li, active: :exclusive
+              = active_link_to "Расписание", stadium_area_path(@stadium, @stadium.areas.first), wrap_tag: :li, active: :exclusive
               = active_link_to "Галерея", stadium_pictures_path(@stadium), wrap_tag: :li, active: :exclusive
               = active_link_to "Отзывы", stadium_reviews_path(@stadium), wrap_tag: :li, active: :exclusive
             = yield

@@ -54,14 +54,14 @@ ActiveRecord::Schema.define(version: 20160219204852) do
 
   add_index "categories", ["ancestry"], name: "index_categories_on_ancestry", using: :btree
 
-  create_table "coaches_courts", force: :cascade do |t|
+  create_table "coaches_areas", force: :cascade do |t|
     t.integer "coach_id"
-    t.integer "court_id"
+    t.integer "area_id"
     t.decimal "price",    precision: 8, scale: 2, default: 0.0
   end
 
-  add_index "coaches_courts", ["coach_id"], name: "index_coaches_courts_on_coach_id", using: :btree
-  add_index "coaches_courts", ["court_id"], name: "index_coaches_courts_on_court_id", using: :btree
+  add_index "coaches_areas", ["area_id"], name: "index_coaches_areas_on_area_id", using: :btree
+  add_index "coaches_areas", ["coach_id"], name: "index_coaches_areas_on_coach_id", using: :btree
 
   create_table "daily_price_rules", force: :cascade do |t|
     t.integer  "special_price_id"

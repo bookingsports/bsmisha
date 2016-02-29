@@ -3,18 +3,18 @@ require "rails_helper"
 
 describe Event::TransferService do
   let!(:stadium) { create(:stadium) }
-  let!(:court) { create(:court, stadium: stadium, price: 100, change_price: 10) }
+  let!(:area) { create(:area, stadium: stadium, price: 100, change_price: 10) }
   let!(:event) { create(:event) }
   let!(:special_price) { create(:special_price) }
   let!(:params) { Hash.new }
   let!(:subject) { described_class.new(event, params) }
 
   before do
-    event.product = court
+    event.product = area
     event.save
 
-    court.special_prices << special_price
-    court.save
+    area.special_prices << special_price
+    area.save
   end
 
   describe "#perform" do

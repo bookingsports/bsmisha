@@ -1,4 +1,4 @@
-module CoachesCourtConcern
+module CoachesAreaConcern
   extend ActiveSupport::Concern
 
   included do
@@ -6,7 +6,7 @@ module CoachesCourtConcern
       parent Coach
       list do
         field :coach
-        field :court
+        field :area
         field :price
         field :created_at
         field :updated_at
@@ -14,7 +14,7 @@ module CoachesCourtConcern
 
       show do
         field :coach
-        field :court
+        field :area
         field :price
         field :created_at
         field :updated_at
@@ -22,7 +22,7 @@ module CoachesCourtConcern
 
       edit do
         field :coach
-        field :court
+        field :area
         field :price
       end
     end

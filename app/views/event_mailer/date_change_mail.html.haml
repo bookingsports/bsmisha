@@ -19,7 +19,7 @@
       %th Повторяется
   %tbody
     %tr
-      %td= @event.court.stadium.name
+      %td= @event.area.stadium.name
       %td= l @event.start, format: :short
       %td= l @event.end, format: :short
       %td= t('hours', count: number_with_precision(@event.duration_in_hours, precision: 2))

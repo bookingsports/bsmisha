@@ -8,7 +8,7 @@ class Dashboard::Customer::OrdersController < DashboardController
 
   def new
     @order = Order.new user: current_user
-    @order.events.new start: DateTime.parse(params[:start]), end: DateTime.parse(params[:end]), court_id: params[:court]
+    @order.events.new start: DateTime.parse(params[:start]), end: DateTime.parse(params[:end]), area_id: params[:area]
   end
 
   def show
@@ -20,7 +20,7 @@ class Dashboard::Customer::OrdersController < DashboardController
     transaction = ActiveRecord::Base.transaction do
       @order.events.each do |event|
         if current_user.wallet.withdraw!(event.total)
-          event.court.stadium.user.wallet.deposit!(event.dry_court_total)
+          event.area.stadium.user.wallet.deposit!(event.dry_area_total)
           event.additional_event_items.each do |ai|
             ai.payment_receiver.wallet.deposit! ai.total
           end
@@ -32,7 +32,7 @@ class Dashboard::Customer::OrdersController < DashboardController
       @order.event_changes.each do |change|
         change.event.update JSON.parse(change.summary)
         if current_user.wallet.withdraw!(change.total)
-          change.event.court.stadium.user.wallet.deposit!(change.total)
+          change.event.area.stadium.user.wallet.deposit!(change.total)
         else
           redirect_to(dashboard_orders_path, alert: "Недостаточно средств")
           raise ActiveRecord::Rollback

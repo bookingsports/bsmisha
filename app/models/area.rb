@@ -25,12 +25,12 @@
 #  closes_at    :time
 #
 
-class Court < Product
-  include CourtConcern
+class Area < Product
+  include AreaConcern
 
   belongs_to :stadium, foreign_key: :parent_id
-  has_many :coaches_courts
-  has_many :coaches, through: :coaches_courts
+  has_many :coaches_areas
+  has_many :coaches, through: :coaches_areas
 
   def display_name
     "#{parent_id.present? ? stadium.name + " - " : "" }#{name}"
@@ -49,7 +49,7 @@ class Court < Product
   end
 
   def name_with_stadium
-    stadium.name.to_s + " — корт " + name.to_s
+    stadium.name.to_s + " — площадка " + name.to_s
   end
 
   def product_services
@@ -60,7 +60,7 @@ class Court < Product
     end
   end
 
-  def kendo_court_id
-    stadium.courts.to_a.index(self) % 10
+  def kendo_area_id
+    stadium.areas.to_a.index(self) % 10
   end
 end

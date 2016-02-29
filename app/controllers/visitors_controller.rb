@@ -3,7 +3,7 @@ class VisitorsController < ApplicationController
     @q = Stadium.ransack(params[:q])
 
     @stadiums = @q.result(distinct: true)
-                  .includes(:courts, :pictures)
+                  .includes(:areas, :pictures)
                   .active
 
     set_markers @stadiums

@@ -29,7 +29,7 @@ class EventsController < ApplicationController
   def parents_events
     if params[:scope] == "stadium"
       stadium = Stadium.friendly.find(params[:stadium_id])
-      @events = stadium.courts.flat_map {|court| Event.of_products(court)}
+      @events = stadium.areas.flat_map {|area| Event.of_products(area)}
     end
 
     render :index
@@ -92,6 +92,6 @@ class EventsController < ApplicationController
     end
 
     def current_product
-      Court.where(slug: params[:court_id].to_s).last
+      Area.where(slug: params[:area_id].to_s).last
     end
 end

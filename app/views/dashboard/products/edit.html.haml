@@ -23,8 +23,8 @@
       .col-xs-12
         %h4 Цены
         = link_to 'Настроить цены', dashboard_special_prices_path, class: 'btn btn-primary'
-        %h4 Корты
-        = link_to_add_association 'Добавить площадку', f, :courts, class: 'btn btn-primary', 'data-association-insertion-node' => '.courts', 'data-association-insertion-method' => 'append'
+        %h4 Площадки
+        = link_to_add_association 'Добавить площадку', f, :areas, class: 'btn btn-primary', 'data-association-insertion-node' => '.areas', 'data-association-insertion-method' => 'append'
         %table.table
           %thead
             %tr
@@ -32,9 +32,9 @@
               %th Стоимость часа
               %th Стоимость переноса
               %th
-          %tbody.courts
-            = f.simple_fields_for :courts, @product.courts.any? && @product.courts || @product.courts.new do |court|
-              = render "court_fields", f: court
+          %tbody.areas
+            = f.simple_fields_for :areas, @product.areas.any? && @product.areas || @product.areas.new do |area|
+              = render "area_fields", f: area
         %h4 Дополнительные услуги
         = link_to_add_association 'Добавить услугу', f, :product_services, class: 'btn btn-primary', 'data-association-insertion-node' => '.services', 'data-association-insertion-method' => 'append'
         %table.table
@@ -45,8 +45,8 @@
               %th Периодичность
               %th
           %tbody.services
-            = f.simple_fields_for :product_services, @product.product_services.any? && @product.product_services || @product.product_services.new do |court|
-              = render "product_service_fields", f: court
+            = f.simple_fields_for :product_services, @product.product_services.any? && @product.product_services || @product.product_services.new do |area|
+              = render "product_service_fields", f: area
         = f.button :submit
 - elsif @product.kind_of? Coach
   = simple_form_for @product, as: :product, url: dashboard_product_path do |f|

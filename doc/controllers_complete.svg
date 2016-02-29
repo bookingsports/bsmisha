@@ -40,10 +40,10 @@
 <polyline fill="none" stroke="black" points="-33.8794,-499 87.8794,-499 "/>
 <text text-anchor="start" x="-25.8794" y="-483.8" font-family="Times,serif" font-size="14.00">_layout</text>
 </g>
-<!-- Coach::CourtsController -->
-<g id="node4" class="node"><title>Coach::CourtsController</title>
+<!-- Coach::AreasController -->
+<g id="node4" class="node"><title>Coach::AreasController</title>
 <path fill="none" stroke="black" d="M11.7861,424C11.7861,424 142.214,424 142.214,424 148.214,424 154.214,418 154.214,412 154.214,412 154.214,346 154.214,346 154.214,340 148.214,334 142.214,334 142.214,334 11.7861,334 11.7861,334 5.78613,334 -0.213867,340 -0.213867,346 -0.213867,346 -0.213867,412 -0.213867,412 -0.213867,418 5.78613,424 11.7861,424"/>
-<text text-anchor="middle" x="77" y="349.2" font-family="Times,serif" font-size="14.00">Coach::CourtsController</text>
+<text text-anchor="middle" x="77" y="349.2" font-family="Times,serif" font-size="14.00">Coach::AreasController</text>
 <polyline fill="none" stroke="black" points="-0.213867,356 154.214,356 "/>
 <text text-anchor="start" x="7.78613" y="371.2" font-family="Times,serif" font-size="14.00">show</text>
 <polyline fill="none" stroke="black" points="-0.213867,378 154.214,378 "/>
@@ -74,10 +74,10 @@
 <text text-anchor="start" x="449.514" y="-225.8" font-family="Times,serif" font-size="14.00">_layout</text>
 <text text-anchor="start" x="449.514" y="-211.8" font-family="Times,serif" font-size="14.00">set_coach</text>
 </g>
-<!-- CourtsController -->
-<g id="node7" class="node"><title>CourtsController</title>
+<!-- AreasController -->
+<g id="node7" class="node"><title>AreasController</title>
 <path fill="none" stroke="black" d="M-379.441,-392C-379.441,-392 -292.559,-392 -292.559,-392 -286.559,-392 -280.559,-398 -280.559,-404 -280.559,-404 -280.559,-526 -280.559,-526 -280.559,-532 -286.559,-538 -292.559,-538 -292.559,-538 -379.441,-538 -379.441,-538 -385.441,-538 -391.441,-532 -391.441,-526 -391.441,-526 -391.441,-404 -391.441,-404 -391.441,-398 -385.441,-392 -379.441,-392"/>
-<text text-anchor="middle" x="-336" y="-522.8" font-family="Times,serif" font-size="14.00">CourtsController</text>
+<text text-anchor="middle" x="-336" y="-522.8" font-family="Times,serif" font-size="14.00">AreasController</text>
 <polyline fill="none" stroke="black" points="-391.441,-516 -280.559,-516 "/>
 <text text-anchor="start" x="-383.441" y="-500.8" font-family="Times,serif" font-size="14.00">index</text>
 <text text-anchor="start" x="-383.441" y="-486.8" font-family="Times,serif" font-size="14.00">show</text>

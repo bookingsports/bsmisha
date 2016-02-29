@@ -43,28 +43,28 @@ RSpec.describe Event do
 
   describe '#event_associated_payables' do
     it 'should return product and product_services in one array' do
-      court = create(:court)
+      area = create(:area)
       product_service = create(:product_service)
 
-      event.product = court
+      event.product = area
       event.product_services = [product_service]
 
-      expect(event.associated_payables).to eq [court, product_service]
+      expect(event.associated_payables).to eq [area, product_service]
     end
   end
 
   describe '#event_associated_payables_with_price' do
     context 'should return hash with product and total price for each associated payable' do
       context 'without special prices' do
-        let(:court) { create(:court, price: 125.0) }
+        let(:area) { create(:area, price: 125.0) }
         let(:product_service) { create(:product_service, price: 258.0, periodic: true) }
-        let(:event) { create(:event, start: Time.zone.parse('14:00'), product: court, product_services: [product_service]) }
+        let(:event) { create(:event, start: Time.zone.parse('14:00'), product: area, product_services: [product_service]) }
 
         it 'for one hour' do
           event.end = event.start + 1.hour
 
           expect(event.associated_payables_with_price).to eq [
-            {product: court, total: 125.0},
+            {product: area, total: 125.0},
             {product: product_service, total: 258.0}
           ]
         end
@@ -73,7 +73,7 @@ RSpec.describe Event do
           event.end = event.start + 3.hours
 
           expect(event.associated_payables_with_price).to eq [
-            {product: court, total: 125.0*3},
+            {product: area, total: 125.0*3},
             {product: product_service, total: 258.0*3}
           ]
         end
@@ -83,7 +83,7 @@ RSpec.describe Event do
           event.end = event.start + 3.hours
 
           expect(event.associated_payables_with_price).to eq [
-            {product: court, total: 125.0*3},
+            {product: area, total: 125.0*3},
             {product: product_service, total: 258.0}
           ]
         end
@@ -92,7 +92,7 @@ RSpec.describe Event do
           event.end = event.start + 3.5.hours
 
           expect(event.associated_payables_with_price).to eq [
-            {product: court, total: 125*3.5},
+            {product: area, total: 125*3.5},
             {product: product_service, total: 258*3.5}
           ]
         end
@@ -102,7 +102,7 @@ RSpec.describe Event do
           event.end = event.start + 3.5.hours
 
           expect(event.associated_payables_with_price).to eq [
-            {product: court, total: 125*3.5*10},
+            {product: area, total: 125*3.5*10},
             {product: product_service, total: 258*3.5*10}
           ]
         end
@@ -111,20 +111,20 @@ RSpec.describe Event do
   end
 
   describe '#total' do
-    it 'shows price of a courts hour' do
-      court = create(:court, price: 100)
+    it 'shows price of a areas hour' do
+      area = create(:area, price: 100)
 
       event.end = event.start + 2.hours
-      event.product = court
+      event.product = area
 
       expect(event.total).to eq 200.0
     end
 
-    it 'shows price of a courts hours times occurrences' do
-      court = create(:court, price: 250)
+    it 'shows price of a areas hours times occurrences' do
+      area = create(:area, price: 250)
 
       event.recurrence_rule = 'FREQ=DAILY;COUNT=10'
-      event.product = court
+      event.product = area
       event.end = event.start + 3.5.hours
 
       expect(event.total).to eq 250 * 3.5 * 10
@@ -141,27 +141,27 @@ RSpec.describe Event do
 
       special_price.daily_price_rules = price_rules
 
-      create(:court, special_prices: [special_price])
-      event.products = [court]
+      create(:area, special_prices: [special_price])
+      event.products = [area]
 
       expect(event.total).to eq 200 * 1 + 50 * 1 + 100 * 1
     end
 
-    it 'special price of court affects the price' do
+    it 'special price of area affects the price' do
       special_price = SpecialPrice.create start: 2.days.ago, stop: 2.days.from_now
       price_rules = [DailyPriceRule.create(start: '11:00', stop: '13:00', price: 200, working_days: [Time.zone.now.wday]), DailyPriceRule.create(start: '13:00', stop: '14:00', price: 50, working_days: [Time.zone.now.wday])]
       special_price.daily_price_rules = price_rules
       special_price.save!
-      @court.special_prices = [special_price]
-      @court.save!
+      @area.special_prices = [special_price]
+      @area.save!
 
-      event.products = [@court]
+      event.products = [@area]
       event.save!
 
       expect(event.total).to eq 200 * 1 + 50 * 1 + 100 * 1
     end
 
-    it 'special price of a court takes precedence over stadium' do
+    it 'special price of a area takes precedence over stadium' do
       special_price1 = SpecialPrice.create start: 2.days.ago, stop: 2.days.from_now
       special_price2 = SpecialPrice.create start: 2.days.ago, stop: 2.days.from_now
       price_rules1 = [DailyPriceRule.create(start: '11:00', stop: '13:00', price: 11, working_days: [Time.zone.now.wday]), DailyPriceRule.create(start: '13:00', stop: '14:00', price: 12, working_days: [Time.zone.now.wday])]
@@ -171,10 +171,10 @@ RSpec.describe Event do
       special_price1.save
       special_price2.save
 
-      @court.special_prices = [special_price1]
+      @area.special_prices = [special_price1]
       @stadium.special_prices = [special_price2]
 
-      event.products = [@court]
+      event.products = [@area]
       event.save!
 
       expect(event.total).to eq 11 * 1 + 12 * 1 + 100 * 1
@@ -182,12 +182,12 @@ RSpec.describe Event do
 =end
 
     context 'periodic services' do
-      let(:court) { create(:court, price: 100) }
+      let(:area) { create(:area, price: 100) }
       let(:service) { create(:service) }
-      let(:product_service) { create(:product_service, service: service, product: court, price: 10, periodic: true) }
+      let(:product_service) { create(:product_service, service: service, product: area, price: 10, periodic: true) }
 
       before :each do
-        event.product = court
+        event.product = area
         event.product_services << product_service
 
         event.end = event.start + 3.hours

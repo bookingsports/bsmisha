@@ -28,7 +28,7 @@ class StadiumUser < User
   has_one :stadium, foreign_key: "user_id", dependent: :destroy
   has_one :product, foreign_key: "user_id", dependent: :destroy
 
-  delegate :courts, to: :stadium
+  delegate :areas, to: :stadium
 
   has_one :account, as: :accountable
   accepts_nested_attributes_for :account
@@ -43,11 +43,11 @@ class StadiumUser < User
   end
 
   def special_prices
-    (stadium.special_prices.to_a + stadium.courts.map { |court| court.special_prices.to_a }.flatten).uniq
+    (stadium.special_prices.to_a + stadium.areas.map { |area| area.special_prices.to_a }.flatten).uniq
   end
 
   def products
-    stadium.courts
+    stadium.areas
   end
 
   def events

@@ -266,26 +266,26 @@
 <text text-anchor="start" x="1297.83" y="-1724.3" font-family="Times,serif" font-size="14.00">opens_at :timestamp without time zone</text>
 <text text-anchor="start" x="1297.83" y="-1710.3" font-family="Times,serif" font-size="14.00">closes_at :timestamp without time zone</text>
 </g>
-<!-- CoachesCourt -->
-<g id="node10" class="node"><title>CoachesCourt</title>
+<!-- CoachesArea -->
+<g id="node10" class="node"><title>CoachesArea</title>
 <path fill="none" stroke="black" d="M1134.66,-1154.5C1134.66,-1154.5 1234.72,-1154.5 1234.72,-1154.5 1240.72,-1154.5 1246.72,-1160.5 1246.72,-1166.5 1246.72,-1166.5 1246.72,-1228.5 1246.72,-1228.5 1246.72,-1234.5 1240.72,-1240.5 1234.72,-1240.5 1234.72,-1240.5 1134.66,-1240.5 1134.66,-1240.5 1128.66,-1240.5 1122.66,-1234.5 1122.66,-1228.5 1122.66,-1228.5 1122.66,-1166.5 1122.66,-1166.5 1122.66,-1160.5 1128.66,-1154.5 1134.66,-1154.5"/>
-<text text-anchor="middle" x="1184.69" y="-1225.3" font-family="Times,serif" font-size="14.00">CoachesCourt</text>
+<text text-anchor="middle" x="1184.69" y="-1225.3" font-family="Times,serif" font-size="14.00">CoachesArea</text>
 <polyline fill="none" stroke="black" points="1122.66,-1218.5 1246.72,-1218.5 "/>
 <text text-anchor="start" x="1130.66" y="-1203.3" font-family="Times,serif" font-size="14.00">id :integer</text>
 <text text-anchor="start" x="1130.66" y="-1189.3" font-family="Times,serif" font-size="14.00">coach_id :integer</text>
-<text text-anchor="start" x="1130.66" y="-1175.3" font-family="Times,serif" font-size="14.00">court_id :integer</text>
+<text text-anchor="start" x="1130.66" y="-1175.3" font-family="Times,serif" font-size="14.00">area_id :integer</text>
 <text text-anchor="start" x="1130.66" y="-1161.3" font-family="Times,serif" font-size="14.00">price :numeric(8,2)</text>
 </g>
-<!-- Coach&#45;&gt;CoachesCourt -->
-<g id="edge17" class="edge"><title>Coach&#45;&gt;CoachesCourt</title>
+<!-- Coach&#45;&gt;CoachesArea -->
+<g id="edge17" class="edge"><title>Coach&#45;&gt;CoachesArea</title>
 <path fill="none" stroke="#341446" d="M1285.14,-1728.3C1275.85,-1714.32 1267.48,-1699.79 1260.69,-1685 1193.28,-1538.19 1183.98,-1343.04 1183.73,-1250.9"/>
 <ellipse fill="none" stroke="#341446" cx="1287.53" cy="-1731.81" rx="4.00002" ry="4.00002"/>
 <polygon fill="#341446" stroke="#341446" points="1183.73,-1250.72 1188.24,-1240.72 1183.73,-1245.72 1183.74,-1240.72 1183.74,-1240.72 1183.74,-1240.72 1183.73,-1245.72 1179.24,-1240.71 1183.73,-1250.72 1183.73,-1250.72"/>
 </g>
-<!-- Court -->
-<g id="node11" class="node"><title>Court</title>
+<!-- Area -->
+<g id="node11" class="node"><title>Area</title>
 <path fill="none" stroke="black" d="M1478.83,-1341.5C1478.83,-1341.5 1702.55,-1341.5 1702.55,-1341.5 1708.55,-1341.5 1714.55,-1347.5 1714.55,-1353.5 1714.55,-1353.5 1714.55,-1653.5 1714.55,-1653.5 1714.55,-1659.5 1708.55,-1665.5 1702.55,-1665.5 1702.55,-1665.5 1478.83,-1665.5 1478.83,-1665.5 1472.83,-1665.5 1466.83,-1659.5 1466.83,-1653.5 1466.83,-1653.5 1466.83,-1353.5 1466.83,-1353.5 1466.83,-1347.5 1472.83,-1341.5 1478.83,-1341.5"/>
-<text text-anchor="middle" x="1590.69" y="-1650.3" font-family="Times,serif" font-size="14.00">Court</text>
+<text text-anchor="middle" x="1590.69" y="-1650.3" font-family="Times,serif" font-size="14.00">Area</text>
 <polyline fill="none" stroke="black" points="1466.83,-1643.5 1714.55,-1643.5 "/>
 <text text-anchor="start" x="1474.83" y="-1628.3" font-family="Times,serif" font-size="14.00">id :integer</text>
 <text text-anchor="start" x="1474.83" y="-1614.3" font-family="Times,serif" font-size="14.00">category_id :integer</text>
@@ -309,8 +309,8 @@
 <text text-anchor="start" x="1474.83" y="-1362.3" font-family="Times,serif" font-size="14.00">opens_at :timestamp without time zone</text>
 <text text-anchor="start" x="1474.83" y="-1348.3" font-family="Times,serif" font-size="14.00">closes_at :timestamp without time zone</text>
 </g>
-<!-- Coach&#45;&gt;Court -->
-<g id="edge18" class="edge"><title>Coach&#45;&gt;Court</title>
+<!-- Coach&#45;&gt;Area -->
+<g id="edge18" class="edge"><title>Coach&#45;&gt;Area</title>
 <path fill="none" stroke="#7452bb" d="M1497.36,-1694.32C1500.51,-1687.91 1503.67,-1681.49 1506.82,-1675.08"/>
 <polygon fill="#7452bb" stroke="#7452bb" points="1497.28,-1694.48 1488.83,-1701.47 1495.08,-1698.97 1492.87,-1703.45 1492.87,-1703.45 1492.87,-1703.45 1495.08,-1698.97 1496.91,-1705.44 1497.28,-1694.48 1497.28,-1694.48"/>
 <polygon fill="#7452bb" stroke="#7452bb" points="1507.02,-1674.67 1515.47,-1667.68 1509.23,-1670.19 1511.43,-1665.7 1511.43,-1665.7 1511.43,-1665.7 1509.23,-1670.19 1507.39,-1663.71 1507.02,-1674.67 1507.02,-1674.67"/>
@@ -526,63 +526,63 @@
 <polygon fill="#9b852a" stroke="#9b852a" points="2391.55,-18.7077 2401.54,-23.232 2396.55,-18.7198 2401.55,-18.732 2401.55,-18.732 2401.55,-18.732 2396.55,-18.7198 2401.57,-14.232 2391.55,-18.7077 2391.55,-18.7077"/>
 <text text-anchor="middle" x="765.019" y="-1061.8" font-family="Times,serif" font-size="14.00">versions</text>
 </g>
-<!-- CoachesCourt&#45;&gt;PaperTrail::Version -->
-<g id="edge26" class="edge"><title>CoachesCourt&#45;&gt;PaperTrail::Version</title>
+<!-- CoachesArea&#45;&gt;PaperTrail::Version -->
+<g id="edge26" class="edge"><title>CoachesArea&#45;&gt;PaperTrail::Version</title>
 <path fill="none" stroke="#7f8b5b" d="M1148.65,-1147.86C1074.59,-1044.53 907.279,-792.744 848.026,-551 821.617,-443.259 811.895,-127.83 894.688,-54 922.797,-28.9338 2061.37,-21.1481 2391.71,-19.4146"/>
 <ellipse fill="none" stroke="#7f8b5b" cx="1151.05" cy="-1151.21" rx="4.00002" ry="4.00002"/>
 <polygon fill="#7f8b5b" stroke="#7f8b5b" points="2391.72,-19.4146 2401.74,-23.8626 2396.72,-19.3886 2401.72,-19.3626 2401.72,-19.3626 2401.72,-19.3626 2396.72,-19.3886 2401.69,-14.8627 2391.72,-19.4146 2391.72,-19.4146"/>
 <text text-anchor="middle" x="872.019" y="-468.3" font-family="Times,serif" font-size="14.00">versions</text>
 </g>
-<!-- Court&#45;&gt;CoachesCourt -->
-<g id="edge35" class="edge"><title>Court&#45;&gt;CoachesCourt</title>
+<!-- Area&#45;&gt;CoachesArea -->
+<g id="edge35" class="edge"><title>Area&#45;&gt;CoachesArea</title>
 <path fill="none" stroke="#a22ef9" d="M1460.01,-1404.65C1389.43,-1351.8 1305.43,-1288.91 1248.93,-1246.6"/>
 <ellipse fill="none" stroke="#a22ef9" cx="1463.47" cy="-1407.24" rx="4.00002" ry="4.00002"/>
 <polygon fill="#a22ef9" stroke="#a22ef9" points="1248.81,-1246.51 1243.5,-1236.91 1244.8,-1243.51 1240.8,-1240.52 1240.8,-1240.52 1240.8,-1240.52 1244.8,-1243.51 1238.1,-1244.12 1248.81,-1246.51 1248.81,-1246.51"/>
 </g>
-<!-- Court&#45;&gt;Event -->
-<g id="edge31" class="edge"><title>Court&#45;&gt;Event</title>
+<!-- Area&#45;&gt;Event -->
+<g id="edge31" class="edge"><title>Area&#45;&gt;Event</title>
 <path fill="none" stroke="#ce391e" d="M1723.02,-1398.58C1764.04,-1370.35 1810.61,-1342.06 1856.69,-1322 1988.26,-1264.7 2149.97,-1232.21 2261.74,-1215.09"/>
 <polygon fill="#ce391e" stroke="#ce391e" points="1722.84,-1398.71 1712.06,-1400.72 1718.73,-1401.56 1714.63,-1404.41 1714.63,-1404.41 1714.63,-1404.41 1718.73,-1401.56 1717.19,-1408.11 1722.84,-1398.71 1722.84,-1398.71"/>
 <polygon fill="#ce391e" stroke="#ce391e" points="2261.84,-1215.08 2272.4,-1218.03 2266.78,-1214.33 2271.73,-1213.58 2271.73,-1213.58 2271.73,-1213.58 2266.78,-1214.33 2271.05,-1209.13 2261.84,-1215.08 2261.84,-1215.08"/>
 </g>
-<!-- Court&#45;&gt;Order -->
-<g id="edge32" class="edge"><title>Court&#45;&gt;Order</title>
+<!-- Area&#45;&gt;Order -->
+<g id="edge32" class="edge"><title>Area&#45;&gt;Order</title>
 <path fill="none" stroke="#1e9f84" d="M1724.54,-1465.05C1881.2,-1422.85 2149.09,-1355.76 2383.69,-1322 2415.83,-1317.37 2506.32,-1327.53 2528.69,-1304 2618.96,-1209.05 2531.62,-840.74 2571.69,-716 2574.55,-707.074 2579.2,-706.703 2582.69,-698 2604.51,-643.542 2587.54,-622.907 2610.69,-569 2614.11,-561.033 2618.23,-553.034 2622.71,-545.24"/>
 <polygon fill="#1e9f84" stroke="#1e9f84" points="1724.5,-1465.06 1713.67,-1463.32 1719.67,-1466.36 1714.85,-1467.67 1714.85,-1467.67 1714.85,-1467.67 1719.67,-1466.36 1716.02,-1472.01 1724.5,-1465.06 1724.5,-1465.06"/>
 <polygon fill="#1e9f84" stroke="#1e9f84" points="2622.78,-545.124 2631.78,-538.85 2625.35,-540.833 2627.91,-536.541 2627.91,-536.541 2627.91,-536.541 2625.35,-540.833 2624.05,-534.232 2622.78,-545.124 2622.78,-545.124"/>
 </g>
-<!-- Court&#45;&gt;Picture -->
-<g id="edge28" class="edge"><title>Court&#45;&gt;Picture</title>
+<!-- Area&#45;&gt;Picture -->
+<g id="edge28" class="edge"><title>Area&#45;&gt;Picture</title>
 <path fill="none" stroke="#5cbad7" d="M1591.02,-1333.23C1591.46,-1105.47 1592.23,-710.128 1592.54,-547.067"/>
 <ellipse fill="none" stroke="#5cbad7" cx="1591.01" cy="-1337.44" rx="4" ry="4"/>
 <polygon fill="#5cbad7" stroke="#5cbad7" points="1592.55,-546.666 1597.06,-536.675 1592.56,-541.666 1592.56,-536.666 1592.56,-536.666 1592.56,-536.666 1592.56,-541.666 1588.06,-536.658 1592.55,-546.666 1592.55,-546.666"/>
 </g>
-<!-- Court&#45;&gt;ProductService -->
-<g id="edge33" class="edge"><title>Court&#45;&gt;ProductService</title>
+<!-- Area&#45;&gt;ProductService -->
+<g id="edge33" class="edge"><title>Area&#45;&gt;ProductService</title>
 <path fill="none" stroke="#afb9c6" d="M1690.9,-1334.18C1738.62,-1248.62 1793.47,-1141.69 1831.69,-1041 1884.51,-901.825 1843.77,-847.95 1912.69,-716 1946.66,-650.953 2001.51,-588.872 2046.91,-543.808"/>
 <ellipse fill="none" stroke="#afb9c6" cx="1688.85" cy="-1337.85" rx="4.00002" ry="4.00002"/>
 <polygon fill="#afb9c6" stroke="#afb9c6" points="2046.98,-543.737 2057.27,-539.931 2050.55,-540.23 2054.11,-536.724 2054.11,-536.724 2054.11,-536.724 2050.55,-540.23 2050.95,-533.516 2046.98,-543.737 2046.98,-543.737"/>
 </g>
-<!-- Court&#45;&gt;Review -->
-<g id="edge29" class="edge"><title>Court&#45;&gt;Review</title>
+<!-- Area&#45;&gt;Review -->
+<g id="edge29" class="edge"><title>Area&#45;&gt;Review</title>
 <path fill="none" stroke="#d7f0de" d="M1577.7,-1333.18C1557.48,-1100.58 1513.08,-696.49 1440.69,-569 1438.7,-565.501 1436.53,-562.073 1434.21,-558.722"/>
 <ellipse fill="none" stroke="#d7f0de" cx="1578.07" cy="-1337.4" rx="4" ry="4"/>
 <polygon fill="#d7f0de" stroke="#d7f0de" points="1434.11,-558.585 1431.77,-547.872 1431.13,-554.569 1428.16,-550.553 1428.16,-550.553 1428.16,-550.553 1431.13,-554.569 1424.54,-553.233 1434.11,-558.585 1434.11,-558.585"/>
 </g>
-<!-- Court&#45;&gt;Service -->
-<g id="edge34" class="edge"><title>Court&#45;&gt;Service</title>
+<!-- Area&#45;&gt;Service -->
+<g id="edge34" class="edge"><title>Area&#45;&gt;Service</title>
 <path fill="none" stroke="#fae2a5" d="M1627.86,-1331.35C1645.82,-1244.64 1666.67,-1137.54 1681.69,-1041 1697.91,-936.681 1683.94,-661.022 1735.69,-569 1744,-554.226 1755.61,-540.96 1768.42,-529.351"/>
 <polygon fill="#fae2a5" stroke="#fae2a5" points="1627.83,-1331.49 1621.39,-1340.36 1626.81,-1336.38 1625.8,-1341.28 1625.8,-1341.28 1625.8,-1341.28 1626.81,-1336.38 1630.2,-1342.2 1627.83,-1331.49 1627.83,-1331.49"/>
 <polygon fill="#fae2a5" stroke="#fae2a5" points="1768.52,-529.259 1779.03,-526.107 1772.3,-525.983 1776.08,-522.708 1776.08,-522.708 1776.08,-522.708 1772.3,-525.983 1773.13,-519.308 1768.52,-529.259 1768.52,-529.259"/>
 </g>
-<!-- Court&#45;&gt;SpecialPrice -->
-<g id="edge30" class="edge"><title>Court&#45;&gt;SpecialPrice</title>
+<!-- Area&#45;&gt;SpecialPrice -->
+<g id="edge30" class="edge"><title>Area&#45;&gt;SpecialPrice</title>
 <path fill="none" stroke="#dfd975" d="M1552.96,-1333.6C1494.44,-1078.59 1382.43,-619.476 1323.69,-569 1279.45,-530.985 1248.82,-570.044 1193.69,-551 1190.53,-549.909 1187.36,-548.74 1184.2,-547.503"/>
 <ellipse fill="none" stroke="#dfd975" cx="1553.86" cy="-1337.56" rx="4.00001" ry="4.00001"/>
 <polygon fill="#dfd975" stroke="#dfd975" points="1183.95,-547.403 1176.42,-539.437 1179.33,-545.501 1174.7,-543.599 1174.7,-543.599 1174.7,-543.599 1179.33,-545.501 1172.99,-547.76 1183.95,-547.403 1183.95,-547.403"/>
 </g>
-<!-- Court&#45;&gt;PaperTrail::Version -->
-<g id="edge27" class="edge"><title>Court&#45;&gt;PaperTrail::Version</title>
+<!-- Area&#45;&gt;PaperTrail::Version -->
+<g id="edge27" class="edge"><title>Area&#45;&gt;PaperTrail::Version</title>
 <path fill="none" stroke="#e60d18" d="M1461.43,-1342.64C1284.26,-1119.55 981.672,-722.905 927.688,-551 906.782,-484.428 907.417,-460.769 927.688,-394 975.529,-236.418 996.268,-176.757 1133.69,-86 1197.84,-43.6304 1227.25,-62.279 1303.69,-54 1514.22,-31.1969 2154.82,-22.3795 2391.54,-19.8455"/>
 <ellipse fill="none" stroke="#e60d18" cx="1464.15" cy="-1346.06" rx="4.00002" ry="4.00002"/>
 <polygon fill="#e60d18" stroke="#e60d18" points="2391.82,-19.8425 2401.87,-24.2364 2396.82,-19.7896 2401.82,-19.7366 2401.82,-19.7366 2401.82,-19.7366 2396.82,-19.7896 2401.78,-15.2369 2391.82,-19.8425 2391.82,-19.8425"/>
@@ -925,8 +925,8 @@
 <polygon fill="#5e1f38" stroke="#5e1f38" points="2391.47,-18.576 2401.46,-23.0989 2396.47,-18.5874 2401.47,-18.5989 2401.47,-18.5989 2401.47,-18.5989 2396.47,-18.5874 2401.48,-14.0989 2391.47,-18.576 2391.47,-18.576"/>
 <text text-anchor="middle" x="1279.02" y="-153.3" font-family="Times,serif" font-size="14.00">versions</text>
 </g>
-<!-- Stadium&#45;&gt;Court -->
-<g id="edge77" class="edge"><title>Stadium&#45;&gt;Court</title>
+<!-- Stadium&#45;&gt;Area -->
+<g id="edge77" class="edge"><title>Stadium&#45;&gt;Area</title>
 <path fill="none" stroke="#b6830b" d="M1765.61,-1711.64C1751.01,-1694.35 1736.12,-1676.72 1721.49,-1659.4"/>
 <ellipse fill="none" stroke="#b6830b" cx="1768.24" cy="-1714.76" rx="4.00002" ry="4.00002"/>
 <polygon fill="#b6830b" stroke="#b6830b" points="1721.25,-1659.11 1718.23,-1648.57 1718.02,-1655.29 1714.8,-1651.47 1714.8,-1651.47 1714.8,-1651.47 1718.02,-1655.29 1711.36,-1654.37 1721.25,-1659.11 1721.25,-1659.11"/>

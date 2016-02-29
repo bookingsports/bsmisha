@@ -25,7 +25,7 @@
 #  closes_at    :time
 #
 
-class CourtsController < ApplicationController
+class AreassController < ApplicationController
   layout :set_layout
   before_filter :set_scope
 
@@ -33,12 +33,12 @@ class CourtsController < ApplicationController
   end
 
   def show
-    @court = Court.friendly.find params[:id]
-    set_gon_court
+    @area = Area.friendly.find params[:id]
+    set_gon_area
   end
 
   def total
-    @court = Court.friendly.find(params[:id])
+    @area = Area.friendly.find(params[:id])
     respond_to do |format|
       format.js {}
     end

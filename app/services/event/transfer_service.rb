@@ -65,17 +65,17 @@ class Event::TransferService
     end
 
     def new_price_is_higher?
-      if court.special_prices.any?
+      if area.special_prices.any?
         event.total < new_total
       else
-        # Если у корта нет специальных цен, подразумевается, что цена на весь
-        # день одна и та же, равная цене корта
+        # Если у площадки нет специальных цен, подразумевается, что цена на весь
+        # день одна и та же, равная цене площадки
         false
       end
     end
 
     def handle_transfer_time
-      transfer_percent = court.try(:change_price)
+      transfer_percent = area.try(:change_price)
       total = event.order.try(:total)
       # Комиссия клубу считается от общей стоимости уже созданного заказа
       order.total += total*transfer_percent/100 if total
@@ -102,7 +102,7 @@ class Event::TransferService
 
     def related_special_price
       @related_special_price ||= begin
-        court.special_prices.to_a.detect do |special_price|
+        area.special_prices.to_a.detect do |special_price|
           (special_price.start <= new_start && special_price.stop >= new_start) ||
           (special_price.start <= new_end && special_price.stop >= new_end)
         end
@@ -117,8 +117,8 @@ class Event::TransferService
       @new_end ||= Time.zone.parse(params.end) if params.end
     end
 
-    def court
-      @court ||= event.court
+    def area
+      @area ||= event.area
     end
   end
 end

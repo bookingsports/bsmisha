@@ -42,6 +42,6 @@ class CoachUser < User
   end
 
   def products
-    coach.courts
+    coach.areas
   end
 end

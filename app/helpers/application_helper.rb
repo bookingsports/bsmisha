@@ -3,7 +3,7 @@ module ApplicationHelper
     number_to_currency number, precision: 0
   end
 
-  def current_user_courts_creation_path
+  def current_user_areas_creation_path
     if current_user.kind_of? StadiumUser
       edit_dashboard_product_path
     elsif current_user.kind_of? CoachUser

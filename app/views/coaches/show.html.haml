@@ -13,8 +13,8 @@
       .row
       .col-xs-12.col-sm-12
         = label_tag "Выберите стадион"
-        = select_tag :court, options_for_select(@coach.courts.map {|c| ["#{c.stadium.name} - корт: #{c.name}", c.id ] }), class: 'form-control'
-        %div{"data-grid" => true, "data-source" => coach_court_events_path(court_id: @coach.courts.first)}
+        = select_tag :area, options_for_select(@coach.areas.map {|c| ["#{c.stadium.name} - площадка: #{c.name}", c.id ] }), class: 'form-control'
+        %div{"data-grid" => true, "data-source" => coach_area_events_path(area_id: @coach.areas.first)}
 :javascript
   kendo.culture("ru-RU");
   var grid = new Tennis.Views.ScheduleView({el: '[data-grid]'});

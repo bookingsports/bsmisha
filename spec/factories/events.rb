@@ -26,8 +26,8 @@ FactoryGirl.define do
     product nil
     user
 
-    factory :event_with_court do
-      court
+    factory :event_with_area do
+      area
     end
   end
 end
