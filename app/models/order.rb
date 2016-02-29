@@ -5,10 +5,10 @@
 #  id         :integer          not null, primary key
 #  user_id    :integer
 #  total      :decimal(8, 2)
-#  status     :integer
+#  status     :integer          default(0)
+#  comment    :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  comment    :string
 #
 
 class Order < ActiveRecord::Base

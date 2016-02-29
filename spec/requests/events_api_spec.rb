@@ -10,7 +10,7 @@ RSpec.describe "EventsApi" do
     before(:each) do
       @event_four = Event.create!({
         product: @area,
-        product_services: [@service, @periodic_service],
+        stadium_services: [@service, @periodic_service],
         start: Time.zone.parse("12:00:00"),
         end: Time.zone.parse("14:30:00"),
         user: @user_two
@@ -154,11 +154,11 @@ RSpec.describe "EventsApi" do
           "start_timezone" => "",
           "end_timezone" => "",
           "is_all_day" => "false",
-          "product_service_ids" => [@service.id.to_s, @periodic_service.id.to_s]
+          "stadium_service_ids" => [@service.id.to_s, @periodic_service.id.to_s]
         }
       }
 
-      expect(Event.last.product_services.count).to eq(2)
+      expect(Event.last.stadium_services.count).to eq(2)
     end
 
     it "creates coach event" do
@@ -174,7 +174,7 @@ RSpec.describe "EventsApi" do
           "start_timezone" => "",
           "end_timezone" => "",
           "is_all_day" => "false",
-          "product_service_ids" => [@service.id.to_s, @periodic_service.id.to_s]
+          "stadium_service_ids" => [@service.id.to_s, @periodic_service.id.to_s]
         }
       }
 

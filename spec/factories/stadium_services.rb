@@ -12,7 +12,7 @@
 #
 
 FactoryGirl.define do
-  factory :product_service do
+  factory :stadium_service do
     price 100
     periodic false
   end

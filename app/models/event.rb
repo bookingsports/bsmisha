@@ -33,7 +33,7 @@ class Event < ActiveRecord::Base
     where("('start' >= :event_start AND 'start < :event_end) OR ('end' > :event_start AND 'end' <= :event_end) OR ('start' < :event_start AND 'end' > :event_end)", event_start: start, event_end: self.end)
   }, through: :product
 
-  has_and_belongs_to_many :product_services
+  has_and_belongs_to_many :stadium_services
 
   attr_reader :schedule
 
@@ -65,7 +65,7 @@ class Event < ActiveRecord::Base
   end
 
   def associated_payables
-    ([product] + product_services)
+    ([product] + stadium_services)
   end
 
   def associated_payables_with_price

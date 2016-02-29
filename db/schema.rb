@@ -138,13 +138,13 @@ ActiveRecord::Schema.define(version: 20160219204852) do
   add_index "events", ["product_id"], name: "index_events_on_product_id", using: :btree
   add_index "events", ["user_id"], name: "index_events_on_user_id", using: :btree
 
-  create_table "events_product_services", force: :cascade do |t|
+  create_table "events_stadium_services", force: :cascade do |t|
     t.integer "event_id"
-    t.integer "product_service_id"
+    t.integer "stadium_service_id"
   end
 
-  add_index "events_product_services", ["event_id"], name: "index_events_product_services_on_event_id", using: :btree
-  add_index "events_product_services", ["product_service_id"], name: "index_events_product_services_on_product_service_id", using: :btree
+  add_index "events_stadium_services", ["event_id"], name: "index_events_stadium_services_on_event_id", using: :btree
+  add_index "events_stadium_services", ["stadium_service_id"], name: "index_events_stadium_services_on_stadium_service_id", using: :btree
 
   create_table "orders", force: :cascade do |t|
     t.integer  "user_id"
@@ -167,18 +167,6 @@ ActiveRecord::Schema.define(version: 20160219204852) do
   end
 
   add_index "pictures", ["imageable_type", "imageable_id"], name: "index_pictures_on_imageable_type_and_imageable_id", using: :btree
-
-  create_table "product_services", force: :cascade do |t|
-    t.integer  "product_id"
-    t.integer  "service_id"
-    t.float    "price"
-    t.boolean  "periodic",   default: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-  end
-
-  add_index "product_services", ["product_id"], name: "index_product_services_on_product_id", using: :btree
-  add_index "product_services", ["service_id"], name: "index_product_services_on_service_id", using: :btree
 
   create_table "products", force: :cascade do |t|
     t.integer  "category_id"
@@ -239,6 +227,40 @@ ActiveRecord::Schema.define(version: 20160219204852) do
   end
 
   add_index "special_prices", ["product_id"], name: "index_special_prices_on_product_id", using: :btree
+
+  create_table "stadium_services", force: :cascade do |t|
+    t.integer  "stadium_id"
+    t.integer  "service_id"
+    t.float    "price"
+    t.boolean  "periodic",   default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "stadium_services", ["service_id"], name: "index_stadium_services_on_service_id", using: :btree
+  add_index "stadium_services", ["stadium_id"], name: "index_stadium_services_on_stadium_id", using: :btree
+
+  create_table "stadiums", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "category_id"
+    t.string   "name"
+    t.string   "phone"
+    t.string   "description"
+    t.string   "address"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "slug"
+    t.integer  "status",      default: 0
+    t.string   "email"
+    t.string   "avatar"
+    t.time     "opens_at"
+    t.time     "closes_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "stadiums", ["category_id"], name: "index_stadiums_on_category_id", using: :btree
+  add_index "stadiums", ["user_id"], name: "index_stadiums_on_user_id", using: :btree
 
   create_table "static_pages", force: :cascade do |t|
     t.text     "text"
@@ -334,15 +356,17 @@ ActiveRecord::Schema.define(version: 20160219204852) do
   add_foreign_key "events", "orders"
   add_foreign_key "events", "products"
   add_foreign_key "events", "users"
-  add_foreign_key "events_product_services", "events"
-  add_foreign_key "events_product_services", "product_services"
+  add_foreign_key "events_stadium_services", "events"
+  add_foreign_key "events_stadium_services", "stadium_services"
   add_foreign_key "orders", "users"
-  add_foreign_key "product_services", "products"
-  add_foreign_key "product_services", "services"
   add_foreign_key "products", "categories"
   add_foreign_key "products", "users"
   add_foreign_key "reviews", "users"
   add_foreign_key "special_prices", "products"
+  add_foreign_key "stadium_services", "services"
+  add_foreign_key "stadium_services", "stadiums"
+  add_foreign_key "stadiums", "categories"
+  add_foreign_key "stadiums", "users"
   add_foreign_key "wallets", "users"
   add_foreign_key "withdrawal_requests", "wallets"
   add_foreign_key "withdrawals", "wallets"

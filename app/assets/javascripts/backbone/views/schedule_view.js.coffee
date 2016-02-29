@@ -102,7 +102,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
           ]
         },
         {
-          field: 'product_service_ids'
+          field: 'stadium_service_ids'
           title: 'Доп. услуги'
           multiple: true
           dataTextField: 'service_name_and_price'
@@ -112,9 +112,9 @@ class Tennis.Views.ScheduleView extends Backbone.View
               read:
                 url: => "/products/#{@area_id}.json"
               parameterMap: (options, operation) ->
-                options.product_services
+                options.stadium_services
             schema:
-              data: (resp) -> resp.product_services
+              data: (resp) -> resp.stadium_services
         }
       ]
       dataSource:

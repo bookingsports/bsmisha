@@ -1,4 +1,4 @@
-module ProductServiceConcern
+module StadiumServiceConcern
   extend ActiveSupport::Concern
 
   included do
@@ -6,7 +6,7 @@ module ProductServiceConcern
       parent Service
       visible false
       list do
-        field :product
+        field :stadium
         field :service
         field :price
         field :created_at
@@ -14,7 +14,7 @@ module ProductServiceConcern
       end
 
       show do
-        field :product
+        field :stadium
         field :service
         field :price
         field :created_at
@@ -22,7 +22,7 @@ module ProductServiceConcern
       end
 
       edit do
-        field :product
+        field :stadium
         field :service
         field :price
       end

@@ -36,7 +36,7 @@
             = f.simple_fields_for :areas, @product.areas.any? && @product.areas || @product.areas.new do |area|
               = render "area_fields", f: area
         %h4 Дополнительные услуги
-        = link_to_add_association 'Добавить услугу', f, :product_services, class: 'btn btn-primary', 'data-association-insertion-node' => '.services', 'data-association-insertion-method' => 'append'
+        = link_to_add_association 'Добавить услугу', f, :stadium_services, class: 'btn btn-primary', 'data-association-insertion-node' => '.services', 'data-association-insertion-method' => 'append'
         %table.table
           %thead
             %tr
@@ -45,8 +45,8 @@
               %th Периодичность
               %th
           %tbody.services
-            = f.simple_fields_for :product_services, @product.product_services.any? && @product.product_services || @product.product_services.new do |area|
-              = render "product_service_fields", f: area
+            = f.simple_fields_for :stadium_services, @product.stadium_services.any? && @product.stadium_services || @product.stadium_services.new do |area|
+              = render "stadium_service_fields", f: area
         = f.button :submit
 - elsif @product.kind_of? Coach
   = simple_form_for @product, as: :product, url: dashboard_product_path do |f|

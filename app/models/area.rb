@@ -52,11 +52,11 @@ class Area < Product
     stadium.name.to_s + " — площадка " + name.to_s
   end
 
-  def product_services
+  def stadium_services
     if super.any?
       super
     else
-      stadium.product_services
+      stadium.stadium_services
     end
   end
 

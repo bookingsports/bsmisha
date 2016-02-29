@@ -42,14 +42,14 @@ RSpec.describe Event do
   end
 
   describe '#event_associated_payables' do
-    it 'should return product and product_services in one array' do
+    it 'should return product and stadium_services in one array' do
       area = create(:area)
-      product_service = create(:product_service)
+      stadium_service = create(:stadium_service)
 
       event.product = area
-      event.product_services = [product_service]
+      event.stadium_services = [stadium_service]
 
-      expect(event.associated_payables).to eq [area, product_service]
+      expect(event.associated_payables).to eq [area, stadium_service]
     end
   end
 
@@ -57,15 +57,15 @@ RSpec.describe Event do
     context 'should return hash with product and total price for each associated payable' do
       context 'without special prices' do
         let(:area) { create(:area, price: 125.0) }
-        let(:product_service) { create(:product_service, price: 258.0, periodic: true) }
-        let(:event) { create(:event, start: Time.zone.parse('14:00'), product: area, product_services: [product_service]) }
+        let(:stadium_service) { create(:stadium_service, price: 258.0, periodic: true) }
+        let(:event) { create(:event, start: Time.zone.parse('14:00'), product: area, stadium_services: [stadium_service]) }
 
         it 'for one hour' do
           event.end = event.start + 1.hour
 
           expect(event.associated_payables_with_price).to eq [
             {product: area, total: 125.0},
-            {product: product_service, total: 258.0}
+            {product: stadium_service, total: 258.0}
           ]
         end
 
@@ -74,17 +74,17 @@ RSpec.describe Event do
 
           expect(event.associated_payables_with_price).to eq [
             {product: area, total: 125.0*3},
-            {product: product_service, total: 258.0*3}
+            {product: stadium_service, total: 258.0*3}
           ]
         end
 
         it 'for not periodic service' do
-          product_service.periodic = false
+          stadium_service.periodic = false
           event.end = event.start + 3.hours
 
           expect(event.associated_payables_with_price).to eq [
             {product: area, total: 125.0*3},
-            {product: product_service, total: 258.0}
+            {product: stadium_service, total: 258.0}
           ]
         end
 
@@ -93,7 +93,7 @@ RSpec.describe Event do
 
           expect(event.associated_payables_with_price).to eq [
             {product: area, total: 125*3.5},
-            {product: product_service, total: 258*3.5}
+            {product: stadium_service, total: 258*3.5}
           ]
         end
 
@@ -103,7 +103,7 @@ RSpec.describe Event do
 
           expect(event.associated_payables_with_price).to eq [
             {product: area, total: 125*3.5*10},
-            {product: product_service, total: 258*3.5*10}
+            {product: stadium_service, total: 258*3.5*10}
           ]
         end
       end
@@ -183,12 +183,13 @@ RSpec.describe Event do
 
     context 'periodic services' do
       let(:area) { create(:area, price: 100) }
+      let(:stadium) { create(:stadium) }
       let(:service) { create(:service) }
-      let(:product_service) { create(:product_service, service: service, product: area, price: 10, periodic: true) }
+      let(:stadium_service) { create(:stadium_service, service: service, stadium: stadium, price: 10, periodic: true) }
 
       before :each do
         event.product = area
-        event.product_services << product_service
+        event.stadium_services << stadium_service
 
         event.end = event.start + 3.hours
       end
@@ -198,7 +199,7 @@ RSpec.describe Event do
       end
 
       it 'has right total for non-periodic service' do
-        product_service.periodic = false
+        stadium_service.periodic = false
         expect(event.total).to eq 100*3+10
       end
     end

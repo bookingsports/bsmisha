@@ -60,8 +60,6 @@ ru:
         special_prices: Специальные цены
         events: События
         orders: Заказы
-        product_services: Услуги продуктов
-        services: Услуги
       coach:
         <<: *product
         coaches_areas: Площадки тренера

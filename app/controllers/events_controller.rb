@@ -86,7 +86,7 @@ class EventsController < ApplicationController
       params.require(:event).permit(
         :id, :start, :end, :user_id, :is_all_day, :owned,
         :recurrence_rule, :recurrence_id, :recurrence_exception,
-        product_service_ids: [],
+        stadium_service_ids: [],
         product_ids: []
       )
     end
