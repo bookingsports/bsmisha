@@ -32,6 +32,20 @@ RSpec.describe Event do
 
   let(:event) { create(:event, start: Time.zone.parse('2016-02-29 14:00')) }
 
+  describe '.paid and .unpaid' do
+    it 'should return only paid events' do
+      order = create(:order)
+
+      create(:event, order: order) #paid event
+      3.times { create(:event) } #unpaid events
+
+      order.paid!
+
+      expect(Event.paid.count).to eq 1
+      expect(Event.unpaid.count).to eq 3
+    end
+  end
+
   describe '#name' do
     it 'should show title for event' do
       event.end = event.start + 2.5.hours

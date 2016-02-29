@@ -37,8 +37,8 @@ class Event < ActiveRecord::Base
 
   attr_reader :schedule
 
-  scope :paid, -> { joins("LEFT OUTER JOIN orders ON orders.id = events.order_id").where("orders.status =  ?", Order.statuses[:paid]) }
-  scope :unpaid, -> { joins("LEFT OUTER JOIN orders ON orders.id = events.order_id").where("orders.status =  ? or orders.status is null", Order.statuses[:unpaid]) }
+  scope :paid, -> { joins(:order).where orders: {status: Order.statuses[:paid]} }
+  scope :unpaid, -> { joins(:order).where orders: {status: Order.statuses[:unpaid]} }
   scope :past, -> { where('"end" < ?', Time.current)}
   scope :future, -> { where('"start" > ?', Time.current)}
 

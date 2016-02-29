@@ -24,6 +24,7 @@ FactoryGirl.define do
     description ''
     is_all_day false
     product nil
+    order
     user
 
     factory :event_with_court do
