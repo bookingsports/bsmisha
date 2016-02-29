@@ -29,13 +29,9 @@ class StadiumUser < User
 
   delegate :areas, to: :stadium
 
-  has_one :account, as: :accountable
-  accepts_nested_attributes_for :account
-
   enum status: [:pending, :active]
 
   after_create :create_stadium
-  after_create :create_account
 
   def name
     attributes["name"] || attributes["email"]

@@ -42,6 +42,21 @@ ActiveRecord::Schema.define(version: 20160219204852) do
   add_index "additional_event_items", ["event_id"], name: "index_additional_event_items_on_event_id", using: :btree
   add_index "additional_event_items", ["related_type", "related_id"], name: "index_additional_event_items_on_related_type_and_related_id", using: :btree
 
+  create_table "areas", force: :cascade do |t|
+    t.integer  "stadium_id"
+    t.string   "name"
+    t.string   "description"
+    t.string   "slug"
+    t.decimal  "price",        default: 0.0
+    t.decimal  "change_price", default: 0.0
+    t.time     "opens_at"
+    t.time     "closes_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "areas", ["stadium_id"], name: "index_areas_on_stadium_id", using: :btree
+
   create_table "categories", force: :cascade do |t|
     t.string   "name"
     t.string   "ancestry"
@@ -243,7 +258,7 @@ ActiveRecord::Schema.define(version: 20160219204852) do
   create_table "stadiums", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "category_id"
-    t.string   "name"
+    t.string   "name",        default: "Без названия", null: false
     t.string   "phone"
     t.string   "description"
     t.string   "address"
@@ -347,6 +362,7 @@ ActiveRecord::Schema.define(version: 20160219204852) do
   add_index "withdrawals", ["wallet_id"], name: "index_withdrawals_on_wallet_id", using: :btree
 
   add_foreign_key "additional_event_items", "events"
+  add_foreign_key "areas", "stadiums"
   add_foreign_key "daily_price_rules", "special_prices"
   add_foreign_key "deposit_requests", "wallets"
   add_foreign_key "deposit_responses", "deposit_requests"

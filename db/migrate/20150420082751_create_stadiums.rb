@@ -3,7 +3,7 @@ class CreateStadiums < ActiveRecord::Migration
     create_table :stadiums do |t|
       t.belongs_to :user, index: true, foreign_key: true
       t.belongs_to :category, index: true, foreign_key: true
-      t.string :name
+      t.string :name, default: "Без названия", null: false
       t.string :phone
       t.string :description
       t.string :address

@@ -32,6 +32,9 @@ class Coach < Product
   has_many :areas, through: :coaches_areas
   validate :has_at_least_one_area, on: :stadium_dashboard
 
+  has_one :account, as: :accountable
+  after_create :create_account
+
   accepts_nested_attributes_for :user
 
   delegate :email, to: :user

@@ -1,31 +1,21 @@
 # == Schema Information
 #
-# Table name: products
+# Table name: areas
 #
 #  id           :integer          not null, primary key
-#  category_id  :integer
-#  user_id      :integer
+#  stadium_id   :integer
 #  name         :string
-#  phone        :string
-#  description  :text
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  address      :string
-#  latitude     :float            default(55.75)
-#  longitude    :float            default(37.61)
+#  description  :string
 #  slug         :string
-#  status       :integer          default(0)
-#  type         :string
-#  parent_id    :integer
-#  email        :string
-#  avatar       :string
-#  price        :float
-#  change_price :float
+#  price        :decimal(, )      default(0.0)
+#  change_price :decimal(, )      default(0.0)
 #  opens_at     :time
 #  closes_at    :time
+#  created_at   :datetime
+#  updated_at   :datetime
 #
 
-class AreassController < ApplicationController
+class AreasController < ApplicationController
   layout :set_layout
   before_filter :set_scope
 

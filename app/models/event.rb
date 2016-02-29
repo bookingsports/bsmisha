@@ -24,7 +24,8 @@ class Event < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :order
-  belongs_to :product
+  belongs_to :coach
+  belongs_to :area
 
   has_many :event_changes, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :additional_event_items, dependent: :destroy

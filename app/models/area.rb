@@ -1,63 +1,33 @@
 # == Schema Information
 #
-# Table name: products
+# Table name: areas
 #
 #  id           :integer          not null, primary key
-#  category_id  :integer
-#  user_id      :integer
+#  stadium_id   :integer
 #  name         :string
-#  phone        :string
-#  description  :text
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  address      :string
-#  latitude     :float            default(55.75)
-#  longitude    :float            default(37.61)
+#  description  :string
 #  slug         :string
-#  status       :integer          default(0)
-#  type         :string
-#  parent_id    :integer
-#  email        :string
-#  avatar       :string
-#  price        :float
-#  change_price :float
+#  price        :decimal(, )      default(0.0)
+#  change_price :decimal(, )      default(0.0)
 #  opens_at     :time
 #  closes_at    :time
+#  created_at   :datetime
+#  updated_at   :datetime
 #
 
-class Area < Product
+class Area < ActiveRecord::Base
   include AreaConcern
 
-  belongs_to :stadium, foreign_key: :parent_id
+  belongs_to :stadium
   has_many :coaches_areas
   has_many :coaches, through: :coaches_areas
 
   def display_name
-    "#{parent_id.present? ? stadium.name + " - " : "" }#{name}"
-  end
-
-  def change_price
-    attributes["change_price"] || 0
-  end
-
-  def special_prices
-    if super.any?
-      super
-    else
-      stadium.special_prices
-    end
+    "#{stadium_id.present? ? stadium.name + " - " : "" }#{name}"
   end
 
   def name_with_stadium
-    stadium.name.to_s + " — площадка " + name.to_s
-  end
-
-  def stadium_services
-    if super.any?
-      super
-    else
-      stadium.stadium_services
-    end
+    stadium.name.to_s + " - площадка " + name.to_s
   end
 
   def kendo_area_id
