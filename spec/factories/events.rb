@@ -27,6 +27,14 @@ FactoryGirl.define do
     order
     user
 
+    factory :past_event do
+      start { Faker::Number.between(7, 20).days.ago }
+    end
+
+    factory :future_event do
+      start { Date.today + Faker::Number.between(7, 20).days }
+    end
+
     factory :event_with_court do
       court
     end

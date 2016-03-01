@@ -37,22 +37,15 @@ class Event < ActiveRecord::Base
 
   attr_reader :schedule
 
-  scope :paid, -> { joins(:order).where orders: {status: Order.statuses[:paid]} }
-  scope :unpaid, -> { joins(:order).where orders: {status: Order.statuses[:unpaid]} }
-  scope :past, -> { where('"end" < ?', Time.current)}
-  scope :future, -> { where('"start" > ?', Time.current)}
-
-  scope :of_products, ->(*products) do
-    where(product_id: products.flatten.map(&:id)).uniq
+  scope :paid_or_owned_by, -> (user) do
+    joins(:order).where order_is(:paid).or arel_table['user_id'].eq user.id
   end
 
-  scope :paid_or_owned_by,  -> (user) do
-    if user
-      joins("LEFT OUTER JOIN orders ON orders.id = events.order_id").where("orders.status = :st or events.user_id = :id ", { id: user.id, st: Order.statuses[:paid]} )
-    else
-      paid
-    end
-  end
+  scope :paid, -> { joins(:order).where order_is :paid }
+  scope :unpaid, -> { joins(:order).where order_is :unpaid }
+
+  scope :past, -> { where arel_table['end'].lt Time.now }
+  scope :future, -> { where arel_table['start'].gt Time.now }
 
   after_initialize :build_schedule
 
@@ -156,6 +149,9 @@ class Event < ActiveRecord::Base
   end
 
   private
+    def self.order_is(status)
+      Order.arel_table['status'].eq(Order.statuses[status])
+    end
 
     def build_schedule
       @schedule = IceCube::Schedule.new do |s|

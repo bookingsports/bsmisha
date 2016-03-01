@@ -32,6 +32,22 @@ RSpec.describe Event do
 
   let(:event) { create(:event, start: Time.zone.parse('2016-02-29 14:00')) }
 
+  describe '.paid_or_owned_by user' do
+    before :each do
+      @my_event = create(:event)
+      @order = create(:order)
+      @event = create(:event, order: @order)
+      @user = create(:user, events: [@my_event])
+    end
+
+    it 'shows all users events' do
+      expect(@user.events.count).to eq 1
+      expect(Event.paid_or_owned_by(@user).count).to eq 1
+      @order.paid!
+      expect(Event.paid_or_owned_by(@user).count).to eq 2
+    end
+  end
+
   describe '.paid and .unpaid' do
     it 'should return only paid events' do
       order = create(:order)
@@ -43,6 +59,16 @@ RSpec.describe Event do
 
       expect(Event.paid.count).to eq 1
       expect(Event.unpaid.count).to eq 3
+    end
+  end
+
+  describe '.past and .future' do
+    it 'should return past and future events' do
+      3.times { create(:past_event) }
+      2.times { create(:future_event) }
+
+      expect(Event.past.count).to eq 3
+      expect(Event.future.count).to eq 2
     end
   end
 
@@ -232,29 +258,6 @@ RSpec.describe Event do
         product_service.periodic = false
         expect(event.total).to eq 100*3+10
       end
-    end
-  end
-
-  describe '.paid_or_owned_by user' do
-    before :each do
-      @my_event = create(:event)
-      @order = create(:order)
-      @event = create(:event, order: @order)
-      @user = create(:user, events: [@my_event])
-    end
-
-    it 'shows all users events' do
-      expect(@user.events.count).to eq 1
-      expect(Event.paid_or_owned_by(@user).count).to eq 1
-      @order.paid!
-      expect(Event.paid_or_owned_by(@user).count).to eq 2
-    end
-
-    it 'shows only paid if user is nil' do
-      @order.paid!
-
-      expect(Event.paid.count).to eq 1
-      expect(Event.paid_or_owned_by(nil).count).to eq 1
     end
   end
 end
