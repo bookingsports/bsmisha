@@ -1,29 +1,29 @@
 # == Schema Information
 #
-# Table name: product_services
+# Table name: stadium_services
 #
 #  id         :integer          not null, primary key
-#  product_id :integer
+#  stadium_id :integer
 #  service_id :integer
 #  price      :float
+#  periodic   :boolean          default(FALSE)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  periodic   :boolean          default(FALSE)
 #
 
-class ProductService < ActiveRecord::Base
-  include ProductServiceConcern
+class StadiumService < ActiveRecord::Base
+  include StadiumServiceConcern
   has_paper_trail
 
-  belongs_to :product
+  belongs_to :stadium
   belongs_to :service
   has_and_belongs_to_many :events
   accepts_nested_attributes_for :service
 
-  delegate :user, to: :product
+  delegate :user, to: :stadium
 
   def name
-    "Услуга #{service_id.present? ? service.name : ""} продукта #{product_id.present? ? product.name : ""}"
+    "Услуга #{service_id.present? ? service.name : ""} стадиона #{stadium_id.present? ? stadium.name : ""}"
   end
 
   def service_name_and_price

@@ -124,10 +124,10 @@
 <polyline fill="none" stroke="black" points="521.524,499 698.476,499 "/>
 <text text-anchor="start" x="529.524" y="514.2" font-family="Times,serif" font-size="14.00">_layout</text>
 </g>
-<!-- Coach::CourtsController -->
-<g id="node9" class="node"><title>Coach::CourtsController</title>
+<!-- Coach::AreasController -->
+<g id="node9" class="node"><title>Coach::AreasController</title>
 <path fill="none" stroke="black" d="M-546.214,-181C-546.214,-181 -415.786,-181 -415.786,-181 -409.786,-181 -403.786,-187 -403.786,-193 -403.786,-193 -403.786,-259 -403.786,-259 -403.786,-265 -409.786,-271 -415.786,-271 -415.786,-271 -546.214,-271 -546.214,-271 -552.214,-271 -558.214,-265 -558.214,-259 -558.214,-259 -558.214,-193 -558.214,-193 -558.214,-187 -552.214,-181 -546.214,-181"/>
-<text text-anchor="middle" x="-481" y="-255.8" font-family="Times,serif" font-size="14.00">Coach::CourtsController</text>
+<text text-anchor="middle" x="-481" y="-255.8" font-family="Times,serif" font-size="14.00">Coach::AreasController</text>
 <polyline fill="none" stroke="black" points="-558.214,-249 -403.786,-249 "/>
 <text text-anchor="start" x="-550.214" y="-233.8" font-family="Times,serif" font-size="14.00">show</text>
 <polyline fill="none" stroke="black" points="-558.214,-227 -403.786,-227 "/>
@@ -155,7 +155,7 @@
 <polyline fill="none" stroke="black" points="324.293,-555 471.707,-555 "/>
 <text text-anchor="start" x="332.293" y="-539.8" font-family="Times,serif" font-size="14.00">_layout</text>
 <text text-anchor="start" x="332.293" y="-525.8" font-family="Times,serif" font-size="14.00">set_coach</text>
-<text text-anchor="start" x="332.293" y="-511.8" font-family="Times,serif" font-size="14.00">set_court</text>
+<text text-anchor="start" x="332.293" y="-511.8" font-family="Times,serif" font-size="14.00">set_Area</text>
 </g>
 <!-- CoachesController -->
 <g id="node12" class="node"><title>CoachesController</title>
@@ -169,10 +169,10 @@
 <polyline fill="none" stroke="black" points="575.514,-329 696.486,-329 "/>
 <text text-anchor="start" x="583.514" y="-313.8" font-family="Times,serif" font-size="14.00">_layout</text>
 </g>
-<!-- CourtsController -->
-<g id="node13" class="node"><title>CourtsController</title>
+<!-- AreasController -->
+<g id="node13" class="node"><title>AreasController</title>
 <path fill="none" stroke="black" d="M-564.441,341C-564.441,341 -477.559,341 -477.559,341 -471.559,341 -465.559,335 -465.559,329 -465.559,329 -465.559,249 -465.559,249 -465.559,243 -471.559,237 -477.559,237 -477.559,237 -564.441,237 -564.441,237 -570.441,237 -576.441,243 -576.441,249 -576.441,249 -576.441,329 -576.441,329 -576.441,335 -570.441,341 -564.441,341"/>
-<text text-anchor="middle" x="-521" y="252.2" font-family="Times,serif" font-size="14.00">CourtsController</text>
+<text text-anchor="middle" x="-521" y="252.2" font-family="Times,serif" font-size="14.00">AreasController</text>
 <polyline fill="none" stroke="black" points="-576.441,259 -465.559,259 "/>
 <text text-anchor="start" x="-568.441" y="274.2" font-family="Times,serif" font-size="14.00">index</text>
 <text text-anchor="start" x="-568.441" y="288.2" font-family="Times,serif" font-size="14.00">show</text>
@@ -205,10 +205,10 @@
 <text text-anchor="start" x="313.527" y="302.2" font-family="Times,serif" font-size="14.00">coach_params</text>
 <text text-anchor="start" x="313.527" y="316.2" font-family="Times,serif" font-size="14.00">find_coach</text>
 </g>
-<!-- Dashboard::Coach::CourtsController -->
-<g id="node16" class="node"><title>Dashboard::Coach::CourtsController</title>
+<!-- Dashboard::Coach::AreasController -->
+<g id="node16" class="node"><title>Dashboard::Coach::AreasController</title>
 <path fill="none" stroke="black" d="M281.572,485C281.572,485 480.428,485 480.428,485 486.428,485 492.428,479 492.428,473 492.428,473 492.428,379 492.428,379 492.428,373 486.428,367 480.428,367 480.428,367 281.572,367 281.572,367 275.572,367 269.572,373 269.572,379 269.572,379 269.572,473 269.572,473 269.572,479 275.572,485 281.572,485"/>
-<text text-anchor="middle" x="381" y="382.2" font-family="Times,serif" font-size="14.00">Dashboard::Coach::CourtsController</text>
+<text text-anchor="middle" x="381" y="382.2" font-family="Times,serif" font-size="14.00">Dashboard::Coach::AreasController</text>
 <polyline fill="none" stroke="black" points="269.572,389 492.428,389 "/>
 <text text-anchor="start" x="277.572" y="404.2" font-family="Times,serif" font-size="14.00">create</text>
 <text text-anchor="start" x="277.572" y="418.2" font-family="Times,serif" font-size="14.00">destroy</text>
@@ -426,7 +426,7 @@
 <polyline fill="none" stroke="black" points="-467.824,-357 -356.176,-357 "/>
 <text text-anchor="start" x="-459.824" y="-341.8" font-family="Times,serif" font-size="14.00">_layout</text>
 <text text-anchor="start" x="-459.824" y="-327.8" font-family="Times,serif" font-size="14.00">event_params</text>
-<text text-anchor="start" x="-459.824" y="-313.8" font-family="Times,serif" font-size="14.00">set_court</text>
+<text text-anchor="start" x="-459.824" y="-313.8" font-family="Times,serif" font-size="14.00">set_area</text>
 </g>
 <!-- FeedbackController -->
 <g id="node33" class="node"><title>FeedbackController</title>
@@ -500,7 +500,7 @@
 <polyline fill="none" stroke="black" points="-324.159,-633 -165.841,-633 "/>
 <polyline fill="none" stroke="black" points="-324.159,-609 -165.841,-609 "/>
 <text text-anchor="start" x="-316.159" y="-593.8" font-family="Times,serif" font-size="14.00">_layout</text>
-<text text-anchor="start" x="-316.159" y="-579.8" font-family="Times,serif" font-size="14.00">set_court</text>
+<text text-anchor="start" x="-316.159" y="-579.8" font-family="Times,serif" font-size="14.00">set_area</text>
 <text text-anchor="start" x="-316.159" y="-565.8" font-family="Times,serif" font-size="14.00">set_stadium</text>
 </g>
 <!-- StadiumsController -->

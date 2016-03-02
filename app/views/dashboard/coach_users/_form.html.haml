@@ -2,7 +2,7 @@
   = f.simple_fields_for :coach do |cf|
     = cf.input :name
     = cf.input :price, as: :string
-    = cf.association :courts, as: :check_boxes, collection: current_user.stadium.courts
+    = cf.association :areas, as: :check_boxes, collection: current_user.stadium.areas
   = f.input :email
   = f.input :password
   - if action_name == 'new'

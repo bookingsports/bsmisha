@@ -32,6 +32,6 @@ class EventChange < ActiveRecord::Base
   end
 
   def total
-    event.court.change_price.to_i
+    event.area.change_price.to_i
   end
 end

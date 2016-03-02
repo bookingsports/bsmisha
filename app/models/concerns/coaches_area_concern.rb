@@ -1,29 +1,28 @@
-module ProductServiceConcern
+module CoachesAreaConcern
   extend ActiveSupport::Concern
 
   included do
     rails_admin do
-      parent Service
-      visible false
+      parent Coach
       list do
-        field :product
-        field :service
+        field :coach
+        field :area
         field :price
         field :created_at
         field :updated_at
       end
 
       show do
-        field :product
-        field :service
+        field :coach
+        field :area
         field :price
         field :created_at
         field :updated_at
       end
 
       edit do
-        field :product
-        field :service
+        field :coach
+        field :area
         field :price
       end
     end

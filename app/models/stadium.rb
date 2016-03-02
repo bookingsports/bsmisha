@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: products
+# Table name: stadiums
 #
 #  id           :integer          not null, primary key
 #  category_id  :integer
@@ -25,24 +25,44 @@
 #  closes_at    :time
 #
 
-class Stadium < Product
+class Stadium < ActiveRecord::Base
   include StadiumConcern
+  include FriendlyId
 
+  belongs_to :user
   belongs_to :category, inverse_of: :stadiums
-  has_many :courts, dependent: :destroy, inverse_of: :stadium, foreign_key: :parent_id
+  has_many :areas, dependent: :destroy
+  has_many :events, through: :areas
+  has_many :pictures, as: :imageable
+  has_many :reviews, as: :reviewable
 
-  accepts_nested_attributes_for :courts, reject_if: :all_blank, allow_destroy: true
+  has_one :account, as: :accountable
+
+  accepts_nested_attributes_for :areas, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :user
 
-  after_create :make_court
+  has_many :stadium_services, dependent: :destroy
+  has_many :services, through: :stadium_services
+
+  after_create :make_area
+  after_create :create_account
   after_save :parse_address
 
-  def make_court
-    courts.create! name: 'Основной'
+  accepts_nested_attributes_for :pictures, allow_destroy: true
+
+  default_scope -> { order(created_at: :desc) }
+
+  friendly_id :name, use: [:slugged]
+  mount_uploader :avatar, PictureUploader
+
+  enum status: [:pending, :active, :locked]
+
+  def make_area
+    areas.create! name: 'Основная'
   end
 
   def coaches
-    courts.map(&:coaches).flatten.uniq
+    areas.map(&:coaches).flatten.uniq
   end
 
   def as_json(params = {})
@@ -54,10 +74,6 @@ class Stadium < Product
       },
       name: name
     }
-  end
-
-  def name
-    attributes['name'] || 'Без названия'
   end
 
   private

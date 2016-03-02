@@ -11,7 +11,7 @@ class MyEventsController < EventsController
   end
 
   def paid
-    @events = current_user.product.events.order(created_at: :desc)
+    @events = (current_user.kind_of? StadiumUser) ? current_user.stadium.events.order(created_at: :desc) : current_user.product.events.order(created_at: :desc)
   end
 
   def grid

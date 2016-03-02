@@ -52,10 +52,10 @@
 <ellipse fill="none" stroke="black" cx="-236" cy="-258" rx="88.417" ry="18"/>
 <text text-anchor="middle" x="-236" y="-253.8" font-family="Times,serif" font-size="14.00">ApplicationController</text>
 </g>
-<!-- Coach::CourtsController -->
-<g id="node9" class="node"><title>Coach::CourtsController</title>
+<!-- Coach::AreasController -->
+<g id="node9" class="node"><title>Coach::AreasController</title>
 <ellipse fill="none" stroke="black" cx="422" cy="186" rx="97.5967" ry="18"/>
-<text text-anchor="middle" x="422" y="190.2" font-family="Times,serif" font-size="14.00">Coach::CourtsController</text>
+<text text-anchor="middle" x="422" y="190.2" font-family="Times,serif" font-size="14.00">Coach::AreasController</text>
 </g>
 <!-- Coach::EventsController -->
 <g id="node10" class="node"><title>Coach::EventsController</title>
@@ -72,10 +72,10 @@
 <ellipse fill="none" stroke="black" cx="76" cy="366" rx="76.3312" ry="18"/>
 <text text-anchor="middle" x="76" y="370.2" font-family="Times,serif" font-size="14.00">CoachesController</text>
 </g>
-<!-- CourtsController -->
-<g id="node13" class="node"><title>CourtsController</title>
+<!-- AreasController -->
+<g id="node13" class="node"><title>AreasController</title>
 <ellipse fill="none" stroke="black" cx="-326" cy="-318" rx="70.0841" ry="18"/>
-<text text-anchor="middle" x="-326" y="-313.8" font-family="Times,serif" font-size="14.00">CourtsController</text>
+<text text-anchor="middle" x="-326" y="-313.8" font-family="Times,serif" font-size="14.00">AreasController</text>
 </g>
 <!-- Dashboard::Coach::CoachProfileController -->
 <g id="node14" class="node"><title>Dashboard::Coach::CoachProfileController</title>
@@ -87,10 +87,10 @@
 <ellipse fill="none" stroke="black" cx="147" cy="246" rx="147.292" ry="18"/>
 <text text-anchor="middle" x="147" y="250.2" font-family="Times,serif" font-size="14.00">Dashboard::Coach::CoachesController</text>
 </g>
-<!-- Dashboard::Coach::CourtsController -->
-<g id="node16" class="node"><title>Dashboard::Coach::CourtsController</title>
+<!-- Dashboard::Coach::AreasController -->
+<g id="node16" class="node"><title>Dashboard::Coach::AreasController</title>
 <ellipse fill="none" stroke="black" cx="-135" cy="-78" rx="140.545" ry="18"/>
-<text text-anchor="middle" x="-135" y="-73.8" font-family="Times,serif" font-size="14.00">Dashboard::Coach::CourtsController</text>
+<text text-anchor="middle" x="-135" y="-73.8" font-family="Times,serif" font-size="14.00">Dashboard::Coach::AreasController</text>
 </g>
 <!-- Dashboard::Coach::CustomersController -->
 <g id="node17" class="node"><title>Dashboard::Coach::CustomersController</title>

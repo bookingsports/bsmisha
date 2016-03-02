@@ -1,4 +1,4 @@
-module CourtConcern
+module AreaConcern
   extend ActiveSupport::Concern
 
   included do

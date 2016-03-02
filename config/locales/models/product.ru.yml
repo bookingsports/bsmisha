@@ -7,7 +7,7 @@ ru:
         locked: Заблокирован
     stadium:
       <<: *status
-    court:
+    area:
       <<: *status
     coach:
       <<: *status
@@ -23,11 +23,11 @@ ru:
         parent: тренера
         accusative: тренера
         other: тренеры
-      court:
-        one: корт
-        parent: корта
-        accusative: корт
-        other: корты
+      area:
+        one: площадка
+        parent: площадки
+        accusative: площадка
+        other: площадки
       stadium:
         one: стадион
         parent: стадиона
@@ -60,18 +60,16 @@ ru:
         special_prices: Специальные цены
         events: События
         orders: Заказы
-        product_services: Услуги продуктов
-        services: Услуги
       coach:
         <<: *product
-        coaches_courts: Корты тренера
-        courts: Корты
-      court:
+        coaches_areas: Площадки тренера
+        areas: Площадки
+      area:
         <<: *product
         stadium: Стадион
-        coaches_courts: Корты тренера
+        coaches_areas: Площадки тренера
         coaches: Тренеры
       stadium:
         <<: *product
         user: Пользователь
-        courts: Корты
+        areas: Площадки

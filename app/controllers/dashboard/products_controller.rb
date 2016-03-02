@@ -13,7 +13,7 @@ class Dashboard::ProductsController < DashboardController
   private
 
     def find_product
-      @product = current_user.product
+      @product = (current_user.kind_of? StadiumUser) ? current_user.stadium : current_user.product
     end
 
     def product_params
@@ -22,11 +22,11 @@ class Dashboard::ProductsController < DashboardController
         :name, :description, :price, :phone, :avatar, :opens_at, :closes_at,
         :category_id,
         :address, :latitude, :longitude,
-        court_ids: [],
+        area_ids: [],
         profile_attributes: [:description],
         user_attributes: [:id, account_attributes: [:number, :company, :inn, :kpp, :agreement_number, :date, :bik]],
-        courts_attributes: [:id, :name, :price, :change_price, :category_id, :_destroy],
-        product_services_attributes: [:id, :periodic, :price, :_destroy, service_attributes: [:id, :name]]
+        areas_attributes: [:id, :name, :price, :change_price, :category_id, :_destroy],
+        stadium_services_attributes: [:id, :periodic, :price, :_destroy, service_attributes: [:id, :name]]
       )
     end
 end

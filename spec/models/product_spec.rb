@@ -30,27 +30,12 @@ require 'rails_helper'
 RSpec.describe Product do
   describe '#price_for_event' do
     it 'should return sum of prices for event if no special prices provided' do
-      court = create :court, price: 100
+      area = create :area, price: 100
 
-      event = create :event, start: Time.zone.parse('14:00'), product: court
+      event = create :event, start: Time.zone.parse('14:00'), product: area
       event.end = event.start + 3.5.hours
 
-      expect(court.price_for_event(event)).to eq 100*3.5
+      expect(area.price_for_event(event)).to eq 100*3.5
     end
-
-=begin Disable special prices feature temporarly
-    it 'should return sum of prices and special_prices for event if special prices provided' do
-      court = create :court, price: 100
-
-      event = create :event, start: Time.zone.parse('14:00'), product: court
-      event.end = event.start + 3.5.hours
-
-      special_price = create :special_price, start: event.start - 1.hour, stop: event.start + 2.hour, price: 200
-
-      court.special_prices = [special_price]
-
-      expect(court.price_for_event(event)).to eq 200*2+100*1.5
-    end
-=end
   end
 end

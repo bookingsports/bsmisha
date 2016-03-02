@@ -1,18 +1,18 @@
 # == Schema Information
 #
-# Table name: product_services
+# Table name: stadium_services
 #
 #  id         :integer          not null, primary key
-#  product_id :integer
+#  stadium_id :integer
 #  service_id :integer
 #  price      :float
+#  periodic   :boolean          default(FALSE)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  periodic   :boolean          default(FALSE)
 #
 
 FactoryGirl.define do
-  factory :product_service do
+  factory :stadium_service do
     price 100
     periodic false
   end

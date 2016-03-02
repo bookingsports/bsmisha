@@ -40,10 +40,7 @@ class Product < ActiveRecord::Base
   has_many :special_prices
   has_many :events
   has_many :orders, through: :events
-  has_many :product_services, dependent: :destroy
-  has_many :services, through: :product_services
 
-  accepts_nested_attributes_for :product_services
   accepts_nested_attributes_for :pictures, allow_destroy: true
 
   default_scope -> { order(created_at: :desc) }

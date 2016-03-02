@@ -1,18 +1,11 @@
 # == Schema Information
 #
-# Table name: products
+# Table name: areas
 #
 #  id           :integer          not null, primary key
-#  category_id  :integer
-#  user_id      :integer
+#  stadium_id   :integer
 #  name         :string
-#  phone        :string
-#  description  :text
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  address      :string
-#  latitude     :float            default(55.75)
-#  longitude    :float            default(37.61)
+#  description  :string
 #  slug         :string
 #  status       :integer          default(0)
 #  type         :string
@@ -23,9 +16,11 @@
 #  change_price :float
 #  opens_at     :time
 #  closes_at    :time
+#  created_at   :datetime
+#  updated_at   :datetime
 #
 
-class CourtsController < ApplicationController
+class AreasController < ApplicationController
   layout :set_layout
   before_filter :set_scope
 
@@ -33,12 +28,12 @@ class CourtsController < ApplicationController
   end
 
   def show
-    @court = Court.friendly.find params[:id]
-    set_gon_court
+    @area = Area.friendly.find params[:id]
+    set_gon_area
   end
 
   def total
-    @court = Court.friendly.find(params[:id])
+    @area = Area.friendly.find(params[:id])
     respond_to do |format|
       format.js {}
     end

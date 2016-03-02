@@ -19,8 +19,8 @@
 
 module EventsHelper
   def current_user_events_path
-    if current_user.courts.any?
-      dashboard_court_events_path(court_id: current_user.courts.first)
+    if current_user.areas.any?
+      dashboard_area_events_path(area_id: current_user.areas.first)
     end
   end
 end

@@ -4,6 +4,6 @@ FactoryGirl.define do
     self.end "2015-05-06 14:21:40"
     price 1
     is_sale false
-    court nil
+    area nil
   end
 end

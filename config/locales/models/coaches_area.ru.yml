@@ -1,0 +1,15 @@
+ru:
+  activerecord:
+    models:
+      coaches_area:
+        one: площадка тренера
+        parent: площадки тренера
+        accusative: площадка тренера
+        other: площадки тренера
+    attributes:
+      coaches_area:
+        coach_id: ID тренера
+        area_id: ID площадки
+        price: Цена
+        coach: Тренер
+        area: Площадка

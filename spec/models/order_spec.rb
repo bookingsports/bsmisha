@@ -5,10 +5,10 @@
 #  id         :integer          not null, primary key
 #  user_id    :integer
 #  total      :decimal(8, 2)
-#  status     :integer
+#  status     :integer          default(0)
+#  comment    :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  comment    :string
 #
 
 require 'rails_helper'
@@ -31,7 +31,7 @@ RSpec.describe Order do
 
       expect(@order.total).to eq(640)
       expect(@coach.owner.wallet.total).to eq(285)
-      expect(@court.owner.wallet.total).to eq(323.0)
+      expect(@area.owner.wallet.total).to eq(323.0)
       expect(AdminWallet.find.total).to eq(640 - (285 + 323.0))
       expect(@user.wallet.total).to eq(360)
     end

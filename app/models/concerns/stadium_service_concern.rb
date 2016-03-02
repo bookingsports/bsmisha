@@ -1,28 +1,29 @@
-module CoachesCourtConcern
+module StadiumServiceConcern
   extend ActiveSupport::Concern
 
   included do
     rails_admin do
-      parent Coach
+      parent Service
+      visible false
       list do
-        field :coach
-        field :court
+        field :stadium
+        field :service
         field :price
         field :created_at
         field :updated_at
       end
 
       show do
-        field :coach
-        field :court
+        field :stadium
+        field :service
         field :price
         field :created_at
         field :updated_at
       end
 
       edit do
-        field :coach
-        field :court
+        field :stadium
+        field :service
         field :price
       end
     end

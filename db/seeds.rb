@@ -21,6 +21,7 @@ categories = ['Теннис', 'Групповые занятия', 'Йога', '
 categories.each { |name| Category.create! name: name }
 
 create_user(Admin, 'admin@bookingsports.ru', 'changeme')
+
 coach_user = create_user(CoachUser,  'coach@bookingsports.ru', 'changeme')
 customer = create_user(Customer, 'customer@bookingsports.ru', 'changeme')
 

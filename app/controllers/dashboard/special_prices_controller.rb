@@ -70,6 +70,6 @@ class Dashboard::SpecialPricesController < DashboardController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def special_price_params
-      params.require(:special_price).permit(:start, :stop, :price, :product_id, :is_sale, :court_id, daily_price_rules_attributes: [:id, :start, :stop, :_destroy, :price, working_days: []])
+      params.require(:special_price).permit(:start, :stop, :price, :product_id, :is_sale, :area_id, daily_price_rules_attributes: [:id, :start, :stop, :_destroy, :price, working_days: []])
     end
 end

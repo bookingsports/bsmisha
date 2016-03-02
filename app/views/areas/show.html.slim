@@ -1,28 +1,28 @@
 - content_for :scripts do
   = javascript_include_tag 'scheduler'
-  = javascript_include_tag 'show-court'
+  = javascript_include_tag 'show-area'
 
 .row.top15
   .col-xs-4
     = render 'total'
-    h4 Корты
+    h4 Площадки
     ul.nav.nav-pills.nav-stacked
       - if @product.kind_of? Stadium
-        = active_link_to 'Все корты', stadium_courts_path, active: /courts$/, wrap_tag: :li
-      - @product.courts.each do |cc|
-        = active_link_to [cc.name, cc.category.try(:name)].compact.join(', '), url_for([@product, cc]), active: /courts\/#{cc.to_param}/, wrap_tag: :li
+        = active_link_to 'Все площадки', stadium_areas_path, active: /areas$/, wrap_tag: :li
+      - @product.areas.each do |cc|
+        = active_link_to [cc.name, cc.category.try(:name)].compact.join(', '), url_for([@product, cc]), active: /areas\/#{cc.to_param}/, wrap_tag: :li
     h4 Стоимость занятий
-    - if @court.special_prices.current.present?
+    - if @area.special_prices.current.present?
       ul.list-group
-        - @court.special_prices.current.daily_price_rules.each do |rule|
+        - @area.special_prices.current.daily_price_rules.each do |rule|
           li.list-group-item
             = rule.working_days.map{|d| d.present? ? t(:"date.abbr_day_names").at(d.to_i) : nil}.join(', ') + ': '
             = rule.start + ' - ' + rule.stop
             = ' ' + number_to_integer_currency(rule.price)
-    - if @court.product_services.any?
+    - if @area.stadium_services.any?
       h4 Дополнительные услуги
       ul.list-group
-        - @court.product_services.each do |p|
+        - @area.stadium_services.each do |p|
           li.list-group-item
             = p.service_name_and_price
 

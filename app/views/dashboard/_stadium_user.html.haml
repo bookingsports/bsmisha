@@ -1,10 +1,10 @@
-#courts.tab-pane.active{:role => "tabpanel"}
+#areas.tab-pane.active{:role => "tabpanel"}
   .row.top15
     .col-xs-12.col-sm-12.col-md-12.col-lg-12
-      = label_tag "Выберите корт"
-      = select_tag :court, options_for_select(@user.stadium.courts.map {|c| [c.name, c.id, { data: {source: events_path(court_id: c), price: c.price, change_price: c.change_price } } ] }), class: 'form-control'
+      = label_tag "Выберите площадку"
+      = select_tag :area, options_for_select(@user.stadium.areas.map {|c| [c.name, c.id, { data: {source: events_path(area_id: c), price: c.price, change_price: c.change_price } } ] }), class: 'form-control'
     .col-xs-12.col-sm-12.col-md-12.col-lg-12
-      .top15{"data-grid" => "", "data-source" => events_path(court_id: @user.stadium.courts.first)}
+      .top15{"data-grid" => "", "data-source" => events_path(area_id: @user.stadium.areas.first)}
       :javascript
           var grid = new Tennis.Views.ScheduleView({el: '[data-grid]'});
           // var changes = new Tennis.Collections.Changes();

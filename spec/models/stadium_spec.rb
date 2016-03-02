@@ -1,33 +1,70 @@
 # == Schema Information
 #
-# Table name: products
+# Table name: stadiums
 #
-#  id           :integer          not null, primary key
-#  category_id  :integer
-#  user_id      :integer
-#  name         :string
-#  phone        :string
-#  description  :text
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  address      :string
-#  latitude     :float            default(55.75)
-#  longitude    :float            default(37.61)
-#  slug         :string
-#  status       :integer          default(0)
-#  type         :string
-#  parent_id    :integer
-#  email        :string
-#  avatar       :string
-#  price        :float
-#  change_price :float
-#  opens_at     :time
-#  closes_at    :time
+#  id          :integer          not null, primary key
+#  user_id     :integer
+#  category_id :integer
+#  name        :string
+#  phone       :string
+#  description :string
+#  address     :string
+#  latitude    :float
+#  longitude   :float
+#  slug        :string
+#  status      :integer          default(0)
+#  email       :string
+#  avatar      :string
+#  opens_at    :time
+#  closes_at   :time
+#  created_at  :datetime
+#  updated_at  :datetime
 #
 
 require 'rails_helper'
 
-RSpec.describe Stadium do
+describe Stadium do
+  before(:each) do
+    @stadium = create(:stadium, name: "Stadium")
+  end
+
+  it { should belong_to(:user) }
+  it { should belong_to(:category) }
+  it { should have_many(:areas) }
+  #it { should have_many(:events) }
+  it { should have_many(:pictures) }
+  it { should have_many(:reviews) }
+  it { should have_many(:stadium_services) }
+  it { should have_many(:services) }
+
+  describe ".account" do
+    it "is created when new Stadium is created" do
+      expect(@stadium.account).not_to be_nil
+    end
+  end
+
+  describe ".areas" do
+    it "one area is created when new Stadium is created" do
+      expect(@stadium.areas.count).to eq 1
+    end
+  end
+
+  describe ".status" do
+    it "is :pending by default" do
+      expect(@stadium.status).to eq "pending"
+    end
+  end
+
+  describe "#name" do
+    it "returns name when it is not set" do
+      expect(Stadium.create.name).to eq "Без названия"
+    end
+
+    it "returns name when it is set" do
+      expect(@stadium.name).to eq "Stadium"
+    end
+  end
+
   context "address parsing" do
     it "should update lattitude and longitude after saving a stadium" do
       stadium = Stadium.new(address: "Бишкек, ул. Московская, 21")

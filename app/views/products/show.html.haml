@@ -8,7 +8,7 @@ nothing to see
     .top15{"data-grid" => ""}
     :javascript
       kendo.culture("ru-RU");
-      var grid = new Tennis.Views.MyScheduleView({el: '[data-grid]', court: #{@product.id}});
+      var grid = new Tennis.Views.MyScheduleView({el: '[data-grid]', area: #{@product.id}});
       // var changes = new Tennis.Collections.Changes();
       // var checkout = new Tennis.Views.CheckoutView({el: '[data-checkout]'});
       // var changesView = new Tennis.Views.ChangesView({el: '[data-event-move]', collection: changes});

@@ -13,13 +13,13 @@
 #  last_sign_in_at        :datetime
 #  current_sign_in_ip     :inet
 #  last_sign_in_ip        :inet
+#  name                   :string
+#  type                   :string           default("Customer")
+#  avatar                 :string
+#  status                 :integer          default(0)
+#  phone                  :string
 #  created_at             :datetime
 #  updated_at             :datetime
-#  name                   :string
-#  type                   :string
-#  avatar                 :string
-#  status                 :integer
-#  phone                  :string
 #
 
 FactoryGirl.define do

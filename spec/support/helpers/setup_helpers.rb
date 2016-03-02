@@ -33,19 +33,19 @@ module TennisHelpers
         password: "blinkenblug"
       })
 
-      @stadium = @stadium_user.product
-      @stadium.update(name: "Name")
+      @stadium = @stadium_user.stadium
+      @stadium.update(name: "Name", status: :active)
 
-      @court = Court.create!({
+      @area = Area.create!({
         stadium: @stadium,
-        name: "court",
+        name: "area",
         price: 100,
         user: @stadium_user
       })
 
-      @court_two = Court.create!({
+      @area_two = Area.create!({
         stadium: @stadium,
-        name: "court_two",
+        name: "area_two",
         price: 150
       })
 
@@ -54,38 +54,38 @@ module TennisHelpers
         user: @coach_user
       })
 
-      @service = ProductService.create!({
+      @service = StadiumService.create!({
         service: Service.new(name: "WC"),
         price: 10,
-        product: @court
+        stadium: @stadium
       })
 
-      @periodic_service = ProductService.create!({
+      @periodic_service = StadiumService.create!({
         service: Service.new(name: "Синема"),
         price: 10,
-        product: @court,
+        stadium: @stadium,
         periodic: "1"
       })
 
       @event = Event.create!({
-        product: @court,
-        product_services: [@service, @periodic_service],
+        product: @area,
+        stadium_services: [@service, @periodic_service],
         start: Time.zone.parse("12:00:00"),
         end: Time.zone.parse("14:30:00"),
         user: @user
       })
 
       @event_two = Event.create!({
-        product: @court,
-        product_services: [@service, @periodic_service],
+        product: @area,
+        stadium_services: [@service, @periodic_service],
         start: Time.zone.parse("12:00:00"),
         end: Time.zone.parse("14:30:00"),
         user: @user
       })
 
       @event_three = Event.create!({
-        product: @court_two,
-        product_services: [@service, @periodic_service],
+        product: @area_two,
+        stadium_services: [@service, @periodic_service],
         start: Time.zone.parse("12:00:00"),
         end: Time.zone.parse("14:30:00"),
         user: @user

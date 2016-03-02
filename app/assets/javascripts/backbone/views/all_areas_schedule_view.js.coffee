@@ -1,4 +1,4 @@
-class Tennis.Views.AllCourtsScheduleView extends Backbone.View
+class Tennis.Views.AllAreasScheduleView extends Backbone.View
   initialize: (attrs) ->
     @mainUrl = attrs.url
     @bindExternalEvents()
@@ -59,7 +59,7 @@ class Tennis.Views.AllCourtsScheduleView extends Backbone.View
 
       resources: [
         {
-          field: 'kendo_court_id'
+          field: 'kendo_area_id'
           dataSource: [
             { text: '0', value: '0', color: '#1ABC9C' },
             { text: '1', value: '1', color: '#3498DB' },
@@ -107,7 +107,7 @@ class Tennis.Views.AllCourtsScheduleView extends Backbone.View
             id: 'id'
             fields:
               title:
-                from: 'court_name'
+                from: 'area_name'
                 type: 'string'
               start:
                 type: 'date'
@@ -145,7 +145,7 @@ class Tennis.Views.AllCourtsScheduleView extends Backbone.View
       $('a[data-toggle="tab"]').on 'shown.bs.tab', (e) =>
         scheduler.refresh()
 
-      $('#court').on 'change', =>
+      $('#area').on 'change', =>
         scheduler.dataSource.read()
         scheduler.resources[1].dataSource.read()
 

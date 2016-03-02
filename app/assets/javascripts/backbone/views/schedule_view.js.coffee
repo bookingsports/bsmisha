@@ -1,7 +1,7 @@
 class Tennis.Views.ScheduleView extends Backbone.View
   initialize: (attrs) ->
     @mainUrl = attrs.url
-    @court_id = attrs.court
+    @area_id = attrs.area
     @opens_at = attrs.opens_at
     @closes_at = attrs.closes_at
 
@@ -25,7 +25,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
       $('a[data-toggle="tab"]').on 'shown.bs.tab', (e) =>
         scheduler.refresh()
 
-      $('#court').on 'change', =>
+      $('#area').on 'change', =>
         scheduler.dataSource.read()
         scheduler.resources[1].dataSource.read()
 
@@ -102,7 +102,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
           ]
         },
         {
-          field: 'product_service_ids'
+          field: 'stadium_service_ids'
           title: 'Доп. услуги'
           multiple: true
           dataTextField: 'service_name_and_price'
@@ -110,11 +110,11 @@ class Tennis.Views.ScheduleView extends Backbone.View
           dataSource:
             transport:
               read:
-                url: => "/products/#{@court_id}.json"
+                url: => "/products/#{@area_id}.json"
               parameterMap: (options, operation) ->
-                options.product_services
+                options.stadium_services
             schema:
-              data: (resp) -> resp.product_services
+              data: (resp) -> resp.stadium_services
         }
       ]
       dataSource:

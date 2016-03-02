@@ -9,16 +9,16 @@
       %table.table
         %thead
           %tr
-            %th Корт
+            %th Площадка
             %th Начало
             %th Конец
             %th Длительность
             %th Повторяется?
             %th Цена
         %tbody
-          - order.events.joins(court: :stadium).where('stadiums.id = ?', current_user.stadium.id).each do |event|
+          - order.events.joins(area: :stadium).where('stadiums.id = ?', current_user.stadium.id).each do |event|
             %tr
-              %td= event.court.name
+              %td= event.area.name
               %td= event.start
               %td= event.end
               %td= (event.duration/3600).to_i

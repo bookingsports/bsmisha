@@ -13,41 +13,36 @@
 #  last_sign_in_at        :datetime
 #  current_sign_in_ip     :inet
 #  last_sign_in_ip        :inet
+#  name                   :string
+#  type                   :string           default("Customer")
+#  avatar                 :string
+#  status                 :integer          default(0)
+#  phone                  :string
 #  created_at             :datetime
 #  updated_at             :datetime
-#  name                   :string
-#  type                   :string
-#  avatar                 :string
-#  status                 :integer
-#  phone                  :string
 #
 
 class StadiumUser < User
   include StadiumUserConcern
 
   has_one :stadium, foreign_key: "user_id", dependent: :destroy
-  has_one :product, foreign_key: "user_id", dependent: :destroy
 
-  delegate :courts, to: :stadium
-
-  has_one :account, as: :accountable
-  accepts_nested_attributes_for :account
+  delegate :areas, to: :stadium
 
   enum status: [:pending, :active]
 
   after_create :create_stadium
-  after_create :create_account
 
   def name
     attributes["name"] || attributes["email"]
   end
 
   def special_prices
-    (stadium.special_prices.to_a + stadium.courts.map { |court| court.special_prices.to_a }.flatten).uniq
+    (stadium.special_prices.to_a + stadium.areas.map { |area| area.special_prices.to_a }.flatten).uniq
   end
 
   def products
-    stadium.courts
+    stadium.areas
   end
 
   def events

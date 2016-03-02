@@ -35,8 +35,8 @@ FactoryGirl.define do
       start { Date.today + Faker::Number.between(7, 20).days }
     end
 
-    factory :event_with_court do
-      court
+    factory :event_with_area do
+      area
     end
   end
 end

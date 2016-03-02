@@ -17,6 +17,6 @@ FactoryGirl.define do
     stop { start + Faker::Number.between(1, 12).months }
     price { Faker::Commerce.price }
     is_sale true
-    association :product, factory: :court
+    association :product, factory: :area
   end
 end
