@@ -8,5 +8,5 @@ Dir.chdir APP_ROOT do
   system "bundle install"
 
   puts "\n== Migrations database =="
-  system "bin/rake db:migrate"
+  system "bin/rake db:setup"
 end

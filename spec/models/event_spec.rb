@@ -20,7 +20,64 @@
 require 'rails_helper'
 
 RSpec.describe Event do
-  let(:event) { create(:event, start: Time.zone.parse('14:00')) }
+  it { should belong_to(:user) }
+  it { should belong_to(:order) }
+  it { should belong_to(:product) }
+
+  it { should have_many(:event_changes) }
+  it { should have_many(:additional_event_items) }
+  it { should have_many(:special_prices) }
+
+  it { should have_and_belong_to_many(:product_services) }
+
+  let(:event) { create(:event, start: Time.zone.parse('2016-02-29 14:00')) }
+
+  describe '.paid_or_owned_by user' do
+    before :each do
+      @my_event = create(:event)
+      @order = create(:order)
+      @event = create(:event, order: @order)
+      @user = create(:user, events: [@my_event])
+    end
+
+    it 'shows all users events' do
+      expect(@user.events.count).to eq 1
+      expect(Event.paid_or_owned_by(@user).count).to eq 1
+      @order.paid!
+      expect(Event.paid_or_owned_by(@user).count).to eq 2
+    end
+  end
+
+  describe '.paid and .unpaid' do
+    it 'should return only paid events' do
+      order = create(:order)
+
+      create(:event, order: order) #paid event
+      3.times { create(:event) } #unpaid events
+
+      order.paid!
+
+      expect(Event.paid.count).to eq 1
+      expect(Event.unpaid.count).to eq 3
+    end
+  end
+
+  describe '.past and .future' do
+    it 'should return past and future events' do
+      3.times { create(:past_event) }
+      2.times { create(:future_event) }
+
+      expect(Event.past.count).to eq 3
+      expect(Event.future.count).to eq 2
+    end
+  end
+
+  describe '#name' do
+    it 'should show title for event' do
+      event.end = event.start + 2.5.hours
+      expect(event.name).to eq 'Событие с 2016-02-29 14:00 по 2016-02-29 16:30'
+    end
+  end
 
   describe '#occurrences' do
     it 'shows 1 if it is no repeats' do
@@ -129,57 +186,6 @@ RSpec.describe Event do
 
       expect(event.total).to eq 250 * 3.5 * 10
     end
-
-=begin Disable special prices feature temporarly
-    it 'special price of stadium affects the price' do
-      special_price = create(:special_price, start: 2.days.ago, stop: 2.days.from_now)
-
-      price_rules = [
-        create(:daily_price_rule, start: '11:00', stop: '13:00', price: 200, working_days: [Time.zone.now.wday]),
-        create(:daily_price_rule, start: '13:00', stop: '14:00', price: 50, working_days: [Time.zone.now.wday])
-      ]
-
-      special_price.daily_price_rules = price_rules
-
-      create(:area, special_prices: [special_price])
-      event.products = [area]
-
-      expect(event.total).to eq 200 * 1 + 50 * 1 + 100 * 1
-    end
-
-    it 'special price of area affects the price' do
-      special_price = SpecialPrice.create start: 2.days.ago, stop: 2.days.from_now
-      price_rules = [DailyPriceRule.create(start: '11:00', stop: '13:00', price: 200, working_days: [Time.zone.now.wday]), DailyPriceRule.create(start: '13:00', stop: '14:00', price: 50, working_days: [Time.zone.now.wday])]
-      special_price.daily_price_rules = price_rules
-      special_price.save!
-      @area.special_prices = [special_price]
-      @area.save!
-
-      event.products = [@area]
-      event.save!
-
-      expect(event.total).to eq 200 * 1 + 50 * 1 + 100 * 1
-    end
-
-    it 'special price of a area takes precedence over stadium' do
-      special_price1 = SpecialPrice.create start: 2.days.ago, stop: 2.days.from_now
-      special_price2 = SpecialPrice.create start: 2.days.ago, stop: 2.days.from_now
-      price_rules1 = [DailyPriceRule.create(start: '11:00', stop: '13:00', price: 11, working_days: [Time.zone.now.wday]), DailyPriceRule.create(start: '13:00', stop: '14:00', price: 12, working_days: [Time.zone.now.wday])]
-      price_rules2 = [DailyPriceRule.create(start: '11:00', stop: '13:00', price: 200, working_days: [Time.zone.now.wday]), DailyPriceRule.create(start: '13:00', stop: '14:00', price: 50, working_days: [Time.zone.now.wday])]
-      special_price1.daily_price_rules = price_rules1
-      special_price2.daily_price_rules = price_rules2
-      special_price1.save
-      special_price2.save
-
-      @area.special_prices = [special_price1]
-      @stadium.special_prices = [special_price2]
-
-      event.products = [@area]
-      event.save!
-
-      expect(event.total).to eq 11 * 1 + 12 * 1 + 100 * 1
-    end
-=end
 
     context 'periodic services' do
       let(:area) { create(:area, price: 100) }

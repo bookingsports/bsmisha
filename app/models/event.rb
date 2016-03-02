@@ -24,6 +24,7 @@ class Event < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :order
+
   belongs_to :coach
   belongs_to :area
 
@@ -34,6 +35,7 @@ class Event < ActiveRecord::Base
     where("('start' >= :event_start AND 'start < :event_end) OR ('end' > :event_start AND 'end' <= :event_end) OR ('start' < :event_start AND 'end' > :event_end)", event_start: start, event_end: self.end)
   }, through: :product
 
+<<<<<<< HEAD
   has_and_belongs_to_many :stadium_services
 
   attr_reader :schedule
@@ -53,7 +55,21 @@ class Event < ActiveRecord::Base
     else
       paid
     end
+=======
+  has_and_belongs_to_many :product_services
+
+  attr_reader :schedule
+
+  scope :paid_or_owned_by, -> (user) do
+    joins(:order).where order_is(:paid).or arel_table['user_id'].eq user.id
+>>>>>>> improve_event_specs
   end
+
+  scope :paid, -> { joins(:order).where order_is :paid }
+  scope :unpaid, -> { joins(:order).where order_is :unpaid }
+
+  scope :past, -> { where arel_table['end'].lt Time.now }
+  scope :future, -> { where arel_table['start'].gt Time.now }
 
   after_initialize :build_schedule
 
@@ -66,7 +82,11 @@ class Event < ActiveRecord::Base
   end
 
   def associated_payables
+<<<<<<< HEAD
     ([product] + stadium_services)
+=======
+    ([product] + product_services)
+>>>>>>> improve_event_specs
   end
 
   def associated_payables_with_price
@@ -157,6 +177,9 @@ class Event < ActiveRecord::Base
   end
 
   private
+    def self.order_is(status)
+      Order.arel_table['status'].eq(Order.statuses[status])
+    end
 
     def build_schedule
       @schedule = IceCube::Schedule.new do |s|
