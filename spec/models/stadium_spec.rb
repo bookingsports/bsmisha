@@ -5,7 +5,7 @@
 #  id          :integer          not null, primary key
 #  user_id     :integer
 #  category_id :integer
-#  name        :string
+#  name        :string           default("Без названия"), not null
 #  phone       :string
 #  description :string
 #  address     :string

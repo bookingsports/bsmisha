@@ -20,6 +20,5 @@ FactoryGirl.define do
     name { Faker::Commerce.product_name }
     stadium
     price { Faker::Commerce.price }
-    user
   end
 end

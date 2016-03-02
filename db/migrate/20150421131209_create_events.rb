@@ -4,7 +4,8 @@ class CreateEvents < ActiveRecord::Migration
       t.datetime :start
       t.datetime :end
       t.string :description
-      t.belongs_to :product, index: true, foreign_key: true
+      t.belongs_to :coach, index: true, foreign_key: true
+      t.belongs_to :area, index: true, foreign_key: true
       t.belongs_to :order, index: true, foreign_key: true
       t.belongs_to :user, index: true, foreign_key: true
 

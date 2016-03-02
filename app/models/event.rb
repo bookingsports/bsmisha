@@ -22,6 +22,8 @@ class Event < ActiveRecord::Base
 
   has_paper_trail
 
+  validates :start, :end, :order_id, :user_id, :area_id, presence: true
+
   belongs_to :user
   belongs_to :order
 
@@ -33,36 +35,14 @@ class Event < ActiveRecord::Base
 
   has_many :special_prices, -> {
     where("('start' >= :event_start AND 'start < :event_end) OR ('end' > :event_start AND 'end' <= :event_end) OR ('start' < :event_start AND 'end' > :event_end)", event_start: start, event_end: self.end)
-  }, through: :product
+  }, through: :area
 
-<<<<<<< HEAD
   has_and_belongs_to_many :stadium_services
-
-  attr_reader :schedule
-
-  scope :paid, -> { joins("LEFT OUTER JOIN orders ON orders.id = events.order_id").where("orders.status =  ?", Order.statuses[:paid]) }
-  scope :unpaid, -> { joins("LEFT OUTER JOIN orders ON orders.id = events.order_id").where("orders.status =  ? or orders.status is null", Order.statuses[:unpaid]) }
-  scope :past, -> { where('"end" < ?', Time.current)}
-  scope :future, -> { where('"start" > ?', Time.current)}
-
-  scope :of_products, ->(*products) do
-    where(product_id: products.flatten.map(&:id)).uniq
-  end
-
-  scope :paid_or_owned_by,  -> (user) do
-    if user
-      joins("LEFT OUTER JOIN orders ON orders.id = events.order_id").where("orders.status = :st or events.user_id = :id ", { id: user.id, st: Order.statuses[:paid]} )
-    else
-      paid
-    end
-=======
-  has_and_belongs_to_many :product_services
 
   attr_reader :schedule
 
   scope :paid_or_owned_by, -> (user) do
     joins(:order).where order_is(:paid).or arel_table['user_id'].eq user.id
->>>>>>> improve_event_specs
   end
 
   scope :paid, -> { joins(:order).where order_is :paid }
@@ -82,15 +62,11 @@ class Event < ActiveRecord::Base
   end
 
   def associated_payables
-<<<<<<< HEAD
-    ([product] + stadium_services)
-=======
-    ([product] + product_services)
->>>>>>> improve_event_specs
+    ([area] + stadium_services)
   end
 
   def associated_payables_with_price
-    associated_payables.map {|p| {product: p, total: p.price_for_event(self) * occurrences}}
+    associated_payables.map {|p| {area: p, total: p.price_for_event(self) * occurrences}}
   end
 
   def duration_in_hours

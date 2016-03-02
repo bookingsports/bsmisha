@@ -23,7 +23,7 @@ FactoryGirl.define do
     self.end { start + Faker::Number.between(1, 3).hour }
     description ''
     is_all_day false
-    product nil
+    association :product, factory: :area
     order
     user
 
@@ -33,10 +33,6 @@ FactoryGirl.define do
 
     factory :future_event do
       start { Date.today + Faker::Number.between(7, 20).days }
-    end
-
-    factory :event_with_area do
-      area
     end
   end
 end

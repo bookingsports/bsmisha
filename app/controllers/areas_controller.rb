@@ -7,13 +7,8 @@
 #  name         :string
 #  description  :string
 #  slug         :string
-#  status       :integer          default(0)
-#  type         :string
-#  parent_id    :integer
-#  email        :string
-#  avatar       :string
-#  price        :float
-#  change_price :float
+#  price        :decimal(, )      default(0.0)
+#  change_price :decimal(, )      default(0.0)
 #  opens_at     :time
 #  closes_at    :time
 #  created_at   :datetime
