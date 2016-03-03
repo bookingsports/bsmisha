@@ -49,7 +49,7 @@ class Stadium < ActiveRecord::Base
   default_scope -> { order(created_at: :desc) }
 
   friendly_id :name, use: [:slugged]
-  mount_uploader :avatar, PictureUploader
+  mount_uploader :main_image, PictureUploader
 
   enum status: [:pending, :active, :locked]
 

@@ -252,7 +252,7 @@ ActiveRecord::Schema.define(version: 20160219204852) do
     t.string   "slug"
     t.integer  "status",      default: 0
     t.string   "email"
-    t.string   "avatar"
+    t.string   "main_image"
     t.time     "opens_at"
     t.time     "closes_at"
     t.datetime "created_at"

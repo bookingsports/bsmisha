@@ -20,9 +20,8 @@ module StadiumConcern
         field :pictures
         field :created_at
         field :updated_at
-        field :avatar
+        field :main_image
         field :status
-        field :price
         field :opens_at
         field :closes_at
       end
@@ -37,9 +36,8 @@ module StadiumConcern
         field :email
         field :description, :ck_editor
         field :pictures
-        field :avatar
+        field :main_image
         field :status
-        field :price
         field :opens_at
         field :closes_at
         field :services
@@ -57,9 +55,8 @@ module StadiumConcern
         field :pictures
         field :created_at
         field :updated_at
-        field :avatar
+        field :main_image
         field :status
-        field :price
         field :opens_at
         field :closes_at
         field :services
