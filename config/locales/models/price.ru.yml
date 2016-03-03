@@ -1,13 +1,13 @@
 ru:
   activerecord:
     models:
-      special_price:
+      price:
         one: период
         parent: периода
         accusative: период
         other: периоды
     attributes:
-      special_price:
+      price:
         start: Начало
         stop: Конец
         price: Цена

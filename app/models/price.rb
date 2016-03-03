@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: special_prices
+# Table name: prices
 #
 #  id         :integer          not null, primary key
 #  start      :datetime
@@ -12,8 +12,8 @@
 #  updated_at :datetime         not null
 #
 
-class SpecialPrice < ActiveRecord::Base
-  include SpecialPriceConcern
+class Price < ActiveRecord::Base
+  include PriceConcern
 
   has_paper_trail
 
@@ -21,7 +21,7 @@ class SpecialPrice < ActiveRecord::Base
   has_many :daily_price_rules, dependent: :destroy
   accepts_nested_attributes_for :daily_price_rules, reject_if: proc {|attributes| attributes["price"].blank?}
 
-  # return special price for current time
+  # return price for current time
   scope :current, -> do
     where('LOCALTIMESTAMP BETWEEN "start" AND "stop"').last || new
   end

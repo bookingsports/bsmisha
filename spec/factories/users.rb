@@ -16,7 +16,6 @@
 #  name                   :string
 #  type                   :string           default("Customer")
 #  avatar                 :string
-#  status                 :integer          default(0)
 #  phone                  :string
 #  created_at             :datetime
 #  updated_at             :datetime
@@ -33,9 +32,6 @@ FactoryGirl.define do
     factory :customer, class: 'Customer'
     factory :coach_user, class: 'CoachUser'
     factory :admin, class: 'Admin'
-
-    factory :stadium_user, class: 'StadiumUser' do
-      status :active
-    end
+    factory :stadium_user, class: 'StadiumUser'
   end
 end

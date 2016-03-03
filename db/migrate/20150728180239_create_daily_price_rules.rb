@@ -1,7 +1,7 @@
 class CreateDailyPriceRules < ActiveRecord::Migration
   def change
     create_table :daily_price_rules do |t|
-      t.belongs_to :special_price, index: true, foreign_key: true
+      t.belongs_to :price, index: true, foreign_key: true
       t.string :start
       t.string :stop
       t.integer :price

@@ -1,4 +1,4 @@
-module SpecialPriceConcern
+module PriceConcern
   extend ActiveSupport::Concern
 
   included do

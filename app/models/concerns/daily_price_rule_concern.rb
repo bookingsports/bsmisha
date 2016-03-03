@@ -3,10 +3,10 @@ module DailyPriceRuleConcern
 
   included do
     rails_admin do
-      parent SpecialPrice
+      parent Price
       visible false
       list do
-        field :special_price
+        field :price
         field :start
         field :stop
         field :price
@@ -16,7 +16,7 @@ module DailyPriceRuleConcern
       end
 
       edit do
-        field :special_price
+        field :price
         field :start
         field :stop
         field :price

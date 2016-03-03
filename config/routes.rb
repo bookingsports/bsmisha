@@ -23,8 +23,8 @@ Rails.application.routes.draw do
     resources :pictures
   end
 
-  concern :has_special_prices do
-    resources :special_prices
+  concern :has_prices do
+    resources :prices
   end
 
   resources :events, :my_events do
@@ -64,7 +64,7 @@ Rails.application.routes.draw do
     resource :product, concerns: [:has_pictures] do
       get 'edit_account', on: :member
     end
-    resources :special_prices
+    resources :prices
     resources :customers
     resources :employments
     resources :coach_users
