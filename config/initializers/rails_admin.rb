@@ -30,7 +30,9 @@ RailsAdmin.config do |config|
     export
     bulk_delete
     edit
-    delete
+    delete do
+      except [Coach, Wallet, Stadium, Account]
+    end
     history_index
     history_show
   end
