@@ -5,10 +5,7 @@ class CreateAreas < ActiveRecord::Migration
       t.string :name
       t.string :description
       t.string :slug
-      t.decimal :price, default: 0
       t.decimal :change_price, default: 0
-      t.time :opens_at
-      t.time :closes_at
 
       t.timestamps
     end

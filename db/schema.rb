@@ -198,7 +198,6 @@ ActiveRecord::Schema.define(version: 20160219204852) do
   create_table "prices", force: :cascade do |t|
     t.datetime "start"
     t.datetime "stop"
-    t.integer  "price"
     t.boolean  "is_sale"
     t.integer  "area_id"
     t.datetime "created_at", null: false

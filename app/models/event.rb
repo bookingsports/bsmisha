@@ -35,9 +35,9 @@ class Event < ActiveRecord::Base
   has_many :event_changes, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :additional_event_items, dependent: :destroy
 
-  #has_many :special_prices, -> {
-  #  where("('start' >= :event_start AND 'start < :event_stop) OR ('stop' > :event_start AND 'stop' <= #:event_stop) OR ('start' < :event_start AND 'stop' > :event_stop)", event_start: start, event_stop: stop)
-  #}, through: :area
+  has_many :prices, -> {
+    where("('start' >= :event_start AND 'start < :event_stop) OR ('stop' > :event_start AND 'stop' <= #:event_stop) OR ('start' < :event_start AND 'stop' > :event_stop)", event_start: start, event_stop: stop)
+  }, through: :area
 
   has_and_belongs_to_many :stadium_services
 

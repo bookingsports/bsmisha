@@ -31,14 +31,12 @@ RSpec.describe Event do
 
     it { should have_many(:event_changes) }
     it { should have_many(:additional_event_items) }
-    #it { should have_many(:prices) }
+    it { should have_many(:prices) }
 
     it { should have_and_belong_to_many(:stadium_services) }
   end
 
   context 'validations' do
-    subject { build(:event) }
-
     it { should validate_presence_of(:start) }
     it { should validate_presence_of(:stop) }
     it { should validate_presence_of(:order_id) }

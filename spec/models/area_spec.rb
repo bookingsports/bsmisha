@@ -17,57 +17,59 @@
 
 require 'rails_helper'
 
-describe Area, type: :model  do
-  it { should belong_to(:stadium) }
-  it { should have_many(:coaches_areas) }
-  it { should have_many(:coaches) }
+RSpec.describe Area do
+  let(:stadium) { create(:stadium, name: 'Stadium') }
+  let(:area) { create(:area, name: 'Main', stadium: stadium) }
 
-  before(:each) do
-    @stadium_user = create(:stadium_user)
-    @stadium = @stadium_user.stadium
-    @stadium.update(name: "Stadium")
-    @area = @stadium.areas.first
-    @area.update name: "Main"
+  context 'associations' do
+    it { should belong_to(:stadium) }
+    it { should have_many(:coaches_areas) }
+    it { should have_many(:coaches) }
+    it { should have_many(:events) }
+    it { should have_many(:prices) }
   end
 
-  describe ".price" do
-    it "should return 0 by default" do
-      expect(@area.price).to eq 0
-    end
+  context 'validations' do
+    it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:stadium_id) }
+    it { should validate_numericality_of(:change_price).is_greater_than_or_equal_to(0) }
   end
 
-  describe ".change_price" do
-    it "should return 0 by default" do
-      expect(@area.change_price).to eq 0
-    end
-  end
-
-  describe "#display_name" do
-    it "returns the correct name" do
-      expect(@area.display_name).to eq "Stadium - Main"
+  describe '#change_price' do
+    it 'should return 0 by default' do
+      area = Area.new
+      expect(area.change_price).to eq 0
     end
   end
 
-  describe "#name_with_stadium" do
-    it "returns the correct name" do
-      expect(@area.name_with_stadium).to eq "Stadium - площадка Main"
+  describe '#display_name' do
+    it 'returns the correct name' do
+      expect(area.display_name).to eq "Stadium - Main"
     end
   end
 
-  describe "#kendo_area_id" do
-    it "returns 0 when only 1 court is present" do
-      expect(@area.kendo_area_id).to eq 0
+  describe '#name_with_stadium' do
+    it 'returns the correct name' do
+      expect(area.name_with_stadium).to eq "Stadium - площадка Main"
+    end
+  end
+
+  describe '#kendo_area_id' do
+    it 'returns 0 when only 1 area is present' do
+      stadium.areas = [area]
+      expect(area.kendo_area_id).to eq 0
     end
 
-    it "returns 1 when 2 courts are present" do
-      @area2 = @stadium.areas.create name: "Second"
-      expect(@area.kendo_area_id).to eq 0
-      expect(@area2.kendo_area_id).to eq 1
+    it 'returns 1 when 2 areas are present' do
+      area_2 = create(:area)
+      stadium.areas = [area, area_2]
+      expect(area.kendo_area_id).to eq 0
+      expect(area_2.kendo_area_id).to eq 1
     end
 
-    it "handles cases when there are more than 10 courts" do
-      9.times {|n| @stadium.areas.create name: "Area #{n}" } # 10 courts
-      expect(@stadium.areas.create(name: "New area").kendo_area_id).to eq 0
+    it 'handles cases when there are more than 10 areas' do
+      9.times {|n| stadium.areas << create(:area, name: "Area #{n}") } # 10 courts
+      expect(stadium.areas.create(name: 'New area').kendo_area_id).to eq 0
     end
   end
 end

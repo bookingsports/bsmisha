@@ -5,7 +5,6 @@
 #  id         :integer          not null, primary key
 #  start      :datetime
 #  stop       :datetime
-#  price      :integer
 #  is_sale    :boolean
 #  area_id    :integer
 #  created_at :datetime         not null
@@ -17,7 +16,7 @@ class Price < ActiveRecord::Base
 
   has_paper_trail
 
-  belongs_to :product
+  belongs_to :area
   has_many :daily_price_rules, dependent: :destroy
   accepts_nested_attributes_for :daily_price_rules, reject_if: proc {|attributes| attributes["price"].blank?}
 

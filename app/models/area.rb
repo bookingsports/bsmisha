@@ -22,6 +22,10 @@ class Area < ActiveRecord::Base
   has_many :coaches_areas
   has_many :coaches, through: :coaches_areas
   has_many :events
+  has_many :prices
+
+  validates :name, :stadium_id, presence: true
+  validates :change_price, numericality: { greater_than_or_equal_to: 0 }
 
   def display_name
     "#{stadium_id.present? ? stadium.name + " - " : "" }#{name}"
