@@ -6,32 +6,34 @@
 #  start                :datetime
 #  end                  :datetime
 #  description          :string
+#  coach_id             :integer
+#  area_id              :integer
 #  order_id             :integer
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
+#  user_id              :integer
 #  recurrence_rule      :string
 #  recurrence_exception :string
 #  recurrence_id        :integer
 #  is_all_day           :boolean
-#  user_id              :integer
-#  product_id           :integer
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
 #
 
 require 'rails_helper'
 
 RSpec.describe Event do
-  let(:event) { create(:event, start: Time.zone.parse('2016-02-29 14:00')) }
+  let(:event) { create(:event, start: Time.zone.parse('14:00')+1.day) }
 
   context 'associations' do
     it { should belong_to(:user) }
     it { should belong_to(:order) }
-    it { should belong_to(:product) }
+    it { should belong_to(:area) }
+    it { should belong_to(:coach) }
 
     it { should have_many(:event_changes) }
     it { should have_many(:additional_event_items) }
     it { should have_many(:special_prices) }
 
-    it { should have_and_belong_to_many(:product_services) }
+    it { should have_and_belong_to_many(:stadium_services) }
   end
 
   context 'validations' do
@@ -39,20 +41,20 @@ RSpec.describe Event do
     it { should validate_presence_of(:end) }
     it { should validate_presence_of(:order_id) }
     it { should validate_presence_of(:user_id) }
-    it { should validate_presence_of(:product_id) }
+    it { should validate_presence_of(:area_id) }
 
     it 'should validate that end is greater than start at least 30 min.' do
-      event = build(:event, start: Time.now, end: Time.now)
+      event = build(:event, start: Time.zone.parse('12:00')+1.day, end: Time.zone.parse('12:00')+1.day)
       expect(event.valid?).to be false
       expect(event.errors['end'].count).to eq 1
 
-      event = build(:event, start: Time.now, end: Time.now+29.minutes)
+      event = build(:event, start: Time.zone.parse('12:00')+1.day, end: Time.zone.parse('12:29')+1.day)
       expect(event.valid?).to be false
 
-      event = build(:event, start: Time.now, end: Time.now+30.minutes)
+      event = build(:event, start: Time.zone.parse('12:00')+1.day, end: Time.zone.parse('12:30')+1.day)
       expect(event.valid?).to be true
 
-      event = build(:event, start: Time.now, end: Time.now-1.minute)
+      event = build(:event, start: Time.zone.parse('12:00')+1.day, end: Time.zone.parse('11:59')+1.day)
       expect(event.valid?).to be false
     end
 
@@ -245,7 +247,7 @@ RSpec.describe Event do
           let(:stadium_service) { create(:stadium_service, service: service, stadium: stadium, price: 10, periodic: true) }
 
           before :each do
-            event.product = area
+            event.area = area
             event.stadium_services << stadium_service
             event.end = event.start + 3.hours
           end

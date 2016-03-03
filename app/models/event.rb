@@ -6,15 +6,16 @@
 #  start                :datetime
 #  end                  :datetime
 #  description          :string
+#  coach_id             :integer
+#  area_id              :integer
 #  order_id             :integer
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
+#  user_id              :integer
 #  recurrence_rule      :string
 #  recurrence_exception :string
 #  recurrence_id        :integer
 #  is_all_day           :boolean
-#  user_id              :integer
-#  product_id           :integer
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
 #
 
 class Event < ActiveRecord::Base
