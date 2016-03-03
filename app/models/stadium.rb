@@ -34,7 +34,7 @@ class Stadium < ActiveRecord::Base
   has_one :account, as: :accountable
 
   accepts_nested_attributes_for :areas, reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :user
+  accepts_nested_attributes_for :user, :account
 
   has_many :stadium_services, dependent: :destroy
   has_many :services, through: :stadium_services
