@@ -23,7 +23,6 @@
 
 FactoryGirl.define do
   factory :stadium do
-    user
     category nil
     user
     name "MyString"

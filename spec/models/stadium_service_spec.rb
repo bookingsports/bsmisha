@@ -15,9 +15,11 @@ require 'rails_helper'
 
 describe StadiumService do
   before(:each) do
-    @stadium = create(:stadium, name: "Stadium")
+    @stadium_user = create(:stadium_user)
+    @stadium = @stadium_user.stadium
+    @stadium.update(name: "Stadium")
     @service = create(:service, name: "Service")
-    @stadium_service = @stadium.stadium_services.create service: @service, price: 500
+    @stadium_service = @stadium.stadium_services.create service: @service
   end
 
   it { should belong_to(:stadium) }
@@ -26,9 +28,6 @@ describe StadiumService do
 
   describe ".user" do
     it "should be delegated to stadium" do
-      @stadium_user = create(:stadium_user)
-      @stadium2 = @stadium_user.stadium
-      @stadium_service = @stadium2.stadium_services.create
       expect(@stadium_service.user).to eq @stadium_user
     end
   end

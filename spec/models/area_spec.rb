@@ -23,7 +23,9 @@ describe Area, type: :model  do
   it { should have_many(:coaches) }
 
   before(:each) do
-    @stadium = create(:stadium, name: "Stadium")
+    @stadium_user = create(:stadium_user)
+    @stadium = @stadium_user.stadium
+    @stadium.update(name: "Stadium")
     @area = @stadium.areas.first
     @area.update name: "Main"
   end
