@@ -14,6 +14,7 @@ module StadiumConcern
         field :category
         field :user
         field :slug
+        field :account
         field :address
         field :email
         field :description
@@ -32,6 +33,7 @@ module StadiumConcern
         field :category
         field :user
         field :slug
+        field :account
         field :address
         field :email
         field :description, :ck_editor
@@ -49,6 +51,7 @@ module StadiumConcern
         field :category
         field :user
         field :slug
+        field :account
         field :address
         field :email
         field :description

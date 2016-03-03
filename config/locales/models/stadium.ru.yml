@@ -26,6 +26,7 @@ ru:
         main_image: Главное изображение
         status: Статус
         services: Услуги
+        account: Реквизиты
         opens_at: Открывается в
         closes_at: Закрывается в
         created_at: Дата создания

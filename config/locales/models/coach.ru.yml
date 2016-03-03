@@ -11,5 +11,6 @@ ru:
         user: Пользователь
         description: Описание
         coaches_areas: Площадки тренера
+        account: Реквизиты
         created_at: Дата создания
         updated_at: Дата изменения

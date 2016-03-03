@@ -12,6 +12,7 @@ module CoachConcern
         field :user
         field :description
         field :coaches_areas
+        field :account
         field :created_at
         field :updated_at
       end
@@ -20,6 +21,7 @@ module CoachConcern
         field :user
         field :description
         field :coaches_areas
+        field :account
         field :created_at
         field :updated_at
       end
@@ -27,6 +29,7 @@ module CoachConcern
         field :user
         field :description
         field :coaches_areas
+        field :account
       end
     end
   end
