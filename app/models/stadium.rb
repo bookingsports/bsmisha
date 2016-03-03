@@ -52,6 +52,8 @@ class Stadium < ActiveRecord::Base
 
   enum status: [:pending, :active, :locked]
 
+  validates :user, presence: true
+
   def make_area
     areas.create! name: 'Основная'
   end
