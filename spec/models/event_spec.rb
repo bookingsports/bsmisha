@@ -41,12 +41,46 @@ RSpec.describe Event do
     it { should validate_presence_of(:user_id) }
     it { should validate_presence_of(:product_id) }
 
-    it 'should validate that end is more than start at least 30 min.' do
+    it 'should validate that end is greater than start at least 30 min.' do
       event = build(:event, start: Time.now, end: Time.now)
       expect(event.valid?).to be false
-    end
-  end
+      expect(event.errors['end'].count).to eq 1
 
+      event = build(:event, start: Time.now, end: Time.now+29.minutes)
+      expect(event.valid?).to be false
+
+      event = build(:event, start: Time.now, end: Time.now+30.minutes)
+      expect(event.valid?).to be true
+
+      event = build(:event, start: Time.now, end: Time.now-1.minute)
+      expect(event.valid?).to be false
+    end
+
+    it 'should validate if start or end is not according step 30min.' do
+      event = build(:event, start: Time.now + 1.minute)
+      expect(event.valid?).to be false
+      expect(event.errors['start'].count).to eq 1
+
+      event = build(:event, start: Time.zone.parse('12:00')+1.day, end: Time.zone.parse('13:05')+1.day)
+      expect(event.valid?).to be false
+      expect(event.errors['end'].count).to eq 1
+
+      event = build(:event, start: Time.zone.parse('11:59')+1.day, end: Time.zone.parse('13:05')+1.day)
+      expect(event.valid?).to be false
+      expect(event.errors.count).to eq 2
+
+      event = build(:event, start: Time.zone.parse('11:00')+1.day, end: Time.zone.parse('13:00')+1.day)
+      expect(event.valid?).to be true
+      expect(event.errors.count).to eq 0
+    end
+
+    it 'should validate that start is not in the past' do
+      event = build(:event, start: Time.zone.parse('12:30') - 1.day)
+      expect(event.valid?).to be false
+      expect(event.errors['start'].count).to eq 1
+    end
+
+  end
 
   context 'scopes' do
     describe '.paid_or_owned_by user' do

@@ -23,6 +23,7 @@ class Event < ActiveRecord::Base
   has_paper_trail
 
   validates :start, :end, :order_id, :user_id, :area_id, presence: true
+  validate :end_greater_than_start, :start_is_not_in_the_past, :step_by_30_min
 
   belongs_to :user
   belongs_to :order
@@ -155,6 +156,26 @@ class Event < ActiveRecord::Base
   private
     def self.order_is(status)
       Order.arel_table['status'].eq(Order.statuses[status])
+    end
+
+    def end_greater_than_start
+      if self.end - start < 30.minutes
+        errors.add(:end, "can't be less than start at least 30 min.")
+      end
+    end
+
+    def start_is_not_in_the_past
+      if start < Time.now
+        errors.add(:start, "can't be in the past")
+      end
+    end
+
+    def step_by_30_min
+      [:start, :end].each do |time|
+        if self[time].min % 30 != 0
+          errors.add(time, 'minutes can be only 30 or 0')
+        end
+      end
     end
 
     def build_schedule
