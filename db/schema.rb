@@ -146,7 +146,7 @@ ActiveRecord::Schema.define(version: 20160219204852) do
 
   create_table "events", force: :cascade do |t|
     t.datetime "start"
-    t.datetime "end"
+    t.datetime "stop"
     t.string   "description"
     t.integer  "coach_id"
     t.integer  "area_id"

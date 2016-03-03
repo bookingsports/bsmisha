@@ -4,7 +4,7 @@
 #
 #  id                   :integer          not null, primary key
 #  start                :datetime
-#  end                  :datetime
+#  stop                 :datetime
 #  description          :string
 #  coach_id             :integer
 #  area_id              :integer
@@ -23,8 +23,8 @@ class Event < ActiveRecord::Base
 
   has_paper_trail
 
-  validates :start, :end, :order_id, :user_id, :area_id, presence: true
-  validate :end_greater_than_start, :start_is_not_in_the_past, :step_by_30_min
+  validates :start, :stop, :order_id, :user_id, :area_id, presence: true
+  validate :stop_greater_than_start, :start_is_not_in_the_past, :step_by_30_min, unless: 'start.blank? or stop.blank?'
 
   belongs_to :user
   belongs_to :order
@@ -36,7 +36,7 @@ class Event < ActiveRecord::Base
   has_many :additional_event_items, dependent: :destroy
 
   #has_many :special_prices, -> {
-  #  where("('start' >= :event_start AND 'start < :event_end) OR ('end' > :event_start AND 'end' <= #:event_end) OR ('start' < :event_start AND 'end' > :event_end)", event_start: start, event_end: #self.end)
+  #  where("('start' >= :event_start AND 'start < :event_stop) OR ('stop' > :event_start AND 'stop' <= #:event_stop) OR ('start' < :event_start AND 'stop' > :event_stop)", event_start: start, event_stop: stop)
   #}, through: :area
 
   has_and_belongs_to_many :stadium_services
@@ -50,13 +50,13 @@ class Event < ActiveRecord::Base
   scope :paid, -> { joins(:order).where order_is :paid }
   scope :unpaid, -> { joins(:order).where order_is :unpaid }
 
-  scope :past, -> { where arel_table['end'].lt Time.now }
+  scope :past, -> { where arel_table['stop'].lt Time.now }
   scope :future, -> { where arel_table['start'].gt Time.now }
 
   after_initialize :build_schedule
 
   def name
-    "Событие с #{start} по #{self.end}"
+    "Событие с #{start} по #{stop}"
   end
 
   def total
@@ -68,7 +68,7 @@ class Event < ActiveRecord::Base
   end
 
   def associated_payables_with_price
-    associated_payables.map {|p| {area: p, total: p.price_for_event(self) * occurrences}}
+    associated_payables.map {|p| {product: p, total: p.price_for_event(self) * occurrences}}
   end
 
   def duration_in_hours
@@ -76,7 +76,7 @@ class Event < ActiveRecord::Base
   end
 
   def duration
-    self.end - start
+    stop - start
   end
 
   def occurrences
@@ -122,9 +122,9 @@ class Event < ActiveRecord::Base
     end
   end
 
-  def end_for(user)
+  def stop_for(user)
     if self.user == user
-      self.end
+      stop
     else
       end_before_change
     end
@@ -139,19 +139,11 @@ class Event < ActiveRecord::Base
   end
 
   def end_before_change
-    event_before_change ? Time.zone.parse(event_before_change["end"]) : attributes["end"]
+    event_before_change ? Time.zone.parse(event_before_change["stop"]) : attributes["stop"]
   end
 
   def event_before_change
     @event_before_change ||= JSON.parse(event_changes.unpaid.last.summary) if event_changes.unpaid.last
-  end
-
-  def start
-    attributes["start"]
-  end
-
-  def end
-    attributes["end"]
   end
 
   private
@@ -159,9 +151,9 @@ class Event < ActiveRecord::Base
       Order.arel_table['status'].eq(Order.statuses[status])
     end
 
-    def end_greater_than_start
-      if self.end - start < 30.minutes
-        errors.add(:end, "can't be less than start at least 30 min.")
+    def stop_greater_than_start
+      if stop - start < 30.minutes
+        errors.add(:stop, "can't be less than start at least 30 min.")
       end
     end
 
@@ -172,7 +164,7 @@ class Event < ActiveRecord::Base
     end
 
     def step_by_30_min
-      [:start, :end].each do |time|
+      [:start, :stop].each do |time|
         if self[time].min % 30 != 0
           errors.add(time, 'minutes can be only 30 or 0')
         end

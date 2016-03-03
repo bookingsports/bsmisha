@@ -2,7 +2,7 @@ class CreateEvents < ActiveRecord::Migration
   def change
     create_table :events do |t|
       t.datetime :start
-      t.datetime :end
+      t.datetime :stop
       t.string :description
       t.belongs_to :coach, index: true, foreign_key: true
       t.belongs_to :area, index: true, foreign_key: true

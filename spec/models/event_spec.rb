@@ -4,7 +4,7 @@
 #
 #  id                   :integer          not null, primary key
 #  start                :datetime
-#  end                  :datetime
+#  stop                 :datetime
 #  description          :string
 #  coach_id             :integer
 #  area_id              :integer
@@ -21,7 +21,7 @@
 require 'rails_helper'
 
 RSpec.describe Event do
-  let(:event) { create(:event, start: Time.zone.parse('14:00')+1.day) }
+  let(:event) { create(:event, start: Time.zone.parse('14:00')+1.day, stop: Time.zone.parse('15:00')+1.day) }
 
   context 'associations' do
     it { should belong_to(:user) }
@@ -31,47 +31,49 @@ RSpec.describe Event do
 
     it { should have_many(:event_changes) }
     it { should have_many(:additional_event_items) }
-    it { should have_many(:special_prices) }
+    #it { should have_many(:special_prices) }
 
     it { should have_and_belong_to_many(:stadium_services) }
   end
 
   context 'validations' do
+    subject { build(:event) }
+
     it { should validate_presence_of(:start) }
-    it { should validate_presence_of(:end) }
+    it { should validate_presence_of(:stop) }
     it { should validate_presence_of(:order_id) }
     it { should validate_presence_of(:user_id) }
     it { should validate_presence_of(:area_id) }
 
-    it 'should validate that end is greater than start at least 30 min.' do
-      event = build(:event, start: Time.zone.parse('12:00')+1.day, end: Time.zone.parse('12:00')+1.day)
+    it 'should validate that stop is greater than start at least 30 min.' do
+      event = build(:event, start: Time.zone.parse('12:00')+1.day, stop: Time.zone.parse('12:00')+1.day)
       expect(event.valid?).to be false
-      expect(event.errors['end'].count).to eq 1
+      expect(event.errors['stop'].count).to eq 1
 
-      event = build(:event, start: Time.zone.parse('12:00')+1.day, end: Time.zone.parse('12:29')+1.day)
+      event = build(:event, start: Time.zone.parse('12:00')+1.day, stop: Time.zone.parse('12:29')+1.day)
       expect(event.valid?).to be false
 
-      event = build(:event, start: Time.zone.parse('12:00')+1.day, end: Time.zone.parse('12:30')+1.day)
+      event = build(:event, start: Time.zone.parse('12:00')+1.day, stop: Time.zone.parse('12:30')+1.day)
       expect(event.valid?).to be true
 
-      event = build(:event, start: Time.zone.parse('12:00')+1.day, end: Time.zone.parse('11:59')+1.day)
+      event = build(:event, start: Time.zone.parse('12:00')+1.day, stop: Time.zone.parse('11:59')+1.day)
       expect(event.valid?).to be false
     end
 
-    it 'should validate if start or end is not according step 30min.' do
+    it 'should validate if start or stop is not according step 30min.' do
       event = build(:event, start: Time.now + 1.minute)
       expect(event.valid?).to be false
       expect(event.errors['start'].count).to eq 1
 
-      event = build(:event, start: Time.zone.parse('12:00')+1.day, end: Time.zone.parse('13:05')+1.day)
+      event = build(:event, start: Time.zone.parse('12:00')+1.day, stop: Time.zone.parse('13:05')+1.day)
       expect(event.valid?).to be false
-      expect(event.errors['end'].count).to eq 1
+      expect(event.errors['stop'].count).to eq 1
 
-      event = build(:event, start: Time.zone.parse('11:59')+1.day, end: Time.zone.parse('13:05')+1.day)
+      event = build(:event, start: Time.zone.parse('11:59')+1.day, stop: Time.zone.parse('13:05')+1.day)
       expect(event.valid?).to be false
       expect(event.errors.count).to eq 2
 
-      event = build(:event, start: Time.zone.parse('11:00')+1.day, end: Time.zone.parse('13:00')+1.day)
+      event = build(:event, start: Time.zone.parse('11:00')+1.day, stop: Time.zone.parse('13:00')+1.day)
       expect(event.valid?).to be true
       expect(event.errors.count).to eq 0
     end
@@ -81,7 +83,6 @@ RSpec.describe Event do
       expect(event.valid?).to be false
       expect(event.errors['start'].count).to eq 1
     end
-
   end
 
   context 'scopes' do
@@ -117,8 +118,11 @@ RSpec.describe Event do
 
     describe '.past and .future' do
       it 'should return past and future events' do
-        3.times { create(:past_event) }
-        2.times { create(:future_event) }
+        Timecop.freeze(Date.today - 10) do
+          3.times { create(:event) }
+        end
+
+        2.times { create(:event) }
 
         expect(Event.past.count).to eq 3
         expect(Event.future.count).to eq 2
@@ -129,7 +133,8 @@ RSpec.describe Event do
   context 'methods' do
     describe '#name' do
       it 'should show title for event' do
-        event.end = event.start + 2.5.hours
+        event = build(:event, start: Time.zone.parse('2016-02-29 14:00'))
+        event.stop = event.start + 2.5.hours
         expect(event.name).to eq 'Событие с 2016-02-29 14:00 по 2016-02-29 16:30'
       end
     end
@@ -147,18 +152,18 @@ RSpec.describe Event do
 
     describe '#duration_in_hours' do
       it 'shows duration in hours' do
-        event.end = event.start + 2.5.hours
+        event.stop = event.start + 2.5.hours
 
         expect(event.duration_in_hours).to eq 2.5
       end
     end
 
     describe '#event_associated_payables' do
-      it 'should return product and stadium_services in one array' do
+      it 'should return area and stadium_services in one array' do
         area = create(:area)
         stadium_service = create(:stadium_service)
 
-        event.product = area
+        event.area = area
         event.stadium_services = [stadium_service]
 
         expect(event.associated_payables).to eq [area, stadium_service]
@@ -166,14 +171,14 @@ RSpec.describe Event do
     end
 
     describe '#event_associated_payables_with_price' do
-      context 'should return hash with product and total price for each associated payable' do
+      context 'should return hash with area and total price for each associated payable' do
         context 'without special prices' do
           let(:area) { create(:area, price: 125.0) }
           let(:stadium_service) { create(:stadium_service, price: 258.0, periodic: true) }
-          let(:event) { create(:event, start: Time.zone.parse('14:00'), product: area, stadium_services: [stadium_service]) }
+          let(:event) { create(:event, start: Time.zone.parse('14:00')+1.day, area: area, stadium_services: [stadium_service]) }
 
           it 'for one hour' do
-            event.end = event.start + 1.hour
+            event.stop = event.start + 1.hour
 
             expect(event.associated_payables_with_price).to eq [
               {product: area, total: 125.0},
@@ -182,7 +187,7 @@ RSpec.describe Event do
           end
 
           it 'for integer duration' do
-            event.end = event.start + 3.hours
+            event.stop = event.start + 3.hours
 
             expect(event.associated_payables_with_price).to eq [
               {product: area, total: 125.0*3},
@@ -192,7 +197,7 @@ RSpec.describe Event do
 
           it 'for not periodic service' do
             stadium_service.periodic = false
-            event.end = event.start + 3.hours
+            event.stop = event.start + 3.hours
 
             expect(event.associated_payables_with_price).to eq [
               {product: area, total: 125.0*3},
@@ -201,7 +206,7 @@ RSpec.describe Event do
           end
 
           it 'for float duration' do
-            event.end = event.start + 3.5.hours
+            event.stop = event.start + 3.5.hours
 
             expect(event.associated_payables_with_price).to eq [
               {product: area, total: 125*3.5},
@@ -211,7 +216,7 @@ RSpec.describe Event do
 
           it 'with 10 occurrences' do
             event.recurrence_rule = 'FREQ=DAILY;COUNT=10'
-            event.end = event.start + 3.5.hours
+            event.stop = event.start + 3.5.hours
 
             expect(event.associated_payables_with_price).to eq [
               {product: area, total: 125*3.5*10},
@@ -225,8 +230,8 @@ RSpec.describe Event do
         it 'shows price of a areas hour' do
           area = create(:area, price: 100)
 
-          event.end = event.start + 2.hours
-          event.product = area
+          event.stop = event.start + 2.hours
+          event.area = area
 
           expect(event.total).to eq 200.0
         end
@@ -235,8 +240,8 @@ RSpec.describe Event do
           area = create(:area, price: 250)
 
           event.recurrence_rule = 'FREQ=DAILY;COUNT=10'
-          event.product = area
-          event.end = event.start + 3.5.hours
+          event.area = area
+          event.stop = event.start + 3.5.hours
           expect(event.total).to eq 250 * 3.5 * 10
         end
 
@@ -249,7 +254,7 @@ RSpec.describe Event do
           before :each do
             event.area = area
             event.stadium_services << stadium_service
-            event.end = event.start + 3.hours
+            event.stop = event.start + 3.hours
           end
 
           it 'has right total for periodic service' do

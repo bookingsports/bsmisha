@@ -71,7 +71,7 @@ module TennisHelpers
         product: @area,
         stadium_services: [@service, @periodic_service],
         start: Time.zone.parse("12:00:00"),
-        end: Time.zone.parse("14:30:00"),
+        stop: Time.zone.parse("14:30:00"),
         user: @user
       })
 
@@ -79,7 +79,7 @@ module TennisHelpers
         product: @area,
         stadium_services: [@service, @periodic_service],
         start: Time.zone.parse("12:00:00"),
-        end: Time.zone.parse("14:30:00"),
+        stop: Time.zone.parse("14:30:00"),
         user: @user
       })
 
@@ -87,7 +87,7 @@ module TennisHelpers
         product: @area_two,
         stadium_services: [@service, @periodic_service],
         start: Time.zone.parse("12:00:00"),
-        end: Time.zone.parse("14:30:00"),
+        stop: Time.zone.parse("14:30:00"),
         user: @user
       })
 
