@@ -26,6 +26,7 @@ class StadiumUser < User
   include StadiumUserConcern
 
   has_one :stadium, foreign_key: "user_id", dependent: :destroy
+  accepts_nested_attributes_for :stadium
 
   delegate :areas, to: :stadium
 

@@ -284,7 +284,6 @@ ActiveRecord::Schema.define(version: 20160219204852) do
     t.string   "name"
     t.string   "type",                   default: "Customer"
     t.string   "avatar"
-    t.integer  "status",                 default: 0
     t.string   "phone"
     t.datetime "created_at"
     t.datetime "updated_at"

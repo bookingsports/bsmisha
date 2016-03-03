@@ -22,7 +22,6 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.string   :name
       t.string   :type, default: "Customer"
       t.string   :avatar
-      t.integer  :status, default: 0
       t.string   :phone
 
       ## Confirmable

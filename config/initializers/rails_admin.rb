@@ -24,13 +24,15 @@ RailsAdmin.config do |config|
     index
     show
     new do
-      except [Coach]
+      except [Coach, Wallet, Stadium, Account]
     end
     nestable
     export
     bulk_delete
     edit
-    delete
+    delete do
+      except [Coach, Wallet, Stadium, Account]
+    end
     history_index
     history_show
   end

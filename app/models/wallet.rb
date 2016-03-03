@@ -18,6 +18,8 @@ class Wallet < ActiveRecord::Base
   has_many :withdrawals, dependent: :destroy
   has_many :withdrawal_requests, dependent: :destroy
 
+  validates :user, presence: true
+
   def name
     "Кошелек №#{id} #{user_id.present? ? "пользователя " + user.name.to_s : ""}"
   end

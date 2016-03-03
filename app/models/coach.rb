@@ -19,6 +19,7 @@ class Coach < ActiveRecord::Base
   has_many :coaches_areas
   has_many :areas, through: :coaches_areas
   validate :has_at_least_one_area, on: :stadium_dashboard
+  validates :user, presence: true
 
   has_one :account, as: :accountable
   after_create :create_account
@@ -26,7 +27,7 @@ class Coach < ActiveRecord::Base
   delegate :name, to: :user
   friendly_id :name, use: [:slugged]
 
-  accepts_nested_attributes_for :user
+  accepts_nested_attributes_for :user, :account
 
   delegate :email, to: :user
 

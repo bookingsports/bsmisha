@@ -11,6 +11,7 @@ module StadiumUserConcern
         field :avatar
         field :status
         field :wallet
+        field :stadium
         field :phone
       end
 
@@ -22,6 +23,7 @@ module StadiumUserConcern
         field :avatar
         field :wallet
         field :status
+        field :stadium
         field :phone
       end
 
@@ -31,6 +33,7 @@ module StadiumUserConcern
         field :avatar
         field :status
         field :wallet
+        field :stadium
         field :phone
       end
     end
