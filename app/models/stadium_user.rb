@@ -27,33 +27,17 @@ class StadiumUser < User
   has_one :stadium, foreign_key: "user_id", dependent: :destroy
   accepts_nested_attributes_for :stadium
 
-  delegate :areas, to: :stadium
+  has_many :areas, through: :stadium
 
   enum status: [:pending, :active]
 
   after_create :create_stadium
 
-  def name
-    attributes["name"] || attributes["email"]
+  def stadium_events
+    Event.where area_id: area_ids
   end
 
   def prices
     (stadium.prices.to_a + stadium.areas.map { |area| area.prices.to_a }.flatten).uniq
-  end
-
-  def products
-    stadium.areas
-  end
-
-  def events
-    Event.where(id: event_ids)
-  end
-
-  def event_ids
-    products.flat_map {|product| product.events}.map(&:id)
-  end
-
-  def new_event options={}
-    Event.new options.merge(user_id: self.id)
   end
 end
