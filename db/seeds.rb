@@ -7,11 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 def create_user(model, email, password)
-  user = model.find_or_create_by!(email: email) do |user|
-    user.name = "Test User"
-    user.password = password
-    user.password_confirmation = password
-  end
+  user = model.create! email: email, name: "Test User", password: password, password_confirmation: password
 
   puts "CREATED #{model.to_s} USER: " << user.email
   user
@@ -31,17 +27,17 @@ stadium_addresses = ["ул. Большая Филевская, 20, Москва,
 (0..3).each do |number|
   stadium_user = create_user(StadiumUser, "stadium#{number}@bookingsports.ru", 'changeme')
   stadium_user.stadium.update(name: stadium_names[number], category: Category.where(name: categories[number]).first, phone: '+7985444484', address: stadium_addresses[number], status: :active, opens_at: "07:00", closes_at: "23:00")
-  stadium_user.stadium.courts.create! name: 'Первый', price: 500
-  stadium_user.stadium.courts.create! name: 'Второй', price: 1000
+  stadium_user.stadium.areas.create! name: 'Первая', price: 500
+  stadium_user.stadium.areas.create! name: 'Вторая', price: 1000
   stadium_user.wallet.deposits.create amount: 100000, status: :active
 
   service = Service.create name: "Инструктор"
-  product_service = stadium_user.stadium.product_services.create price: 500, service: service
+  stadium_service = stadium_user.stadium.stadium_services.create price: 500, service: service
 
-  stadium_user.account.update(number: "30101810200000000700", company: "АО “Райффайзенбанк”, 129090, Россия, г. Москва, ул. Троицкая, д.17/1", inn: "7744000302", kpp: "775001001", bik: "044525700", agreement_number: "1234567890", date: Time.now)
+  stadium_user.stadium.account.update(number: "30101810200000000700", company: "АО “Райффайзенбанк”, 129090, Россия, г. Москва, ул. Троицкая, д.17/1", inn: "7744000302", kpp: "775001001", bik: "044525700", agreement_number: "1234567890", date: Time.now)
 end
 
-coach_user.account.update(number: "30101810200000000700", company: "АО “Райффайзенбанк”, 129090, Россия, г. Москва, ул. Троицкая, д.17/1", inn: "7744000302", kpp: "775001001", bik: "044525700", agreement_number: "1234567890", date: Time.now)
+coach_user.coach.account.update(number: "30101810200000000700", company: "АО “Райффайзенбанк”, 129090, Россия, г. Москва, ул. Троицкая, д.17/1", inn: "7744000302", kpp: "775001001", bik: "044525700", agreement_number: "1234567890", date: Time.now)
 
 customer.wallet.deposits.create amount: 100000, status: :active
 coach_user.wallet.deposits.create amount: 100000, status: :active
