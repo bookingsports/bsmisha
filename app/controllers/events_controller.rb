@@ -4,7 +4,7 @@
 #
 #  id                   :integer          not null, primary key
 #  start                :datetime
-#  end                  :datetime
+#  stop                 :datetime
 #  description          :string
 #  coach_id             :integer
 #  area_id              :integer

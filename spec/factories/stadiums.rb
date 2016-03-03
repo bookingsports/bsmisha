@@ -24,7 +24,7 @@
 FactoryGirl.define do
   factory :stadium do
     category nil
-    user nil
+    user
     name "MyString"
     phone "MyString"
     latitude 55.747655
