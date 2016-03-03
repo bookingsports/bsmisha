@@ -33,7 +33,6 @@ class User < ActiveRecord::Base
 
   has_many :orders, dependent: :destroy
   has_many :events
-  has_many :event_changes, through: :events
   has_one :wallet, dependent: :destroy
   accepts_nested_attributes_for :wallet
 

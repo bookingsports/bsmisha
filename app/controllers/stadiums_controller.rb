@@ -14,7 +14,7 @@
 #  slug        :string
 #  status      :integer          default(0)
 #  email       :string
-#  avatar      :string
+#  main_image  :string
 #  opens_at    :time
 #  closes_at   :time
 #  created_at  :datetime

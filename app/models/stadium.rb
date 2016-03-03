@@ -14,7 +14,7 @@
 #  slug        :string
 #  status      :integer          default(0)
 #  email       :string
-#  avatar      :string
+#  main_image  :string
 #  opens_at    :time
 #  closes_at   :time
 #  created_at  :datetime
@@ -28,7 +28,6 @@ class Stadium < ActiveRecord::Base
   belongs_to :user
   belongs_to :category, inverse_of: :stadiums
   has_many :areas, dependent: :destroy
-  has_many :events, through: :areas
   has_many :pictures, as: :imageable
   has_many :reviews, as: :reviewable
 
@@ -49,7 +48,7 @@ class Stadium < ActiveRecord::Base
   default_scope -> { order(created_at: :desc) }
 
   friendly_id :name, use: [:slugged]
-  mount_uploader :avatar, PictureUploader
+  mount_uploader :main_image, PictureUploader
 
   enum status: [:pending, :active, :locked]
 

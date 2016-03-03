@@ -23,7 +23,9 @@ RailsAdmin.config do |config|
     dashboard
     index
     show
-    new
+    new do
+      except [Coach]
+    end
     nestable
     export
     bulk_delete

@@ -12,52 +12,34 @@ module AreaConcern
         :display_name
       end
       list do
-        field :category
-        field :user
-        field :email
+        field :name
         field :description
-        field :latitude
-        field :longitude
-        field :pictures
-        field :created_at
-        field :updated_at
-        field :avatar
-        field :status
-        field :price
         field :opens_at
         field :closes_at
+        field :stadium
+        field :events
+        field :created_at
+        field :updated_at
       end
 
       edit do
-        field :category
-        field :user
-        field :email
+        field :name
         field :description
-        field :latitude
-        field :longitude
-        field :pictures
-        field :avatar
-        field :status
-        field :price
         field :opens_at
         field :closes_at
+        field :stadium
+        field :events
       end
 
       show do
-        field :category
-        field :user
-        field :email
+field :name
         field :description
-        field :latitude
-        field :longitude
-        field :pictures
-        field :created_at
-        field :updated_at
-        field :avatar
-        field :status
-        field :price
         field :opens_at
         field :closes_at
+        field :stadium
+        field :events
+        field :created_at
+        field :updated_at
       end
     end
   end
