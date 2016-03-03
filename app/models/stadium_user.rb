@@ -16,7 +16,6 @@
 #  name                   :string
 #  type                   :string           default("Customer")
 #  avatar                 :string
-#  status                 :integer          default(0)
 #  phone                  :string
 #  created_at             :datetime
 #  updated_at             :datetime
@@ -38,8 +37,8 @@ class StadiumUser < User
     attributes["name"] || attributes["email"]
   end
 
-  def special_prices
-    (stadium.special_prices.to_a + stadium.areas.map { |area| area.special_prices.to_a }.flatten).uniq
+  def prices
+    (stadium.prices.to_a + stadium.areas.map { |area| area.prices.to_a }.flatten).uniq
   end
 
   def products

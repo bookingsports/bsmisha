@@ -31,7 +31,7 @@ RSpec.describe Event do
 
     it { should have_many(:event_changes) }
     it { should have_many(:additional_event_items) }
-    #it { should have_many(:special_prices) }
+    #it { should have_many(:prices) }
 
     it { should have_and_belong_to_many(:stadium_services) }
   end
@@ -172,7 +172,7 @@ RSpec.describe Event do
 
     describe '#event_associated_payables_with_price' do
       context 'should return hash with area and total price for each associated payable' do
-        context 'without special prices' do
+        context 'without prices' do
           let(:area) { create(:area, price: 125.0) }
           let(:stadium_service) { create(:stadium_service, price: 258.0, periodic: true) }
           let(:event) { create(:event, start: Time.zone.parse('14:00')+1.day, area: area, stadium_services: [stadium_service]) }

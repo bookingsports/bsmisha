@@ -12,9 +12,9 @@
       - @product.areas.each do |cc|
         = active_link_to [cc.name, cc.category.try(:name)].compact.join(', '), url_for([@product, cc]), active: /areas\/#{cc.to_param}/, wrap_tag: :li
     h4 Стоимость занятий
-    - if @area.special_prices.current.present?
+    - if @area.prices.current.present?
       ul.list-group
-        - @area.special_prices.current.daily_price_rules.each do |rule|
+        - @area.prices.current.daily_price_rules.each do |rule|
           li.list-group-item
             = rule.working_days.map{|d| d.present? ? t(:"date.abbr_day_names").at(d.to_i) : nil}.join(', ') + ': '
             = rule.start + ' - ' + rule.stop

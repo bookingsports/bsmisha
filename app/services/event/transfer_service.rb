@@ -65,7 +65,7 @@ class Event::TransferService
     end
 
     def new_price_is_higher?
-      if area.special_prices.any?
+      if area.prices.any?
         event.total < new_total
       else
         # Если у площадки нет специальных цен, подразумевается, что цена на весь
@@ -100,11 +100,11 @@ class Event::TransferService
       @new_total
     end
 
-    def related_special_price
-      @related_special_price ||= begin
-        area.special_prices.to_a.detect do |special_price|
-          (special_price.start <= new_start && special_price.stop >= new_start) ||
-          (special_price.start <= new_end && special_price.stop >= new_end)
+    def related_price
+      @related_price ||= begin
+        area.prices.to_a.detect do |price|
+          (price.start <= new_start && price.stop >= new_start) ||
+          (price.start <= new_end && price.stop >= new_end)
         end
       end
     end

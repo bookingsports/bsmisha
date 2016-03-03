@@ -89,16 +89,16 @@ ActiveRecord::Schema.define(version: 20160219204852) do
   add_index "coaches_areas", ["coach_id"], name: "index_coaches_areas_on_coach_id", using: :btree
 
   create_table "daily_price_rules", force: :cascade do |t|
-    t.integer  "special_price_id"
+    t.integer  "price_id"
     t.string   "start"
     t.string   "stop"
     t.integer  "price"
-    t.integer  "working_days",     default: [],              array: true
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.integer  "working_days", default: [],              array: true
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
-  add_index "daily_price_rules", ["special_price_id"], name: "index_daily_price_rules_on_special_price_id", using: :btree
+  add_index "daily_price_rules", ["price_id"], name: "index_daily_price_rules_on_price_id", using: :btree
 
   create_table "deposit_requests", force: :cascade do |t|
     t.integer  "wallet_id"
@@ -195,6 +195,18 @@ ActiveRecord::Schema.define(version: 20160219204852) do
 
   add_index "pictures", ["imageable_type", "imageable_id"], name: "index_pictures_on_imageable_type_and_imageable_id", using: :btree
 
+  create_table "prices", force: :cascade do |t|
+    t.datetime "start"
+    t.datetime "stop"
+    t.integer  "price"
+    t.boolean  "is_sale"
+    t.integer  "area_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "prices", ["area_id"], name: "index_prices_on_area_id", using: :btree
+
   create_table "reviews", force: :cascade do |t|
     t.integer  "reviewable_id"
     t.string   "reviewable_type"
@@ -215,18 +227,6 @@ ActiveRecord::Schema.define(version: 20160219204852) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-
-  create_table "special_prices", force: :cascade do |t|
-    t.datetime "start"
-    t.datetime "stop"
-    t.integer  "price"
-    t.boolean  "is_sale"
-    t.integer  "area_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "special_prices", ["area_id"], name: "index_special_prices_on_area_id", using: :btree
 
   create_table "stadium_services", force: :cascade do |t|
     t.integer  "stadium_id"
@@ -348,7 +348,7 @@ ActiveRecord::Schema.define(version: 20160219204852) do
   add_foreign_key "additional_event_items", "events"
   add_foreign_key "areas", "stadiums"
   add_foreign_key "coaches", "users"
-  add_foreign_key "daily_price_rules", "special_prices"
+  add_foreign_key "daily_price_rules", "prices"
   add_foreign_key "deposit_requests", "wallets"
   add_foreign_key "deposit_responses", "deposit_requests"
   add_foreign_key "deposits", "wallets"
@@ -361,8 +361,8 @@ ActiveRecord::Schema.define(version: 20160219204852) do
   add_foreign_key "events_stadium_services", "events"
   add_foreign_key "events_stadium_services", "stadium_services"
   add_foreign_key "orders", "users"
+  add_foreign_key "prices", "areas"
   add_foreign_key "reviews", "users"
-  add_foreign_key "special_prices", "areas"
   add_foreign_key "stadium_services", "services"
   add_foreign_key "stadium_services", "stadiums"
   add_foreign_key "stadiums", "categories"

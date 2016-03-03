@@ -25,13 +25,14 @@ require 'rails_helper'
 
 describe Stadium do
   before(:each) do
-    @stadium = create(:stadium, name: "Stadium")
+    @stadium_user = create(:stadium_user)
+    @stadium = @stadium_user.stadium
+    @stadium.update(name: "Stadium")
   end
 
   it { should belong_to(:user) }
   it { should belong_to(:category) }
   it { should have_many(:areas) }
-  #it { should have_many(:events) }
   it { should have_many(:pictures) }
   it { should have_many(:reviews) }
   it { should have_many(:stadium_services) }
@@ -66,12 +67,10 @@ describe Stadium do
   end
 
   context "address parsing" do
-    it "should update lattitude and longitude after saving a stadium" do
-      stadium = Stadium.new(address: "Бишкек, ул. Московская, 21")
-
+    it "should update latitude and longitude after saving a stadium" do
       expect {
-        stadium.save
-      }.to change { stadium.latitude }.and change { stadium.longitude }
+        @stadium.update(address: "Бишкек, ул. Московская, 21")
+      }.to change { @stadium.latitude }.and change { @stadium.longitude }
     end
   end
 end

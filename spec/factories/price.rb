@@ -12,7 +12,7 @@
 #  updated_at :datetime         not null
 #
 FactoryGirl.define do
-  factory :special_price do
+  factory :price do
     start { Time.zone.now.beginning_of_year }
     stop { start + Faker::Number.between(1, 12).months }
     price { Faker::Commerce.price }

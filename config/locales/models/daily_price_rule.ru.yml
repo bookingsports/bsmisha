@@ -8,7 +8,7 @@ ru:
         other: ежедневные правила цены
     attributes:
       daily_price_rule:
-        special_price: Специальная цена
+        price: Цена
         start: Начало
         stop: Конец
         price: Цена

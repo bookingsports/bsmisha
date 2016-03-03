@@ -9,7 +9,7 @@ describe Event::TransferService do
   let!(:court) { create(:court, stadium: stadium, price: 100, change_price: 10) }
 >>>>>>> improve_event_specs
   let!(:event) { create(:event) }
-  let!(:special_price) { create(:special_price) }
+  let!(:price) { create(:price) }
   let!(:params) { Hash.new }
   let!(:subject) { described_class.new(event, params) }
 
@@ -21,7 +21,7 @@ describe Event::TransferService do
 >>>>>>> improve_event_specs
     event.save
 
-    area.special_prices << special_price
+    area.prices << price
     area.save
   end
 
