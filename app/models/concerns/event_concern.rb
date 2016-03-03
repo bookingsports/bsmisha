@@ -8,8 +8,10 @@ module EventConcern
         field :start
         field :end
         field :description
-        field :products
+        field :user
         field :order
+        field :coach
+        field :area
         field :created_at
         field :updated_at
         field :recurrence_rule
@@ -25,8 +27,10 @@ module EventConcern
         field :start
         field :end
         field :description
-        field :products
+        field :user
         field :order
+        field :coach
+        field :area
         field :created_at
         field :updated_at
         field :recurrence_rule
@@ -42,8 +46,10 @@ module EventConcern
         field :start
         field :end
         field :description
-        field :products
+        field :user
         field :order
+        field :coach
+        field :area
         field :additional_event_items
         field :event_changes
         field :is_all_day
