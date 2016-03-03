@@ -69,6 +69,16 @@ ActiveRecord::Schema.define(version: 20160219204852) do
 
   add_index "categories", ["ancestry"], name: "index_categories_on_ancestry", using: :btree
 
+  create_table "coaches", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "slug"
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "coaches", ["user_id"], name: "index_coaches_on_user_id", using: :btree
+
   create_table "coaches_areas", force: :cascade do |t|
     t.integer "coach_id"
     t.integer "area_id"
@@ -138,7 +148,8 @@ ActiveRecord::Schema.define(version: 20160219204852) do
     t.datetime "start"
     t.datetime "end"
     t.string   "description"
-    t.integer  "product_id"
+    t.integer  "coach_id"
+    t.integer  "area_id"
     t.integer  "order_id"
     t.integer  "user_id"
     t.string   "recurrence_rule"
@@ -149,8 +160,9 @@ ActiveRecord::Schema.define(version: 20160219204852) do
     t.datetime "updated_at",           null: false
   end
 
+  add_index "events", ["area_id"], name: "index_events_on_area_id", using: :btree
+  add_index "events", ["coach_id"], name: "index_events_on_coach_id", using: :btree
   add_index "events", ["order_id"], name: "index_events_on_order_id", using: :btree
-  add_index "events", ["product_id"], name: "index_events_on_product_id", using: :btree
   add_index "events", ["user_id"], name: "index_events_on_user_id", using: :btree
 
   create_table "events_stadium_services", force: :cascade do |t|
@@ -183,33 +195,6 @@ ActiveRecord::Schema.define(version: 20160219204852) do
 
   add_index "pictures", ["imageable_type", "imageable_id"], name: "index_pictures_on_imageable_type_and_imageable_id", using: :btree
 
-  create_table "products", force: :cascade do |t|
-    t.integer  "category_id"
-    t.integer  "user_id"
-    t.integer  "parent_id"
-    t.string   "name"
-    t.string   "phone"
-    t.text     "description"
-    t.string   "address"
-    t.float    "latitude",     default: 55.75
-    t.float    "longitude",    default: 37.61
-    t.string   "slug"
-    t.integer  "status",       default: 0
-    t.string   "type"
-    t.string   "email"
-    t.string   "avatar"
-    t.float    "price"
-    t.float    "change_price"
-    t.time     "opens_at"
-    t.time     "closes_at"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-  end
-
-  add_index "products", ["category_id"], name: "index_products_on_category_id", using: :btree
-  add_index "products", ["parent_id"], name: "index_products_on_parent_id", using: :btree
-  add_index "products", ["user_id"], name: "index_products_on_user_id", using: :btree
-
   create_table "reviews", force: :cascade do |t|
     t.integer  "reviewable_id"
     t.string   "reviewable_type"
@@ -236,12 +221,12 @@ ActiveRecord::Schema.define(version: 20160219204852) do
     t.datetime "stop"
     t.integer  "price"
     t.boolean  "is_sale"
-    t.integer  "product_id"
+    t.integer  "area_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "special_prices", ["product_id"], name: "index_special_prices_on_product_id", using: :btree
+  add_index "special_prices", ["area_id"], name: "index_special_prices_on_area_id", using: :btree
 
   create_table "stadium_services", force: :cascade do |t|
     t.integer  "stadium_id"
@@ -363,22 +348,22 @@ ActiveRecord::Schema.define(version: 20160219204852) do
 
   add_foreign_key "additional_event_items", "events"
   add_foreign_key "areas", "stadiums"
+  add_foreign_key "coaches", "users"
   add_foreign_key "daily_price_rules", "special_prices"
   add_foreign_key "deposit_requests", "wallets"
   add_foreign_key "deposit_responses", "deposit_requests"
   add_foreign_key "deposits", "wallets"
   add_foreign_key "event_changes", "events"
   add_foreign_key "event_changes", "orders"
+  add_foreign_key "events", "areas"
+  add_foreign_key "events", "coaches"
   add_foreign_key "events", "orders"
-  add_foreign_key "events", "products"
   add_foreign_key "events", "users"
   add_foreign_key "events_stadium_services", "events"
   add_foreign_key "events_stadium_services", "stadium_services"
   add_foreign_key "orders", "users"
-  add_foreign_key "products", "categories"
-  add_foreign_key "products", "users"
   add_foreign_key "reviews", "users"
-  add_foreign_key "special_prices", "products"
+  add_foreign_key "special_prices", "areas"
   add_foreign_key "stadium_services", "services"
   add_foreign_key "stadium_services", "stadiums"
   add_foreign_key "stadiums", "categories"
