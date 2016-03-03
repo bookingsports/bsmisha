@@ -37,7 +37,6 @@ RSpec.describe "Dashboard" do
       })
 
       @coach = Coach.create({
-        price: 100,
         user: @user
       })
 

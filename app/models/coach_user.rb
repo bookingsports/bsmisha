@@ -26,19 +26,13 @@ class CoachUser < User
   include CoachUserConcern
 
   has_one :coach, foreign_key: 'user_id', dependent: :destroy
-  has_one :product, foreign_key: "user_id", dependent: :destroy
+  has_many :areas, through: :coach
 
   accepts_nested_attributes_for :coach
 
-  after_initialize :build_coach, unless: 'coach.present?'
-
-  delegate :description, to: :coach
+  after_create :build_coach
 
   def name
     attributes["name"] || "Тренер ##{id}"
-  end
-
-  def products
-    coach.areas
   end
 end

@@ -21,6 +21,7 @@ class Area < ActiveRecord::Base
   belongs_to :stadium
   has_many :coaches_areas
   has_many :coaches, through: :coaches_areas
+  has_many :events
 
   def display_name
     "#{stadium_id.present? ? stadium.name + " - " : "" }#{name}"
@@ -32,5 +33,9 @@ class Area < ActiveRecord::Base
 
   def kendo_area_id
     stadium.areas.to_a.index(self) % 10
+  end
+
+  def price_for_event event
+    price * event.duration_in_hours
   end
 end

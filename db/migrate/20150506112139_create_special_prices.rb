@@ -5,7 +5,7 @@ class CreateSpecialPrices < ActiveRecord::Migration
       t.datetime :stop
       t.integer :price
       t.boolean :is_sale
-      t.belongs_to :product, index: true, foreign_key: true
+      t.belongs_to :area, index: true, foreign_key: true
 
       t.timestamps null: false
     end
