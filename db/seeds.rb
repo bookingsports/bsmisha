@@ -6,8 +6,8 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-def create_user(model, email, password)
-  user = model.create! email: email, name: "Test User", password: password, password_confirmation: password
+def create_user(model, name, email, password)
+  user = model.create! email: email, name: name, password: password, password_confirmation: password
 
   puts "CREATED #{model.to_s} USER: " << user.email
   user
@@ -16,16 +16,16 @@ end
 categories = ['Теннис', 'Групповые занятия', 'Йога', 'Фитнесс']
 categories.each { |name| Category.create! name: name }
 
-create_user(Admin, 'admin@bookingsports.ru', 'changeme')
+create_user(Admin, "Admin", 'admin@bookingsports.ru', 'changeme')
 
-coach_user = create_user(CoachUser,  'coach@bookingsports.ru', 'changeme')
-customer = create_user(Customer, 'customer@bookingsports.ru', 'changeme')
+coach_user = create_user(CoachUser, "Coach User", 'coach@bookingsports.ru', 'changeme')
+customer = create_user(Customer, 'Customer',  'customer@bookingsports.ru', 'changeme')
 
 stadium_names = ["Opentennis 2015", "Group Stadium", "Yoga Stadium", "Fitness Stadium"]
 stadium_addresses = ["ул. Большая Филевская, 20, Москва, Россия, 121309", "Перовская ул., 20, Москва, Россия, 111398", "ул. Пришвина, 3, Москва, Россия, 127549", "Котляковская ул., 1с17, Москва, Россия, 115201"]
 
 (0..3).each do |number|
-  stadium_user = create_user(StadiumUser, "stadium#{number}@bookingsports.ru", 'changeme')
+  stadium_user = create_user(StadiumUser, "Stadium User #{number}", "stadium#{number}@bookingsports.ru", 'changeme')
   stadium_user.stadium.update(name: stadium_names[number], category: Category.where(name: categories[number]).first, phone: '+7985444484', address: stadium_addresses[number], status: :active, opens_at: "07:00", closes_at: "23:00")
   stadium_user.stadium.areas.create! name: 'Первая', price: 500
   stadium_user.stadium.areas.create! name: 'Вторая', price: 1000
