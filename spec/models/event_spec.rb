@@ -20,6 +20,8 @@
 require 'rails_helper'
 
 RSpec.describe Event do
+  let(:event) { create(:event, start: Time.zone.parse('2016-02-29 14:00')) }
+
   context 'associations' do
     it { should belong_to(:user) }
     it { should belong_to(:order) }
@@ -38,9 +40,13 @@ RSpec.describe Event do
     it { should validate_presence_of(:order_id) }
     it { should validate_presence_of(:user_id) }
     it { should validate_presence_of(:product_id) }
+
+    it 'should validate that end is more than start at least 30 min.' do
+      event = build(:event, start: Time.now, end: Time.now)
+      expect(event.valid?).to be false
+    end
   end
 
-  let(:event) { create(:event, start: Time.zone.parse('2016-02-29 14:00')) }
 
   context 'scopes' do
     describe '.paid_or_owned_by user' do

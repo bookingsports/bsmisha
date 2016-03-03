@@ -23,7 +23,7 @@ FactoryGirl.define do
     self.end { start + Faker::Number.between(1, 3).hour }
     description ''
     is_all_day false
-    association :product, factory: :area
+    area
     order
     user
 
