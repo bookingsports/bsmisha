@@ -6,15 +6,16 @@
 #  start                :datetime
 #  end                  :datetime
 #  description          :string
+#  coach_id             :integer
+#  area_id              :integer
 #  order_id             :integer
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
+#  user_id              :integer
 #  recurrence_rule      :string
 #  recurrence_exception :string
 #  recurrence_id        :integer
 #  is_all_day           :boolean
-#  user_id              :integer
-#  product_id           :integer
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
 #
 
 class Event < ActiveRecord::Base
@@ -33,9 +34,9 @@ class Event < ActiveRecord::Base
   has_many :event_changes, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :additional_event_items, dependent: :destroy
 
-  has_many :special_prices, -> {
-    where("('start' >= :event_start AND 'start < :event_end) OR ('end' > :event_start AND 'end' <= :event_end) OR ('start' < :event_start AND 'end' > :event_end)", event_start: start, event_end: self.end)
-  }, through: :area
+  #has_many :special_prices, -> {
+  #  where("('start' >= :event_start AND 'start < :event_end) OR ('end' > :event_start AND 'end' <= #:event_end) OR ('start' < :event_start AND 'end' > :event_end)", event_start: start, event_end: #self.end)
+  #}, through: :area
 
   has_and_belongs_to_many :stadium_services
 
