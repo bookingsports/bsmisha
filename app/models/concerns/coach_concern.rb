@@ -9,42 +9,24 @@ module CoachConcern
       weight 1
 
       list do
-        field :category
         field :user
         field :description
-        field :pictures
+        field :coaches_areas
         field :created_at
         field :updated_at
-        field :avatar
-        field :status
-        field :price
-        field :opens_at
-        field :closes_at
       end
 
       show do
-        field :category
         field :user
         field :description
-        field :pictures
+        field :coaches_areas
         field :created_at
         field :updated_at
-        field :avatar
-        field :status
-        field :price
-        field :opens_at
-        field :closes_at
       end
       edit do
-        field :category
         field :user
         field :description
-        field :pictures
-        field :avatar
-        field :status
-        field :price
-        field :opens_at
-        field :closes_at
+        field :coaches_areas
       end
     end
   end

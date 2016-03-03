@@ -1,0 +1,15 @@
+ru:
+  activerecord:
+    models:
+      coach:
+        one: тренер
+        parent: тренера
+        accusative: тренера
+        other: тренеры
+    attributes:
+      coach:
+        user: Пользователь
+        description: Описание
+        coaches_areas: Площадки тренера
+        created_at: Дата создания
+        updated_at: Дата изменения
