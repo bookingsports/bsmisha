@@ -26,7 +26,7 @@ RSpec.describe Area do
     it { should have_many(:coaches_areas) }
     it { should have_many(:coaches) }
     it { should have_many(:events) }
-    it { should have_many(:prices) }
+    it { should have_many(:prices).dependent(:destroy) }
   end
 
   context 'validations' do

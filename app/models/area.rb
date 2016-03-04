@@ -22,7 +22,7 @@ class Area < ActiveRecord::Base
   has_many :coaches_areas
   has_many :coaches, through: :coaches_areas
   has_many :events
-  has_many :prices
+  has_many :prices, dependent: :destroy
 
   validates :name, :stadium_id, presence: true
   validates :change_price, numericality: { greater_than_or_equal_to: 0 }
@@ -37,9 +37,5 @@ class Area < ActiveRecord::Base
 
   def kendo_area_id
     stadium.areas.to_a.index(self) % 10
-  end
-
-  def price_for_event event
-    price * event.duration_in_hours
   end
 end

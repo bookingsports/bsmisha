@@ -13,10 +13,8 @@
 #
 FactoryGirl.define do
   factory :price do
-    start { Time.zone.now.beginning_of_year }
+    start { Time.zone.parse('14:00') }
     stop { start + Faker::Number.between(1, 12).months }
-    price { Faker::Commerce.price }
-    is_sale true
     area
   end
 end

@@ -31,8 +31,8 @@ stadium_addresses = ["ул. Большая Филевская, 20, Москва,
 (0..3).each do |number|
   stadium_user = create_user(StadiumUser, "Stadium User #{number}", "stadium#{number}@bookingsports.ru", 'changeme')
   stadium_user.stadium.update(name: stadium_names[number], category: Category.where(name: categories[number]).first, phone: '+7985444484', address: stadium_addresses[number], status: :active, opens_at: "07:00", closes_at: "23:00")
-  stadium_user.stadium.areas.create! name: 'Первая', price: 500
-  stadium_user.stadium.areas.create! name: 'Вторая', price: 1000
+  stadium_user.stadium.areas.create! name: 'Первая'
+  stadium_user.stadium.areas.create! name: 'Вторая'
   stadium_user.wallet.deposits.create amount: 100000, status: :active
 
   service = Service.create name: "Инструктор"

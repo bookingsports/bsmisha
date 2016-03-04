@@ -15,9 +15,9 @@
 FactoryGirl.define do
   factory :daily_price_rule do
     price
-    start { Time.zone.parse("#{Faker::Number.between(7, 20).hours}:00") }
-    stop { start + Faker::Number.between(1, 3).hours}
-    price { Faker::Commerce.price }
+    start { Time.zone.parse("#{Faker::Number.between(7, 20)}:00") }
+    stop { start + Faker::Number.between(1, 3).hours }
+    value { Faker::Commerce.price }
     working_days [Faker::Number.between(1, 7), Faker::Number.between(1, 7)]
   end
 end

@@ -33,6 +33,49 @@ RSpec.describe Event do
     it { should have_many(:additional_event_items) }
     it { should have_many(:prices) }
 
+    context 'should have only prices that overlaps with event start and stop period' do
+      before :each do
+        Timecop.freeze(Time.zone.parse('06:00') + 1.day)
+        @area = create(:area, events: [event])
+        @price = create(:price, area: @area, start: Time.zone.parse('07:00'), stop: Time.zone.parse('09:00'))
+        @overlap_price = create(:price, area: @area, start: Time.zone.parse('10:00'), stop: Time.zone.parse('14:00'))
+      end
+
+      after(:each) { Timecop.return }
+
+      it 'should return prices that have stops between event start and event stop' do
+        event.start = Time.zone.parse('11:00')
+        event.stop = event.start + 5.hours
+
+        expect(event.prices.to_a).to_not include @price
+        expect(event.prices.to_a).to include @overlap_price
+      end
+
+      it 'should return prices that have start between event start and event stop' do
+        event.start = Time.zone.parse('12:00')
+        event.stop = event.start + 5.hours
+
+        expect(event.prices.to_a).to_not include @price
+        expect(event.prices.to_a).to include @overlap_price
+      end
+
+      it 'should return prices that have start and stop between event start and event stop' do
+        event.start = Time.zone.parse('09:00')
+        event.stop = Time.zone.parse('15:00')
+
+        expect(event.prices.to_a).to_not include @price
+        expect(event.prices.to_a).to include @overlap_price
+      end
+
+      it 'should return prices that have start and stop greater than event start and event stop' do
+        event.start = Time.zone.parse('11:00')
+        event.stop = Time.zone.parse('13:00')
+
+        expect(event.prices.to_a).to_not include @price
+        expect(event.prices.to_a).to include @overlap_price
+      end
+    end
+
     it { should have_and_belong_to_many(:stadium_services) }
   end
 
@@ -156,91 +199,27 @@ RSpec.describe Event do
       end
     end
 
-    describe '#event_associated_payables' do
-      it 'should return area and stadium_services in one array' do
-        area = create(:area)
-        stadium_service = create(:stadium_service)
+=begin
+      describe '#price' do
+        context 'without stadium services' do
+          it 'shows price of a area for event duration hours' do
+            area = create(:area, events: [event])
+            price = create(:price, area: area)
+            create(:daily_price_rule, value: 1234.0, price: price)
 
-        event.area = area
-        event.stadium_services = [stadium_service]
+            event.stop = event.start + 2.hours
 
-        expect(event.associated_payables).to eq [area, stadium_service]
-      end
-    end
-
-    describe '#event_associated_payables_with_price' do
-      context 'should return hash with area and total price for each associated payable' do
-        context 'without prices' do
-          let(:area) { create(:area, price: 125.0) }
-          let(:stadium_service) { create(:stadium_service, price: 258.0, periodic: true) }
-          let(:event) { create(:event, start: Time.zone.parse('14:00')+1.day, area: area, stadium_services: [stadium_service]) }
-
-          it 'for one hour' do
-            event.stop = event.start + 1.hour
-
-            expect(event.associated_payables_with_price).to eq [
-              {product: area, total: 125.0},
-              {product: stadium_service, total: 258.0}
-            ]
+            expect(event.price).to eq 1234.0
           end
 
-          it 'for integer duration' do
-            event.stop = event.start + 3.hours
+          it 'shows price of a areas hours times occurrences' do
+            area = create(:area)
 
-            expect(event.associated_payables_with_price).to eq [
-              {product: area, total: 125.0*3},
-              {product: stadium_service, total: 258.0*3}
-            ]
-          end
-
-          it 'for not periodic service' do
-            stadium_service.periodic = false
-            event.stop = event.start + 3.hours
-
-            expect(event.associated_payables_with_price).to eq [
-              {product: area, total: 125.0*3},
-              {product: stadium_service, total: 258.0}
-            ]
-          end
-
-          it 'for float duration' do
-            event.stop = event.start + 3.5.hours
-
-            expect(event.associated_payables_with_price).to eq [
-              {product: area, total: 125*3.5},
-              {product: stadium_service, total: 258*3.5}
-            ]
-          end
-
-          it 'with 10 occurrences' do
             event.recurrence_rule = 'FREQ=DAILY;COUNT=10'
+            event.area = area
             event.stop = event.start + 3.5.hours
-
-            expect(event.associated_payables_with_price).to eq [
-              {product: area, total: 125*3.5*10},
-              {product: stadium_service, total: 258*3.5*10}
-            ]
+            expect(event.price).to eq 250 * 3.5 * 10
           end
-        end
-      end
-
-      describe '#total' do
-        it 'shows price of a areas hour' do
-          area = create(:area, price: 100)
-
-          event.stop = event.start + 2.hours
-          event.area = area
-
-          expect(event.total).to eq 200.0
-        end
-
-        it 'shows price of a areas hours times occurrences' do
-          area = create(:area, price: 250)
-
-          event.recurrence_rule = 'FREQ=DAILY;COUNT=10'
-          event.area = area
-          event.stop = event.start + 3.5.hours
-          expect(event.total).to eq 250 * 3.5 * 10
         end
 
         context 'periodic services' do
@@ -265,6 +244,6 @@ RSpec.describe Event do
           end
         end
       end
-    end
+=end
   end
 end

@@ -24,7 +24,10 @@ class Event < ActiveRecord::Base
   has_paper_trail
 
   validates :start, :stop, :order_id, :user_id, :area_id, presence: true
-  validate :stop_greater_than_start, :start_is_not_in_the_past, :step_by_30_min, unless: 'start.blank? or stop.blank?'
+
+  validates :stop, greater_by_30_min: {than: :start}, allow_blank: true
+  validates :start, :stop, step_by_30_min: true, allow_blank: true
+  validate :start_is_not_in_the_past
 
   belongs_to :user
   belongs_to :order
@@ -35,9 +38,11 @@ class Event < ActiveRecord::Base
   has_many :event_changes, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :additional_event_items, dependent: :destroy
 
-  has_many :prices, -> {
-    where("('start' >= :event_start AND 'start < :event_stop) OR ('stop' > :event_start AND 'stop' <= #:event_stop) OR ('start' < :event_start AND 'stop' > :event_stop)", event_start: start, event_stop: stop)
+  has_many :prices, -> (event) {
+    where('("prices"."start" >= :event_start AND "prices"."start" < :event_stop) OR ("prices"."stop" > :event_start AND "prices"."stop" <= :event_stop) OR ("prices"."start" < :event_start AND "prices"."stop" > :event_stop)', event_start: event.start, event_stop: event.stop)
   }, through: :area
+
+  has_many :daily_price_rules, through: :prices
 
   has_and_belongs_to_many :stadium_services
 
@@ -59,16 +64,8 @@ class Event < ActiveRecord::Base
     "Событие с #{start} по #{stop}"
   end
 
-  def total
-    associated_payables_with_price.map {|p| p[:total] }.inject(&:+)
-  end
-
-  def associated_payables
-    ([area] + stadium_services)
-  end
-
-  def associated_payables_with_price
-    associated_payables.map {|p| {product: p, total: p.price_for_event(self) * occurrences}}
+  def price
+    100
   end
 
   def duration_in_hours
@@ -151,23 +148,9 @@ class Event < ActiveRecord::Base
       Order.arel_table['status'].eq(Order.statuses[status])
     end
 
-    def stop_greater_than_start
-      if stop - start < 30.minutes
-        errors.add(:stop, "can't be less than start at least 30 min.")
-      end
-    end
-
     def start_is_not_in_the_past
-      if start < Time.now
+      if start.present? && start < Time.now
         errors.add(:start, "can't be in the past")
-      end
-    end
-
-    def step_by_30_min
-      [:start, :stop].each do |time|
-        if self[time].min % 30 != 0
-          errors.add(time, 'minutes can be only 30 or 0')
-        end
       end
     end
 

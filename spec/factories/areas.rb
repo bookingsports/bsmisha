@@ -19,6 +19,5 @@ FactoryGirl.define do
   factory :area do
     name { Faker::Commerce.product_name }
     stadium
-    price { Faker::Commerce.price }
   end
 end

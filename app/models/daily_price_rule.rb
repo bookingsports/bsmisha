@@ -21,14 +21,4 @@ class DailyPriceRule < ActiveRecord::Base
   def name
     "Правило цены с #{start} по #{stop}"
   end
-
-  def start=(val)
-    string = val.kind_of?(String) ? val : val.values.join(":")
-    super(string)
-  end
-
-  def stop=(val)
-    string = val.kind_of?(String) ? val : val.values.join(":")
-    super(string)
-  end
 end

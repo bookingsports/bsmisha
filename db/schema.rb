@@ -47,10 +47,7 @@ ActiveRecord::Schema.define(version: 20160219204852) do
     t.string   "name"
     t.string   "description"
     t.string   "slug"
-    t.decimal  "price",        default: 0.0
     t.decimal  "change_price", default: 0.0
-    t.time     "opens_at"
-    t.time     "closes_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -90,9 +87,9 @@ ActiveRecord::Schema.define(version: 20160219204852) do
 
   create_table "daily_price_rules", force: :cascade do |t|
     t.integer  "price_id"
-    t.string   "start"
-    t.string   "stop"
-    t.integer  "price"
+    t.datetime "start"
+    t.datetime "stop"
+    t.integer  "value"
     t.integer  "working_days", default: [],              array: true
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
@@ -198,7 +195,6 @@ ActiveRecord::Schema.define(version: 20160219204852) do
   create_table "prices", force: :cascade do |t|
     t.datetime "start"
     t.datetime "stop"
-    t.boolean  "is_sale"
     t.integer  "area_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
