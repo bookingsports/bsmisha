@@ -14,13 +14,13 @@
 require 'rails_helper'
 
 RSpec.describe Order do
-  before(:each) do
-    full_setup
-  end
+  let(:area) {create(:area, price: 300)}
+  let(:event) {create(:event, area: area, start: Time.zone.parse('12:00')+1.day, stop: Time.zone.parse('15:00')+1.day)}
+  let(:order) {create(:order, events: [event])}
 
   describe "#total" do
     it "returns correct value" do
-      expect(@order.total).to eq(@event.total)
+      expect(order.total).to eq(event.total)
     end
   end
 
