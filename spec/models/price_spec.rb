@@ -49,5 +49,7 @@ RSpec.describe Price do
     it 'should validate that price has at least one daily price rule' do
       expect(create(:price).daily_price_rules.count).to be 1
     end
+
+    it 'should validate that price cover all working hours'
   end
 end

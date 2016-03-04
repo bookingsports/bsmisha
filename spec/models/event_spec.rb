@@ -199,29 +199,38 @@ RSpec.describe Event do
       end
     end
 
-=begin
-      describe '#price' do
-        context 'without stadium services' do
-          it 'shows price of a area for event duration hours' do
-            area = create(:area, events: [event])
-            price = create(:price, area: area)
-            create(:daily_price_rule, value: 1234.0, price: price)
-
-            event.stop = event.start + 2.hours
-
-            expect(event.price).to eq 1234.0
-          end
-
-          it 'shows price of a areas hours times occurrences' do
-            area = create(:area)
-
-            event.recurrence_rule = 'FREQ=DAILY;COUNT=10'
-            event.area = area
-            event.stop = event.start + 3.5.hours
-            expect(event.price).to eq 250 * 3.5 * 10
-          end
+    describe '#price' do
+      context 'without stadium services' do
+        before :each do
+          @area = create(:area, events: [event])
+          @price = create(:price, area: @area)
+          @rule = create(:daily_price_rule, value: 1234.0, working_days: (1..7).to_a, price: @price)
         end
 
+        it 'shows price of a area for event duration hours' do
+          event.stop = event.start + 2.hours
+          expect(event.price).to eq 2468.0
+
+          event.stop = event.start + 1.hours
+          expect(event.price).to eq 1234.0
+
+          event.stop = event.start + 30.minutes
+          expect(event.price).to eq 617.0
+        end
+
+        it 'should overwrite daily price rules by order'
+
+        it 'shows price of a areas hours times occurrences' do
+          area = create(:area)
+
+          event.recurrence_rule = 'FREQ=DAILY;COUNT=10'
+          event.area = area
+          event.stop = event.start + 3.5.hours
+          expect(event.price).to eq 250 * 3.5 * 10
+        end
+      end
+    end
+=begin
         context 'periodic services' do
           let(:area) { create(:area, price: 100) }
           let(:stadium) { create(:stadium) }
