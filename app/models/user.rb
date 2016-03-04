@@ -47,7 +47,7 @@ class User < ActiveRecord::Base
   default_scope -> { order(created_at: :desc) }
 
   def total(options = {})
-    events_maybe_scoped_by(options).unpaid.map(&:total).inject(:+)
+    events_maybe_scoped_by(options).unpaid.map(&:total).inject(:+) || 0
   end
 
   def total_hours(options = {})

@@ -36,10 +36,6 @@ RSpec.describe User do
     it { should validate_presence_of(:name) }
 
     context 'name' do
-      it 'should not validate empty name' do
-        expect(build(:user, name: nil)).not_to be_valid
-      end
-
       it 'should not validate garbage name' do
         expect(build(:user, name: "23#@$@*@%")).not_to be_valid
       end
@@ -53,8 +49,7 @@ RSpec.describe User do
   context "methods" do
     describe '#type' do
       it "is set to Customer by default" do
-        user = User.new
-        expect(user.type).to eq "Customer"
+        expect(User.new.type).to eq "Customer"
       end
     end
 
@@ -76,13 +71,23 @@ RSpec.describe User do
         user.events << event
         expect(user.total).to eq event.area.price * event.duration_in_hours
       end
+
+      it "returns proper amount when values are specified" do
+        event = create(:event, start: Time.zone.parse('12:00')+1.day, stop: Time.zone.parse('15:00')+1.day, area: create(:area, price: 500))
+        user.events << event
+        expect(user.total).to eq 500 * 3
+      end
+
+      it "returns 0 when no events are present" do
+        expect(user.total).to eq 0
+      end
     end
 
     describe "#total_hours" do
       it "returns proper amount when events are present" do
-        @event = create(:event)
-        user.events << @event
-        expect(user.total_hours).to eq @event.duration_in_hours
+        event = create(:event)
+        user.events << event
+        expect(user.total_hours).to eq event.duration_in_hours
       end
 
       it "returns 0 when events are not present" do
@@ -93,8 +98,8 @@ RSpec.describe User do
 
     describe "#name_for_admin" do
       it "should return proper name" do
-        @user = build(:user, name: "John Smith", email: "user@mail.ru")
-        expect(@user.name_for_admin).to eq "John Smith (user@mail.ru)"
+        user = build(:user, name: "John Smith", email: "usermail.ru")
+        expect(user.name_for_admin).to eq "John Smith (usermail.ru)"
       end
     end
   end
@@ -111,29 +116,29 @@ RSpec.describe Customer do
 
     describe "#areas" do
       it "should return areas customer booked" do
-        @event = create(:event)
-        customer.events << @event
-        expect(customer.areas).to include @event.area
+        event = create(:event)
+        customer.events << event
+        expect(customer.areas).to include event.area
       end
 
       it "should not include areas customer didn't book" do
-        @area = create(:area)
-        expect(customer.areas).not_to include @area
+        area = create(:area)
+        expect(customer.areas).not_to include area
       end
     end
 
     describe "#events" do
       it "should return events of customer" do
-        @event = create(:event)
-        customer.events << @event
-        expect(customer.events).to include @event
+        event = create(:event)
+        customer.events << event
+        expect(customer.events).to include event
       end
 
       it "should not include events of other user" do
-        @another_customer = create(:customer)
-        @event = create(:event)
-        @another_customer.events << @event
-        expect(customer.events).not_to include @event
+        another_customer = create(:customer)
+        event = create(:event)
+        another_customer.events << event
+        expect(customer.events).not_to include event
       end
     end
   end
