@@ -27,6 +27,15 @@ class Price < ActiveRecord::Base
 
   accepts_nested_attributes_for :daily_price_rules
 
+  scope :overlaps, -> (event) do
+    start = arel_table['start']
+    stop = arel_table['stop']
+
+    start.gteq(event.start).and(start.lt(event.stop))\
+    .or(stop.gt(event.start).and(stop.lteq(event.stop)))\
+    .or(start.lt(event.start).and(stop.gt(event.stop)))
+  end
+
   # return value for current time
   scope :current, -> do
     where('LOCALTIMESTAMP BETWEEN "start" AND "stop"').last || new

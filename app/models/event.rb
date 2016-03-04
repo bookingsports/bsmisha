@@ -38,9 +38,7 @@ class Event < ActiveRecord::Base
   has_many :event_changes, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :additional_event_items, dependent: :destroy
 
-  has_many :prices, -> (event) {
-    where('("prices"."start" >= :event_start AND "prices"."start" < :event_stop) OR ("prices"."stop" > :event_start AND "prices"."stop" <= :event_stop) OR ("prices"."start" < :event_start AND "prices"."stop" > :event_stop)', event_start: event.start, event_stop: event.stop)
-  }, through: :area
+  has_many :prices, -> (event) { where Price.overlaps event }, through: :area
 
   has_many :daily_price_rules, through: :prices
 

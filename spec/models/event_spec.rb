@@ -34,14 +34,14 @@ RSpec.describe Event do
     it { should have_many(:prices) }
 
     context 'should have only prices that overlaps with event start and stop period' do
+      before(:all) { Timecop.freeze(Time.now + 1.day) }
+      after(:all) { Timecop.return }
+
       before :each do
-        Timecop.freeze(Time.zone.parse('06:00') + 1.day)
         @area = create(:area, events: [event])
         @price = create(:price, area: @area, start: Time.zone.parse('07:00'), stop: Time.zone.parse('09:00'))
         @overlap_price = create(:price, area: @area, start: Time.zone.parse('10:00'), stop: Time.zone.parse('14:00'))
       end
-
-      after(:each) { Timecop.return }
 
       it 'should return prices that have stops between event start and event stop' do
         event.start = Time.zone.parse('11:00')
