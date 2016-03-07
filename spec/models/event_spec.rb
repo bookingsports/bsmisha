@@ -21,7 +21,7 @@
 require 'rails_helper'
 
 RSpec.describe Event do
-  let(:event) { create(:event, start: Time.zone.parse('14:00')+1.day, stop: Time.zone.parse('15:00')+1.day) }
+  let!(:event) { create(:event, start: Time.zone.parse('14:00')+1.day, stop: Time.zone.parse('15:00')+1.day) }
 
   context 'associations' do
     it { should belong_to(:user) }
@@ -33,46 +33,61 @@ RSpec.describe Event do
     it { should have_many(:additional_event_items) }
     it { should have_many(:prices) }
 
-    context 'should have only prices that overlaps with event start and stop period' do
-      before(:all) { Timecop.freeze(Time.now + 1.day) }
-      after(:all) { Timecop.return }
+    context 'should have only prices and daily price rules that overlaps with event start and stop period' do
+      let!(:area) { create(:area, events: [event]) }
+      let!(:price) { create(:price, area: area, start: Time.zone.parse('07:00')+1.day, stop: Time.zone.parse('09:00') + 1.day) }
+      let!(:overlap_price) { create(:price, area: area, start: Time.zone.parse('10:00')+1.day, stop: Time.zone.parse('14:00')+1.day)}
 
-      before :each do
-        @area = create(:area, events: [event])
-        @price = create(:price, area: @area, start: Time.zone.parse('07:00'), stop: Time.zone.parse('09:00'))
-        @overlap_price = create(:price, area: @area, start: Time.zone.parse('10:00'), stop: Time.zone.parse('14:00'))
-      end
+      let!(:daily_price_rule) { create(:daily_price_rule, price: overlap_price, start: Time.zone.parse('10:00'), stop: Time.zone.parse('12:00'), working_days: [event.wday]) }
+      let!(:daily_price_rule_2) { create(:daily_price_rule, price: overlap_price, start: Time.zone.parse('12:00'), stop: Time.zone.parse('14:00'), working_days: (1..7).to_a) }
 
       it 'should return prices that have stops between event start and event stop' do
-        event.start = Time.zone.parse('11:00')
+        event.start = Time.zone.parse('11:00')+1.day
         event.stop = event.start + 5.hours
 
-        expect(event.prices.to_a).to_not include @price
-        expect(event.prices.to_a).to include @overlap_price
+        expect(event.prices.to_a).to_not include price
+        expect(event.prices.to_a).to include overlap_price
       end
 
       it 'should return prices that have start between event start and event stop' do
-        event.start = Time.zone.parse('12:00')
+        event.start = Time.zone.parse('12:00')+1.day
         event.stop = event.start + 5.hours
 
-        expect(event.prices.to_a).to_not include @price
-        expect(event.prices.to_a).to include @overlap_price
+        expect(event.prices.to_a).to_not include price
+        expect(event.prices.to_a).to include overlap_price
       end
 
       it 'should return prices that have start and stop between event start and event stop' do
-        event.start = Time.zone.parse('09:00')
-        event.stop = Time.zone.parse('15:00')
+        event.start = Time.zone.parse('09:00')+1.day
+        event.stop = event.start + 6.hours
 
-        expect(event.prices.to_a).to_not include @price
-        expect(event.prices.to_a).to include @overlap_price
+        expect(event.prices.to_a).to_not include price
+        expect(event.prices.to_a).to include overlap_price
       end
 
       it 'should return prices that have start and stop greater than event start and event stop' do
-        event.start = Time.zone.parse('11:00')
-        event.stop = Time.zone.parse('13:00')
+        event.start = Time.zone.parse('11:00')+1.day
+        event.stop = event.start + 2.hours
 
-        expect(event.prices.to_a).to_not include @price
-        expect(event.prices.to_a).to include @overlap_price
+        expect(event.prices.to_a).to_not include price
+        expect(event.prices.to_a).to include overlap_price
+      end
+
+      it 'should return only daily price rules that has same working days' do
+        event.start = Time.zone.parse('11:00')+1.day
+        event.stop = event.start + 2.hours
+
+        expect(event.daily_price_rules.count).to eq 2
+        expect(event.daily_price_rules).to include daily_price_rule
+        expect(event.daily_price_rules).to include daily_price_rule_2
+
+        all_week = (1..7).to_a
+        all_week.delete(event.wday)
+
+        daily_price_rule_2.update working_days: all_week
+
+        expect(event.daily_price_rules.count).to eq 1
+        expect(event.daily_price_rules).to include daily_price_rule
       end
     end
 
@@ -153,7 +168,7 @@ RSpec.describe Event do
         order.paid!
 
         expect(Event.paid.count).to eq 1
-        expect(Event.unpaid.count).to eq 3
+        expect(Event.unpaid.count).to eq 4
       end
     end
 
@@ -166,7 +181,7 @@ RSpec.describe Event do
         2.times { create(:event) }
 
         expect(Event.past.count).to eq 3
-        expect(Event.future.count).to eq 2
+        expect(Event.future.count).to eq 3
       end
     end
   end
@@ -199,34 +214,47 @@ RSpec.describe Event do
       end
     end
 
+    describe '#wday' do
+      it 'should return number of day' do
+        Timecop.freeze(Time.zone.parse('2016-03-04 10:00')) do
+          event.start = Time.zone.parse('2016-03-04 14:00')
+          expect(event.wday).to eq 5
+        end
+      end
+    end
+
     describe '#price' do
+      let!(:area) { create(:area, events: [event]) }
+      let!(:price) { create(:price, area: area) }
+      let!(:rule) { create(:daily_price_rule, value: 1234.0, working_days: (1..7).to_a, price: price) }
+
       context 'without stadium services' do
-        before :each do
-          @area = create(:area, events: [event])
-          @price = create(:price, area: @area)
-          @rule = create(:daily_price_rule, value: 1234.0, working_days: (1..7).to_a, price: @price)
+        context 'without occurences' do
+          it 'shows price of a area for event duration hours' do
+            event.stop = event.start + 2.hours
+            expect(event.price).to eq 2468.0
+
+            event.stop = event.start + 1.hours
+            expect(event.price).to eq 1234.0
+
+            event.stop = event.start + 30.minutes
+            expect(event.price).to eq 617.0
+          end
+
+          it 'should overwrite daily price rules by order' do
+            rule_2 = create(:daily_price_rule, value: 200.0, working_days: [event.wday], price: price)
+            event.stop = event.start + 1.hour
+            expect(event.price).to eq 200.0
+          end
         end
 
-        it 'shows price of a area for event duration hours' do
-          event.stop = event.start + 2.hours
-          expect(event.price).to eq 2468.0
-
-          event.stop = event.start + 1.hours
-          expect(event.price).to eq 1234.0
-
-          event.stop = event.start + 30.minutes
-          expect(event.price).to eq 617.0
-        end
-
-        it 'should overwrite daily price rules by order'
-
-        it 'shows price of a areas hours times occurrences' do
-          area = create(:area)
-
-          event.recurrence_rule = 'FREQ=DAILY;COUNT=10'
-          event.area = area
-          event.stop = event.start + 3.5.hours
-          expect(event.price).to eq 250 * 3.5 * 10
+        context 'with occurences' do
+          it 'shows price of a areas hours times occurrences' do
+            event.recurrence_rule = 'FREQ=DAILY;COUNT=10'
+            event.area = area
+            event.stop = event.start + 3.5.hours
+            expect(event.price).to eq 250 * 3.5 * 10
+          end
         end
       end
     end

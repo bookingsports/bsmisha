@@ -39,7 +39,7 @@ class Event < ActiveRecord::Base
   has_many :additional_event_items, dependent: :destroy
 
   has_many :prices, -> (event) { where Price.overlaps event }, through: :area
-  has_many :daily_price_rules, through: :prices
+  has_many :daily_price_rules, -> (event) { where '? = ANY(working_days)', event.wday }, through: :prices
 
   has_and_belongs_to_many :stadium_services
 
@@ -63,6 +63,10 @@ class Event < ActiveRecord::Base
 
   def price
     daily_price_rules.sum(:value)*duration_in_hours
+  end
+
+  def wday
+    start.wday
   end
 
   def duration_in_hours
