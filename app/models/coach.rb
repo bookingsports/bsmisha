@@ -18,7 +18,6 @@ class Coach < ActiveRecord::Base
   belongs_to :user
   has_many :coaches_areas
   has_many :areas, through: :coaches_areas
-  has_and_belongs_to_many :customers, join_table: :coaches_customers, class_name: "User"
   validate :has_at_least_one_area, on: :stadium_dashboard
   validates :user, presence: true
 
@@ -33,6 +32,10 @@ class Coach < ActiveRecord::Base
   delegate :email, to: :user
   delegate :avatar, to: :user
   delegate :phone, to: :user
+
+  def customers
+    Customer.joins(:events).where(events: {coach_id: id}).uniq
+  end
 
   def has_areas?
     areas.size > 0

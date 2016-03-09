@@ -1,7 +1,7 @@
 %h3= @customer.name
 %dl
   %dt Баланс
-  %dd= number_to_integer_currency @customer.events.paid.of_products(current_user.product).map(&:total).inject(&:+).to_i
+  %dd= number_to_integer_currency @customer.events.paid.where(coach: current_user.coach).map(&:price).inject(&:+).to_i
 %h3 Грядущие
 %table.table
   %thead
@@ -11,12 +11,12 @@
       %th Конец
       %th Сумма
   %tbody
-    - @customer.events.future.paid.of_products(current_user.product).order(created_at: :desc).each do |e|
+    - @customer.events.future.paid.where(coach: current_user.coach).order(created_at: :desc).each do |e|
       %tr
-        %td= e.product_names
+        %td= e.area.stadium.name
         %td= l e.start, format: :short
-        %td= l e.end, format: :short
-        %td= number_to_integer_currency e.total
+        %td= l e.stop, format: :short
+        %td= number_to_integer_currency e.price
 %h3 Прошедшие
 %table.table
   %thead
@@ -26,9 +26,9 @@
       %th Конец
       %th Сумма
   %tbody
-    - @customer.events.past.paid.of_products(current_user.product).order(created_at: :desc).each do |e|
+    - @customer.events.past.paid.where(coach: current_user.coach).order(created_at: :desc).each do |e|
       %tr
         %td= e.product_names
         %td= l e.start, format: :short
         %td= l e.end, format: :short
-        %td= number_to_integer_currency e.total
+        %td= number_to_integer_currency e.price
