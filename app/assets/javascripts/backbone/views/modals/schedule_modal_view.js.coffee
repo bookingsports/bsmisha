@@ -14,7 +14,7 @@ class Tennis.Views.ScheduleModalView extends Tennis.Views.ModalView
     value = $(evt.currentTarget).val();
     obj = {};
     obj[changed.name] = value;
-    if changed.name == 'start' || changed.name == 'end'
+    if changed.name == 'start' || changed.name == 'stop'
       obj[changed.name] = moment.utc(value)
 
     @model.set('repeatType', @$('#repeatType').val())
@@ -26,19 +26,19 @@ class Tennis.Views.ScheduleModalView extends Tennis.Views.ModalView
     @model.set('')
     this.model.set(obj)
 
-  initialize: (start, end) ->
-    @model = new Tennis.Models.Event(start: start, end: end, repeats: new Tennis.Collections.Repeats())
+  initialize: (start, stop) ->
+    @model = new Tennis.Models.Event(start: start, stop: stop, repeats: new Tennis.Collections.Repeats())
     @listenTo(@model, 'change', @calculatePrice)
 
   variables: ->
     header: 'Бронирование'
-    body: @form(start: @start().format('YYYY/MM/DD H:mm'), end: @end().format('YYYY/MM/DD H:mm'))
+    body: @form(start: @start().format('YYYY/MM/DD H:mm'), stop: @stop().format('YYYY/MM/DD H:mm'))
 
   start: ->
     @model.get('start')
 
-  end: ->
-    @model.get('end')
+  stop: ->
+    @model.get('stop')
 
   submit: (e) =>
     e.preventDefault()
@@ -59,7 +59,7 @@ class Tennis.Views.ScheduleModalView extends Tennis.Views.ModalView
 
   calculatePrice: ->
     $.get "/areas/#{window.grid.area}", (data) =>
-      dur = Math.ceil(@model.get('end').diff(@model.get('start'), 'hours', true))
+      dur = Math.ceil(@model.get('stop').diff(@model.get('start'), 'hours', true))
       total = data.price * dur
       time = moment.duration(dur, "hours").humanize()
       @$('[data-total]').html(time + ' = ' + total + ' руб.')

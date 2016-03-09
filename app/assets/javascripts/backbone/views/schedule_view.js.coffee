@@ -47,7 +47,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
       date: new Date()
       allDaySlot: false
       workDayStart: new Date(@opens_at)
-      workDayEnd: new Date(@closes_at)
+      workDayStop: new Date(@closes_at)
       showWorkHours: true
       height: 700
       views: [
@@ -61,31 +61,31 @@ class Tennis.Views.ScheduleView extends Backbone.View
           alert 'Пожалуйста, сначала авторизуйтесь.'
           e.preventDefault()
       resize: (e) =>
-        if @timeIsOccupied(e.start, e.end, e.event)
+        if @timeIsOccupied(e.start, e.stop, e.event)
           @scheduler().wrapper.find('.k-marquee-color').addClass 'invalid-slot'
           e.preventDefault()
         return
       resizeEnd: (e) =>
-        if @timeIsOccupied(e.start, e.end, e.event)
+        if @timeIsOccupied(e.start, e.stop, e.event)
           alert 'Это время занято'
           e.preventDefault()
         return
       move: (e) =>
-        if @timeIsOccupied(e.start, e.end, e.event)
+        if @timeIsOccupied(e.start, e.stop, e.event)
           @scheduler().wrapper.find('.k-event-drag-hint').addClass 'invalid-slot'
         return
       moveEnd: (e) =>
-        if @timeIsOccupied(e.start, e.end, e.event)
+        if @timeIsOccupied(e.start, e.stop, e.event)
           alert 'Это время занято'
           e.preventDefault()
         return
       add: (e) =>
-        if @timeIsOccupied(e.event.start, e.event.end, e.event)
+        if @timeIsOccupied(e.event.start, e.event.stop, e.event)
           alert 'Это время занято'
           e.preventDefault()
         return
       save: (e) =>
-        if @timeIsOccupied(e.event.start, e.event.end, e.event)
+        if @timeIsOccupied(e.event.start, e.event.stop, e.event)
           alert 'Это время занято'
           e.preventDefault()
         else
@@ -152,9 +152,9 @@ class Tennis.Views.ScheduleView extends Backbone.View
               start:
                 type: 'date'
                 from: 'start'
-              end:
+              stop:
                 type: 'date'
-                from: 'end'
+                from: 'stop'
               recurrenceId:
                 from: 'recurrence_id'
               recurrenceRule:
@@ -163,14 +163,14 @@ class Tennis.Views.ScheduleView extends Backbone.View
                 from: 'recurrence_exception'
               startTimezone:
                 from: 'start_timezone'
-              endTimezone:
-                from: 'end_timezone'
+              stopTimezone:
+                from: 'stop_timezone'
               isAllDay:
                 type: 'boolean'
                 from: 'is_all_day'
 
-  timeIsOccupied: (start, end, event) =>
-    occurences = @scheduler().occurrencesInRange(start, end)
+  timeIsOccupied: (start, stop, event) =>
+    occurences = @scheduler().occurrencesInRange(start, stop)
     idx = occurences.indexOf(event)
     if idx > -1
       occurences.splice(idx, 1)
