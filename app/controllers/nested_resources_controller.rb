@@ -3,7 +3,7 @@ class NestedResourcesController < ApplicationController
   layout :set_layout
 
   def find_product
-    @product = Product.friendly.find(params["#{params[:scope]}_id"])
+    @product  = (params[:scope] == "stadium") ? Stadium.friendly.find(params["stadium_id"]) : nil
     instance_variable_set("@#{params[:scope]}", @product)
   end
 

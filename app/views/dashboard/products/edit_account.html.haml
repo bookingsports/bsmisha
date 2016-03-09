@@ -2,13 +2,12 @@
   .row
     .col-xs-12
       %h4 Реквизиты
-      = f.simple_fields_for :user do |o|
-        = o.simple_fields_for :account do |acc|
-          = acc.input :company
-          = acc.input :number
-          = acc.input :inn
-          = acc.input :kpp
-          = acc.input :bik
-          = acc.input :agreement_number
-          = acc.input :date
+      = f.simple_fields_for :account do |acc|
+        = acc.input :company
+        = acc.input :number
+        = acc.input :inn
+        = acc.input :kpp
+        = acc.input :bik
+        = acc.input :agreement_number
+        = acc.input :date
   = f.button :submit, 'Сохранить'

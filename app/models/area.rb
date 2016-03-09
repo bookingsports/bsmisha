@@ -17,6 +17,7 @@
 
 class Area < ActiveRecord::Base
   include AreaConcern
+  include FriendlyId
 
   belongs_to :stadium
   has_many :coaches_areas
@@ -26,6 +27,8 @@ class Area < ActiveRecord::Base
 
   validates :name, :stadium_id, presence: true
   validates :change_price, numericality: { greater_than_or_equal_to: 0 }
+
+  friendly_id :name, use: [:slugged]
 
   def display_name
     "#{stadium_id.present? ? stadium.name + " - " : "" }#{name}"
