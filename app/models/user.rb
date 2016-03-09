@@ -31,7 +31,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :orders, dependent: :destroy
-  has_many :events
+  has_many :events, dependent: :destroy
+  has_many :event_changes, through: :events, dependent: :destroy
   has_one :wallet, dependent: :destroy
   accepts_nested_attributes_for :wallet
 
@@ -54,11 +55,12 @@ class User < ActiveRecord::Base
   end
 
   def events_maybe_scoped_by options
-    if options[:product].present?
-      events.of_products(options[:product])
-    else
+    #if options[:product].present?
+    #  Event.where
+    #  events.of_products(options[:product])
+    #else
       events
-    end
+    #wsend
   end
 
   def changes_total(options = {})
