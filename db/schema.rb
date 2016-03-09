@@ -87,8 +87,8 @@ ActiveRecord::Schema.define(version: 20160219204852) do
 
   create_table "daily_price_rules", force: :cascade do |t|
     t.integer  "price_id"
-    t.datetime "start"
-    t.datetime "stop"
+    t.time     "start"
+    t.time     "stop"
     t.integer  "value"
     t.integer  "working_days", default: [],              array: true
     t.datetime "created_at",                null: false

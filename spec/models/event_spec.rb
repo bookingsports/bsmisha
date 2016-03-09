@@ -89,6 +89,15 @@ RSpec.describe Event do
         expect(event.daily_price_rules.count).to eq 1
         expect(event.daily_price_rules).to include daily_price_rule
       end
+
+      it 'should return only daily price rules that overlaps by event.start and event.stop' do
+        event.start = Time.zone.parse('09:00')+1.day
+        event.stop = event.start + 2.hours
+
+        expect(event.daily_price_rules.count).to eq 1
+        expect(event.daily_price_rules).to include daily_price_rule
+        expect(event.daily_price_rules).not_to include daily_price_rule_2
+      end
     end
 
     it { should have_and_belong_to_many(:stadium_services) }
