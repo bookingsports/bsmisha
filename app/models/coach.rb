@@ -18,6 +18,7 @@ class Coach < ActiveRecord::Base
   belongs_to :user
   has_many :coaches_areas
   has_many :areas, through: :coaches_areas
+  has_and_belongs_to_many :customers, join_table: :coaches_customers, class_name: "User"
   validate :has_at_least_one_area, on: :stadium_dashboard
   validates :user, presence: true
 
@@ -30,6 +31,8 @@ class Coach < ActiveRecord::Base
   accepts_nested_attributes_for :user, :account
 
   delegate :email, to: :user
+  delegate :avatar, to: :user
+  delegate :phone, to: :user
 
   def has_areas?
     areas.size > 0

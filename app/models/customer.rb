@@ -23,6 +23,7 @@
 
 class Customer < User
   include CustomerConcern
+  has_and_belongs_to_many :coaches, join_table: :coaches_customers, class_name: "User"
 
   def products
     Product.where(id: events.map(&:product_ids).flatten)

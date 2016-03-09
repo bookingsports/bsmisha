@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160219204852) do
+ActiveRecord::Schema.define(version: 20160309091006) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,6 +84,14 @@ ActiveRecord::Schema.define(version: 20160219204852) do
 
   add_index "coaches_areas", ["area_id"], name: "index_coaches_areas_on_area_id", using: :btree
   add_index "coaches_areas", ["coach_id"], name: "index_coaches_areas_on_coach_id", using: :btree
+
+  create_table "coaches_customers", force: :cascade do |t|
+    t.integer "coach_id"
+    t.integer "user_id"
+  end
+
+  add_index "coaches_customers", ["coach_id"], name: "index_coaches_customers_on_coach_id", using: :btree
+  add_index "coaches_customers", ["user_id"], name: "index_coaches_customers_on_user_id", using: :btree
 
   create_table "daily_price_rules", force: :cascade do |t|
     t.integer  "price_id"
@@ -343,6 +351,8 @@ ActiveRecord::Schema.define(version: 20160219204852) do
   add_foreign_key "additional_event_items", "events"
   add_foreign_key "areas", "stadiums"
   add_foreign_key "coaches", "users"
+  add_foreign_key "coaches_customers", "coaches"
+  add_foreign_key "coaches_customers", "users"
   add_foreign_key "daily_price_rules", "prices"
   add_foreign_key "deposit_requests", "wallets"
   add_foreign_key "deposit_responses", "deposit_requests"
