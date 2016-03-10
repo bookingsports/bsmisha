@@ -23,7 +23,7 @@ class Event < ActiveRecord::Base
 
   has_paper_trail
 
-  validates :start, :stop, :order_id, :user_id, :area_id, presence: true
+  validates :start, :stop, :user_id, :area_id, presence: true
 
   validates :stop, greater_by_30_min: {than: :start}, allow_blank: true
   validates :start, :stop, step_by_30_min: true, allow_blank: true
@@ -44,6 +44,8 @@ class Event < ActiveRecord::Base
   }, through: :prices
 
   has_and_belongs_to_many :stadium_services
+
+  enum status: [:active, :cancelled]
 
   attr_reader :schedule
 
