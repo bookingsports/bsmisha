@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160309091006) do
+ActiveRecord::Schema.define(version: 20160310084934) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,14 +85,6 @@ ActiveRecord::Schema.define(version: 20160309091006) do
   add_index "coaches_areas", ["area_id"], name: "index_coaches_areas_on_area_id", using: :btree
   add_index "coaches_areas", ["coach_id"], name: "index_coaches_areas_on_coach_id", using: :btree
 
-  create_table "coaches_customers", force: :cascade do |t|
-    t.integer "coach_id"
-    t.integer "user_id"
-  end
-
-  add_index "coaches_customers", ["coach_id"], name: "index_coaches_customers_on_coach_id", using: :btree
-  add_index "coaches_customers", ["user_id"], name: "index_coaches_customers_on_user_id", using: :btree
-
   create_table "daily_price_rules", force: :cascade do |t|
     t.integer  "price_id"
     t.time     "start"
@@ -161,8 +153,9 @@ ActiveRecord::Schema.define(version: 20160309091006) do
     t.string   "recurrence_exception"
     t.integer  "recurrence_id"
     t.boolean  "is_all_day"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.integer  "status",               default: 0
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
   add_index "events", ["area_id"], name: "index_events_on_area_id", using: :btree
@@ -209,6 +202,18 @@ ActiveRecord::Schema.define(version: 20160309091006) do
   end
 
   add_index "prices", ["area_id"], name: "index_prices_on_area_id", using: :btree
+
+  create_table "recoupments", force: :cascade do |t|
+    t.integer  "duration"
+    t.integer  "user_id"
+    t.integer  "area_id"
+    t.string   "reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "recoupments", ["area_id"], name: "index_recoupments_on_area_id", using: :btree
+  add_index "recoupments", ["user_id"], name: "index_recoupments_on_user_id", using: :btree
 
   create_table "reviews", force: :cascade do |t|
     t.integer  "reviewable_id"
@@ -351,8 +356,6 @@ ActiveRecord::Schema.define(version: 20160309091006) do
   add_foreign_key "additional_event_items", "events"
   add_foreign_key "areas", "stadiums"
   add_foreign_key "coaches", "users"
-  add_foreign_key "coaches_customers", "coaches"
-  add_foreign_key "coaches_customers", "users"
   add_foreign_key "daily_price_rules", "prices"
   add_foreign_key "deposit_requests", "wallets"
   add_foreign_key "deposit_responses", "deposit_requests"
@@ -367,6 +370,8 @@ ActiveRecord::Schema.define(version: 20160309091006) do
   add_foreign_key "events_stadium_services", "stadium_services"
   add_foreign_key "orders", "users"
   add_foreign_key "prices", "areas"
+  add_foreign_key "recoupments", "areas"
+  add_foreign_key "recoupments", "users"
   add_foreign_key "reviews", "users"
   add_foreign_key "stadium_services", "services"
   add_foreign_key "stadium_services", "stadiums"

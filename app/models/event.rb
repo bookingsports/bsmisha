@@ -61,6 +61,8 @@ class Event < ActiveRecord::Base
 
   after_initialize :build_schedule
 
+  after_update :create_recoupment_if_cancelled
+
   def name
     "Событие с #{start} по #{stop}"
   end
@@ -149,6 +151,12 @@ class Event < ActiveRecord::Base
   end
 
   private
+    def create_recoupment_if_cancelled
+      if cancelled?
+        Recoupment.create user: self.user, duration: self.duration, area: self.area
+      end
+    end
+
     def self.order_is(status)
       Order.arel_table['status'].eq(Order.statuses[status])
     end
