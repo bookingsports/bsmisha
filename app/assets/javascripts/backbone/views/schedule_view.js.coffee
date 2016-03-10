@@ -8,7 +8,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
     @bindExternalEvents()
 
   url: ->
-    @mainUrl || window.location.pathname + '/events'
+    @mainUrl || window.location.pathname + 'events'
 
   scheduler: ->
     @$el.data('kendoScheduler')
