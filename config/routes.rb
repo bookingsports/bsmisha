@@ -97,7 +97,9 @@ Rails.application.routes.draw do
     resources :events
     resources :pictures, only: :index
     resources :reviews
-    resources :areas, concerns: [:bookable, :totalable]
+    resources :areas, concerns: [:bookable, :totalable] do
+      resources :coaches, only: :index
+    end
   end
 
   resources :stadium_users

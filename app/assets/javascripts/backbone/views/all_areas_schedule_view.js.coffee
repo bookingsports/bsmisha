@@ -20,7 +20,32 @@ class Tennis.Views.AllAreasScheduleView extends Backbone.View
         {type: 'week', selected: true},
         'month'
       ]
-
+      schema:
+        model:
+          id: "id",
+          fields:
+            stop:
+              type: 'date'
+              from: 'end'
+            start:
+              type: 'date'
+              from: 'start'
+            end:
+              type: 'date'
+              from: 'stop'
+            recurrenceId:
+              from: 'recurrence_id'
+            recurrenceRule:
+              from: 'recurrence_rule'
+            recurrenceException:
+              from: 'recurrence_exception'
+            startTimezone:
+              from: 'start_timezone'
+            endTimezone:
+              from: 'end_timezone'
+            isAllDay:
+              type: 'boolean'
+              from: 'is_all_day'
       edit: (e) =>
         if (e.event.visual_type == 'disowned') || !gon.current_user
           alert 'Пожалуйста, сначала авторизуйтесь.'
@@ -100,7 +125,6 @@ class Tennis.Views.AllAreasScheduleView extends Backbone.View
               return options
             if operation != 'read' && options
               return {event: options}
-
         schema:
           timezone: 'Europe/Moscow'
           model:
@@ -112,7 +136,7 @@ class Tennis.Views.AllAreasScheduleView extends Backbone.View
               start:
                 type: 'date'
                 from: 'start'
-              stop:
+              end:
                 type: 'date'
                 from: 'stop'
               recurrenceId:
@@ -123,8 +147,8 @@ class Tennis.Views.AllAreasScheduleView extends Backbone.View
                 from: 'recurrence_exception'
               startTimezone:
                 from: 'start_timezone'
-              stopTimezone:
-                from: 'stop_timezone'
+              endTimezone:
+                from: 'end_timezone'
               isAllDay:
                 type: 'boolean'
                 from: 'is_all_day'

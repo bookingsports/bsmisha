@@ -48,24 +48,27 @@ class User < ActiveRecord::Base
   default_scope -> { order(created_at: :desc) }
 
   def total(options = {})
-    events_maybe_scoped_by(options).unpaid.map(&:total).inject(:+)
+    events_maybe_scoped_by(options).unpaid.active.map(&:total).inject(:+) || 0
   end
 
   def total_hours(options = {})
-    events_maybe_scoped_by(options).unpaid.map(&:duration_in_hours).inject(:+) || 0
+    events_maybe_scoped_by(options).unpaid.active.map(&:duration_in_hours).inject(:+) || 0
+  end
+
+  def total_recoupments(area = {})
+    recoupments.where(area: area).map(&:duration).inject(:+) / 1.hour || 0
   end
 
   def events_maybe_scoped_by options
-    #if options[:product].present?
-    #  Event.where
-    #  events.of_products(options[:product])
-    #else
+    if options[:area].present?
+      events.where(area: options[:area])
+    else
       events
-    #wsend
+    end
   end
 
   def changes_total(options = {})
-    event_changes.of_products(options[:product]).unpaid.map(&:total).inject(:+) || 0
+    event_changes.where(area: options[:area]).unpaid.map(&:total).inject(:+) || 0
   end
 
   def navs

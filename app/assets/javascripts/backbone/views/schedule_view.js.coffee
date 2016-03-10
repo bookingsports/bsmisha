@@ -38,7 +38,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
           slot = scheduler.slotByElement(target[0])
           scheduler.addEvent
             start: slot.startDate
-            end: slot.endDate
+            stop: slot.endDate
         return
 
   render: ->
@@ -47,7 +47,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
       date: new Date()
       allDaySlot: false
       workDayStart: new Date(@opens_at)
-      workDayStop: new Date(@closes_at)
+      workDayEnd: new Date(@closes_at)
       showWorkHours: true
       height: 700
       views: [
@@ -91,6 +91,33 @@ class Tennis.Views.ScheduleView extends Backbone.View
         else
           e.sender.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.js')
         return
+      schema:
+        timezone: 'Europe/Moscow'
+        model:
+          id: 'id'
+          fields:
+            title:
+              from: 'area_name'
+              type: 'string'
+            start:
+              type: 'date'
+              from: 'start'
+            end:
+              type: 'date'
+              from: 'stop'
+            recurrenceId:
+              from: 'recurrence_id'
+            recurrenceRule:
+              from: 'recurrence_rule'
+            recurrenceException:
+              from: 'recurrence_exception'
+            startTimezone:
+              from: 'start_timezone'
+            endTimezone:
+              from: 'end_timezone'
+            isAllDay:
+              type: 'boolean'
+              from: 'is_all_day'
       resources: [
         {
           field: 'visual_type'
@@ -102,19 +129,26 @@ class Tennis.Views.ScheduleView extends Backbone.View
           ]
         },
         {
+          field: 'coach_id'
+          title: 'Тренер'
+          multiple: false
+          dataTextField: 'name'
+          dataValueField: 'id'
+          dataSource:
+            transport:
+              read:
+                url: => window.location.pathname + "coaches.json"
+        },
+        {
           field: 'stadium_service_ids'
           title: 'Доп. услуги'
           multiple: true
-          dataTextField: 'service_name_and_price'
+          dataTextField: 'name'
           dataValueField: 'id'
           dataSource:
             transport:
               read:
                 url: => "/products/#{@area_id}.json"
-              parameterMap: (options, operation) ->
-                options.stadium_services
-            schema:
-              data: (resp) -> resp.stadium_services
         }
       ]
       dataSource:
@@ -152,7 +186,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
               start:
                 type: 'date'
                 from: 'start'
-              stop:
+              end:
                 type: 'date'
                 from: 'stop'
               recurrenceId:
