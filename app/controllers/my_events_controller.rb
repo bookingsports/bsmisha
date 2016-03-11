@@ -1,5 +1,6 @@
 class MyEventsController < EventsController
   layout "dashboard"
+  before_action :authenticate_user!
 
   def index
     @events = current_user.events.order(created_at: :desc)

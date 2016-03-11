@@ -1,10 +1,11 @@
 class Dashboard::PricesController < DashboardController
+  before_action :set_area
   before_action :set_price, only: [:show, :edit, :update, :destroy]
 
   # GET /dashboard/prices
   # GET /dashboard/prices.json
   def index
-    @prices = current_user.prices
+    @prices = current_user.areas.friendly.find(params[:area_id]).prices
   end
 
   # GET /dashboard/prices/1
@@ -29,7 +30,7 @@ class Dashboard::PricesController < DashboardController
 
     respond_to do |format|
       if @price.save
-        format.html { redirect_to dashboard_prices_path(@product), notice: 'Период создан.' }
+        format.html { redirect_to dashboard_area_prices_path(@price.area), notice: 'Период создан.' }
         format.json { render :show, status: :created, location: @price }
       else
         format.html { render :new }
@@ -43,7 +44,7 @@ class Dashboard::PricesController < DashboardController
   def update
     respond_to do |format|
       if @price.update(price_params)
-        format.html { redirect_to dashboard_prices_path, notice: 'Период обновлен.' }
+        format.html { redirect_to dashboard_area_prices_path, notice: 'Период обновлен.' }
         format.json { render :show, status: :ok, location: @price }
       else
         format.html { render :edit }
@@ -57,19 +58,23 @@ class Dashboard::PricesController < DashboardController
   def destroy
     @price.destroy
     respond_to do |format|
-      format.html { redirect_to dashboard_prices_url, notice: 'Период успешно удален.' }
+      format.html { redirect_to dashboard_area_prices_url, notice: 'Период успешно удален.' }
       format.json { head :no_content }
     end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
+
+    def set_area
+      @area = current_user.areas.friendly.find(params[:area_id])
+    end
     def set_price
-      @price = current_user.prices.select {|p| p.id.to_s == params[:id]}.first
+      @price = @area.prices.select {|p| p.id.to_s == params[:id]}.first
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def price_params
-      params.require(:price).permit(:start, :stop, :price, :product_id, :is_sale, :area_id, daily_price_rules_attributes: [:id, :start, :stop, :_destroy, :price, working_days: []])
+      params.require(:price).permit(:start, :stop, :price, :product_id, :is_sale, :area_id, daily_price_rules_attributes: [:id, :start, :stop, :_destroy, :value, working_days: []])
     end
 end

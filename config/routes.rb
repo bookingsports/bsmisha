@@ -64,7 +64,9 @@ Rails.application.routes.draw do
     resource :product, concerns: [:has_pictures] do
       get 'edit_account', on: :member
     end
-    resources :prices
+    resources :area do
+      resources :prices
+    end
     resources :customers
     resources :employments
     resources :coach_users

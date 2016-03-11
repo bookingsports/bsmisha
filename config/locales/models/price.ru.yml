@@ -12,7 +12,7 @@ ru:
         stop: Конец
         price: Цена
         is_sale: Скидка
-        product: Продукт
+        area: Площадка
         working_days: Рабочие дни
         created_at: Дата создания
         updated_at: Дата изменения
