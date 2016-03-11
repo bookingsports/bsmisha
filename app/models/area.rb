@@ -7,10 +7,7 @@
 #  name         :string
 #  description  :string
 #  slug         :string
-#  price        :decimal(, )      default(0.0)
 #  change_price :decimal(, )      default(0.0)
-#  opens_at     :time
-#  closes_at    :time
 #  created_at   :datetime
 #  updated_at   :datetime
 #

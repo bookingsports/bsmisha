@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: prices
+#
+#  id         :integer          not null, primary key
+#  start      :datetime
+#  stop       :datetime
+#  area_id    :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 require 'rails_helper'
 
 RSpec.describe Price do
