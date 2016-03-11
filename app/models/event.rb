@@ -14,6 +14,7 @@
 #  recurrence_exception :string
 #  recurrence_id        :integer
 #  is_all_day           :boolean
+#  status               :integer          default(0)
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #
@@ -54,7 +55,7 @@ class Event < ActiveRecord::Base
   end
 
   def self.unpaid
-    Event.where(order: nil) + Event.joins(:order).where(status: :unpaid)
+    Event.where(order: nil)
   end
 
   scope :paid, -> { joins(:order).where order_is :paid }
@@ -73,7 +74,7 @@ class Event < ActiveRecord::Base
   end
 
   def price
-    daily_price_rules.sum(:value)*duration_in_hours
+    area_price + stadium_services_price + coach_price
   end
 
   def wday
@@ -153,6 +154,18 @@ class Event < ActiveRecord::Base
 
   def event_before_change
     @event_before_change ||= JSON.parse(event_changes.unpaid.last.summary) if event_changes.unpaid.last
+  end
+
+  def stadium_services_price
+      stadium_services.map(&:price).inject(:+) || 0
+  end
+
+  def coach_price
+    coach.present? ? coach.coaches_areas.where(area: area).first.price * duration_in_hours : 0
+  end
+
+  def area_price
+    daily_price_rules.sum(:value) * duration_in_hours
   end
 
   private

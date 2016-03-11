@@ -21,8 +21,6 @@
         = render 'draggable_map'
     .row
       .col-xs-12
-        %h4 Цены
-        = link_to 'Настроить цены', dashboard_prices_path, class: 'btn btn-primary'
         %h4 Площадки
         = link_to_add_association 'Добавить площадку', f, :areas, class: 'btn btn-primary', 'data-association-insertion-node' => '.areas', 'data-association-insertion-method' => 'append'
         %table.table

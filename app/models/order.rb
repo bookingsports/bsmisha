@@ -58,7 +58,9 @@ class Order < ActiveRecord::Base
       transaction = ActiveRecord::Base.transaction do
         user.wallet.withdraw! self.total
         self.events.each do |event|
-          event.coach.user.wallet.deposit_with_tax_deduction! event.price
+            event.area.stadium.user.wallet.deposit_with_tax_deduction! event.area_price
+            event.coach.present? && event.coach.user.wallet.deposit_with_tax_deduction!(event.coach_price)
+            event.stadium_services.present? && event.area.stadium.user.wallet.deposit_with_tax_deduction!(event.stadium_services_price)
         end
       end
 
