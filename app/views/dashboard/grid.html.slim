@@ -10,6 +10,7 @@
     -else
       .col-xs-8
         = render "schedule_legend"
+        #scheduler
   - else
     -if current_user.areas.empty?
       .col-xs-12.text-center
@@ -21,3 +22,4 @@
             = active_link_to cc.name, dashboard_grid_path(cc), active: /#{cc.to_param}/, wrap_tag: :li
       .col-xs-8
         = render "schedule_legend"
+        #scheduler
