@@ -49,6 +49,8 @@ class Tennis.Views.ScheduleView extends Backbone.View
       workDayStart: new Date(@opens_at)
       workDayEnd: new Date(@closes_at)
       showWorkHours: true
+      editable:
+        template: $("#eventFormTemplate").html()
       height: 700
       views: [
         "day",
