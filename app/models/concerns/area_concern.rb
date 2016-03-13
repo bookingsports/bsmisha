@@ -14,10 +14,9 @@ module AreaConcern
       list do
         field :name
         field :description
-        field :opens_at
-        field :closes_at
         field :stadium
         field :events
+        field :coaches_areas
         field :created_at
         field :updated_at
       end
@@ -25,19 +24,17 @@ module AreaConcern
       edit do
         field :name
         field :description
-        field :opens_at
-        field :closes_at
         field :stadium
         field :events
+        field :coaches_areas
       end
 
       show do
-field :name
+        field :name
         field :description
-        field :opens_at
-        field :closes_at
         field :stadium
         field :events
+        field :coaches_areas
         field :created_at
         field :updated_at
       end
