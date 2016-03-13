@@ -54,16 +54,12 @@ class Event < ActiveRecord::Base
     joins(:order).where order_is(:paid).or arel_table['user_id'].eq user.id
   end
 
-  def self.unpaid
-    Event.where(order: nil)
-  end
-
   scope :paid, -> { joins(:order).where order_is :paid }
   scope :past, -> { where arel_table['stop'].lt Time.now }
   scope :future, -> { where arel_table['start'].gt Time.now }
-  #scope :unpaid, -> {
-  #  joins(:order).where(arel_table['order_id'].eq(nil).or(Order.arel_table['status'].eq(Order.statuses[:unpaid])))
-  #}
+  scope :unpaid, -> {
+    joins(:order).where(arel_table['order_id'].eq(nil).or(Order.arel_table['status'].eq(Order.statuses[:unpaid])))
+  }
 
   after_initialize :build_schedule
 

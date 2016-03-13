@@ -107,7 +107,6 @@ RSpec.describe Event do
   context 'validations' do
     it { should validate_presence_of(:start) }
     it { should validate_presence_of(:stop) }
-    it { should validate_presence_of(:order_id) }
     it { should validate_presence_of(:user_id) }
     it { should validate_presence_of(:area_id) }
 
@@ -253,7 +252,7 @@ RSpec.describe Event do
           end
 
           it 'should calc daily price rules' do
-            event.start = Time.zone.parse('2050-02-06 11:00')
+            event.start = Time.zone.parse('2017-02-12 11:00')
             event.stop = event.start + 2.hours
 
             expect(event.wday).to eq 7
