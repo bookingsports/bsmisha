@@ -29,8 +29,6 @@ class StadiumUser < User
 
   has_many :areas, through: :stadium
 
-  enum status: [:pending, :active]
-
   after_create :create_stadium
 
   def stadium_events

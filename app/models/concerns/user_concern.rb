@@ -10,7 +10,6 @@ module UserConcern
         field :email
         field :type
         field :avatar
-        field :status
         field :phone
       end
 
@@ -20,7 +19,6 @@ module UserConcern
         field :password
         field :password_confirmation
         field :avatar
-        field :status
         field :phone
       end
     end

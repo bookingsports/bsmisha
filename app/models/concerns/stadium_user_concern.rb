@@ -9,7 +9,6 @@ module StadiumUserConcern
         field :name
         field :email
         field :avatar
-        field :status
         field :wallet
         field :stadium
         field :phone
@@ -22,7 +21,6 @@ module StadiumUserConcern
         field :password_confirmation
         field :avatar
         field :wallet
-        field :status
         field :stadium
         field :phone
       end
@@ -31,7 +29,6 @@ module StadiumUserConcern
         field :name
         field :email
         field :avatar
-        field :status
         field :wallet
         field :stadium
         field :phone
