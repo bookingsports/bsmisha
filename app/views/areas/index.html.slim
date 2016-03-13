@@ -9,7 +9,7 @@
       - if @product.kind_of? Stadium
         = active_link_to 'Все площадки', stadium_areas_path, active: /areas$/, wrap_tag: :li
       - @product.areas.each do |cc|
-        = active_link_to [cc.name, cc.category.try(:name)].compact.join(', '), url_for([@product, cc]), active: /areas\/#{cc.to_param}/, wrap_tag: :li
+        = active_link_to [cc.name].compact.join(', '), url_for([@product, cc]), active: /areas\/#{cc.to_param}/, wrap_tag: :li
   .col-xs-8
     = render 'schedule_legend'
 

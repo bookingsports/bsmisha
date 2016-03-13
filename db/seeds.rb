@@ -39,6 +39,11 @@ stadium_addresses = ["ул. Большая Филевская, 20, Москва,
   stadium_service = stadium_user.stadium.stadium_services.create price: 500, service: service
 
   stadium_user.stadium.account.update(number: "30101810200000000700", company: "АО “Райффайзенбанк”, 129090, Россия, г. Москва, ул. Троицкая, д.17/1", inn: "7744000302", kpp: "775001001", bik: "044525700", agreement_number: "1234567890", date: Time.now)
+
+  stadium_user.stadium.areas.each do |area|
+    daily_price_rule = DailyPriceRule.new value: 300, working_days: [0,1,2,3,4,5,6]
+    area.prices.create(start: Time.zone.parse('14:00') + 1.day, stop: Time.zone.parse('14:00') + 1.day + 100.years, daily_price_rules: [daily_price_rule])
+  end
 end
 
 coach_user.coach.account.update(number: "30101810200000000700", company: "АО “Райффайзенбанк”, 129090, Россия, г. Москва, ул. Троицкая, д.17/1", inn: "7744000302", kpp: "775001001", bik: "044525700", agreement_number: "1234567890", date: Time.now)

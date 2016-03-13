@@ -75,5 +75,5 @@ ru:
         product: Продукт
       stadium_user:
         <<: *user
-        stadium: Информация о стадионе
+        stadium: Стадион
         product: Продукт

@@ -12,6 +12,8 @@
 #
 
 class Recoupment < ActiveRecord::Base
+  include RecoupmentConcern
+
   belongs_to :user
   belongs_to :area
 

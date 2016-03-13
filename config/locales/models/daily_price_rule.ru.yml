@@ -8,10 +8,10 @@ ru:
         other: ежедневные правила цены
     attributes:
       daily_price_rule:
-        price: Цена
+        price: Период
         start: Начало
         stop: Конец
-        price: Цена
+        value: Цена
         working_days: Рабочие дни
         created_at: Дата создания
         updated_at: Дата изменения

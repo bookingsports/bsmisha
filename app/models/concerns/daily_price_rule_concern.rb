@@ -9,17 +9,16 @@ module DailyPriceRuleConcern
         field :price
         field :start
         field :stop
-        field :price
+        field :value
         field :working_days
         field :created_at
         field :updated_at
       end
 
       edit do
-        field :price
         field :start
         field :stop
-        field :price
+        field :value
         field :working_days
       end
     end
