@@ -6,6 +6,7 @@ gem 'rails', '4.2.5'
 
 # DATABASE
 gem 'pg'
+gem 'postgres_ext'
 
 #MARKUP
 gem 'sass-rails', '~> 5.0'

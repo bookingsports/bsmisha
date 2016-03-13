@@ -40,9 +40,7 @@ class Event < ActiveRecord::Base
   has_many :additional_event_items, dependent: :destroy
 
   has_many :prices, -> (event) { where Price.overlaps event }, through: :area
-  has_many :daily_price_rules, -> (event) {
-    where('? = ANY(working_days)', event.wday).where(DailyPriceRule.overlaps event)
-  }, through: :prices
+  has_many :daily_price_rules, -> (event) { where DailyPriceRule.overlaps event }, through: :prices
 
   has_and_belongs_to_many :stadium_services
 
