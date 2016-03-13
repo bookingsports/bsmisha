@@ -9,9 +9,9 @@
             = image_tag @coach.avatar.small_square.presence || 'placeholder.png', class: 'avatar photo pull-left'
           .col-xs-10
             %h3= @coach.name
-            - if @coach.phone?
+            - if @coach.phone.present?
               %h5= fa_icon('phone') + ' ' + @coach.phone
-            - if @coach.email?
+            - if @coach.email.present?
               %h5= fa_icon('envelope') + ' ' + @coach.email
             %p= truncate(@coach.description, length: 240)
         %hr/

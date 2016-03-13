@@ -19,10 +19,10 @@
             = rule.working_days.map{|d| d.present? ? t(:"date.abbr_day_names").at(d.to_i) : nil}.join(', ')
             = rule.start.utc.strftime('%H:%M') + ' - ' + rule.stop.utc.strftime('%H:%M')
             = ' ' + number_to_integer_currency(rule.value)
-    - if @stadium.stadium_services.any?
+    - if @area.stadium.stadium_services.any?
       h4 Дополнительные услуги
       ul.list-group
-        - @stadium.stadium_services.each do |p|
+        - @area.stadium.stadium_services.each do |p|
           li.list-group-item
             = p.service_name_and_price
 

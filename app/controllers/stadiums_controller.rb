@@ -33,8 +33,11 @@ class StadiumsController < ApplicationController
                   .active
 
     if params[:category_id].present?
-      @category_id = Category.friendly.find(params[:category_id]).id
-      @stadiums = @stadiums.where(category_id: @category_id)
+      begin
+        @category_id = Category.friendly.find(params[:category_id]).id
+        @stadiums = @stadiums.where(category_id: @category_id)
+      rescue
+      end
     end
 
     set_markers @stadiums

@@ -5,7 +5,7 @@
         = image_tag coach.avatar.small_square.presence || 'placeholder.png', class: 'avatar photo pull-left'
       .col-md-10
         = link_to coach.name, coach_area_path(coach, coach.areas.first)
-        - if coach.phone?
+        - if coach.phone.present?
           %h5= fa_icon('phone') + ' ' + coach.phone
-        - if coach.description?
+        - if coach.description.present?
           %h5= fa_icon('info-circle') + ' ' +  truncate(coach.description)
