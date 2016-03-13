@@ -64,7 +64,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
           alert 'Пожалуйста, сначала авторизуйтесь.'
           e.preventDefault()
       resize: (e) =>
-        if @timeIsOccupied(e.start, e.end, e.event)
+        unless @validate(e.start, e.end, e.event) == true
           @scheduler().wrapper.find('.k-marquee-color').addClass 'invalid-slot'
         return
       resizeEnd: (e) =>
@@ -74,7 +74,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
         e.preventDefault()
         return
       move: (e) =>
-        if @timeIsOccupied(e.start, e.end, e.event)
+        unless @validate(e.start, e.end, e.event) == true
           @scheduler().wrapper.find('.k-event-drag-hint').addClass 'invalid-slot'
         return
       moveEnd: (e) =>
