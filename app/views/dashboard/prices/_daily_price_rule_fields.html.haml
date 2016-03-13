@@ -1,6 +1,6 @@
 %tr.nested-fields
-  %td= f.input :start, as: :time, default: Time.parse('09:00'), label: false
-  %td= f.input :stop, as: :time, default: Time.parse('18:00'), label: false
+  %td= f.input :start, as: :datetime, discard_year: true, discard_month: true, default: Time.parse('09:00'), minute_step: 30, label: false
+  %td= f.input :stop, as: :datetime, discard_year: true, discard_month: true, default: Time.parse('18:00'), minute_step: 30, label: false
   %td= f.input :working_days, collection: I18n.t(:"date.abbr_day_names").each_with_index.to_a, as: :check_boxes, item_wrapper_class: 'commented-out-checkbox-inline', label: false
   %td= f.input :value, label: false
   %td= link_to_remove_association 'Удалить правило', f

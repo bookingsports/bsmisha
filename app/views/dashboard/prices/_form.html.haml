@@ -8,8 +8,8 @@
       = f.error_notification
       .form-inputs
         = f.association :area, collection: [current_user.areas].flatten
-        = f.input :start, default: DateTime.current.beginning_of_year
-        = f.input :stop, default: DateTime.current.end_of_year
+        = f.input :start, as: :datetime, default: DateTime.current.beginning_of_year, minute_step: 30
+        = f.input :stop, as: :datetime, default: DateTime.current.end_of_year, minute_step: 30
         %table.table
           %thead
             %tr
