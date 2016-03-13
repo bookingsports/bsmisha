@@ -24,20 +24,176 @@
 require 'rails_helper'
 
 RSpec.describe User do
-  before(:each) do
-    @user = User.new(email: "user@example.com")
-    @valid_user = create(:user)
+  let(:user) { create(:user) }
+
+  context 'associations' do
+    it { should have_many(:orders).dependent(:destroy) }
+    it { should have_many(:events).dependent(:destroy) }
+    it { should have_one(:wallet).dependent(:destroy) }
   end
 
-  subject { @user }
+  context 'validations' do
+    it { should validate_presence_of(:name) }
 
-  it { should respond_to(:email) }
+    context 'name' do
+      it 'should not validate garbage name' do
+        expect(build(:user, name: "23#@$@*@%")).not_to be_valid
+      end
 
-  it "#email returns a string" do
-    expect(@user.email).to match("user@example.com")
+      it 'should validate regular name' do
+        expect(build(:user, name: "John Smith")).to be_valid
+      end
+    end
   end
 
-  it "#wallet returns a Wallet object" do
-    expect(@valid_user.wallet).to be_an_instance_of(Wallet)
+  context "methods" do
+    describe '#type' do
+      it "is set to Customer by default" do
+        expect(User.new.type).to eq "Customer"
+      end
+    end
+
+    describe "#wallet" do
+      it "is created on initialize" do
+        expect(user.wallet).not_to be_nil
+      end
+    end
+
+    describe "#admin?" do
+      it "is returning false" do
+        expect(user.admin?).to eq false
+      end
+    end
+
+    describe "#total" do
+      it "returns proper amount" do
+        event = create(:event)
+        user.events << event
+        expect(user.total).to eq event.area.price * event.duration_in_hours
+      end
+
+      it "returns proper amount when values are specified" do
+        event = create(:event, start: Time.zone.parse('12:00')+1.day, stop: Time.zone.parse('15:00')+1.day, area: create(:area, price: 500))
+        user.events << event
+        expect(user.total).to eq 500 * 3
+      end
+
+      it "returns 0 when no events are present" do
+        expect(user.total).to eq 0
+      end
+    end
+
+    describe "#total_hours" do
+      it "returns proper amount when events are present" do
+        event = create(:event)
+        user.events << event
+        expect(user.total_hours).to eq event.duration_in_hours
+      end
+
+      it "returns 0 when events are not present" do
+        expect(user.total_hours).to eq 0
+      end
+    end
+
+
+    describe "#name_for_admin" do
+      it "should return proper name" do
+        user = build(:user, name: "John Smith", email: "usermail.ru")
+        expect(user.name_for_admin).to eq "John Smith (usermail.ru)"
+      end
+    end
+  end
+end
+
+RSpec.describe Customer do
+  let(:customer) { create(:customer) }
+  context 'methods' do
+    describe '#admin?' do
+      it "should return false" do
+        expect(customer.admin?).to eq false
+      end
+    end
+
+    describe "#areas" do
+      it "should return areas customer booked" do
+        event = create(:event)
+        customer.events << event
+        expect(customer.areas).to include event.area
+      end
+
+      it "should not include areas customer didn't book" do
+        area = create(:area)
+        expect(customer.areas).not_to include area
+      end
+    end
+
+    describe "#events" do
+      it "should return events of customer" do
+        event = create(:event)
+        customer.events << event
+        expect(customer.events).to include event
+      end
+
+      it "should not include events of other user" do
+        another_customer = create(:customer)
+        event = create(:event)
+        another_customer.events << event
+        expect(customer.events).not_to include event
+      end
+    end
+  end
+end
+
+RSpec.describe StadiumUser do
+  let(:stadium_user) { create(:stadium_user) }
+  let(:stadium) { stadium_user.stadium }
+
+  context 'methods' do
+    describe '#admin?' do
+      it "should return false" do
+        expect(stadium_user.admin?).to eq false
+      end
+    end
+
+    describe "#areas" do
+      it "should return stadium's areas" do
+        area = create(:area)
+        stadium.areas << area
+        expect(stadium_user.areas).to include area
+      end
+
+      it "should not include another stadium's areas" do
+        area = create(:area)
+        another_stadium_user = create(:stadium_user)
+        another_stadium_user.stadium.areas << area
+        expect(stadium_user.areas).not_to include area
+      end
+    end
+
+    describe "#stadium_events" do
+      it "should return events of stadium's areas" do
+        event = create(:event, area: stadium_user.areas.first)
+        expect(stadium_user.stadium_events).to include event
+      end
+
+      it "should not include events of other stadium" do
+        another_stadium_user = create(:stadium_user)
+        event = create(:event, area: another_stadium_user.areas.first)
+        another_stadium_user.events << event
+        expect(stadium_user.stadium_events).not_to include event
+      end
+    end
+  end
+end
+
+RSpec.describe Admin do
+  let(:admin) { create(:admin) }
+
+  context 'methods' do
+    describe '#admin?' do
+      it "should return true" do
+        expect(admin.admin?).to eq true
+      end
+    end
   end
 end

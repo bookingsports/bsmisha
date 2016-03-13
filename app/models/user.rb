@@ -31,11 +31,12 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :orders, dependent: :destroy
-  has_many :events
+  has_many :events, dependent: :destroy
   has_one :wallet, dependent: :destroy
   accepts_nested_attributes_for :wallet
 
   validates :name, presence: true
+  validates_format_of :name, :with => /[\p{L} ]/
 
   after_create :create_wallet
 
@@ -46,7 +47,7 @@ class User < ActiveRecord::Base
   default_scope -> { order(created_at: :desc) }
 
   def total(options = {})
-    events_maybe_scoped_by(options).unpaid.map(&:total).inject(:+)
+    events_maybe_scoped_by(options).unpaid.map(&:total).inject(:+) || 0
   end
 
   def total_hours(options = {})
@@ -59,14 +60,6 @@ class User < ActiveRecord::Base
     else
       events
     end
-  end
-
-  def changes_total(options = {})
-    event_changes.of_products(options[:product]).unpaid.map(&:total).inject(:+) || 0
-  end
-
-  def navs
-    []
   end
 
   def method_missing(t)
