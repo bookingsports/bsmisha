@@ -6,7 +6,7 @@ module EventConcern
       navigation_label I18n.t(:products)
       list do
         field :start
-        field :end
+        field :stop
         field :description
         field :user
         field :order
@@ -25,7 +25,7 @@ module EventConcern
 
       show do
         field :start
-        field :end
+        field :stop
         field :description
         field :user
         field :order
@@ -44,7 +44,7 @@ module EventConcern
 
       edit do
         field :start
-        field :end
+        field :stop
         field :description
         field :user
         field :order

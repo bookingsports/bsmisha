@@ -11,7 +11,8 @@ ru:
         start: Начало
         end: Конец
         description: Описание
-        products: Продукты
+        coach: Тренер
+        area: Площадка
         order: Заказ
         recurrence_rule: Правило повторения
         recurrence_exception: Исключение повторения

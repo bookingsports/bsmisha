@@ -7,9 +7,7 @@ module PriceConcern
       list do
         field :start
         field :stop
-        field :price
-        field :is_sale
-        field :product
+        field :area
         field :daily_price_rules
         field :created_at
         field :updated_at
@@ -18,9 +16,7 @@ module PriceConcern
       show do
         field :start
         field :stop
-        field :price
-        field :is_sale
-        field :product
+        field :area
         field :daily_price_rules
         field :created_at
         field :updated_at
@@ -29,9 +25,7 @@ module PriceConcern
       edit do
         field :start
         field :stop
-        field :price
-        field :is_sale
-        field :product
+        field :area
         field :daily_price_rules
       end
     end
