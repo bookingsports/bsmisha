@@ -8,7 +8,7 @@ RSpec.describe "Dashboard" do
         password: 'blinkenbleg'
       })
 
-      @court = Court.create({
+      @area = Area.create({
         stadium: Stadium.create(user: @user),
         price: 100
       })
@@ -37,7 +37,6 @@ RSpec.describe "Dashboard" do
       })
 
       @coach = Coach.create({
-        price: 100,
         user: @user
       })
 

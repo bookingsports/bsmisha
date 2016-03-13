@@ -95,7 +95,9 @@ group :test do
   gem "factory_girl_rails"
   gem "capybara"
   gem "database_cleaner"
+  gem "shoulda-matchers"
   gem "launchy"
+  gem "timecop"
   gem "selenium-webdriver"
   gem "faker", github: 'stympy/faker'
   gem "rspec-rails"
@@ -105,6 +107,7 @@ group :development, :test do
   gem "jasmine"
   gem "byebug"
   gem "web-console", "~> 2.0"
+  gem "rubocop", require: false
   gem "spring"
   gem "railroady"
 end

@@ -6,9 +6,9 @@ class OrderMailer < ApplicationMailer
     mail(to: [order.associated_emails, order.user.email], subject: "⚽️ Bookingsports: Заказ изменен - " + order.human_status)
   end
 
-  def order_created to, events, order
-    @events, @order = events, order
+  def order_created order
+    @events, @order = order.events, order
 
-    mail(to: to, subject: "⚽️ Bookingsports: Заказ оплачен!")
+    mail(to: order.user.email, subject: "⚽️ Bookingsports: Заказ оплачен!")
   end
 end

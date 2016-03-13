@@ -1,0 +1,20 @@
+ru:
+  activerecord:
+    models:
+      area:
+        one: площадка
+        parent: площадку
+        accusative: площадку
+        other: площадки
+    attributes:
+      area:
+        name: Название
+        description: Описание
+        stadium: Стадион
+        opens_at: Открывается в
+        closes_at: Закрывается в
+        events: События
+        price: Цена
+        type: Тип
+        created_at: Дата создания
+        updated_at: Дата изменения

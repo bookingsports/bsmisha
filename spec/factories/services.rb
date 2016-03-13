@@ -11,7 +11,7 @@
 
 FactoryGirl.define do
   factory :service do
-    name "MyString"
-    icon "MyString"
+    name { Faker::Commerce.product_name }
+    icon { Faker::Placeholdit.image('50x50') }
   end
 end

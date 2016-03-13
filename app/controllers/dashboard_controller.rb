@@ -7,8 +7,8 @@ class DashboardController < ApplicationController
   end
 
   def grid
-    @court = Court.friendly.find(params[:court_id]) rescue current_user.products.first
-    set_gon_court
+    @area = Area.friendly.find(params[:area_id]) rescue current_user.areas.first
+    set_gon_area
   end
 
   def payment_settings

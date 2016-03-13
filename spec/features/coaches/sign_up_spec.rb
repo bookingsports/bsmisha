@@ -27,12 +27,12 @@ RSpec.feature "Sign Up", :devise do
   end
 
   scenario "Тренер доступен для пользователей после регистрации тренера и привязки к стадиону" do
-    Stadium.create!(name: "Стадион")
-    user = build(:stadium_user, password: 'password')
+    user = create(:stadium_user, password: 'password')
+    user.stadium.update(name: "Стадион")
     sign_up_with(user.email, 'password', 'password', 'Тренер')
     visit dashboard_grid_path
     within(".dashboard-nav") { click_link "Стадионы" }
-    select("Стадион — корт Основной", from: "coaches_court_court_id")
+    select("Стадион — площадка Основная", from: "coaches_area_area_id")
     click_button "Привязаться"
     within("#navbar") { click_link "Тренеры" }
     expect(find(:css, ".coaches").all("*")).to_not be_empty

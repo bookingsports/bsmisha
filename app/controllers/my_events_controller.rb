@@ -1,17 +1,18 @@
 class MyEventsController < EventsController
   layout "dashboard"
+  before_action :authenticate_user!
 
   def index
     @events = current_user.events.order(created_at: :desc)
 
     respond_to do |format|
-      format.json { @events = @events.of_products(current_products) }
+      format.json { @events = @events.of_products([current_product]) }
       format.html {}
     end
   end
 
   def paid
-    @events = current_user.product.events.order(created_at: :desc)
+    @events = (current_user.kind_of? StadiumUser) ? current_user.stadium.events.order(created_at: :desc) : current_user.product.events.order(created_at: :desc)
   end
 
   def grid

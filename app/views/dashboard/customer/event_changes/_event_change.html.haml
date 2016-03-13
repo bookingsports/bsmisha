@@ -1,5 +1,5 @@
 %tr
-  %td= event_change.event.court.name
+  %td= event_change.event.area.name
   %td= l JSON.parse(event_change.summary)['start'].to_datetime, format: :short
   %td= l JSON.parse(event_change.summary)['end'].to_datetime, format: :short
   %td= event_change.total

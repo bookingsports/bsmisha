@@ -1,20 +1,23 @@
 - content_for :scripts do
   = javascript_include_tag 'scheduler'
-  = javascript_include_tag 'show-court'
+  = javascript_include_tag 'show-area'
 
 .row.top15
-  - if current_user.products.none?
-    - if current_user.kind_of? Customer
+  -if current_user.kind_of? Customer
+    -if current_user.events.empty?
       .col-xs-12.text-center
         h3 У вас пока не создано ни одного заказа! Заходите в наш #{ link_to 'список стадионов', stadiums_path }, и найдите подходящий вам стадион!
-    - else
-      .col-xs-12.text-center
-        h3 У вас пока не создано ни одного корта. Перейдите в раздел  #{ link_to 'и создайте для начала один!', current_user_courts_creation_path }
+    -else
+      .col-xs-8
+        = render "schedule_legend"
   - else
-    .col-xs-4
-      ul.nav.nav-pills.nav-stacked
-        - current_user.products.each do |cc|
-          = active_link_to cc.name, dashboard_grid_path(cc), active: /#{cc.to_param}/, wrap_tag: :li
-    .col-xs-8
-      = render "schedule_legend"
-      #scheduler
+    -if current_user.areas.empty?
+      .col-xs-12.text-center
+        h3 У вас пока не создано ни одной площадки. Перейдите в раздел #{ link_to 'и создайте для начала одну!', current_user_areas_creation_path }
+    - else
+      .col-xs-4
+        ul.nav.nav-pills.nav-stacked
+          -current_user.areas.each do |cc|
+            = active_link_to cc.name, dashboard_grid_path(cc), active: /#{cc.to_param}/, wrap_tag: :li
+      .col-xs-8
+        = render "schedule_legend"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160219204852) do
+ActiveRecord::Schema.define(version: 20160310084934) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,18 @@ ActiveRecord::Schema.define(version: 20160219204852) do
   add_index "additional_event_items", ["event_id"], name: "index_additional_event_items_on_event_id", using: :btree
   add_index "additional_event_items", ["related_type", "related_id"], name: "index_additional_event_items_on_related_type_and_related_id", using: :btree
 
+  create_table "areas", force: :cascade do |t|
+    t.integer  "stadium_id"
+    t.string   "name"
+    t.string   "description"
+    t.string   "slug"
+    t.decimal  "change_price", default: 0.0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "areas", ["stadium_id"], name: "index_areas_on_stadium_id", using: :btree
+
   create_table "categories", force: :cascade do |t|
     t.string   "name"
     t.string   "ancestry"
@@ -54,26 +66,36 @@ ActiveRecord::Schema.define(version: 20160219204852) do
 
   add_index "categories", ["ancestry"], name: "index_categories_on_ancestry", using: :btree
 
-  create_table "coaches_courts", force: :cascade do |t|
+  create_table "coaches", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "slug"
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "coaches", ["user_id"], name: "index_coaches_on_user_id", using: :btree
+
+  create_table "coaches_areas", force: :cascade do |t|
     t.integer "coach_id"
-    t.integer "court_id"
+    t.integer "area_id"
     t.decimal "price",    precision: 8, scale: 2, default: 0.0
   end
 
-  add_index "coaches_courts", ["coach_id"], name: "index_coaches_courts_on_coach_id", using: :btree
-  add_index "coaches_courts", ["court_id"], name: "index_coaches_courts_on_court_id", using: :btree
+  add_index "coaches_areas", ["area_id"], name: "index_coaches_areas_on_area_id", using: :btree
+  add_index "coaches_areas", ["coach_id"], name: "index_coaches_areas_on_coach_id", using: :btree
 
   create_table "daily_price_rules", force: :cascade do |t|
-    t.integer  "special_price_id"
-    t.string   "start"
-    t.string   "stop"
-    t.integer  "price"
-    t.integer  "working_days",     default: [],              array: true
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.integer  "price_id"
+    t.time     "start"
+    t.time     "stop"
+    t.integer  "value"
+    t.integer  "working_days", default: [],              array: true
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
-  add_index "daily_price_rules", ["special_price_id"], name: "index_daily_price_rules_on_special_price_id", using: :btree
+  add_index "daily_price_rules", ["price_id"], name: "index_daily_price_rules_on_price_id", using: :btree
 
   create_table "deposit_requests", force: :cascade do |t|
     t.integer  "wallet_id"
@@ -121,38 +143,33 @@ ActiveRecord::Schema.define(version: 20160219204852) do
 
   create_table "events", force: :cascade do |t|
     t.datetime "start"
-    t.datetime "end"
+    t.datetime "stop"
     t.string   "description"
-    t.integer  "product_id"
+    t.integer  "coach_id"
+    t.integer  "area_id"
     t.integer  "order_id"
     t.integer  "user_id"
     t.string   "recurrence_rule"
     t.string   "recurrence_exception"
     t.integer  "recurrence_id"
     t.boolean  "is_all_day"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.integer  "status",               default: 0
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
+  add_index "events", ["area_id"], name: "index_events_on_area_id", using: :btree
+  add_index "events", ["coach_id"], name: "index_events_on_coach_id", using: :btree
   add_index "events", ["order_id"], name: "index_events_on_order_id", using: :btree
-  add_index "events", ["product_id"], name: "index_events_on_product_id", using: :btree
   add_index "events", ["user_id"], name: "index_events_on_user_id", using: :btree
 
-  create_table "events_product_services", force: :cascade do |t|
+  create_table "events_stadium_services", force: :cascade do |t|
     t.integer "event_id"
-    t.integer "product_service_id"
+    t.integer "stadium_service_id"
   end
 
-  add_index "events_product_services", ["event_id"], name: "index_events_product_services_on_event_id", using: :btree
-  add_index "events_product_services", ["product_service_id"], name: "index_events_product_services_on_product_service_id", using: :btree
-
-  create_table "events_products", force: :cascade do |t|
-    t.integer "event_id"
-    t.integer "product_id"
-  end
-
-  add_index "events_products", ["event_id"], name: "index_events_products_on_event_id", using: :btree
-  add_index "events_products", ["product_id"], name: "index_events_products_on_product_id", using: :btree
+  add_index "events_stadium_services", ["event_id"], name: "index_events_stadium_services_on_event_id", using: :btree
+  add_index "events_stadium_services", ["stadium_service_id"], name: "index_events_stadium_services_on_stadium_service_id", using: :btree
 
   create_table "orders", force: :cascade do |t|
     t.integer  "user_id"
@@ -176,44 +193,27 @@ ActiveRecord::Schema.define(version: 20160219204852) do
 
   add_index "pictures", ["imageable_type", "imageable_id"], name: "index_pictures_on_imageable_type_and_imageable_id", using: :btree
 
-  create_table "product_services", force: :cascade do |t|
-    t.integer  "product_id"
-    t.integer  "service_id"
-    t.decimal  "price",      precision: 8, scale: 2
-    t.string   "type"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+  create_table "prices", force: :cascade do |t|
+    t.datetime "start"
+    t.datetime "stop"
+    t.integer  "area_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  add_index "product_services", ["product_id"], name: "index_product_services_on_product_id", using: :btree
-  add_index "product_services", ["service_id"], name: "index_product_services_on_service_id", using: :btree
+  add_index "prices", ["area_id"], name: "index_prices_on_area_id", using: :btree
 
-  create_table "products", force: :cascade do |t|
-    t.integer  "category_id"
+  create_table "recoupments", force: :cascade do |t|
+    t.integer  "duration"
     t.integer  "user_id"
-    t.integer  "parent_id"
-    t.string   "name"
-    t.string   "phone"
-    t.text     "description"
-    t.string   "address"
-    t.float    "latitude",                             default: 55.75
-    t.float    "longitude",                            default: 37.61
-    t.string   "slug"
-    t.integer  "status",                               default: 0
-    t.string   "type"
-    t.string   "email"
-    t.string   "avatar"
-    t.decimal  "price",        precision: 8, scale: 2
-    t.decimal  "change_price", precision: 8, scale: 2
-    t.time     "opens_at"
-    t.time     "closes_at"
-    t.datetime "created_at",                                           null: false
-    t.datetime "updated_at",                                           null: false
+    t.integer  "area_id"
+    t.string   "reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  add_index "products", ["category_id"], name: "index_products_on_category_id", using: :btree
-  add_index "products", ["parent_id"], name: "index_products_on_parent_id", using: :btree
-  add_index "products", ["user_id"], name: "index_products_on_user_id", using: :btree
+  add_index "recoupments", ["area_id"], name: "index_recoupments_on_area_id", using: :btree
+  add_index "recoupments", ["user_id"], name: "index_recoupments_on_user_id", using: :btree
 
   create_table "reviews", force: :cascade do |t|
     t.integer  "reviewable_id"
@@ -236,17 +236,39 @@ ActiveRecord::Schema.define(version: 20160219204852) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "special_prices", force: :cascade do |t|
-    t.datetime "start"
-    t.datetime "stop"
-    t.integer  "price"
-    t.boolean  "is_sale"
-    t.integer  "product_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "stadium_services", force: :cascade do |t|
+    t.integer  "stadium_id"
+    t.integer  "service_id"
+    t.float    "price"
+    t.boolean  "periodic",   default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
-  add_index "special_prices", ["product_id"], name: "index_special_prices_on_product_id", using: :btree
+  add_index "stadium_services", ["service_id"], name: "index_stadium_services_on_service_id", using: :btree
+  add_index "stadium_services", ["stadium_id"], name: "index_stadium_services_on_stadium_id", using: :btree
+
+  create_table "stadiums", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "category_id"
+    t.string   "name",        default: "Без названия", null: false
+    t.string   "phone"
+    t.string   "description"
+    t.string   "address"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "slug"
+    t.integer  "status",      default: 0
+    t.string   "email"
+    t.string   "main_image"
+    t.time     "opens_at"
+    t.time     "closes_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "stadiums", ["category_id"], name: "index_stadiums_on_category_id", using: :btree
+  add_index "stadiums", ["user_id"], name: "index_stadiums_on_user_id", using: :btree
 
   create_table "static_pages", force: :cascade do |t|
     t.text     "text"
@@ -270,7 +292,6 @@ ActiveRecord::Schema.define(version: 20160219204852) do
     t.string   "name"
     t.string   "type",                   default: "Customer"
     t.string   "avatar"
-    t.integer  "status",                 default: 0
     t.string   "phone"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -333,24 +354,29 @@ ActiveRecord::Schema.define(version: 20160219204852) do
   add_index "withdrawals", ["wallet_id"], name: "index_withdrawals_on_wallet_id", using: :btree
 
   add_foreign_key "additional_event_items", "events"
-  add_foreign_key "daily_price_rules", "special_prices"
+  add_foreign_key "areas", "stadiums"
+  add_foreign_key "coaches", "users"
+  add_foreign_key "daily_price_rules", "prices"
   add_foreign_key "deposit_requests", "wallets"
   add_foreign_key "deposit_responses", "deposit_requests"
   add_foreign_key "deposits", "wallets"
   add_foreign_key "event_changes", "events"
   add_foreign_key "event_changes", "orders"
+  add_foreign_key "events", "areas"
+  add_foreign_key "events", "coaches"
   add_foreign_key "events", "orders"
-  add_foreign_key "events", "products"
   add_foreign_key "events", "users"
-  add_foreign_key "events_product_services", "events"
-  add_foreign_key "events_product_services", "product_services"
+  add_foreign_key "events_stadium_services", "events"
+  add_foreign_key "events_stadium_services", "stadium_services"
   add_foreign_key "orders", "users"
-  add_foreign_key "product_services", "products"
-  add_foreign_key "product_services", "services"
-  add_foreign_key "products", "categories"
-  add_foreign_key "products", "users"
+  add_foreign_key "prices", "areas"
+  add_foreign_key "recoupments", "areas"
+  add_foreign_key "recoupments", "users"
   add_foreign_key "reviews", "users"
-  add_foreign_key "special_prices", "products"
+  add_foreign_key "stadium_services", "services"
+  add_foreign_key "stadium_services", "stadiums"
+  add_foreign_key "stadiums", "categories"
+  add_foreign_key "stadiums", "users"
   add_foreign_key "wallets", "users"
   add_foreign_key "withdrawal_requests", "wallets"
   add_foreign_key "withdrawals", "wallets"

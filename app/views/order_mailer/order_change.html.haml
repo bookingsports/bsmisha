@@ -3,7 +3,7 @@
 %table.table
   %thead
     %tr
-      %th Корт
+      %th Площадка
       %th Начало
       %th Конец
       %th Длительность
@@ -12,7 +12,7 @@
   %tbody
     - @order.events.each do |event|
       %tr
-        %td= event.court.name
+        %td= event.area.name
         %td= event.start
         %td= event.end
         %td= event.duration

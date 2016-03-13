@@ -5,22 +5,22 @@
 #  id         :integer          not null, primary key
 #  user_id    :integer
 #  total      :decimal(8, 2)
-#  status     :integer
+#  status     :integer          default(0)
+#  comment    :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  comment    :string
 #
 
 require 'rails_helper'
 
 RSpec.describe Order do
-  before(:each) do
-    full_setup
-  end
+  let(:area) {create(:area, price: 300)}
+  let(:event) {create(:event, area: area, start: Time.zone.parse('12:00')+1.day, stop: Time.zone.parse('15:00')+1.day)}
+  let(:order) {create(:order, events: [event])}
 
   describe "#total" do
     it "returns correct value" do
-      expect(@order.total).to eq(@event.total)
+      expect(order.total).to eq(event.total)
     end
   end
 
@@ -31,11 +31,10 @@ RSpec.describe Order do
 
       expect(@order.total).to eq(640)
       expect(@coach.owner.wallet.total).to eq(285)
-      expect(@court.owner.wallet.total).to eq(323.0)
+      expect(@area.owner.wallet.total).to eq(323.0)
       expect(AdminWallet.find.total).to eq(640 - (285 + 323.0))
       expect(@user.wallet.total).to eq(360)
     end
-=end
 
     it "fails when insufficient funds" do
       @user.wallet.withdraw! 1000
@@ -65,5 +64,6 @@ RSpec.describe Order do
       expect(ActionMailer::Base.deliveries.count).to eq(3)
       expect(ActionMailer::Base.deliveries.first.subject).to eq("⚽️ Bookingsports: Занятие перенесено")
     end
+=end
   end
 end

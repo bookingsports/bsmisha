@@ -37,8 +37,8 @@ class Dashboard::EventsController < DashboardController
     end
 
     def current_products
-      if params[:court_id]
-        [Court.find(params[:court_id])]
+      if params[:area_id]
+        [Area.find(params[:area_id])]
       else
         [current_user.product]
       end

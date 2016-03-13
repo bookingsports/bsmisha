@@ -4,7 +4,7 @@
     %tr
       %th #
       %th Стадион
-      %th Корт
+      %th Площадка
       %th Период занятий
       %th Время тренировок
       %th Стоимость
@@ -12,7 +12,7 @@
     %tr
       %td= event.id
       %td= event.stadium.name
-      %td= event.court.name
+      %td= event.area.name
       %td= l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
       %td
         = event.start.strftime("%H:%M:%S") + ' - ' + event.end.strftime("%H:%M:%S")

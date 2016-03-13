@@ -4,24 +4,29 @@
 #
 #  id                   :integer          not null, primary key
 #  start                :datetime
-#  end                  :datetime
+#  stop                 :datetime
 #  description          :string
-#  product_id           :integer
+#  coach_id             :integer
+#  area_id              :integer
 #  order_id             :integer
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
+#  user_id              :integer
 #  recurrence_rule      :string
 #  recurrence_exception :string
 #  recurrence_id        :integer
 #  is_all_day           :boolean
-#  user_id              :integer
+#  status               :integer          default(0)
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
 #
 
 FactoryGirl.define do
   factory :event do
-    start "2015-04-21 13:12:09"
-    self.end "2015-04-21 13:12:09"
-    description "MyString"
-    order nil
+    start { Date.tomorrow + Faker::Number.between(7, 20).hours }
+    stop { start + Faker::Number.between(1, 3).hour }
+    description ''
+    is_all_day false
+    area
+    order
+    user
   end
 end

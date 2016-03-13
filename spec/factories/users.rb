@@ -13,13 +13,12 @@
 #  last_sign_in_at        :datetime
 #  current_sign_in_ip     :inet
 #  last_sign_in_ip        :inet
+#  name                   :string
+#  type                   :string           default("Customer")
+#  avatar                 :string
+#  phone                  :string
 #  created_at             :datetime
 #  updated_at             :datetime
-#  name                   :string
-#  type                   :string
-#  avatar                 :string
-#  status                 :integer
-#  phone                  :string
 #
 
 FactoryGirl.define do
@@ -33,9 +32,6 @@ FactoryGirl.define do
     factory :customer, class: 'Customer'
     factory :coach_user, class: 'CoachUser'
     factory :admin, class: 'Admin'
-
-    factory :stadium_user, class: 'StadiumUser' do
-      status :active
-    end
+    factory :stadium_user, class: 'StadiumUser'
   end
 end

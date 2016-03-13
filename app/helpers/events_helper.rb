@@ -4,23 +4,25 @@
 #
 #  id                   :integer          not null, primary key
 #  start                :datetime
-#  end                  :datetime
+#  stop                 :datetime
 #  description          :string
-#  product_id           :integer
+#  coach_id             :integer
+#  area_id              :integer
 #  order_id             :integer
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
+#  user_id              :integer
 #  recurrence_rule      :string
 #  recurrence_exception :string
 #  recurrence_id        :integer
 #  is_all_day           :boolean
-#  user_id              :integer
+#  status               :integer          default(0)
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
 #
 
 module EventsHelper
   def current_user_events_path
-    if current_user.courts.any?
-      dashboard_court_events_path(court_id: current_user.courts.first)
+    if current_user.areas.any?
+      dashboard_area_events_path(area_id: current_user.areas.first)
     end
   end
 end

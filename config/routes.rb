@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   end
 
-  get 'grid/(:court_id)', to: 'dashboard#grid', as: 'dashboard_grid'
+  get 'grid/(:area_id)', to: 'dashboard#grid', as: 'dashboard_grid'
   get 'products/show'
 
   concern :bookable do
@@ -23,8 +23,8 @@ Rails.application.routes.draw do
     resources :pictures
   end
 
-  concern :has_special_prices do
-    resources :special_prices
+  concern :has_prices do
+    resources :prices
   end
 
   resources :events, :my_events do
@@ -39,7 +39,7 @@ Rails.application.routes.draw do
   resources :products, concerns: :bookable
 
   # scope :my do
-    # resources :courts
+    # resources :areas
   # end
 
   post 'feedback/create', as: 'feedback'
@@ -64,7 +64,9 @@ Rails.application.routes.draw do
     resource :product, concerns: [:has_pictures] do
       get 'edit_account', on: :member
     end
-    resources :special_prices
+    resources :area do
+      resources :prices
+    end
     resources :customers
     resources :employments
     resources :coach_users
@@ -87,17 +89,19 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :courts, concerns: [:bookable, :totalable]
+  resources :areas, concerns: [:bookable, :totalable]
 
   resources :coaches, defaults: { scope: 'coach' } do
-    resources :courts, concerns: [:bookable, :totalable]
+    resources :areas, concerns: [:bookable, :totalable]
   end
 
   resources :stadiums, defaults: { scope: 'stadium' } do
     resources :events
     resources :pictures, only: :index
     resources :reviews
-    resources :courts, concerns: [:bookable, :totalable]
+    resources :areas, concerns: [:bookable, :totalable] do
+      resources :coaches, only: :index
+    end
   end
 
   resources :stadium_users

@@ -8,7 +8,6 @@
       %tr
         %th Имя
         %th Почта
-        %th Стоимость
         %th Дата создания
         %th
     %tbody
@@ -16,7 +15,6 @@
         %tr
           %td= coach.name
           %td= coach.email
-          %td= number_to_integer_currency coach.price
           %td= coach.created_at
           %td= link_to fa_icon('edit') + ' Редактировать', edit_dashboard_coach_user_path(coach.user.id)
 - else

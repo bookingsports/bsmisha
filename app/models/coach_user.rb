@@ -13,35 +13,25 @@
 #  last_sign_in_at        :datetime
 #  current_sign_in_ip     :inet
 #  last_sign_in_ip        :inet
+#  name                   :string
+#  type                   :string           default("Customer")
+#  avatar                 :string
+#  phone                  :string
 #  created_at             :datetime
 #  updated_at             :datetime
-#  name                   :string
-#  type                   :string
-#  avatar                 :string
-#  status                 :integer
-#  phone                  :string
 #
 
 class CoachUser < User
   include CoachUserConcern
 
   has_one :coach, foreign_key: 'user_id', dependent: :destroy
-  has_one :product, foreign_key: "user_id", dependent: :destroy
+  has_many :areas, through: :coach
 
-  has_one :account, as: :accountable
-  after_create :create_account
+  accepts_nested_attributes_for :coach
 
-  accepts_nested_attributes_for :coach, :account
-
-  after_initialize :build_coach, unless: 'coach.present?'
-
-  delegate :description, to: :coach
+  after_create :create_coach
 
   def name
     attributes["name"] || "Тренер ##{id}"
-  end
-
-  def products
-    coach.courts
   end
 end

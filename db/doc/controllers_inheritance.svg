@@ -86,13 +86,13 @@
 <g id="edge11" class="edge"><title>ApplicationController&#45;&gt;CoachesController</title>
 <path fill="none" stroke="black" d="M3758.95,-229.648C3629.18,-223.832 3375.44,-209.55 3161.75,-180 3151.77,-178.619 3141.18,-176.796 3131,-174.858"/>
 </g>
-<!-- CourtsController -->
-<g id="node13" class="node"><title>CourtsController</title>
+<!-- AreasController -->
+<g id="node13" class="node"><title>AreasController</title>
 <ellipse fill="none" stroke="black" cx="3240.75" cy="-162" rx="70.0841" ry="18"/>
-<text text-anchor="middle" x="3240.75" y="-157.8" font-family="Times,serif" font-size="14.00">CourtsController</text>
+<text text-anchor="middle" x="3240.75" y="-157.8" font-family="Times,serif" font-size="14.00">AreasController</text>
 </g>
-<!-- ApplicationController&#45;&gt;CourtsController -->
-<g id="edge12" class="edge"><title>ApplicationController&#45;&gt;CourtsController</title>
+<!-- ApplicationController&#45;&gt;AreasController -->
+<g id="edge12" class="edge"><title>ApplicationController&#45;&gt;AreasController</title>
 <path fill="none" stroke="black" d="M3762.1,-227.515C3658.36,-219.975 3475.18,-204.49 3319.75,-180 3310.33,-178.515 3300.34,-176.62 3290.75,-174.636"/>
 </g>
 <!-- DashboardController -->
@@ -185,10 +185,10 @@
 <g id="edge41" class="edge"><title>ApplicationController&#45;&gt;VisitorsController</title>
 <path fill="none" stroke="black" d="M3932.98,-232.975C4112.53,-231.939 4533.03,-224.485 4882.75,-180 4892.82,-178.719 4903.49,-176.894 4913.71,-174.911"/>
 </g>
-<!-- Coach::CourtsController -->
-<g id="node9" class="node"><title>Coach::CourtsController</title>
+<!-- Coach::AreasController -->
+<g id="node9" class="node"><title>Coach::AreasController</title>
 <ellipse fill="none" stroke="black" cx="1267.75" cy="-90" rx="97.5967" ry="18"/>
-<text text-anchor="middle" x="1267.75" y="-85.8" font-family="Times,serif" font-size="14.00">Coach::CourtsController</text>
+<text text-anchor="middle" x="1267.75" y="-85.8" font-family="Times,serif" font-size="14.00">Coach::AreasController</text>
 </g>
 <!-- Coach::EventsController -->
 <g id="node10" class="node"><title>Coach::EventsController</title>
@@ -200,8 +200,8 @@
 <ellipse fill="none" stroke="black" cx="5472.75" cy="-90" rx="93.236" ry="18"/>
 <text text-anchor="middle" x="5472.75" y="-85.8" font-family="Times,serif" font-size="14.00">CoachEventsController</text>
 </g>
-<!-- CoachesController&#45;&gt;Coach::CourtsController -->
-<g id="edge8" class="edge"><title>CoachesController&#45;&gt;Coach::CourtsController</title>
+<!-- CoachesController&#45;&gt;Coach::AreasController -->
+<g id="edge8" class="edge"><title>CoachesController&#45;&gt;Coach::AreasController</title>
 <path fill="none" stroke="black" d="M3023.93,-148.947C3013.33,-146.949 3002.23,-145.155 2991.75,-144 2277.24,-65.2096 2090.7,-172.545 1374.75,-108 1361.83,-106.835 1348.1,-105.063 1334.93,-103.095"/>
 </g>
 <!-- Dashboard::Coach::CoachProfileController -->
@@ -214,13 +214,13 @@
 <ellipse fill="none" stroke="black" cx="1875.75" cy="-90" rx="147.292" ry="18"/>
 <text text-anchor="middle" x="1875.75" y="-85.8" font-family="Times,serif" font-size="14.00">Dashboard::Coach::CoachesController</text>
 </g>
-<!-- Dashboard::Coach::CourtsController -->
-<g id="node16" class="node"><title>Dashboard::Coach::CourtsController</title>
+<!-- Dashboard::Coach::AreasController -->
+<g id="node16" class="node"><title>Dashboard::Coach::AreasController</title>
 <ellipse fill="none" stroke="black" cx="1587.75" cy="-18" rx="140.545" ry="18"/>
-<text text-anchor="middle" x="1587.75" y="-13.8" font-family="Times,serif" font-size="14.00">Dashboard::Coach::CourtsController</text>
+<text text-anchor="middle" x="1587.75" y="-13.8" font-family="Times,serif" font-size="14.00">Dashboard::Coach::AreasController</text>
 </g>
-<!-- Dashboard::Coach::CoachesController&#45;&gt;Dashboard::Coach::CourtsController -->
-<g id="edge15" class="edge"><title>Dashboard::Coach::CoachesController&#45;&gt;Dashboard::Coach::CourtsController</title>
+<!-- Dashboard::Coach::CoachesController&#45;&gt;Dashboard::Coach::AreasController -->
+<g id="edge15" class="edge"><title>Dashboard::Coach::CoachesController&#45;&gt;Dashboard::Coach::AreasController</title>
 <path fill="none" stroke="black" d="M1812.55,-73.6382C1764.37,-61.9268 1698.34,-45.8781 1650.31,-34.2055"/>
 </g>
 <!-- Dashboard::Coach::CustomersController -->

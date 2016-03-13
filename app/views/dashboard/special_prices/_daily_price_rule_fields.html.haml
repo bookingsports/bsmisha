@@ -1,6 +1,0 @@
-%tr.nested-fields
-  %td= f.input :start, as: :hhmm, selected: '09:00', label: false
-  %td= f.input :stop, as: :hhmm, selected: '18:00', label: false
-  %td= f.input :working_days, collection: I18n.t(:"date.abbr_day_names").each_with_index.to_a, as: :check_boxes, item_wrapper_class: 'commented-out-checkbox-inline', label: false
-  %td= f.input :price, label: false
-  %td= link_to_remove_association 'Удалить правило', f

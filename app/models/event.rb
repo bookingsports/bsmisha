@@ -4,17 +4,19 @@
 #
 #  id                   :integer          not null, primary key
 #  start                :datetime
-#  end                  :datetime
+#  stop                 :datetime
 #  description          :string
-#  product_id           :integer
+#  coach_id             :integer
+#  area_id              :integer
 #  order_id             :integer
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
+#  user_id              :integer
 #  recurrence_rule      :string
 #  recurrence_exception :string
 #  recurrence_id        :integer
 #  is_all_day           :boolean
-#  user_id              :integer
+#  status               :integer          default(0)
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
 #
 
 class Event < ActiveRecord::Base
@@ -22,63 +24,69 @@ class Event < ActiveRecord::Base
 
   has_paper_trail
 
+  validates :start, :stop, :user_id, :area_id, presence: true
+
+  validates :stop, greater_by_30_min: {than: :start}, allow_blank: true
+  validates :start, :stop, step_by_30_min: true, allow_blank: true
+  validate :start_is_not_in_the_past
+
   belongs_to :user
   belongs_to :order
+
+  belongs_to :coach
+  belongs_to :area
+
   has_many :event_changes, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :additional_event_items, dependent: :destroy
-  has_and_belongs_to_many :products
-  has_and_belongs_to_many :product_services # , dependent: :destroy - not sure
+
+  has_many :prices, -> (event) { where Price.overlaps event }, through: :area
+  has_many :daily_price_rules, -> (event) {
+    where('? = ANY(working_days)', event.wday).where(DailyPriceRule.overlaps event)
+  }, through: :prices
+
+  has_and_belongs_to_many :stadium_services
+
+  enum status: [:active, :cancelled]
 
   attr_reader :schedule
 
-  scope :paid, -> { joins("LEFT OUTER JOIN orders ON orders.id = events.order_id").where("orders.status =  ?", Order.statuses[:paid]) }
-  scope :unpaid, -> { joins("LEFT OUTER JOIN orders ON orders.id = events.order_id").where("orders.status =  ? or orders.status is null", Order.statuses[:unpaid]) }
-  scope :past, -> { where('"end" < ?', Time.current)}
-  scope :future, -> { where('"start" > ?', Time.current)}
-  scope :paid_or_owned_by,  -> (user) do
-    if user
-      joins("LEFT OUTER JOIN orders ON orders.id = events.order_id").where("(orders.user_id <> :id and orders.status = :st) or events.user_id = :id ", { id: user.id, st: Order.statuses[:paid]} )
-    else
-      paid
-    end
+  scope :paid_or_owned_by, -> (user) do
+    joins(:order).where order_is(:paid).or arel_table['user_id'].eq user.id
   end
-  scope :of_products, ->(*products) do
-    joins(:events_products).where(events_products: { product_id: products.flatten.map(&:id) }).uniq
+
+  def self.unpaid
+    Event.where(order: nil)
   end
+
+  scope :paid, -> { joins(:order).where order_is :paid }
+  scope :past, -> { where arel_table['stop'].lt Time.now }
+  scope :future, -> { where arel_table['start'].gt Time.now }
+  #scope :unpaid, -> {
+  #  joins(:order).where(arel_table['order_id'].eq(nil).or(Order.arel_table['status'].eq(Order.statuses[:unpaid])))
+  #}
 
   after_initialize :build_schedule
 
+  after_update :create_recoupment_if_cancelled
+
   def name
-    "Событие с #{start} по #{self.end}"
+    "Событие с #{start} по #{stop}"
   end
 
-  def total
-    associated_payables_with_price.map {|p| p[:total] }.inject(&:+)
+  def price
+    area_price + stadium_services_price + coach_price
   end
 
-  def associated_payables
-    (products + product_services)
-  end
-
-  def associated_payables_with_price
-    associated_payables.map {|p| {product: p, total: p.price_for_event(self) * occurrences}}
+  def wday
+    start.wday
   end
 
   def duration_in_hours
-    (duration / 1.hour) * occurrences
+    duration / 1.hour
   end
 
   def duration
-    self.end - self.start
-  end
-
-  def hours
-    arr = (self.start.hour..self.end.hour).to_a
-    if self.end.min == 0
-      arr[0..-2]
-    else
-      arr
-    end
+    stop - start
   end
 
   def occurrences
@@ -116,30 +124,6 @@ class Event < ActiveRecord::Base
     !paid?
   end
 
-  def product_names
-    products.map(&:name).join(', ')
-  end
-
-  def coaches
-    products.where(type: "Coach")
-  end
-
-  def coach
-    coaches.first
-  end
-
-  def stadium
-    products.where(type: "Stadium").first || court.try(:stadium) || Stadium.new
-  end
-
-  def courts
-    products.where(type: "Court")
-  end
-
-  def court
-    courts.first || Court.new
-  end
-
   def start_for(user)
     if self.user == user
       self.start
@@ -148,9 +132,9 @@ class Event < ActiveRecord::Base
     end
   end
 
-  def end_for(user)
+  def stop_for(user)
     if self.user == user
-      self.end
+      stop
     else
       end_before_change
     end
@@ -165,22 +149,41 @@ class Event < ActiveRecord::Base
   end
 
   def end_before_change
-    event_before_change ? Time.zone.parse(event_before_change["end"]) : attributes["end"]
+    event_before_change ? Time.zone.parse(event_before_change["stop"]) : attributes["stop"]
   end
 
   def event_before_change
     @event_before_change ||= JSON.parse(event_changes.unpaid.last.summary) if event_changes.unpaid.last
   end
 
-  def start
-    attributes["start"]
+  def stadium_services_price
+      stadium_services.map(&:price).inject(:+) || 0
   end
 
-  def end
-    attributes["end"]
+  def coach_price
+    coach.present? ? coach.coaches_areas.where(area: area).first.price * duration_in_hours : 0
+  end
+
+  def area_price
+    daily_price_rules.sum(:value) * duration_in_hours
   end
 
   private
+    def create_recoupment_if_cancelled
+      if cancelled?
+        Recoupment.create user: self.user, duration: self.duration, area: self.area
+      end
+    end
+
+    def self.order_is(status)
+      Order.arel_table['status'].eq(Order.statuses[status])
+    end
+
+    def start_is_not_in_the_past
+      if start.present? && start < Time.now
+        errors.add(:start, "can't be in the past")
+      end
+    end
 
     def build_schedule
       @schedule = IceCube::Schedule.new do |s|

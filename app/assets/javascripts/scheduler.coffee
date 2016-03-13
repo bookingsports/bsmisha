@@ -6,7 +6,7 @@
 #= require ./backbone/models/event
 #= require ./backbone/templates/default_modal
 #= require ./backbone/templates/schedule_form
-#= require ./backbone/views/all_courts_schedule_view
+#= require ./backbone/views/all_areas_schedule_view
 #= require ./backbone/views/schedule_view
 #= require ./backbone/views/checkout_view
 #= require ./backbone/views/form_view

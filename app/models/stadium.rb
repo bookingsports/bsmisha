@@ -1,48 +1,68 @@
 # == Schema Information
 #
-# Table name: products
+# Table name: stadiums
 #
-#  id           :integer          not null, primary key
-#  category_id  :integer
-#  user_id      :integer
-#  name         :string
-#  phone        :string
-#  description  :text
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  address      :string
-#  latitude     :float            default(55.75)
-#  longitude    :float            default(37.61)
-#  slug         :string
-#  status       :integer          default(0)
-#  type         :string
-#  parent_id    :integer
-#  email        :string
-#  avatar       :string
-#  price        :decimal(8, 2)
-#  change_price :decimal(8, 2)
-#  opens_at     :time
-#  closes_at    :time
+#  id          :integer          not null, primary key
+#  user_id     :integer
+#  category_id :integer
+#  name        :string           default("Без названия"), not null
+#  phone       :string
+#  description :string
+#  address     :string
+#  latitude    :float
+#  longitude   :float
+#  slug        :string
+#  status      :integer          default(0)
+#  email       :string
+#  main_image  :string
+#  opens_at    :time
+#  closes_at   :time
+#  created_at  :datetime
+#  updated_at  :datetime
 #
 
-class Stadium < Product
+class Stadium < ActiveRecord::Base
   include StadiumConcern
+  include FriendlyId
 
+  belongs_to :user
   belongs_to :category, inverse_of: :stadiums
-  has_many :courts, dependent: :destroy, inverse_of: :stadium, foreign_key: :parent_id
+  has_many :areas, dependent: :destroy
+  has_many :pictures, as: :imageable
+  has_many :reviews, as: :reviewable
 
-  accepts_nested_attributes_for :courts, reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :user
+  has_one :account, as: :accountable
+  has_many :stadium_services, dependent: :destroy
+  has_many :services, through: :stadium_services
 
-  after_create :make_court
+  accepts_nested_attributes_for :areas, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :user, :account, :stadium_services
+
+  after_create :make_area
+  after_create :create_account
   after_save :parse_address
 
-  def make_court
-    courts.create! name: 'Основной'
+  accepts_nested_attributes_for :pictures, allow_destroy: true
+
+  default_scope -> { order(created_at: :desc) }
+
+  friendly_id :name, use: [:slugged]
+  mount_uploader :main_image, PictureUploader
+
+  enum status: [:pending, :active, :locked]
+
+  validates :user, presence: true
+
+  def events
+    Event.where area_id: area_ids
+  end
+
+  def make_area
+    areas.create! name: 'Основная'
   end
 
   def coaches
-    courts.map(&:coaches).flatten.uniq
+    areas.map(&:coaches).flatten.uniq
   end
 
   def as_json(params = {})
@@ -54,10 +74,6 @@ class Stadium < Product
       },
       name: name
     }
-  end
-
-  def name
-    attributes['name'] || 'Без названия'
   end
 
   private

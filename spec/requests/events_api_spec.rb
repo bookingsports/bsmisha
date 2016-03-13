@@ -9,8 +9,8 @@ RSpec.describe "EventsApi" do
   describe "grid at dashboard" do
     before(:each) do
       @event_four = Event.create!({
-        products: [@court],
-        product_services: [@service, @periodic_service],
+        product: @area,
+        stadium_services: [@service, @periodic_service],
         start: Time.zone.parse("12:00:00"),
         end: Time.zone.parse("14:30:00"),
         user: @user_two
@@ -33,16 +33,15 @@ RSpec.describe "EventsApi" do
 =begin
     context "customer user" do
       it "shows all my events without others" do
-        get court_my_events_path(@court, format: :json)
+        get area_my_events_path(@area, format: :json)
         data = JSON.parse(response.body)
         grouped = data.group_by {|d| d["user_name"]}
 
-        expect(data.count).to eq(@user.events.of_products(@court).count)
+        expect(data.count).to eq(@user.events.of_products(@area).count)
         expect(grouped.keys.count).to eq(1)
         expect(grouped.keys.first).to eq(@user.name)
       end
     end
-=end
 
     context "stadium user" do
       before(:each) do
@@ -51,7 +50,7 @@ RSpec.describe "EventsApi" do
       end
 
       it "shows all paid events from all users" do
-        get court_my_events_path(@court, format: :json)
+        get area_my_events_path(@area, format: :json)
         data = JSON.parse(response.body)
 
         expect(data.count).to eq(3)
@@ -59,7 +58,7 @@ RSpec.describe "EventsApi" do
 
       it "creates new event" do
         expect(Event.count).to eq(4)
-        post court_my_events_path(@court), {
+        post area_my_events_path(@area), {
           event: {
             "id" => "",
             "start" => "Mon Jul 20 2015 12:00:00 GMT+0300 (MSK)",
@@ -80,18 +79,18 @@ RSpec.describe "EventsApi" do
     end
   end
 
-  describe "grid at court show view" do
+  describe "grid at area show view" do
     describe "shows events" do
       context "user one" do
-        it "Gets all events from current court" do
-          get stadium_court_events_path(@court.stadium, @court, format: :json)
+        it "Gets all events from current area" do
+          get stadium_area_events_path(@area.stadium, @area, format: :json)
           data = JSON.parse(response.body)
 
           expect(data.count).to eq(2)
         end
 
-        it "shows all events from all courts when accessing specific path" do
-          get events_stadium_courts_path(@court.stadium, format: :json)
+        it "shows all events from all areas when accessing specific path" do
+          get events_stadium_areas_path(@area.stadium, format: :json)
           data = JSON.parse(response.body)
 
           expect(data.count).to eq(3)
@@ -105,7 +104,7 @@ RSpec.describe "EventsApi" do
         end
 
         it "cant see upaid events of other user" do
-          get stadium_court_events_path(@court.stadium, @court, format: :json)
+          get stadium_area_events_path(@area.stadium, @area, format: :json)
           data = JSON.parse(response.body)
 
           expect(data.count).to eq(0)
@@ -113,7 +112,7 @@ RSpec.describe "EventsApi" do
 
         it "can see paid events of other user" do
           @order.pay!
-          get stadium_court_events_path(@court.stadium, @court, format: :json)
+          get stadium_area_events_path(@area.stadium, @area, format: :json)
           data = JSON.parse(response.body)
 
           expect(data.count).to eq(1)
@@ -122,7 +121,7 @@ RSpec.describe "EventsApi" do
     end
 
     it "Creates new event" do
-      post stadium_court_events_path(@court.stadium, @court), {
+      post stadium_area_events_path(@area.stadium, @area), {
         event: {
           "id" => "",
           "start" => "Mon Jul 20 2015 12:00:00 GMT+0300 (MSK)",
@@ -142,7 +141,7 @@ RSpec.describe "EventsApi" do
     end
 
     it "creates event with additional services" do
-      post stadium_court_events_path(@coach, @court), {
+      post stadium_area_events_path(@coach, @area), {
         event: {
           "id" => "",
           "start" => "Mon Jul 20 2015 12:00:00 GMT+0300 (MSK)",
@@ -154,15 +153,15 @@ RSpec.describe "EventsApi" do
           "start_timezone" => "",
           "end_timezone" => "",
           "is_all_day" => "false",
-          "product_service_ids" => [@service.id.to_s, @periodic_service.id.to_s]
+          "stadium_service_ids" => [@service.id.to_s, @periodic_service.id.to_s]
         }
       }
 
-      expect(Event.last.product_services.count).to eq(2)
+      expect(Event.last.stadium_services.count).to eq(2)
     end
 
     it "creates coach event" do
-      post coach_court_events_path(@court.stadium, @court), {
+      post coach_area_events_path(@area.stadium, @area), {
         event: {
           "id" => "",
           "start" => "Mon Jul 20 2015 12:00:00 GMT+0300 (MSK)",
@@ -174,7 +173,7 @@ RSpec.describe "EventsApi" do
           "start_timezone" => "",
           "end_timezone" => "",
           "is_all_day" => "false",
-          "product_service_ids" => [@service.id.to_s, @periodic_service.id.to_s]
+          "stadium_service_ids" => [@service.id.to_s, @periodic_service.id.to_s]
         }
       }
 
@@ -182,7 +181,7 @@ RSpec.describe "EventsApi" do
     end
 
     it "can move unpaid event freely" do
-      put stadium_court_event_path(@court.stadium, @court, @event.id), {
+      put stadium_area_event_path(@area.stadium, @area, @event.id), {
         "event" => {
           "id" => @event.id,
           "start" => "Mon Jul 20 2015 13:11:00 GMT+0300 (MSK)",
@@ -205,7 +204,7 @@ RSpec.describe "EventsApi" do
     it "creates a event change when moves paid event" do
       @event.order.paid!
 
-      put stadium_court_event_path(@court.stadium, @court, @event.id), {
+      put stadium_area_event_path(@area.stadium, @area, @event.id), {
         "event" => {
           "id" => @event.id,
           "start" => "Mon Jul 20 2015 13:11:00 GMT+0300 (MSK)",
@@ -233,7 +232,7 @@ RSpec.describe "EventsApi" do
     context "paid event changed" do
       before :each do
         @event.order.paid!
-        put stadium_court_event_path(@court.stadium, @court, @event.id), {
+        put stadium_area_event_path(@area.stadium, @area, @event.id), {
           "event" => {
             "id" => @event.id,
             "start" => "Mon Jul 20 2015 13:11:00 GMT+0300 (MSK)",
@@ -255,7 +254,7 @@ RSpec.describe "EventsApi" do
         scenario "stadium owner should not see changed datetimes" do
           logout_via_delete
           login_via_post_as(@stadium_user)
-          get court_my_events_path(@court, format: :json)
+          get area_my_events_path(@area, format: :json)
 
           data = JSON.parse(response.body)
           event = data.detect {|e| e["id"] == @event.id }
@@ -265,5 +264,6 @@ RSpec.describe "EventsApi" do
         end
       end
     end
+=end
   end
 end

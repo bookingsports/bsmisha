@@ -1,28 +1,24 @@
 # == Schema Information
 #
-# Table name: products
+# Table name: stadiums
 #
-#  id           :integer          not null, primary key
-#  category_id  :integer
-#  user_id      :integer
-#  name         :string
-#  phone        :string
-#  description  :text
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  address      :string
-#  latitude     :float            default(55.75)
-#  longitude    :float            default(37.61)
-#  slug         :string
-#  status       :integer          default(0)
-#  type         :string
-#  parent_id    :integer
-#  email        :string
-#  avatar       :string
-#  price        :decimal(8, 2)
-#  change_price :decimal(8, 2)
-#  opens_at     :time
-#  closes_at    :time
+#  id          :integer          not null, primary key
+#  user_id     :integer
+#  category_id :integer
+#  name        :string           default("Без названия"), not null
+#  phone       :string
+#  description :string
+#  address     :string
+#  latitude    :float
+#  longitude   :float
+#  slug        :string
+#  status      :integer          default(0)
+#  email       :string
+#  main_image  :string
+#  opens_at    :time
+#  closes_at   :time
+#  created_at  :datetime
+#  updated_at  :datetime
 #
 
 class StadiumsController < ApplicationController
@@ -33,7 +29,7 @@ class StadiumsController < ApplicationController
     @q = Stadium.ransack(params[:q])
 
     @stadiums = @q.result(distinct: true)
-                  .includes(:courts, :pictures)
+                  .includes(:areas, :pictures)
                   .active
 
     @stadiums.where(category_id: params[:category_id]) if params[:category_id].present?

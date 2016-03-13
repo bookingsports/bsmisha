@@ -1,56 +1,49 @@
 # == Schema Information
 #
-# Table name: products
+# Table name: coaches
 #
-#  id           :integer          not null, primary key
-#  category_id  :integer
-#  user_id      :integer
-#  name         :string
-#  phone        :string
-#  description  :text
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  address      :string
-#  latitude     :float            default(55.75)
-#  longitude    :float            default(37.61)
-#  slug         :string
-#  status       :integer          default(0)
-#  type         :string
-#  parent_id    :integer
-#  email        :string
-#  avatar       :string
-#  price        :decimal(8, 2)
-#  change_price :decimal(8, 2)
-#  opens_at     :time
-#  closes_at    :time
+#  id          :integer          not null, primary key
+#  user_id     :integer
+#  slug        :string
+#  description :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
 #
 
-class Coach < Product
+class Coach < ActiveRecord::Base
+  has_paper_trail
   include CoachConcern
+  include FriendlyId
 
-  has_many :coaches_courts
-  has_many :courts, through: :coaches_courts
-  validate :has_at_least_one_court, on: :stadium_dashboard
+  belongs_to :user
+  has_many :coaches_areas
+  has_many :areas, through: :coaches_areas
+  validate :has_at_least_one_area, on: :stadium_dashboard
+  validates :user, presence: true
 
-  accepts_nested_attributes_for :user
+  has_one :account, as: :accountable
+  after_create :create_account
+
+  delegate :name, to: :user
+  friendly_id :name, use: [:slugged]
+
+  accepts_nested_attributes_for :user, :account
 
   delegate :email, to: :user
+  delegate :avatar, to: :user
+  delegate :phone, to: :user
 
-  def has_courts?
-    courts.size > 0
+  def customers
+    Customer.joins(:events).where(events: {coach_id: id}).uniq
   end
 
-  def name_with_stadium
-    name
+  def has_areas?
+    areas.size > 0
   end
 
-  def has_at_least_one_court
-    if courts.size < 1
-      errors.add :courts, "Выберите хотя бы один корт."
+  def has_at_least_one_area
+    if areas.size < 1
+      errors.add :areas, "Выберите хотя бы одну площадку."
     end
-  end
-
-  def name
-    attributes["name"] || "Без имени"
   end
 end

@@ -1,0 +1,33 @@
+ru:
+  enums:
+    stadium:
+      status:
+        pending: В ожидании
+        active: Активный
+        locked: Заблокирован
+  activerecord:
+    models:
+      stadium:
+        one: стадион
+        parent: стадиона
+        accusative: стадион
+        other: стадионы
+    attributes:
+      stadium:
+        name: Название
+        phone: Телефон
+        category: Категория
+        user: Пользователь
+        slug: Короткий URL
+        address: Адрес
+        email: Эл. почта
+        description: Описание
+        pictures: Изображения
+        main_image: Главное изображение
+        status: Статус
+        services: Услуги
+        account: Реквизиты
+        opens_at: Открывается в
+        closes_at: Закрывается в
+        created_at: Дата создания
+        updated_at: Дата изменения

@@ -1,0 +1,28 @@
+.row
+  .col-sm-4
+    .panel.panel-info
+      .panel-body
+        Выберите период действия ваших цен, затем добавьте правила для изменения цен в течение дня. Если вы, к примеру, не хотите чтобы цены в течение дня и недели менялись, то создайте правило выбрав все дни недели и указав как начало и конец 09:00 и 18:00.
+  .col-sm-8
+    = simple_form_for([:dashboard, @area, @price]) do |f|
+      = f.error_notification
+      .form-inputs
+        = f.association :area, collection: [current_user.areas].flatten
+        = f.input :start, default: DateTime.current.beginning_of_year
+        = f.input :stop, default: DateTime.current.end_of_year
+        %table.table
+          %thead
+            %tr
+              %th Начало
+              %th Конец
+              %th Рабочие дни
+              %th Цена
+              %th
+          %tbody.rule_fields
+            = f.simple_fields_for :daily_price_rules do |rf|
+              = render "daily_price_rule_fields", f: rf
+            %tr
+              %td
+                = link_to_add_association '+ добавить правило', f, :daily_price_rules, 'data-association-insertion-node' => '.rule_fields', 'data-association-insertion-method' => 'prepend'
+      .form-actions
+        = f.button :submit

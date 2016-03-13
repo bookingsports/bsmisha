@@ -8,8 +8,8 @@ RSpec.feature "dashboard" do
       password: "shooshoo"
     })
 
-    @court = Court.create!({
-      name: "Корт",
+    @area = Area.create!({
+      name: "Площадка",
       stadium: @stadium_owner.stadium,
       price: 100
     })
@@ -27,7 +27,7 @@ RSpec.feature "dashboard" do
       fill_in "Имя", with: "Имя"
       fill_in "Эл. почта", with: "test_coach@example.com"
       fill_in "Пароль", with: "123123123"
-      check @court.name
+      check @area.name
       fill_in "Стоимость", with: "100"
       fill_in "Подтверждение пароля", with: "123123123"
 
@@ -36,7 +36,7 @@ RSpec.feature "dashboard" do
     end
 
     it "lets you edit coach" do
-      @court.coaches.create!({
+      @area.coaches.create!({
         user: CoachUser.create!({
           name: "Антон",
           email: "test32@example.com",
@@ -49,27 +49,27 @@ RSpec.feature "dashboard" do
       fill_in "Имя", with: "Антонбей"
       click_button "Сохранить"
 
-      expect(@court.coaches.last.name).to eq("Антонбей")
+      expect(@area.coaches.last.name).to eq("Антонбей")
     end
   end
 
-  describe "courts section" do
-    it "edits court" do
+  describe "areas section" do
+    it "edits area" do
       visit edit_dashboard_product_path
       # puts page.html
-      within ".courts" do
-        fill_in "product_courts_attributes_0_name", with: "Name"
-        fill_in "product_courts_attributes_0_price", with: 100
-        fill_in "product_courts_attributes_0_change_price", with: 10
-        select "Футбол", from: "product_courts_attributes_0_category_id"
+      within ".areas" do
+        fill_in "product_areas_attributes_0_name", with: "Name"
+        fill_in "product_areas_attributes_0_price", with: 100
+        fill_in "product_areas_attributes_0_change_price", with: 10
+        select "Футбол", from: "product_areas_attributes_0_category_id"
       end
 
       click_button "Сохранить стадион"
 
-      @court.reload
+      @area.reload
 
-      expect(@court.name).to eq("Name")
-      expect(@court.category.name).to eq("Футбол")
+      expect(@area.name).to eq("Name")
+      expect(@area.category.name).to eq("Футбол")
     end
   end
 end

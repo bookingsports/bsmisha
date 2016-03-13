@@ -13,52 +13,31 @@
 #  last_sign_in_at        :datetime
 #  current_sign_in_ip     :inet
 #  last_sign_in_ip        :inet
+#  name                   :string
+#  type                   :string           default("Customer")
+#  avatar                 :string
+#  phone                  :string
 #  created_at             :datetime
 #  updated_at             :datetime
-#  name                   :string
-#  type                   :string
-#  avatar                 :string
-#  status                 :integer
-#  phone                  :string
 #
 
 class StadiumUser < User
   include StadiumUserConcern
 
   has_one :stadium, foreign_key: "user_id", dependent: :destroy
-  has_one :product, foreign_key: "user_id", dependent: :destroy
+  accepts_nested_attributes_for :stadium
 
-  delegate :courts, to: :stadium
-
-  has_one :account, as: :accountable
-  accepts_nested_attributes_for :account
+  has_many :areas, through: :stadium
 
   enum status: [:pending, :active]
 
   after_create :create_stadium
-  after_create :create_account
 
-  def name
-    attributes["name"] || attributes["email"]
+  def stadium_events
+    Event.where area_id: area_ids
   end
 
-  def special_prices
-    (stadium.special_prices.to_a + stadium.courts.map { |court| court.special_prices.to_a }.flatten).uniq
-  end
-
-  def products
-    stadium.courts
-  end
-
-  def events
-    Event.where(id: event_ids)
-  end
-
-  def event_ids
-    products.flat_map {|product| product.events}.map(&:id)
-  end
-
-  def new_event options={}
-    Event.new options.merge(user_id: self.id)
+  def prices
+    (stadium.prices.to_a + stadium.areas.map { |area| area.prices.to_a }.flatten).uniq
   end
 end

@@ -2,6 +2,6 @@ class OrderItem
   def initialize(attributes)
     @start = attributes[:start]
     @end = attributes[:end]
-    @court = attributes[:court]
+    @area = attributes[:area]
   end
 end
