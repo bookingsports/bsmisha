@@ -9,7 +9,7 @@
       %h1
         Стадионы
       %hr/
-      = render 'search_on_map', include_stadiums: true, q: @q
+      = render 'search_on_map', category_id: @category_id, include_stadiums: true, q: @q
       %hr/
       = render 'map'
       %hr/

@@ -32,7 +32,10 @@ class StadiumsController < ApplicationController
                   .includes(:areas, :pictures)
                   .active
 
-    @stadiums.where(category_id: params[:category_id]) if params[:category_id].present?
+    if params[:category_id].present?
+      @category_id = Category.friendly.find(params[:category_id]).id
+      @stadiums = @stadiums.where(category_id: @category_id)
+    end
 
     set_markers @stadiums
   end

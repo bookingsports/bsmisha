@@ -1,4 +1,5 @@
 - include_stadiums ||= false
+- category_id ||= nil
 
 = search_form_for q, remote: true, format: :json, wrapper: :inline_form, html: { id: 'searcher', class: 'form-inline' } do |f|
   = f.input :name_cont, placeholder: 'Название', label: false
@@ -6,5 +7,5 @@
   = text_field_tag :place, nil, placeholder: 'Место'
   - if include_stadiums
     = hidden_field_tag :include_stadiums, true
-  = f.input :category_id_eq, collection: Category.all, prompt: 'Все категории', label: false
+  = f.input :category_id_eq, selected: category_id, collection: Category.all, prompt: 'Все категории', label: false
   = f.button :submit, 'Поиск', data: {search_on_map: true}
