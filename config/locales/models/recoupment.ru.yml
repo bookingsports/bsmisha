@@ -1,0 +1,16 @@
+ru:
+  activerecord:
+    models:
+      recoupment:
+        one: отыгрыш
+        parent: отыгрыша
+        accusative: отыгрыш
+        other: отыгрышы
+    attributes:
+      recoupment:
+        duration: Протяженность
+        user: Пользователь
+        area: Площадка
+        reason: Причина
+        created_at: Дата создания
+        updated_at: Дата изменения
