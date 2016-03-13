@@ -53,12 +53,11 @@ class EventsController < ApplicationController
 
   def update
     @event = current_user.events.find(params[:id])
-    # disable transfer service temporarly
-    #service = Event::TransferService.new(@event, event_params)
-    #if service.perform
-    #else
-    #  render json: { error: "Transfer error" }
-    #end
+    service = Event::TransferService.new(@event, event_params)
+    if service.perform
+    else
+      render json: { error: "Transfer error" }
+    end
     respond_with @event
   end
 

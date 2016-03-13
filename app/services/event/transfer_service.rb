@@ -1,4 +1,3 @@
-=begin Disable transfer service temporarly
 class Event::TransferService
   def initialize(event, params = {})
     @event = event
@@ -122,4 +121,3 @@ class Event::TransferService
     end
   end
 end
-=end

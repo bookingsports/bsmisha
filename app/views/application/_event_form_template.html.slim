@@ -1,41 +1,45 @@
 script#eventFormTemplate type="text/x-kendo-template"
-  div data-bind="visible: isNew"
-    .k-edit-label
-      label for='title' Title
-      .k-edit-field data-container-for='title'
-        input.k-input.k-textbox type="text" name="title" required="required" data-bind="value:title"
-    div data-bind="invisible: isNew">
-        h4 The 'Title' field is hiddne, because event is not new
-    .k-edit-label
-      label for='start' С
+  .k-edit-label
+    label for='start' С
 
-    .k-edit-field data-container-for='start'
-      input(type='text'
-            data-role="datetimepicker"
-            data-interval="30"
-            data-type="date"
-            data-bind="value:start"
-            name="start")
+  .k-edit-field data-container-for='start'
+    input(type='text'
+          data-role="datetimepicker"
+          data-interval="30"
+          data-type="date"
+          data-bind="value:start"
+          name="start")
 
-    .k-edit-label
-      label for='end' По
+    span data-for="start" class="k-invalid-msg" style="display: none;"
 
-    .k-edit-field data-container-for='end'
-      input(type='text'
-            data-role="datetimepicker"
-            data-interval="30"
-            data-type="date"
-            data-bind="value:end"
-            name="stop"
-            data-datecompare-msg="Дата окончания должна быть больше чем дата начала минимум на 30 минут")
+  .k-edit-label
+    label for='end' По
 
-      span data-for="end" class="k-invalid-msg" style="display: none;"
-    .k-edit-label
-      label for='recurrenceRule' Повторения
-    .k-edit-field data-container-for='recurrenceRule'
-      div data-bind="value:recurrenceRule" name="recurrenceRule" data-role="recurrenceeditor"
-    .k-edit-label
-      label for='coach_id' Тренер
-    .k-edit-field data-container-for='coach_id'
-      select#coach_id data-bind='value:coach_id' data-role='dropdownlist' data-value-field='value' data-text-field='text'
-       option value='' Нет
+  .k-edit-field data-container-for='end'
+    input(type='text'
+          data-role="datetimepicker"
+          data-interval="30"
+          data-type="date"
+          data-bind="value:end"
+          name="stop"
+          data-datecompare-msg="Дата окончания должна быть больше чем дата начала минимум на 30 минут")
+
+    span data-for="end" class="k-invalid-msg" style="display: none;"
+  .k-edit-label
+    label for='recurrenceRule' Повторения
+  .k-edit-field data-container-for='recurrenceRule'
+    div data-bind="value:recurrenceRule" name="recurrenceRule" data-role="recurrenceeditor"
+  .k-edit-label
+    label for='coach_id' Тренер
+  .k-edit-field data-container-for='coach_id'
+    select#coach_id data-bind='value:coach_id' data-role='dropdownlist' data-value-field='value' data-text-field='text'
+     option value='' Нет
+  .k-edit-label
+    label for='stadium_service_ids' Доп. услуги
+  .k-edit-field data-container-for='stadium_service_ids'
+    .k-widget.k-multiselect.k-header unselectable="on" title="" style=""
+      .k-multiselect-wrap.k-floatwrap unselectable="on"
+        ul role="listbox" unselectable="on" class="k-reset"
+        input.k-input.k-readonly style="width: 25px" accesskey="" autocomplete="off" role="listbox" aria-expanded="false" tabindex="0" aria-owns="" aria-disabled="false" aria-readonly="false" aria-busy="false"
+        span class="k-icon k-loading k-loading-hidden"
+      select data-bind="value:stadium_service_ids" data-role="multiselect" multiple="multiple" aria-disabled="false" aria-readonly="false" style="display: none;"
