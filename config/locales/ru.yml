@@ -30,6 +30,11 @@ ru:
     many: "%{count} часов"
     one: "%{count} час"
     other: "%{count} часов"
+  recoupments:
+    few: "%{count} часа отыгрышей"
+    many: "%{count} часов отыгрышей"
+    one: "%{count} час отыгрыша"
+    other: "%{count} часов отыгрышей"
   changes:
     few: "%{count} переноса"
     many: "%{count} переносов"

@@ -32,6 +32,10 @@ class User < ActiveRecord::Base
 
   has_many :orders, dependent: :destroy
   has_many :events, dependent: :destroy
+
+  has_many :event_changes, through: :events, dependent: :destroy
+  has_many :recoupments, dependent: :destroy
+
   has_one :wallet, dependent: :destroy
   accepts_nested_attributes_for :wallet
 
@@ -47,19 +51,31 @@ class User < ActiveRecord::Base
   default_scope -> { order(created_at: :desc) }
 
   def total(options = {})
-    events_maybe_scoped_by(options).unpaid.map(&:total).inject(:+) || 0
+    events_maybe_scoped_by(options).unpaid.active.map(&:price).inject(:+) || 0
   end
 
   def total_hours(options = {})
-    events_maybe_scoped_by(options).unpaid.map(&:duration_in_hours).inject(:+) || 0
+    events_maybe_scoped_by(options).unpaid.active.map(&:duration_in_hours).inject(:+) || 0
+  end
+
+  def total_recoupments(area = {})
+    recoupments.where(area: area).map(&:duration).inject(:+) / 1.hour || 0
   end
 
   def events_maybe_scoped_by options
-    if options[:product].present?
-      events.of_products(options[:product])
+    if options[:area].present?
+      events.where(area: options[:area])
     else
       events
     end
+  end
+
+  def changes_total(options = {})
+    event_changes.where(area: options[:area]).unpaid.map(&:price).inject(:+) || 0
+  end
+
+  def navs
+    []
   end
 
   def method_missing(t)
@@ -74,9 +90,5 @@ class User < ActiveRecord::Base
 
   def admin?
     false
-  end
-
-  def new_event(options = {})
-    self.events.new options
   end
 end

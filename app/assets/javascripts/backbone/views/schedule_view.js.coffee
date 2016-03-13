@@ -38,7 +38,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
           slot = scheduler.slotByElement(target[0])
           scheduler.addEvent
             start: slot.startDate
-            end: slot.endDate
+            stop: slot.endDate
         return
 
   render: ->
@@ -61,36 +61,63 @@ class Tennis.Views.ScheduleView extends Backbone.View
           alert 'Пожалуйста, сначала авторизуйтесь.'
           e.preventDefault()
       resize: (e) =>
-        if @timeIsOccupied(e.start, e.end, e.event)
+        if @timeIsOccupied(e.start, e.stop, e.event)
           @scheduler().wrapper.find('.k-marquee-color').addClass 'invalid-slot'
           e.preventDefault()
         return
       resizeEnd: (e) =>
-        if @timeIsOccupied(e.start, e.end, e.event)
+        if @timeIsOccupied(e.start, e.stop, e.event)
           alert 'Это время занято'
           e.preventDefault()
         return
       move: (e) =>
-        if @timeIsOccupied(e.start, e.end, e.event)
+        if @timeIsOccupied(e.start, e.stop, e.event)
           @scheduler().wrapper.find('.k-event-drag-hint').addClass 'invalid-slot'
         return
       moveEnd: (e) =>
-        if @timeIsOccupied(e.start, e.end, e.event)
+        if @timeIsOccupied(e.start, e.stop, e.event)
           alert 'Это время занято'
           e.preventDefault()
         return
       add: (e) =>
-        if @timeIsOccupied(e.event.start, e.event.end, e.event)
+        if @timeIsOccupied(e.event.start, e.event.stop, e.event)
           alert 'Это время занято'
           e.preventDefault()
         return
       save: (e) =>
-        if @timeIsOccupied(e.event.start, e.event.end, e.event)
+        if @timeIsOccupied(e.event.start, e.event.stop, e.event)
           alert 'Это время занято'
           e.preventDefault()
         else
           e.sender.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.js')
         return
+      schema:
+        timezone: 'Europe/Moscow'
+        model:
+          id: 'id'
+          fields:
+            title:
+              from: 'area_name'
+              type: 'string'
+            start:
+              type: 'date'
+              from: 'start'
+            end:
+              type: 'date'
+              from: 'stop'
+            recurrenceId:
+              from: 'recurrence_id'
+            recurrenceRule:
+              from: 'recurrence_rule'
+            recurrenceException:
+              from: 'recurrence_exception'
+            startTimezone:
+              from: 'start_timezone'
+            endTimezone:
+              from: 'end_timezone'
+            isAllDay:
+              type: 'boolean'
+              from: 'is_all_day'
       resources: [
         {
           field: 'visual_type'
@@ -102,19 +129,26 @@ class Tennis.Views.ScheduleView extends Backbone.View
           ]
         },
         {
+          field: 'coach_id'
+          title: 'Тренер'
+          multiple: false
+          dataTextField: 'name'
+          dataValueField: 'id'
+          dataSource:
+            transport:
+              read:
+                url: => window.location.pathname + "/coaches.json"
+        },
+        {
           field: 'stadium_service_ids'
           title: 'Доп. услуги'
           multiple: true
-          dataTextField: 'service_name_and_price'
+          dataTextField: 'name'
           dataValueField: 'id'
           dataSource:
             transport:
               read:
                 url: => "/products/#{@area_id}.json"
-              parameterMap: (options, operation) ->
-                options.stadium_services
-            schema:
-              data: (resp) -> resp.stadium_services
         }
       ]
       dataSource:
@@ -154,7 +188,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
                 from: 'start'
               end:
                 type: 'date'
-                from: 'end'
+                from: 'stop'
               recurrenceId:
                 from: 'recurrence_id'
               recurrenceRule:
@@ -163,14 +197,14 @@ class Tennis.Views.ScheduleView extends Backbone.View
                 from: 'recurrence_exception'
               startTimezone:
                 from: 'start_timezone'
-              endTimezone:
-                from: 'end_timezone'
+              stopTimezone:
+                from: 'stop_timezone'
               isAllDay:
                 type: 'boolean'
                 from: 'is_all_day'
 
-  timeIsOccupied: (start, end, event) =>
-    occurences = @scheduler().occurrencesInRange(start, end)
+  timeIsOccupied: (start, stop, event) =>
+    occurences = @scheduler().occurrencesInRange(start, stop)
     idx = occurences.indexOf(event)
     if idx > -1
       occurences.splice(idx, 1)

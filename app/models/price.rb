@@ -5,7 +5,6 @@
 #  id         :integer          not null, primary key
 #  start      :datetime
 #  stop       :datetime
-#  is_sale    :boolean
 #  area_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

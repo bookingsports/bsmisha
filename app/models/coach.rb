@@ -30,6 +30,12 @@ class Coach < ActiveRecord::Base
   accepts_nested_attributes_for :user, :account
 
   delegate :email, to: :user
+  delegate :avatar, to: :user
+  delegate :phone, to: :user
+
+  def customers
+    Customer.joins(:events).where(events: {coach_id: id}).uniq
+  end
 
   def has_areas?
     areas.size > 0

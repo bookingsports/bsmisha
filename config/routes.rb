@@ -64,7 +64,9 @@ Rails.application.routes.draw do
     resource :product, concerns: [:has_pictures] do
       get 'edit_account', on: :member
     end
-    resources :prices
+    resources :area do
+      resources :prices
+    end
     resources :customers
     resources :employments
     resources :coach_users
@@ -97,7 +99,9 @@ Rails.application.routes.draw do
     resources :events
     resources :pictures, only: :index
     resources :reviews
-    resources :areas, concerns: [:bookable, :totalable]
+    resources :areas, concerns: [:bookable, :totalable] do
+      resources :coaches, only: :index
+    end
   end
 
   resources :stadium_users

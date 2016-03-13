@@ -14,6 +14,7 @@
 #  recurrence_exception :string
 #  recurrence_id        :integer
 #  is_all_day           :boolean
+#  status               :integer          default(0)
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #

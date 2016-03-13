@@ -27,13 +27,9 @@
 
 class ProductsController < ApplicationController
   layout "dashboard"
+  respond_to :json, :html
 
   def show
-    @product = Product.friendly.find params[:id]
-
-    respond_to do |format|
-      format.json { render json: @product.to_json(include: {stadium_services: {methods: :service_name_and_price}}) }
-      format.html {  }
-    end
+    @product = Area.friendly.find params[:id]
   end
 end

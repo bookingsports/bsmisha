@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160219204852) do
+ActiveRecord::Schema.define(version: 20160310084934) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -153,8 +153,9 @@ ActiveRecord::Schema.define(version: 20160219204852) do
     t.string   "recurrence_exception"
     t.integer  "recurrence_id"
     t.boolean  "is_all_day"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.integer  "status",               default: 0
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
   add_index "events", ["area_id"], name: "index_events_on_area_id", using: :btree
@@ -201,6 +202,18 @@ ActiveRecord::Schema.define(version: 20160219204852) do
   end
 
   add_index "prices", ["area_id"], name: "index_prices_on_area_id", using: :btree
+
+  create_table "recoupments", force: :cascade do |t|
+    t.integer  "duration"
+    t.integer  "user_id"
+    t.integer  "area_id"
+    t.string   "reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "recoupments", ["area_id"], name: "index_recoupments_on_area_id", using: :btree
+  add_index "recoupments", ["user_id"], name: "index_recoupments_on_user_id", using: :btree
 
   create_table "reviews", force: :cascade do |t|
     t.integer  "reviewable_id"
@@ -357,6 +370,8 @@ ActiveRecord::Schema.define(version: 20160219204852) do
   add_foreign_key "events_stadium_services", "stadium_services"
   add_foreign_key "orders", "users"
   add_foreign_key "prices", "areas"
+  add_foreign_key "recoupments", "areas"
+  add_foreign_key "recoupments", "users"
   add_foreign_key "reviews", "users"
   add_foreign_key "stadium_services", "services"
   add_foreign_key "stadium_services", "stadiums"

@@ -4,9 +4,9 @@
 #
 #  id           :integer          not null, primary key
 #  price_id     :integer
-#  start        :string
-#  stop         :string
-#  price        :integer
+#  start        :time
+#  stop         :time
+#  value        :integer
 #  working_days :integer          default([]), is an Array
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null

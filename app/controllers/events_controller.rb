@@ -14,6 +14,7 @@
 #  recurrence_exception :string
 #  recurrence_id        :integer
 #  is_all_day           :boolean
+#  status               :integer          default(0)
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #
@@ -23,14 +24,14 @@ class EventsController < ApplicationController
   before_filter :authenticate_user!, except: [:index, :parents_events]
 
   def index
-    @events = Event.of_products([current_product]).paid_or_owned_by(current_user)
+    @events = Event.where(area: current_product)
     respond_with @events
   end
 
   def parents_events
     if params[:scope] == "stadium"
       stadium = Stadium.friendly.find(params[:stadium_id])
-      @events = stadium.areas.flat_map {|area| Event.of_products(area)}
+      @events = stadium.areas.flat_map {|area| Event.where(area: area)}
     end
 
     render :index
@@ -45,8 +46,8 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event = current_user.new_event event_params.delete_if {|k,v| v.empty? }
-    @event.product = current_product
+    @event = current_user.events.create event_params.delete_if {|k,v| v.empty? }
+    @event.area = current_product
     @event.save!
   end
 
@@ -85,10 +86,9 @@ class EventsController < ApplicationController
 
     def event_params
       params.require(:event).permit(
-        :id, :start, :end, :user_id, :is_all_day, :owned,
+        :id, :start, :stop, :area_id, :user_id, :coach_id, :is_all_day, :owned,
         :recurrence_rule, :recurrence_id, :recurrence_exception,
         stadium_service_ids: [],
-        product_ids: []
       )
     end
 

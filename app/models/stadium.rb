@@ -32,12 +32,11 @@ class Stadium < ActiveRecord::Base
   has_many :reviews, as: :reviewable
 
   has_one :account, as: :accountable
-
-  accepts_nested_attributes_for :areas, reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :user, :account
-
   has_many :stadium_services, dependent: :destroy
   has_many :services, through: :stadium_services
+
+  accepts_nested_attributes_for :areas, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :user, :account, :stadium_services
 
   after_create :make_area
   after_create :create_account
@@ -53,6 +52,10 @@ class Stadium < ActiveRecord::Base
   enum status: [:pending, :active, :locked]
 
   validates :user, presence: true
+
+  def events
+    Event.where area_id: area_ids
+  end
 
   def make_area
     areas.create! name: 'Основная'

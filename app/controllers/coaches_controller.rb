@@ -12,10 +12,15 @@
 
 class CoachesController < ApplicationController
   before_action :set_coach, only: :show
+  respond_to :json, :html
 
   def index
-    @q = Coach.ransack(params[:q])
-    @coaches = @q.result(distinct: true)
+    if params[:area_id]
+      @coaches_areas = CoachesArea.where(area: Area.friendly.find(params[:area_id]))
+    else
+      @q = Coach.ransack(params[:q])
+      @coaches = @q.result(distinct: true)
+    end
   end
 
   def show

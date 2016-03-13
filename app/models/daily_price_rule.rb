@@ -4,9 +4,9 @@
 #
 #  id           :integer          not null, primary key
 #  price_id     :integer
-#  start        :string
-#  stop         :string
-#  price        :integer
+#  start        :time
+#  stop         :time
+#  value        :integer
 #  working_days :integer          default([]), is an Array
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
@@ -17,6 +17,11 @@ class DailyPriceRule < ActiveRecord::Base
   has_paper_trail
 
   belongs_to :price
+  validates :start, :stop, :value, presence: true
+
+  #def self.overlaps event
+  #  DailyPriceRule.all.where('start::time <= ? or stop::time >= ?', event.start.utc.strftime('%H:%M'), event.stop.utc.strftime('%H:%M'))
+  #end
 
   scope :overlaps, -> (event) do
     start = arel_table['start']
@@ -25,9 +30,7 @@ class DailyPriceRule < ActiveRecord::Base
     event_start = event.start.utc.strftime('%H:%M')
     event_stop = event.stop.utc.strftime('%H:%M')
 
-    start.gteq(event_start).and(start.lt(event_stop))\
-    .or(stop.gt(event_start).and(stop.lteq(event_stop)))\
-    .or(start.lt(event_start).and(stop.gt(event_stop)))
+    start.lteq(event_start).or(stop.lteq(event_stop))
   end
 
   def name
