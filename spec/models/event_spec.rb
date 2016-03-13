@@ -236,7 +236,8 @@ RSpec.describe Event do
     describe '#price' do
       let!(:area) { create(:area, events: [event]) }
       let!(:price) { create(:price, area: area) }
-      let!(:rule) { create(:daily_price_rule, value: 1234.0, working_days: (1..7).to_a, price: price) }
+      let!(:daily_price_rule) { create(:daily_price_rule, start: Time.zone.parse('07:00'), stop: Time.zone.parse('19:00'), value: 1234.0, working_days: (1..7).to_a, price: price) }
+      let!(:daily_price_rule_2) { create(:daily_price_rule, start: Time.zone.parse('10:00'), stop: Time.zone.parse('12:00'), value: 1000.0, working_days: [7], price: price) }
 
       context 'without stadium services' do
         context 'without occurences' do
@@ -251,10 +252,13 @@ RSpec.describe Event do
             expect(event.price).to eq 617.0
           end
 
-          it 'should overwrite daily price rules by order' do
-            rule_2 = create(:daily_price_rule, value: 200.0, working_days: [event.wday], price: price)
-            event.stop = event.start + 1.hour
-            expect(event.price).to eq 200.0
+          it 'should calc daily price rules' do
+            event.start = Time.zone.parse('2050-02-06 11:00')
+            event.stop = event.start + 2.hours
+
+            expect(event.wday).to eq 7
+            expect(event.daily_price_rules.count).to eq 2
+            expect(event.price).to eq 2234.0
           end
         end
 
