@@ -38,7 +38,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
           slot = scheduler.slotByElement(target[0])
           scheduler.addEvent
             start: slot.startDate
-            stop: slot.endDate
+            end: slot.endDate
         return
 
   render: ->
@@ -48,7 +48,10 @@ class Tennis.Views.ScheduleView extends Backbone.View
       allDaySlot: false
       workDayStart: new Date(@opens_at)
       workDayEnd: new Date(@closes_at)
+      min: new Date()
       showWorkHours: true
+      editable:
+        template: $("#eventFormTemplate").html()
       height: 700
       views: [
         "day",
@@ -61,35 +64,38 @@ class Tennis.Views.ScheduleView extends Backbone.View
           alert 'Пожалуйста, сначала авторизуйтесь.'
           e.preventDefault()
       resize: (e) =>
-        if @timeIsOccupied(e.start, e.stop, e.event)
+        unless @validate(e.start, e.end, e.event) == true
           @scheduler().wrapper.find('.k-marquee-color').addClass 'invalid-slot'
-          e.preventDefault()
         return
       resizeEnd: (e) =>
-        if @timeIsOccupied(e.start, e.stop, e.event)
-          alert 'Это время занято'
-          e.preventDefault()
+        validation = @validate(e.start, e.end, e.event)
+        return if validation == true
+        alert(validation)
+        e.preventDefault()
         return
       move: (e) =>
-        if @timeIsOccupied(e.start, e.stop, e.event)
+        unless @validate(e.start, e.end, e.event) == true
           @scheduler().wrapper.find('.k-event-drag-hint').addClass 'invalid-slot'
         return
       moveEnd: (e) =>
-        if @timeIsOccupied(e.start, e.stop, e.event)
-          alert 'Это время занято'
-          e.preventDefault()
+        validation = @validate(e.start, e.end, e.event)
+        return if validation == true
+        alert(validation)
+        e.preventDefault()
         return
       add: (e) =>
-        if @timeIsOccupied(e.event.start, e.event.stop, e.event)
-          alert 'Это время занято'
-          e.preventDefault()
+        validation = @validate(e.start, e.end, e.event)
+        return if validation == true
+        alert(validation)
+        e.preventDefault()
         return
       save: (e) =>
-        if @timeIsOccupied(e.event.start, e.event.stop, e.event)
-          alert 'Это время занято'
-          e.preventDefault()
-        else
+        validation = @validate(e.start, e.end, e.event)
+        if validation == true
           e.sender.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.js')
+        else
+          alert(validation)
+          e.preventDefault()
         return
       schema:
         timezone: 'Europe/Moscow'
@@ -189,6 +195,9 @@ class Tennis.Views.ScheduleView extends Backbone.View
               end:
                 type: 'date'
                 from: 'stop'
+              coach_id:
+                from: 'coach_id'
+                defaultValue: ''
               recurrenceId:
                 from: 'recurrence_id'
               recurrenceRule:
@@ -203,12 +212,19 @@ class Tennis.Views.ScheduleView extends Backbone.View
                 type: 'boolean'
                 from: 'is_all_day'
 
+  validate: (start, stop, event) =>
+    if @timeIsPast(event.start)
+      return 'Невозможно сделать заказ на прошедшее время'
+    else if @timeIsOccupied(start, stop, event)
+      return 'Это время занято'
+    else
+      true
+
+  timeIsPast: (start) =>
+    if start < new Date() then true else false
+
   timeIsOccupied: (start, stop, event) =>
     occurences = @scheduler().occurrencesInRange(start, stop)
     idx = occurences.indexOf(event)
-    if idx > -1
-      occurences.splice(idx, 1)
-    if occurences.length > 0
-      true
-    else
-      false
+    occurences.splice(idx, 1) if idx > -1
+    if occurences.length > 0 then true else false

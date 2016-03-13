@@ -12,8 +12,8 @@
       <%= t('changes', count: current_user.where(area: @area).flat_map(&:event_changes).count) %> на сумму <%= number_to_currency current_user.changes_total(area: @area), precision: 0 %></p>
     <% end %>
     <% if current_user.recoupments.where(area: @area).present? %>
-        <%= t('recoupments', count: number_with_precision(current_user.total_recoupments(@area), precision: 0)) %>
-      <% end %>
+      <%= t('recoupments', count: number_with_precision(current_user.total_recoupments(@area), precision: 0)) %>
+    <% end %>
     <%= link_to 'Перейти к оплате', my_events_path(), class: 'btn btn-primary add_to_cart_button  product_type_simple', data: { book: true} %>
   <% end %>
 </div>
