@@ -15,6 +15,8 @@ class CreateEvents < ActiveRecord::Migration
       t.integer :recurrence_id
       t.boolean :is_all_day
 
+      t.integer :status, default: 0
+
       t.timestamps null: false
     end
   end

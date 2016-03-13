@@ -14,6 +14,7 @@
 #  recurrence_exception :string
 #  recurrence_id        :integer
 #  is_all_day           :boolean
+#  status               :integer          default(0)
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #
@@ -23,7 +24,7 @@ class Event < ActiveRecord::Base
 
   has_paper_trail
 
-  validates :start, :stop, :order_id, :user_id, :area_id, presence: true
+  validates :start, :stop, :user_id, :area_id, presence: true
 
   validates :stop, greater_by_30_min: {than: :start}, allow_blank: true
   validates :start, :stop, step_by_30_min: true, allow_blank: true
@@ -45,26 +46,35 @@ class Event < ActiveRecord::Base
 
   has_and_belongs_to_many :stadium_services
 
+  enum status: [:active, :cancelled]
+
   attr_reader :schedule
 
   scope :paid_or_owned_by, -> (user) do
     joins(:order).where order_is(:paid).or arel_table['user_id'].eq user.id
   end
 
-  scope :paid, -> { joins(:order).where order_is :paid }
-  scope :unpaid, -> { joins(:order).where order_is :unpaid }
+  def self.unpaid
+    Event.where(order: nil)
+  end
 
+  scope :paid, -> { joins(:order).where order_is :paid }
   scope :past, -> { where arel_table['stop'].lt Time.now }
   scope :future, -> { where arel_table['start'].gt Time.now }
+  #scope :unpaid, -> {
+  #  joins(:order).where(arel_table['order_id'].eq(nil).or(Order.arel_table['status'].eq(Order.statuses[:unpaid])))
+  #}
 
   after_initialize :build_schedule
+
+  after_update :create_recoupment_if_cancelled
 
   def name
     "Событие с #{start} по #{stop}"
   end
 
   def price
-    daily_price_rules.sum(:value)*duration_in_hours
+    area_price + stadium_services_price + coach_price
   end
 
   def wday
@@ -146,7 +156,25 @@ class Event < ActiveRecord::Base
     @event_before_change ||= JSON.parse(event_changes.unpaid.last.summary) if event_changes.unpaid.last
   end
 
+  def stadium_services_price
+      stadium_services.map(&:price).inject(:+) || 0
+  end
+
+  def coach_price
+    coach.present? ? coach.coaches_areas.where(area: area).first.price * duration_in_hours : 0
+  end
+
+  def area_price
+    daily_price_rules.sum(:value) * duration_in_hours
+  end
+
   private
+    def create_recoupment_if_cancelled
+      if cancelled?
+        Recoupment.create user: self.user, duration: self.duration, area: self.area
+      end
+    end
+
     def self.order_is(status)
       Order.arel_table['status'].eq(Order.statuses[status])
     end

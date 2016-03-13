@@ -21,8 +21,6 @@
         = render 'draggable_map'
     .row
       .col-xs-12
-        %h4 Цены
-        = link_to 'Настроить цены', dashboard_prices_path, class: 'btn btn-primary'
         %h4 Площадки
         = link_to_add_association 'Добавить площадку', f, :areas, class: 'btn btn-primary', 'data-association-insertion-node' => '.areas', 'data-association-insertion-method' => 'append'
         %table.table
@@ -45,15 +43,15 @@
               %th Периодичность
               %th
           %tbody.services
-            = f.simple_fields_for :stadium_services, @product.stadium_services.any? && @product.stadium_services || @product.stadium_services.new do |area|
-              = render "stadium_service_fields", f: area
+            = f.simple_fields_for :stadium_services, @product.stadium_services.any? && @product.stadium_services || @product.stadium_services.new do |stadium_service|
+              = render "stadium_service_fields", f: stadium_service
         = f.button :submit
 - elsif @product.kind_of? Coach
   = simple_form_for @product, as: :product, url: dashboard_product_path do |f|
-    = f.input :avatar, as: :image_file, version: :small_square
-    = f.input :name
-    = f.input :phone
-    = f.input :price, as: :string
+    = f.simple_fields_for :user, @product.user do |user|
+      = user.input :avatar, as: :image_file, version: :small_square
+      = user.input :name
+      = user.input :phone
     = f.input :description, as: :text
 
     .form-group

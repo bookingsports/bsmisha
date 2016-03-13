@@ -28,7 +28,7 @@ class Order < ActiveRecord::Base
   end
 
   def total
-    _total = events.map(&:total).inject(:+).to_i + event_changes.map(&:total).inject(:+).to_i
+    _total = events.map(&:price).inject(:+).to_i + event_changes.map(&:total).inject(:+).to_i
     return attributes["total"].to_i if _total.zero?
     _total
   end
@@ -58,9 +58,9 @@ class Order < ActiveRecord::Base
       transaction = ActiveRecord::Base.transaction do
         user.wallet.withdraw! self.total
         self.events.each do |event|
-          event.associated_payables_with_price.each do |item|
-            item[:product].user.wallet.deposit_with_tax_deduction! item[:total]
-          end
+            event.area.stadium.user.wallet.deposit_with_tax_deduction! event.area_price
+            event.coach.present? && event.coach.user.wallet.deposit_with_tax_deduction!(event.coach_price)
+            event.stadium_services.present? && event.area.stadium.user.wallet.deposit_with_tax_deduction!(event.stadium_services_price)
         end
       end
 

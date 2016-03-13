@@ -2,7 +2,7 @@ class Dashboard::ProductsController < DashboardController
   before_filter :find_product
 
   def edit
-    gon.latLng = {lat: @product.latitude || 55.75, lng: @product.longitude || 37.61}
+    gon.latLng = (current_user.kind_of? StadiumUser) ? {lat: @product.latitude || 55.75, lng: @product.longitude || 37.61} : nil
   end
 
   def update
@@ -13,7 +13,7 @@ class Dashboard::ProductsController < DashboardController
   private
 
     def find_product
-      @product = (current_user.kind_of? StadiumUser) ? current_user.stadium : current_user.product
+      @product = (current_user.kind_of? StadiumUser) ? current_user.stadium : current_user.coach
     end
 
     def product_params
@@ -24,7 +24,7 @@ class Dashboard::ProductsController < DashboardController
         :address, :latitude, :longitude,
         area_ids: [],
         profile_attributes: [:description],
-        user_attributes: [:id, account_attributes: [:number, :company, :inn, :kpp, :agreement_number, :date, :bik]],
+        user_attributes: [:id, :phone, account_attributes: [:number, :company, :inn, :kpp, :agreement_number, :date, :bik]],
         areas_attributes: [:id, :name, :price, :change_price, :category_id, :_destroy],
         stadium_services_attributes: [:id, :periodic, :price, :_destroy, service_attributes: [:id, :name]]
       )

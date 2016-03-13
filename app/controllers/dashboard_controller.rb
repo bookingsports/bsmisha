@@ -7,7 +7,7 @@ class DashboardController < ApplicationController
   end
 
   def grid
-    @area = Area.friendly.find(params[:area_id]) rescue current_user.products.first
+    @area = Area.friendly.find(params[:area_id]) rescue current_user.areas.first
     set_gon_area
   end
 
