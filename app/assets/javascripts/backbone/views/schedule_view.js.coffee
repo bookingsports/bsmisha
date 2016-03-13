@@ -182,7 +182,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
               title:
                 from: 'title'
                 type: 'string'
-                defaultValue: gon.current_user.name
+                defaultValue: gon.current_user?.name
               start:
                 type: 'date'
                 from: 'start'

@@ -30,6 +30,7 @@ gem 'dropzonejs-rails'
 gem 'lightbox2-rails'
 gem 'ckeditor'
 gem 'autoprefixer-rails'
+gem 'angularjs-rails'
 
 gem 'cancancan'
 
