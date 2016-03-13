@@ -19,6 +19,8 @@ class DailyPriceRule < ActiveRecord::Base
   belongs_to :price
   validates :start, :stop, :value, presence: true
 
+  default_scope ->{ order(created_at: :desc) }
+
   #def self.overlaps event
   #  DailyPriceRule.all.where('start::time <= ? or stop::time >= ?', event.start.utc.strftime('%H:%M'), event.stop.utc.strftime('%H:%M'))
   #end
