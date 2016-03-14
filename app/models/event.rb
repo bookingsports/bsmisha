@@ -56,8 +56,17 @@ class Event < ActiveRecord::Base
   scope :past, -> { where arel_table['stop'].lt Time.now }
   scope :future, -> { where arel_table['start'].gt Time.now }
   scope :unpaid, -> {
-    joins(:order).where(arel_table['order_id'].eq(nil).or(Order.arel_table['status'].eq(Order.statuses[:unpaid])))
+    joins("inner join orders on orders.id = events.order_id or order_id is null")
+    .where("orders.status = ? or events.order_id is null", Order.statuses[:unpaid])
+    uniq.all
   }
+
+  #scope :unpaid, -> {
+  #  _events = find_by_sql(joins(:order).on(arel_table['order_id'].eq(nil).or(Order.arel_table['id'].eq(arel_table['order_id'])))
+  #  .where(Order.arel_table['status'].eq(Order.statuses[:unpaid]).or(arel_table['order_id'].eq(nil))).to_sql)
+
+  #  where(id: _events.map(&:id))
+  #}
 
   after_initialize :build_schedule
 
@@ -159,7 +168,7 @@ class Event < ActiveRecord::Base
   end
 
   def area_price
-    daily_price_rules.sum(:value) * duration_in_hours
+    daily_price_rules.sum(:value) * duration_in_hours * occurrences
   end
 
   private
