@@ -9,7 +9,7 @@ ru:
     attributes:
       event:
         start: Начало
-        end: Конец
+        stop: Конец
         description: Описание
         coach: Тренер
         area: Площадка
