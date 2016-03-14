@@ -151,7 +151,7 @@ class Event < ActiveRecord::Base
   end
 
   def stadium_services_price
-      stadium_services.map(&:price).inject(:+) || 0
+    stadium_services.map{|ss| ss.price_for_event(self)}.inject(:+) || 0
   end
 
   def coach_price
