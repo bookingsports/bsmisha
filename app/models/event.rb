@@ -36,7 +36,7 @@ class Event < ActiveRecord::Base
   belongs_to :coach
   belongs_to :area
 
-  has_many :event_changes, -> { order(created_at: :desc) }, dependent: :destroy
+  has_one :event_change, dependent: :destroy
   has_many :additional_event_items, dependent: :destroy
 
   has_many :prices, -> (event) { where Price.overlaps event }, through: :area
@@ -67,8 +67,8 @@ class Event < ActiveRecord::Base
   #}
 
   after_initialize :build_schedule
-
   after_update :create_recoupment_if_cancelled
+  before_update :create_event_change_if_not_present, if: "start_changed? && stop_changed?"
 
   def name
     "Событие с #{start} по #{stop}"
@@ -102,8 +102,6 @@ class Event < ActiveRecord::Base
 
   def visual_type_for user
     case
-    when self.user == user && has_unpaid_changes?
-      "has_unpaid_changes"
     when self.paid?
       "paid"
     when self.user == user
@@ -142,7 +140,7 @@ class Event < ActiveRecord::Base
   end
 
   def has_unpaid_changes?
-    event_changes.unpaid.present?
+    event_change.present? && event_change.unpaid?
   end
 
   def start_before_change
@@ -170,6 +168,16 @@ class Event < ActiveRecord::Base
   end
 
   private
+    def create_event_change_if_not_present
+      if unpaid?
+        return true
+      elsif event_change.present?
+        return false
+      else
+        create_event_change
+      end
+    end
+
     def create_recoupment_if_cancelled
       if cancelled?
         if user.recoupments.where(area: self.area).any?

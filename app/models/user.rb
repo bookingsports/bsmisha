@@ -71,7 +71,7 @@ class User < ActiveRecord::Base
   end
 
   def changes_total(options = {})
-    event_changes.where(area: options[:area]).unpaid.map(&:price).inject(:+) || 0
+    event_changes.map(&:total).inject(:+) || 0
   end
 
   def navs

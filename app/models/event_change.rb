@@ -25,13 +25,22 @@ class EventChange < ActiveRecord::Base
     where(events_products: {product_id: products}).uniq
   end
 
-  delegate :products, to: :event
+  def paid?
+    order.present? && order.paid?
+  end
+
+  def unpaid?
+    !paid?
+  end
 
   def name
     "Изменение #{id} #{event_id.present? ? "события №" + event_id.to_s : ""} "
   end
 
   def total
-    event.area.change_price.to_i
+    d = event.start - 1.day
+    t = Time.zone.parse("21:00")
+    pay_time = DateTime.new(d.year, d.month, d.day, t.hour, t.min, t.sec, t.zone)
+    created_at.to_date > pay_time ? event.area.change_price.to_i : 0
   end
 end

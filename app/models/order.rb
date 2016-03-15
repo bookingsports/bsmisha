@@ -68,6 +68,9 @@ class Order < ActiveRecord::Base
             event.stadium_services.present? && event.area.stadium.user.wallet.deposit_with_tax_deduction!(event.stadium_services_price)
           end
         end
+        self.event_changes.each do |event_change|
+          event_change.event.area.stadium.user.wallet.deposit_with_tax_deduction! event_change.total
+        end
       end
 
       if transaction

@@ -4,6 +4,7 @@ class MyEventsController < EventsController
 
   def index
     @events = current_user.events.order(created_at: :desc)
+    @event_changes = current_user.event_changes.order(created_at: :desc)
 
     respond_to do |format|
       format.json { @events = @events.of_products([current_product]) }
