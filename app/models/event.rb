@@ -56,7 +56,7 @@ class Event < ActiveRecord::Base
   scope :past, -> { where arel_table['stop'].lt Time.now }
   scope :future, -> { where arel_table['start'].gt Time.now }
   scope :unpaid, -> {
-    where(order_id: nil).all
+    Event.where(order_id: nil).union(Event.joins(:order).where(orders: {status: Order.statuses[:unpaid]}))
   }
 
   #scope :unpaid, -> {
@@ -179,7 +179,7 @@ class Event < ActiveRecord::Base
     end
 
     def create_recoupment_if_cancelled
-      if cancelled?
+      if paid? && cancelled?
         if user.recoupments.where(area: self.area).any?
           rec = user.recoupments.where(area: self.area).first
           rec.update duration: rec.duration + self.duration

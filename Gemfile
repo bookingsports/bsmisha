@@ -76,6 +76,9 @@ gem 'rails_admin_history_rollback', github: 'ivanzotov/rails_admin_history_rollb
 gem 'rails_admin', github: 'ivanzotov/rails_admin', branch: 'railsmob'
 gem 'paper_trail'
 
+# SCOPES UNION
+gem 'active_record_union'
+
 group :development do
   gem "better_errors"
   gem "guard-bundler"
