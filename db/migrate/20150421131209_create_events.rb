@@ -8,7 +8,7 @@ class CreateEvents < ActiveRecord::Migration
       t.belongs_to :area, index: true, foreign_key: true
       t.belongs_to :order, index: true, foreign_key: true
       t.belongs_to :user, index: true, foreign_key: true
-
+      t.float :price
 
       t.string :recurrence_rule
       t.string :recurrence_exception

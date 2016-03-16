@@ -131,13 +131,12 @@ ActiveRecord::Schema.define(version: 20160310084934) do
 
   create_table "event_changes", force: :cascade do |t|
     t.integer  "event_id"
-    t.integer  "status"
-    t.string   "summary"
     t.integer  "order_id"
     t.datetime "old_start"
     t.datetime "old_stop"
     t.datetime "new_start"
     t.datetime "new_stop"
+    t.float    "old_price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -153,6 +152,7 @@ ActiveRecord::Schema.define(version: 20160310084934) do
     t.integer  "area_id"
     t.integer  "order_id"
     t.integer  "user_id"
+    t.float    "price"
     t.string   "recurrence_rule"
     t.string   "recurrence_exception"
     t.integer  "recurrence_id"
