@@ -42,7 +42,7 @@ stadium_addresses = ["ул. Большая Филевская, 20, Москва,
 
   stadium_user.stadium.areas.each do |area|
     daily_price_rule = DailyPriceRule.new start: "07:00", stop: "23:00", value: 300, working_days: [0,1,2,3,4,5,6]
-    area.prices.create(start: Time.zone.parse('14:00') + 1.day, stop: Time.zone.parse('14:00') + 1.day + 100.years, daily_price_rules: [daily_price_rule])
+    area.prices.create(start: Time.zone.parse('14:00') + 1.day - 100.years, stop: Time.zone.parse('14:00') + 1.day + 100.years, daily_price_rules: [daily_price_rule])
   end
 end
 
