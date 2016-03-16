@@ -97,6 +97,8 @@ class Tennis.Views.ScheduleView extends Backbone.View
           alert(validation)
           e.preventDefault()
         return
+      remove: (e) =>
+        e.sender.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.js')
       schema:
         timezone: 'Europe/Moscow'
         model:
