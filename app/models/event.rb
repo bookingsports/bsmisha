@@ -21,7 +21,7 @@
 
 class Event < ActiveRecord::Base
   include EventConcern
-
+  include ActiveModel::Dirty
   has_paper_trail
 
   validates :start, :stop, :user_id, :area_id, presence: true
@@ -69,13 +69,13 @@ class Event < ActiveRecord::Base
   after_initialize :build_schedule
   after_update :create_recoupment_if_cancelled
   before_update :create_event_change_if_not_present, if: "start_changed? && stop_changed?"
+  before_save do |record|
+    puts area_price
+    record.price = record.area_price + record.stadium_services_price + record.coach_price
+  end
 
   def name
     "Событие с #{start} по #{stop}"
-  end
-
-  def price
-    area_price + stadium_services_price + coach_price
   end
 
   def wday
@@ -102,6 +102,8 @@ class Event < ActiveRecord::Base
 
   def visual_type_for user
     case
+    when self.has_unpaid_changes?
+      "has_unpaid_changes"
     when self.paid?
       "paid"
     when self.user == user
@@ -171,10 +173,12 @@ class Event < ActiveRecord::Base
     def create_event_change_if_not_present
       if unpaid?
         return true
-      elsif event_change.present?
+      elsif event_change.present? && event_change.unpaid?
+        event_change.update new_start: start, new_stop: stop
+      elsif event_change.present? && event_change.paid?
         return false
-      else
-        create_event_change
+      elsif event_change.blank?
+        create_event_change old_start: start_was, old_stop: stop_was, new_start: start, new_stop: stop, old_price: price
       end
     end
 

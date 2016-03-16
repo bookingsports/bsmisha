@@ -20,9 +20,9 @@ class EventChange < ActiveRecord::Base
 
   scope :paid, -> { joins("LEFT OUTER JOIN orders ON orders.id = event_changes.order_id").where("orders.status =  ?", Order.statuses[:paid]) }
   scope :unpaid, -> { joins("LEFT OUTER JOIN orders ON orders.id = event_changes.order_id").where("orders.status =  ? or orders.status is null", Order.statuses[:unpaid]) }
-  scope :of_products, ->(*products) do
-    joins(event: :events_products).
-    where(events_products: {product_id: products}).uniq
+  scope :of_areas, ->(*areas) do
+    joins(event: :events_areas).
+    where(events_areas: {area_id: areas}).uniq
   end
 
   def paid?
@@ -38,6 +38,14 @@ class EventChange < ActiveRecord::Base
   end
 
   def total
+    fee_after_nine + new_price
+  end
+
+  def new_price
+    event.price < old_price ? 0 : event.price - old_price
+  end
+
+  def fee_after_nine
     d = event.start - 1.day
     t = Time.zone.parse("21:00")
     pay_time = DateTime.new(d.year, d.month, d.day, t.hour, t.min, t.sec, t.zone)
