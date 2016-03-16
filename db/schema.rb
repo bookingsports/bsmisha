@@ -134,6 +134,10 @@ ActiveRecord::Schema.define(version: 20160310084934) do
     t.integer  "status"
     t.string   "summary"
     t.integer  "order_id"
+    t.datetime "old_start"
+    t.datetime "old_stop"
+    t.datetime "new_start"
+    t.datetime "new_stop"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
