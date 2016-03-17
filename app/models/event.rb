@@ -165,7 +165,17 @@ class Event < ActiveRecord::Base
   end
 
   def area_price
-    daily_price_rules.sum(:value) * duration_in_hours * occurrences
+    if recurring?
+      build_schedule
+      @schedule.all_occurrences.map{|e| prices_for_time(e, e).sum(:value) * duration_in_hours}.sum
+    else
+      daily_price_rules.sum(:value) * duration_in_hours
+    end
+  end
+
+  def prices_for_time start, stop
+    prices = area.prices.where(Price.between start, stop)
+    daily_price_rules = prices.first.daily_price_rules.where(DailyPriceRule.between start, stop)
   end
 
   private
@@ -185,9 +195,9 @@ class Event < ActiveRecord::Base
       if paid? && cancelled?
         if user.recoupments.where(area: self.area).any?
           rec = user.recoupments.where(area: self.area).first
-          rec.update duration: rec.duration + self.duration
+          rec.update duration: rec.duration + self.duration * self.occurrences
         else
-          Recoupment.create user: self.user, duration: self.duration, area: self.area
+          Recoupment.create user: self.user, duration: self.duration * self.occurrences, area: self.area
         end
       end
     end
@@ -203,7 +213,7 @@ class Event < ActiveRecord::Base
     end
 
     def build_schedule
-      @schedule = IceCube::Schedule.new do |s|
+      @schedule = IceCube::Schedule.new start do |s|
         if recurring?
           s.add_recurrence_rule(IceCube::Rule.from_ical(recurrence_rule))
           if recurrence_exception.present? && recurrence_exception =~ /=/

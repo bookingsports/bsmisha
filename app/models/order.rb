@@ -59,9 +59,9 @@ class Order < ActiveRecord::Base
         user.wallet.withdraw! self.total
         self.events.each do |event|
           rec = user.recoupments.where(area: event.area).first
-          if rec.present? && rec.duration >= event.duration
+          if rec.present? && rec.duration >= event.duration * event.occurrences
             user.wallet.deposit! event.price
-            rec.update duration: (rec.duration - event.duration)
+            rec.update duration: (rec.duration - event.duration * event.occurrences)
           else
             event.area.stadium.user.wallet.deposit_with_tax_deduction! event.area_price
             event.coach.present? && event.coach.user.wallet.deposit_with_tax_deduction!(event.coach_price)

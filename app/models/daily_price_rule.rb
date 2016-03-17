@@ -34,6 +34,19 @@ class DailyPriceRule < ActiveRecord::Base
     .or(start.lt(event_start).and(stop.gt(event_stop))))
   end
 
+  scope :between, -> (start, stop) do
+    table_start = arel_table['start']
+    table_stop = arel_table['stop']
+
+    date_start = start.strftime('%H:%M')
+    date_stop = stop.strftime('%H:%M')
+
+    arel_table['working_days'].any(start.wday)
+    .and(table_start.gteq(date_start).and(table_start.lt(date_stop))
+    .or(table_stop.gt(date_start).and(table_stop.lteq(date_stop)))
+    .or(table_start.lt(date_start).and(table_stop.gt(date_stop))))
+  end
+
   def name
     "Правило цены с #{start} по #{stop}"
   end

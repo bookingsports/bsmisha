@@ -35,6 +35,15 @@ class Price < ActiveRecord::Base
     .or(start.lt(event.start).and(stop.gt(event.stop)))
   end
 
+  scope :between, -> (start, stop) do
+    table_start = arel_table['start']
+    table_stop = arel_table['stop']
+
+    table_start.gteq(start).and(table_start.lt(stop))\
+    .or(table_stop.gt(start).and(table_stop.lteq(stop)))\
+    .or(table_start.lt(start).and(table_stop.gt(stop)))
+  end
+
   # return value for current time
   scope :current, -> do
     where('LOCALTIMESTAMP BETWEEN "start" AND "stop"').last || new
