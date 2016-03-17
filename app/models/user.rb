@@ -55,7 +55,7 @@ class User < ActiveRecord::Base
   end
 
   def total_hours(options = {})
-    events_maybe_scoped_by(options).unpaid.active.map(&:duration_in_hours).inject(:+) || 0
+    events_maybe_scoped_by(options).unpaid.active.map{|e| e.duration_in_hours * e.occurrences}.inject(:+) || 0
   end
 
   def total_recoupments(area = {})
