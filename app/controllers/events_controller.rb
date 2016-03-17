@@ -24,7 +24,7 @@ class EventsController < ApplicationController
   before_filter :authenticate_user!, except: [:index, :parents_events]
 
   def index
-    @events = Event.where(area: current_product)
+    @events = Event.active.where(area: current_product)
     respond_with @events
   end
 
