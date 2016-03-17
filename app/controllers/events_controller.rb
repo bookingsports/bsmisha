@@ -74,7 +74,10 @@ class EventsController < ApplicationController
     event = Event.find(params[:id])
     event.destroy
 
-    redirect_to my_events_path, notice: "Успешно удален."
+    respond_to do |format|
+      format.html {redirect_to my_events_path, notice: "Успешно удален." }
+      format.json {respond_with event}
+    end
   end
 
   private
