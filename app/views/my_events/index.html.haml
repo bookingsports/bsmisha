@@ -1,44 +1,60 @@
-%h4 Неоплаченные занятия
 = form_for :events, url: bulk_process_my_events_path do |f|
-  %table.table.table-hover
+  - if @events.unpaid.present?
+    %h4 Неоплаченные занятия
+    %table.table.table-hover
+      %thead
+        %tr
+          %th
+          %th Стадион
+          %th Площадка
+          %th Период занятий
+          %th Время тренировок
+          %th Стоимость
+      - @events.unpaid.each do |event|
+        %tr
+          %td= check_box_tag "event_ids[]", event.id
+          %td= event.area.stadium.name
+          %td= event.area.name
+          %td= l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
+          %td= event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
+          %td= number_to_integer_currency event.price
+  - if @event_changes.unpaid.present?
+    %h4 Переносы
+    %table.table.table-hover
+      %thead
+        %tr
+          %th
+          %th Стадион
+          %th Площадка
+          %th Стоимость
+      - @event_changes.unpaid.each do |event_change|
+        %tr
+          %td= check_box_tag "event_change_ids[]", event_change.id
+          %td= event_change.event.area.stadium.name
+          %td= event_change.event.area.name
+          %td= number_to_integer_currency event_change.total
+  - if @events.unpaid.present? || @event_changes.unpaid.present?
+    = f.button 'Перейти к оплате', value: :pay
+    = f.button 'Удалить', value: :destroy
+  %h4 Оплаченные занятия
+  %table.table.table-striped
     %thead
       %tr
-        %th
+        %th #
         %th Стадион
         %th Площадка
         %th Период занятий
         %th Время тренировок
         %th Стоимость
-    - @events.unpaid.each do |event|
+    - @events.paid.each do |event|
       %tr
-        %td= check_box_tag "event_ids[]", event.id
+        %td= event.id
         %td= event.area.stadium.name
         %td= event.area.name
         %td= l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
-        %td= event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
+        %td
+          = event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
+          - if event.has_unpaid_changes?
+            = link_to orders_path('event_change_ids[]' => event.event_change.id), method: :post, class: 'label' do
+              %span.label.label-success Оплатить перенос
         %td= number_to_integer_currency event.price
-  - if @events.unpaid.present?
-    = f.button 'Перейти к оплате', value: :pay
-    = f.button 'Удалить', value: :destroy
-%h4 Оплаченные занятия
-%table.table.table-striped
-  %thead
-    %tr
-      %th #
-      %th Стадион
-      %th Площадка
-      %th Период занятий
-      %th Время тренировок
-      %th Стоимость
-  - @events.paid.each do |event|
-    %tr
-      %td= event.id
-      %td= event.area.stadium.name
-      %td= event.area.name
-      %td= l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
-      %td
-        = event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
-        - if event.has_unpaid_changes?
-          = link_to orders_path('event_change_ids[]' => event.event_change.id), method: :post, class: 'label' do
-            %span.label.label-success Оплатить перенос
-      %td= number_to_integer_currency event.price

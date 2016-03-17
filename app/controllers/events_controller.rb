@@ -24,7 +24,7 @@ class EventsController < ApplicationController
   before_filter :authenticate_user!, except: [:index, :parents_events]
 
   def index
-    @events = Event.where(area: current_product)
+    @events = Event.active.where(area: current_product)
     respond_with @events
   end
 
@@ -53,11 +53,12 @@ class EventsController < ApplicationController
 
   def update
     @event = current_user.events.find(params[:id])
-    if @event.update event_params
+    @event.update event_params
+    #if @event.update event_params
       respond_with @event
-    else
-      render json: { error: 'Transfer error' }
-    end
+    #else
+    #  render json: { error: 'Transfer error' }
+    #end
   end
 
   def edit
@@ -73,7 +74,10 @@ class EventsController < ApplicationController
     event = Event.find(params[:id])
     event.destroy
 
-    redirect_to my_events_path, notice: "Успешно удален."
+    respond_to do |format|
+      format.html {redirect_to my_events_path, notice: "Успешно удален." }
+      format.json {respond_with event}
+    end
   end
 
   private

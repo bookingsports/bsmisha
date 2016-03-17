@@ -36,7 +36,8 @@ class Stadium < ActiveRecord::Base
   has_many :services, through: :stadium_services
 
   accepts_nested_attributes_for :areas, reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :user, :account, :stadium_services
+  accepts_nested_attributes_for :stadium_services, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :user, :account
 
   after_create :make_area
   after_create :create_account

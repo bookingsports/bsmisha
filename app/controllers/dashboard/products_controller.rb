@@ -27,7 +27,7 @@ class Dashboard::ProductsController < DashboardController
         user_attributes: [:id, :phone, :name],
         account_attributes: [:id, :number, :company, :inn, :kpp, :agreement_number, :date, :bik],
         areas_attributes: [:id, :name, :price, :change_price, :category_id, :_destroy],
-        stadium_services_attributes: [:id, :periodic, :price, :_destroy, service_attributes: [:id, :name]]
+        stadium_services_attributes: [:id, :periodic, :price, :_destroy, service_attributes: [:id, :name, :_destroy]]
       )
     end
 end

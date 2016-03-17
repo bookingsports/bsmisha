@@ -1,4 +1,4 @@
-%tr
+%tr.nested-fields
   = f.simple_fields_for :service, f.object.service || Service.new do |sf|
     %td= sf.input :name, label: false
   %td= f.input :price, label: false

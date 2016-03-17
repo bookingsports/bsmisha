@@ -55,11 +55,11 @@ class User < ActiveRecord::Base
   end
 
   def total_hours(options = {})
-    events_maybe_scoped_by(options).unpaid.active.map(&:duration_in_hours).inject(:+) || 0
+    events_maybe_scoped_by(options).unpaid.active.map{|e| e.duration_in_hours * e.occurrences}.inject(:+) || 0
   end
 
   def total_recoupments(area = {})
-    recoupments.where(area: area).map(&:duration).inject(:+) / 1.hour || 0
+    recoupments.where(area: area).map(&:duration).inject(:+) / 1.hour.to_f || 0
   end
 
   def events_maybe_scoped_by options
@@ -71,7 +71,7 @@ class User < ActiveRecord::Base
   end
 
   def changes_total(options = {})
-    event_changes.where(area: options[:area]).unpaid.map(&:price).inject(:+) || 0
+    event_changes.unpaid.map(&:total).inject(:+) || 0
   end
 
   def navs

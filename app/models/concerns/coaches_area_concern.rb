@@ -8,16 +8,12 @@ module CoachesAreaConcern
         field :coach
         field :area
         field :price
-        field :created_at
-        field :updated_at
       end
 
       show do
         field :coach
         field :area
         field :price
-        field :created_at
-        field :updated_at
       end
 
       edit do

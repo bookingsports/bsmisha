@@ -29,18 +29,6 @@ class Tennis.Views.ScheduleView extends Backbone.View
         scheduler.dataSource.read()
         scheduler.resources[1].dataSource.read()
 
-      scheduler.wrapper.on 'mouseup touchend', '.k-scheduler-table td, .k-event', (e) ->
-        target = $(e.currentTarget)
-        if target.hasClass('k-event')
-          event = scheduler.occurrenceByUid(target.data('uid'))
-          scheduler.editEvent event
-        else
-          slot = scheduler.slotByElement(target[0])
-          scheduler.addEvent
-            start: slot.startDate
-            end: slot.endDate
-        return
-
   render: ->
     @$el.kendoScheduler
       culture: 'ru-RU'
@@ -97,6 +85,8 @@ class Tennis.Views.ScheduleView extends Backbone.View
           alert(validation)
           e.preventDefault()
         return
+      remove: (e) =>
+        e.sender.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.js')
       schema:
         timezone: 'Europe/Moscow'
         model:
@@ -132,6 +122,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
             { text: 'Чужое', value: 'disowned', color: '#ccc' },
             { text: 'Оплачено', value: 'paid', color: '#8ED869' },
             { text: 'Неоплаченный перенос', value: 'has_unpaid_changes', color: '#69D8D8' }
+            { text: 'Оплаченный перенос', value: 'has_paid_changes', color: '#3234c2' }
           ]
         },
         {
@@ -211,12 +202,20 @@ class Tennis.Views.ScheduleView extends Backbone.View
               isAllDay:
                 type: 'boolean'
                 from: 'is_all_day'
+              paid:
+                type: 'boolean'
+                from: 'paid'
+              paidTransfer:
+                type: 'boolean'
+                from: 'paid_transfer'
 
   validate: (start, stop, event) =>
     if @timeIsPast(event.start)
       return 'Невозможно сделать заказ на прошедшее время'
     else if @timeIsOccupied(start, stop, event)
       return 'Это время занято'
+    else if event.paid && event.paidTransfer
+      return 'Нельзя изменить оплаченный и перенесенный заказ'
     else
       true
 
