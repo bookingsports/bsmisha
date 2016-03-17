@@ -213,12 +213,20 @@ class Tennis.Views.ScheduleView extends Backbone.View
               isAllDay:
                 type: 'boolean'
                 from: 'is_all_day'
+              paid:
+                type: 'boolean'
+                from: 'paid'
+              paidTransfer:
+                type: 'boolean'
+                from: 'paid_transfer'
 
   validate: (start, stop, event) =>
     if @timeIsPast(event.start)
       return 'Невозможно сделать заказ на прошедшее время'
     else if @timeIsOccupied(start, stop, event)
       return 'Это время занято'
+    else if event.paid && event.paidTransfer
+      return 'Нельзя изменить оплаченный заказ'
     else
       true
 
