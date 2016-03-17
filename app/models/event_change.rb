@@ -46,9 +46,9 @@ class EventChange < ActiveRecord::Base
   end
 
   def fee_after_nine
-    d = event.start - 1.day
+    d = old_start - 1.day
     t = Time.zone.parse("21:00")
     pay_time = DateTime.new(d.year, d.month, d.day, t.hour, t.min, t.sec, t.zone)
-    created_at.to_date > pay_time ? event.area.change_price.to_i : 0
+    created_at.to_date > pay_time ? event.price * event.area.change_price.to_i / 100 : 0
   end
 end
