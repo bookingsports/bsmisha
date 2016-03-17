@@ -122,6 +122,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
             { text: 'Чужое', value: 'disowned', color: '#ccc' },
             { text: 'Оплачено', value: 'paid', color: '#8ED869' },
             { text: 'Неоплаченный перенос', value: 'has_unpaid_changes', color: '#69D8D8' }
+            { text: 'Оплаченный перенос', value: 'has_paid_changes', color: '#3234c2' }
           ]
         },
         {
@@ -214,7 +215,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
     else if @timeIsOccupied(start, stop, event)
       return 'Это время занято'
     else if event.paid && event.paidTransfer
-      return 'Нельзя изменить оплаченный заказ'
+      return 'Нельзя изменить оплаченный и перенесенный заказ'
     else
       true
 

@@ -103,6 +103,8 @@ class Event < ActiveRecord::Base
     case
     when self.has_unpaid_changes?
       "has_unpaid_changes"
+    when self.has_paid_changes?
+      "has_paid_changes"
     when self.paid?
       "paid"
     when self.user == user
@@ -142,6 +144,10 @@ class Event < ActiveRecord::Base
 
   def has_unpaid_changes?
     event_change.present? && event_change.unpaid?
+  end
+
+  def has_paid_changes?
+    event_change.present? && event_change.paid?
   end
 
   def start_before_change
