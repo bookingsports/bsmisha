@@ -69,9 +69,8 @@ class Event < ActiveRecord::Base
   after_initialize :build_schedule
   after_update :create_recoupment_if_cancelled
   before_update :create_event_change_if_not_present, if: "start_changed? && stop_changed?"
-  before_save do |record|
-    puts area_price
-    record.price = record.area_price + record.stadium_services_price + record.coach_price
+  after_save do
+    update_columns("price" =>  area_price + stadium_services_price + coach_price)
   end
 
   def name
