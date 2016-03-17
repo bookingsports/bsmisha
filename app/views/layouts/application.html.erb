@@ -13,17 +13,15 @@
     <header>
       <%= render 'layouts/navigation' %>
     </header>
-    <% cache_if content_for?(:main_cache_key), yield(:main_cache_key) do %>
-      <main role="main">
-        <%= breadcrumbs style: :bootstrap %>
-        <%= render 'layouts/messages' %>
-        <%= gflash %>
-        <%= content_for?(:sub_layout) ? yield(:sub_layout) : yield %>
-      </main>
-      <footer class="footer">
-        <%= render "layouts/footer" %>
-      </footer>
-    <%- end %>
+    <main role="main">
+      <%= breadcrumbs style: :bootstrap %>
+      <%= render 'layouts/messages' %>
+      <%= gflash %>
+      <%= content_for?(:sub_layout) ? yield(:sub_layout) : yield %>
+    </main>
+    <footer class="footer">
+      <%= render "layouts/footer" %>
+    </footer>
     <%= javascript_include_tag 'application' %>
     <%= yield :scripts %>
     <%= render 'event_form_template' %>
