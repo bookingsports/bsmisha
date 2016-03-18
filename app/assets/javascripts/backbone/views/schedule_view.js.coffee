@@ -216,6 +216,8 @@ class Tennis.Views.ScheduleView extends Backbone.View
       return 'Это время занято'
     else if event.paid && event.paidTransfer
       return 'Нельзя изменить оплаченный и перенесенный заказ'
+    else if event.visual_type == 'disowned'
+      return 'Нельзя изменить заказ чужого пользователя'
     else
       true
 
