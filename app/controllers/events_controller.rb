@@ -25,7 +25,7 @@ class EventsController < ApplicationController
 
   def index
     if current_user.present? && current_user.type == "StadiumUser"
-      @events = current_user.stadium_events.active.where(area: current_product)
+      @events = current_user.stadium_events.active.paid.where(area: current_product)
     elsif current_user.present?
       @events = current_user.events.active.where(area: current_product)
     else
