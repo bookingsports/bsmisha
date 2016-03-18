@@ -48,7 +48,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
       ]
 
       edit: (e) =>
-        if (e.event.visual_type == 'disowned') || !gon.current_user
+        if !gon.current_user || (e.event.visual_type == 'disowned' && gon.current_user.type != "StadiumUser")
           alert 'Пожалуйста, сначала авторизуйтесь.'
           e.preventDefault()
       resize: (e) =>
