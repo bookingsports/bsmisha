@@ -48,7 +48,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
       ]
 
       edit: (e) =>
-        if (e.event.visual_type == 'disowned') || !gon.current_user
+        if !gon.current_user || (e.event.visual_type == 'disowned' && gon.current_user.type != "StadiumUser")
           alert 'Пожалуйста, сначала авторизуйтесь.'
           e.preventDefault()
       resize: (e) =>
@@ -81,6 +81,8 @@ class Tennis.Views.ScheduleView extends Backbone.View
         validation = @validate(e.start, e.end, e.event)
         if validation == true
           e.sender.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.js')
+          if e.event.visual_type == 'paid'
+            e.event.visual_type = 'has_unpaid_changes'
         else
           alert(validation)
           e.preventDefault()
@@ -216,6 +218,8 @@ class Tennis.Views.ScheduleView extends Backbone.View
       return 'Это время занято'
     else if event.paid && event.paidTransfer
       return 'Нельзя изменить оплаченный и перенесенный заказ'
+    else if event.visual_type == 'disowned'
+      return 'Нельзя изменить заказ чужого пользователя'
     else
       true
 

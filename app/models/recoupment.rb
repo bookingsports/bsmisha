@@ -18,4 +18,8 @@ class Recoupment < ActiveRecord::Base
   belongs_to :area
 
   validates :user, :duration, :area, presence: true
+
+  def duration_in_hours
+    duration / 1.hour
+  end
 end

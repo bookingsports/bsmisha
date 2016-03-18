@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
 
     def set_gon_user
       if user_signed_in?
-        gon.current_user = {name: current_user.name}
+        gon.current_user = {name: current_user.name, type: current_user.type, stadium: current_user.stadium}
       end
     end
 

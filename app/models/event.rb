@@ -67,7 +67,7 @@ class Event < ActiveRecord::Base
   #}
 
   after_initialize :build_schedule
-  after_update :create_recoupment_if_cancelled
+  before_destroy :create_recoupment_if_cancelled
   before_update :create_event_change_if_not_present, if: "start_changed? && stop_changed?"
   after_save do
     update_columns("price" =>  area_price + stadium_services_price + coach_price)
@@ -101,6 +101,8 @@ class Event < ActiveRecord::Base
 
   def visual_type_for user
     case
+    when self.user != user
+      "disowned"
     when self.has_unpaid_changes?
       "has_unpaid_changes"
     when self.has_paid_changes?
@@ -109,8 +111,6 @@ class Event < ActiveRecord::Base
       "paid"
     when self.user == user
       "owned"
-    else
-      "disowned"
     end
   end
 
@@ -151,15 +151,11 @@ class Event < ActiveRecord::Base
   end
 
   def start_before_change
-    event_before_change ? Time.zone.parse(event_before_change["start"]) : attributes["start"]
+    event_change.present? ? event_change.old_start : attributes["start"]
   end
 
   def end_before_change
-    event_before_change ? Time.zone.parse(event_before_change["stop"]) : attributes["stop"]
-  end
-
-  def event_before_change
-    @event_before_change ||= JSON.parse(event_changes.unpaid.last.summary) if event_changes.unpaid.last
+    event_change.present? ? event_change.old_stop : attributes["stop"]
   end
 
   def stadium_services_price
@@ -198,7 +194,7 @@ class Event < ActiveRecord::Base
     end
 
     def create_recoupment_if_cancelled
-      if paid? && cancelled?
+      if paid?
         if user.recoupments.where(area: self.area).any?
           rec = user.recoupments.where(area: self.area).first
           rec.update duration: rec.duration + self.duration * self.occurrences
