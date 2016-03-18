@@ -81,6 +81,8 @@ class Tennis.Views.ScheduleView extends Backbone.View
         validation = @validate(e.start, e.end, e.event)
         if validation == true
           e.sender.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.js')
+          if e.event.visual_type == 'paid'
+            e.event.visual_type = 'has_unpaid_changes'
         else
           alert(validation)
           e.preventDefault()
