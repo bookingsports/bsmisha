@@ -67,7 +67,7 @@ class Event < ActiveRecord::Base
   #}
 
   after_initialize :build_schedule
-  after_update :create_recoupment_if_cancelled
+  before_destroy :create_recoupment_if_cancelled
   before_update :create_event_change_if_not_present, if: "start_changed? && stop_changed?"
   after_save do
     update_columns("price" =>  area_price + stadium_services_price + coach_price)
@@ -194,7 +194,7 @@ class Event < ActiveRecord::Base
     end
 
     def create_recoupment_if_cancelled
-      if paid? && cancelled?
+      if paid?
         if user.recoupments.where(area: self.area).any?
           rec = user.recoupments.where(area: self.area).first
           rec.update duration: rec.duration + self.duration * self.occurrences

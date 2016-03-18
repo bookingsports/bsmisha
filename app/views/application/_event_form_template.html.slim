@@ -43,9 +43,3 @@ script#eventFormTemplate type="text/x-kendo-template"
         input.k-input.k-readonly style="width: 25px" accesskey="" autocomplete="off" role="listbox" aria-expanded="false" tabindex="0" aria-owns="" aria-disabled="false" aria-readonly="false" aria-busy="false"
         span class="k-icon k-loading k-loading-hidden"
       select data-bind="value:stadium_service_ids" data-role="multiselect" multiple="multiple" aria-disabled="false" aria-readonly="false" style="display: none;"
-  - if current_user.present? && current_user.type == "StadiumUser"
-    .k-edit-label
-      label for='status' Статус
-
-    .k-edit-field data-container-for='cancel'
-      = select_tag "status", options_for_select(Event.statuses.collect{|key, value| [key, key] })
