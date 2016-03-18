@@ -36,6 +36,19 @@
   - if @events.unpaid.present? || @event_changes.unpaid.present?
     = f.button 'Перейти к оплате', value: :pay
     = f.button 'Удалить', value: :destroy
+  - if @recoupments.present?
+    %h4 Отыгрыши
+    %table.table.table-hover
+      %thead
+        %tr
+          %th Стадион
+          %th Площадка
+          %th Количество часов
+      - @recoupments.each do |recoupment|
+        %tr
+          %td= recoupment.area.stadium.name
+          %td= recoupment.area.name
+          %td= number_with_precision(recoupment.duration_in_hours, precision: 1)
   %h4 Оплаченные занятия
   %table.table.table-striped
     %thead
