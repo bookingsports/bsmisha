@@ -2,19 +2,8 @@ require 'rails_helper'
 
 RSpec.describe "Dashboard" do
   context "StadiumUser" do
-    before(:all) do
-      @user = StadiumUser.create({
-        email: 'stadium@example.com',
-        password: 'blinkenbleg'
-      })
-
-      @area = Area.create({
-        stadium: Stadium.create(user: @user),
-        price: 100
-      })
-
-      login_via_post_as(@user)
-    end
+    let(:user) {create(:stadium_user)}
+    let(:area) {user.stadium.area.first}
 
     %w(dashboard_grid_path
       dashboard_coach_users_path
@@ -23,6 +12,7 @@ RSpec.describe "Dashboard" do
       dashboard_withdrawal_requests_path).each do |path|
 
       it "visits #{path}" do
+        login_via_post_as(user)
         get send(path)
 
         expect(response.status).to eq(200)
@@ -30,18 +20,8 @@ RSpec.describe "Dashboard" do
     end
   end
   context "CoachUser" do
-    before(:all) do
-      @user = CoachUser.create({
-        email: 'coach@example.com',
-        password: 'blinkenbleg'
-      })
-
-      @coach = Coach.create({
-        user: @user
-      })
-
-      login_via_post_as @user
-    end
+    let(:user) {create(:coach_user)}
+    let(:coach) {coach_user.coach}
 
     %w(dashboard_grid_path
       dashboard_employments_path
@@ -50,6 +30,7 @@ RSpec.describe "Dashboard" do
       edit_dashboard_product_path).each do |path|
 
       it "visits #{path}" do
+        login_via_post_as(user)
         get send(path)
 
         expect(response.status).to eq(200)
