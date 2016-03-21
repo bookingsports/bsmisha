@@ -82,3 +82,6 @@ pickle-email-*.html
 # Ignore application configuration
 /config/application.yml
 .rvmrc
+
+# byebug log
+.byebug_history
