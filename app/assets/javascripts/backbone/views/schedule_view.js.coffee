@@ -40,6 +40,10 @@ class Tennis.Views.ScheduleView extends Backbone.View
       showWorkHours: true
       editable:
         template: $("#eventFormTemplate").html()
+        create: @url().indexOf('grid') == -1
+        move: @url().indexOf('grid') == -1
+        resize: @url().indexOf('grid') == -1
+        update: @url().indexOf('grid') == -1
       height: 700
       views: [
         "day",
