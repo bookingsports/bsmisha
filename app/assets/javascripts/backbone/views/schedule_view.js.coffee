@@ -48,8 +48,12 @@ class Tennis.Views.ScheduleView extends Backbone.View
       ]
 
       edit: (e) =>
-        coach_id = e.container.find("#coach_id").data("kendoDropDownList");
-        coach_id.dataSource.data(e.sender.resources[1].dataSource.data());
+        coach_id = e.container.find("#coach_id").kendoDropDownList({
+          dataTextField: 'name',
+          dataValueField: 'id',
+          optionLabel: "Нет",
+          dataSource: e.sender.resources[1].dataSource;
+        }).data('kendoDropDownList');
 
         if !gon.current_user || (e.event.visual_type == 'disowned' && gon.current_user.type != "StadiumUser")
           alert 'Пожалуйста, сначала авторизуйтесь.'
@@ -139,6 +143,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
           dataSource:
             transport:
               read:
+                dataType: "json",
                 url: => "/grid/#{@area_id}/coaches.json"
         },
         {
