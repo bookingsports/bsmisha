@@ -36,9 +36,4 @@ script#eventFormTemplate type="text/x-kendo-template"
   .k-edit-label
     label for='stadium_service_ids' Доп. услуги
   .k-edit-field data-container-for='stadium_service_ids'
-    .k-widget.k-multiselect.k-header unselectable="on" title="" style=""
-      .k-multiselect-wrap.k-floatwrap unselectable="on"
-        ul role="listbox" unselectable="on" class="k-reset"
-        input.k-input.k-readonly style="width: 25px" accesskey="" autocomplete="off" role="listbox" aria-expanded="false" tabindex="0" aria-owns="" aria-disabled="false" aria-readonly="false" aria-busy="false"
-        span class="k-icon k-loading k-loading-hidden"
-      select data-bind="value:stadium_service_ids" data-role="multiselect" multiple="multiple" aria-disabled="false" aria-readonly="false" style="display: none;"
+    select#stadium_service_ids data-bind="value:stadium_service_ids"

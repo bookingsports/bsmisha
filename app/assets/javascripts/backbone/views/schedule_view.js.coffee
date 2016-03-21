@@ -55,6 +55,12 @@ class Tennis.Views.ScheduleView extends Backbone.View
           dataSource: e.sender.resources[1].dataSource;
         }).data('kendoDropDownList');
 
+        stadium_service_ids = e.container.find("#stadium_service_ids").kendoMultiSelect({
+          dataTextField: 'name',
+          dataValueField: 'id',
+          dataSource: e.sender.resources[2].dataSource;
+        })
+
         if !gon.current_user || (e.event.visual_type == 'disowned' && gon.current_user.type != "StadiumUser")
           alert 'Пожалуйста, сначала авторизуйтесь.'
           e.preventDefault()

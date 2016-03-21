@@ -44,6 +44,7 @@ class Event < ActiveRecord::Base
   has_many :daily_price_rules, -> (event) { where DailyPriceRule.overlaps event }, through: :prices
 
   has_and_belongs_to_many :stadium_services
+  accepts_nested_attributes_for :stadium_services
 
   enum status: [:active, :cancelled]
 
