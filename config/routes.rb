@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   get 'grid/(:area_id)/coaches.json', to: 'coaches#index'
   get 'grid/(:area_id)/events.json', to: 'events#index'
   get 'grid/events.json', to: 'events#index'
+  delete 'grid/(:area_id)/events/(:id)', to: 'events#destroy'
+  delete 'grid/events/(:id)', to: 'events#destroy'
   get 'products/show'
   get 'grid/(:area_id)', to: 'dashboard#grid', as: 'dashboard_grid'
 
