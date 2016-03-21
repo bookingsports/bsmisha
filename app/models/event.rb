@@ -29,6 +29,7 @@ class Event < ActiveRecord::Base
   validates :stop, greater_by_30_min: {than: :start}, allow_blank: true
   validates :start, :stop, step_by_30_min: true, allow_blank: true
   validate :start_is_not_in_the_past
+  validate :not_overlaps_other_events
 
   belongs_to :user
   belongs_to :order
@@ -58,6 +59,15 @@ class Event < ActiveRecord::Base
   scope :unpaid, -> {
     Event.where(order_id: nil).union(Event.joins(:order).where(orders: {status: Order.statuses[:unpaid]}))
   }
+  scope :between, -> (start, stop) do
+    table_start = arel_table['start']
+    table_stop = arel_table['stop']
+
+
+    table_start.gteq(start).and(table_start.lt(stop))
+    .or(table_stop.gt(start).and(table_stop.lteq(stop)))
+    .or(table_start.lt(start).and(table_stop.gt(stop)))
+  end
 
   #scope :unpaid, -> {
   #  _events = find_by_sql(joins(:order).on(arel_table['order_id'].eq(nil).or(Order.arel_table['id'].eq(arel_table['order_id'])))
@@ -211,6 +221,19 @@ class Event < ActiveRecord::Base
     def start_is_not_in_the_past
       if start.present? && start < Time.now
         errors.add(:start, "can't be in the past")
+      end
+    end
+
+    def not_overlaps_other_events
+      if !recurring? && Event.where(Event.between(start, stop)).present?
+        errors.add(:event, 'overlaps other event')
+      else
+        build_schedule
+        @schedule.all_occurrences.each do |e|
+          if Event.where(Event.between(e, e + duration)).present?
+            errors.add(:event, 'overlaps other event')
+          end
+        end
       end
     end
 
