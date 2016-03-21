@@ -63,7 +63,6 @@ class Event < ActiveRecord::Base
     table_start = arel_table['start']
     table_stop = arel_table['stop']
 
-
     table_start.gteq(start).and(table_start.lt(stop))
     .or(table_stop.gt(start).and(table_stop.lteq(stop)))
     .or(table_start.lt(start).and(table_stop.gt(stop)))
@@ -225,16 +224,20 @@ class Event < ActiveRecord::Base
     end
 
     def not_overlaps_other_events
-      if !recurring? && Event.where(Event.between(start, stop)).present?
+      if !recurring? && overlaps?(start, stop)
         errors.add(:event, 'overlaps other event')
       else
         build_schedule
         @schedule.all_occurrences.each do |e|
-          if Event.where(Event.between(e, e + duration)).present?
+          if overlaps?(e, e + duration)
             errors.add(:event, 'overlaps other event')
           end
         end
       end
+    end
+
+    def overlaps? start, stop
+      Event.where(Event.between(start, stop)).where('id not in (?)', id).present?
     end
 
     def build_schedule
