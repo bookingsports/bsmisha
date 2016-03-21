@@ -3,8 +3,11 @@ Rails.application.routes.draw do
     mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   end
 
-  get 'grid/(:area_id)', to: 'dashboard#grid', as: 'dashboard_grid'
+  get 'grid/(:area_id)/coaches.json', to: 'coaches#index'
+  get 'grid/(:area_id)/events.json', to: 'events#index'
+  get 'grid/events.json', to: 'events#index'
   get 'products/show'
+  get 'grid/(:area_id)', to: 'dashboard#grid', as: 'dashboard_grid'
 
   concern :bookable do
     resources :events

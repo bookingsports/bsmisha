@@ -136,7 +136,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
           dataSource:
             transport:
               read:
-                url: => window.location.pathname + "/coaches.json"
+                url: => "/grid/#{@area_id}/coaches.json"
         },
         {
           field: 'stadium_service_ids'
