@@ -56,10 +56,6 @@ class EventsController < ApplicationController
   def create
     @event = current_user.events.create event_params.delete_if {|k,v| v.empty? }
     @event.area = current_product
-    arr = []
-    params['event']['stadium_service_ids'].each_pair {|k,v| arr << v['id']}
-    @event.stadium_service_ids = arr
-    byebug
     @event.save!
   end
 
@@ -69,9 +65,6 @@ class EventsController < ApplicationController
     else
       @event = current_user.events.find(params[:id])
     end
-    arr = []
-    params['event']['stadium_service_ids'].each_pair {|k,v| arr << v['id']}
-    @event.stadium_service_ids = arr
     @event.update event_params
     #if @event.update event_params
       respond_with @event
@@ -109,6 +102,7 @@ class EventsController < ApplicationController
       params.require(:event).permit(
         :id, :start, :stop, :area_id, :user_id, :coach_id, :is_all_day, :owned, :status,
         :recurrence_rule, :recurrence_id, :recurrence_exception,
+        stadium_service_ids: []
       )
     end
 

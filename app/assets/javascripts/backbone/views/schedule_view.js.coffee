@@ -52,12 +52,14 @@ class Tennis.Views.ScheduleView extends Backbone.View
           dataTextField: 'name',
           dataValueField: 'id',
           optionLabel: "Нет",
+          valuePrimitive: true,
           dataSource: e.sender.resources[1].dataSource;
         }).data('kendoDropDownList');
 
         stadium_service_ids = e.container.find("#stadium_service_ids").kendoMultiSelect({
           dataTextField: 'name',
           dataValueField: 'id',
+          valuePrimitive: true,
           dataSource: e.sender.resources[2].dataSource;
         })
 
@@ -67,6 +69,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
       resize: (e) =>
         unless @validate(e.start, e.end, e.event) == true
           @scheduler().wrapper.find('.k-marquee-color').addClass 'invalid-slot'
+          e.preventDefault();
         return
       resizeEnd: (e) =>
         validation = @validate(e.start, e.end, e.event)
@@ -205,6 +208,8 @@ class Tennis.Views.ScheduleView extends Backbone.View
               coach_id:
                 from: 'coach_id'
                 defaultValue: ''
+              stadium_service_ids:
+                from: 'stadium_service_ids'
               recurrenceId:
                 from: 'recurrence_id'
               recurrenceRule:
