@@ -169,11 +169,11 @@ class Event < ActiveRecord::Base
   end
 
   def stadium_services_price
-    stadium_services.map{|ss| ss.price_for_event(self)}.inject(:+) || 0
+    stadium_services.map{|ss| ss.price_for_event(self) * occurrences}.inject(:+) || 0
   end
 
   def coach_price
-    coach.present? ? coach.coaches_areas.where(area: area).first.price * duration_in_hours : 0
+    coach.present? ? coach.coaches_areas.where(area: area).first.price * duration_in_hours * occurrences : 0
   end
 
   def area_price
