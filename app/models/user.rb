@@ -51,11 +51,11 @@ class User < ActiveRecord::Base
   default_scope -> { order(created_at: :desc) }
 
   def total(options = {})
-    events_maybe_scoped_by(options).unpaid.active.map(&:price).inject(:+) || 0
+    events_maybe_scoped_by(options).unpaid.future.active.map(&:price).inject(:+) || 0
   end
 
   def total_hours(options = {})
-    events_maybe_scoped_by(options).unpaid.active.map{|e| e.duration_in_hours * e.occurrences}.inject(:+) || 0
+    events_maybe_scoped_by(options).unpaid.future.active.map{|e| e.duration_in_hours * e.occurrences}.inject(:+) || 0
   end
 
   def total_recoupments(area = {})
@@ -71,7 +71,7 @@ class User < ActiveRecord::Base
   end
 
   def changes_total(options = {})
-    event_changes.unpaid.map(&:total).inject(:+) || 0
+    event_changes.unpaid.future.map(&:total).inject(:+) || 0
   end
 
   def navs
