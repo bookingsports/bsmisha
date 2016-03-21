@@ -56,7 +56,10 @@ class EventsController < ApplicationController
   def create
     @event = current_user.events.create event_params.delete_if {|k,v| v.empty? }
     @event.area = current_product
-    @event.stadium_service_ids = params['event']['stadium_service_ids'].to_a.map {|i| i[1]['id']}
+    arr = []
+    params['event']['stadium_service_ids'].each_pair {|k,v| arr << v['id']}
+    @event.stadium_service_ids = arr
+    byebug
     @event.save!
   end
 
@@ -66,7 +69,9 @@ class EventsController < ApplicationController
     else
       @event = current_user.events.find(params[:id])
     end
-    @event.stadium_service_ids = params['event']['stadium_service_ids'].to_a.map {|i| i[1]['id']}
+    arr = []
+    params['event']['stadium_service_ids'].each_pair {|k,v| arr << v['id']}
+    @event.stadium_service_ids = arr
     @event.update event_params
     #if @event.update event_params
       respond_with @event
