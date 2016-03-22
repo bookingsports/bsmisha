@@ -27,7 +27,6 @@ class Tennis.Views.ScheduleView extends Backbone.View
 
       $('#area').on 'change', =>
         scheduler.dataSource.read()
-        scheduler.resources[1].dataSource.read()
 
   render: ->
     @$el.kendoScheduler
@@ -57,14 +56,27 @@ class Tennis.Views.ScheduleView extends Backbone.View
           dataValueField: 'id',
           optionLabel: "Нет",
           valuePrimitive: true,
-          dataSource: e.sender.resources[1].dataSource;
+          dataSource:
+            transport:
+              read:
+                dataType: "json",
+                url: => "/grid/#{@area_id}/coaches.json"
+            requestEnd: (ee) =>
+              if ee.response.length == 0
+                e.container.find("#coach-wrapper").hide();
         }).data('kendoDropDownList');
 
         stadium_service_ids = e.container.find("#stadium_service_ids").kendoMultiSelect({
           dataTextField: 'name',
           dataValueField: 'id',
           valuePrimitive: true,
-          dataSource: e.sender.resources[2].dataSource;
+          dataSource:
+            transport:
+              read:
+                url: => "/products/#{@area_id}.json"
+            requestEnd: (ee) =>
+              if ee.response.length == 0
+                e.container.find("#services-wrapper").hide();
         })
 
         if !gon.current_user || (e.event.visual_type == 'disowned' && gon.current_user.type != "StadiumUser")
@@ -146,29 +158,6 @@ class Tennis.Views.ScheduleView extends Backbone.View
             { text: 'Неоплаченный перенос', value: 'has_unpaid_changes', color: '#69D8D8' }
             { text: 'Оплаченный перенос', value: 'has_paid_changes', color: '#3234c2' }
           ]
-        },
-        {
-          field: 'coach_id'
-          title: 'Тренер'
-          multiple: false
-          dataTextField: 'name'
-          dataValueField: 'id'
-          dataSource:
-            transport:
-              read:
-                dataType: "json",
-                url: => "/grid/#{@area_id}/coaches.json"
-        },
-        {
-          field: 'stadium_service_ids'
-          title: 'Доп. услуги'
-          multiple: true
-          dataTextField: 'name'
-          dataValueField: 'id'
-          dataSource:
-            transport:
-              read:
-                url: => "/products/#{@area_id}.json"
         }
       ]
       dataSource:
