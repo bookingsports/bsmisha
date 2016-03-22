@@ -69,11 +69,14 @@ RSpec.describe User do
       it "returns proper amount" do
         event = create(:event)
         user.events << event
-        expect(user.total).to eq event.area.price * event.duration_in_hours
+        expect(user.total).to eq event.area_price * event.duration_in_hours
       end
 
       it "returns proper amount when values are specified" do
-        event = create(:event, start: Time.zone.parse('12:00')+1.day, stop: Time.zone.parse('15:00')+1.day, area: create(:area, price: 500))
+        area = create(:area)
+        price = create(:price, start: Time.zone.parse('12:00') - 1.day, stop: Time.zone.parse('12:00') + 100.years, area: area)
+        daily_price_rule = create(:daily_price_rule, start: Time.zone.parse('07:00'), stop: Time.zone.parse('23:00'), working_days: [0,1,2,3,4,5,6], price: price, value: 500)
+        event = create(:event, start: Time.zone.parse('12:00')+1.day, stop: Time.zone.parse('15:00')+1.day, area: area)
         user.events << event
         expect(user.total).to eq 500 * 3
       end

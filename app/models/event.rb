@@ -225,9 +225,9 @@ class Event < ActiveRecord::Base
     end
 
     def not_overlaps_other_events
-      if !recurring? && overlaps?(start, stop)
+      if start.present? && stop.present? && !recurring? && overlaps?(start, stop)
         errors.add(:event, 'overlaps other event')
-      else
+      elsif start.present? && stop.present?
         build_schedule
         @schedule.all_occurrences.each do |e|
           if overlaps?(e, e + duration)
