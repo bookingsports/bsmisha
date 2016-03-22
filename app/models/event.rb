@@ -238,7 +238,7 @@ class Event < ActiveRecord::Base
     end
 
     def overlaps? start, stop
-      Event.where(Event.between(start, stop)).where('id not in (?)', id).present?
+      Event.where(Event.between(start, stop)).where('id not in (?)', id).where('area_id in(?)', area_id).present?
     end
 
     def build_schedule
