@@ -92,6 +92,13 @@ class EventsController < ApplicationController
     end
   end
 
+  def ticket
+    @event = Event.find(params[:id])
+
+    pdf = TicketPdf.new(@event, view_context)
+    send_data pdf.render, filename: "ticket_#{@event.id}.pdf", type: "application/pdf"
+  end
+
   private
 
     def find_event
