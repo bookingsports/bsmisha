@@ -29,17 +29,13 @@ script#eventFormTemplate type="text/x-kendo-template"
     label for='recurrenceRule' Повторения
   .k-edit-field data-container-for='recurrenceRule'
     div data-bind="value:recurrenceRule" name="recurrenceRule" data-role="recurrenceeditor"
-  .k-edit-label
-    label for='coach_id' Тренер
-  .k-edit-field data-container-for='coach_id'
-    select#coach_id data-bind='value:coach_id' data-role='dropdownlist' data-value-field='value' data-text-field='text'
-     option value='' Нет
-  .k-edit-label
-    label for='stadium_service_ids' Доп. услуги
-  .k-edit-field data-container-for='stadium_service_ids'
-    .k-widget.k-multiselect.k-header unselectable="on" title="" style=""
-      .k-multiselect-wrap.k-floatwrap unselectable="on"
-        ul role="listbox" unselectable="on" class="k-reset"
-        input.k-input.k-readonly style="width: 25px" accesskey="" autocomplete="off" role="listbox" aria-expanded="false" tabindex="0" aria-owns="" aria-disabled="false" aria-readonly="false" aria-busy="false"
-        span class="k-icon k-loading k-loading-hidden"
-      select data-bind="value:stadium_service_ids" data-role="multiselect" multiple="multiple" aria-disabled="false" aria-readonly="false" style="display: none;"
+  #coach-wrapper
+    .k-edit-label
+      label for='coach_id' Тренер
+    .k-edit-field data-container-for='coach_id'
+      select#coach_id data-bind='value:coach_id' data-role='dropdownlist'
+  #services-wrapper
+    .k-edit-label
+      label for='stadium_service_ids' Доп. услуги
+    .k-edit-field data-container-for='stadium_service_ids'
+      select#stadium_service_ids data-bind="value:stadium_service_ids"

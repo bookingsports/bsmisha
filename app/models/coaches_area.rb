@@ -14,4 +14,8 @@ class CoachesArea < ActiveRecord::Base
 
   belongs_to :coach
   belongs_to :area
+
+  def name_and_price
+    "#{coach.name} (#{price} руб. в час)"
+  end
 end

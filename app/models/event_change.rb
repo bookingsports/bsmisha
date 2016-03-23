@@ -20,6 +20,8 @@ class EventChange < ActiveRecord::Base
 
   scope :paid, -> { joins("LEFT OUTER JOIN orders ON orders.id = event_changes.order_id").where("orders.status =  ?", Order.statuses[:paid]) }
   scope :unpaid, -> { joins("LEFT OUTER JOIN orders ON orders.id = event_changes.order_id").where("orders.status =  ? or orders.status is null", Order.statuses[:unpaid]) }
+  scope :past, -> { where arel_table['new_stop'].lt Time.now }
+  scope :future, -> { where arel_table['new_start'].gt Time.now }
   scope :of_areas, ->(*areas) do
     joins(event: :events_areas).
     where(events_areas: {area_id: areas}).uniq

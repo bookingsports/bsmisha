@@ -25,6 +25,12 @@
         - @area.stadium.stadium_services.each do |p|
           li.list-group-item
             = p.service_name_and_price
+    - if @area.coaches_areas.any?
+      h4 Тренеры
+      ul.list-group
+        - @area.coaches_areas.each do |p|
+          li.list-group-item
+            = p.name_and_price
 
   .col-xs-8
     = render "schedule_legend"

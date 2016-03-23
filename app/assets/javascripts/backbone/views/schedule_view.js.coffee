@@ -27,7 +27,6 @@ class Tennis.Views.ScheduleView extends Backbone.View
 
       $('#area').on 'change', =>
         scheduler.dataSource.read()
-        scheduler.resources[1].dataSource.read()
 
   render: ->
     @$el.kendoScheduler
@@ -40,6 +39,10 @@ class Tennis.Views.ScheduleView extends Backbone.View
       showWorkHours: true
       editable:
         template: $("#eventFormTemplate").html()
+        create: @url().indexOf('grid') == -1
+        move: @url().indexOf('grid') == -1
+        resize: @url().indexOf('grid') == -1
+        update: @url().indexOf('grid') == -1
       height: 700
       views: [
         "day",
@@ -48,12 +51,41 @@ class Tennis.Views.ScheduleView extends Backbone.View
       ]
 
       edit: (e) =>
+        coach_id = e.container.find("#coach_id").kendoDropDownList({
+          dataTextField: 'name',
+          dataValueField: 'id',
+          optionLabel: "Нет",
+          valuePrimitive: true,
+          dataSource:
+            transport:
+              read:
+                dataType: "json",
+                url: => "/grid/#{@area_id}/coaches.json"
+            requestEnd: (ee) =>
+              if ee.response.length == 0
+                e.container.find("#coach-wrapper").hide();
+        }).data('kendoDropDownList');
+
+        stadium_service_ids = e.container.find("#stadium_service_ids").kendoMultiSelect({
+          dataTextField: 'name',
+          dataValueField: 'id',
+          valuePrimitive: true,
+          dataSource:
+            transport:
+              read:
+                url: => "/products/#{@area_id}.json"
+            requestEnd: (ee) =>
+              if ee.response.length == 0
+                e.container.find("#services-wrapper").hide();
+        })
+
         if !gon.current_user || (e.event.visual_type == 'disowned' && gon.current_user.type != "StadiumUser")
           alert 'Пожалуйста, сначала авторизуйтесь.'
           e.preventDefault()
       resize: (e) =>
         unless @validate(e.start, e.end, e.event) == true
           @scheduler().wrapper.find('.k-marquee-color').addClass 'invalid-slot'
+          e.preventDefault();
         return
       resizeEnd: (e) =>
         validation = @validate(e.start, e.end, e.event)
@@ -126,28 +158,6 @@ class Tennis.Views.ScheduleView extends Backbone.View
             { text: 'Неоплаченный перенос', value: 'has_unpaid_changes', color: '#69D8D8' }
             { text: 'Оплаченный перенос', value: 'has_paid_changes', color: '#3234c2' }
           ]
-        },
-        {
-          field: 'coach_id'
-          title: 'Тренер'
-          multiple: false
-          dataTextField: 'name'
-          dataValueField: 'id'
-          dataSource:
-            transport:
-              read:
-                url: => window.location.pathname + "/coaches.json"
-        },
-        {
-          field: 'stadium_service_ids'
-          title: 'Доп. услуги'
-          multiple: true
-          dataTextField: 'name'
-          dataValueField: 'id'
-          dataSource:
-            transport:
-              read:
-                url: => "/products/#{@area_id}.json"
         }
       ]
       dataSource:
@@ -191,6 +201,8 @@ class Tennis.Views.ScheduleView extends Backbone.View
               coach_id:
                 from: 'coach_id'
                 defaultValue: ''
+              stadium_service_ids:
+                from: 'stadium_service_ids'
               recurrenceId:
                 from: 'recurrence_id'
               recurrenceRule:

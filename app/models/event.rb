@@ -29,6 +29,7 @@ class Event < ActiveRecord::Base
   validates :stop, greater_by_30_min: {than: :start}, allow_blank: true
   validates :start, :stop, step_by_30_min: true, allow_blank: true
   validate :start_is_not_in_the_past
+  validate :not_overlaps_other_events
 
   belongs_to :user
   belongs_to :order
@@ -43,6 +44,7 @@ class Event < ActiveRecord::Base
   has_many :daily_price_rules, -> (event) { where DailyPriceRule.overlaps event }, through: :prices
 
   has_and_belongs_to_many :stadium_services
+  accepts_nested_attributes_for :stadium_services
 
   enum status: [:active, :cancelled]
 
@@ -58,6 +60,14 @@ class Event < ActiveRecord::Base
   scope :unpaid, -> {
     Event.where(order_id: nil).union(Event.joins(:order).where(orders: {status: Order.statuses[:unpaid]}))
   }
+  scope :between, -> (start, stop) do
+    table_start = arel_table['start']
+    table_stop = arel_table['stop']
+
+    table_start.gteq(start).and(table_start.lt(stop))
+    .or(table_stop.gt(start).and(table_stop.lteq(stop)))
+    .or(table_start.lt(start).and(table_stop.gt(stop)))
+  end
 
   #scope :unpaid, -> {
   #  _events = find_by_sql(joins(:order).on(arel_table['order_id'].eq(nil).or(Order.arel_table['id'].eq(arel_table['order_id'])))
@@ -159,11 +169,11 @@ class Event < ActiveRecord::Base
   end
 
   def stadium_services_price
-    stadium_services.map{|ss| ss.price_for_event(self)}.inject(:+) || 0
+    stadium_services.map{|ss| ss.price_for_event(self) * occurrences}.inject(:+) || 0
   end
 
   def coach_price
-    coach.present? ? coach.coaches_areas.where(area: area).first.price * duration_in_hours : 0
+    coach.present? ? coach.coaches_areas.where(area: area).first.price * duration_in_hours * occurrences : 0
   end
 
   def area_price
@@ -212,6 +222,23 @@ class Event < ActiveRecord::Base
       if start.present? && start < Time.now
         errors.add(:start, "can't be in the past")
       end
+    end
+
+    def not_overlaps_other_events
+      if start.present? && stop.present? && !recurring? && overlaps?(start, stop)
+        errors.add(:event, 'overlaps other event')
+      elsif start.present? && stop.present?
+        build_schedule
+        @schedule.all_occurrences.each do |e|
+          if overlaps?(e, e + duration)
+            errors.add(:event, 'overlaps other event')
+          end
+        end
+      end
+    end
+
+    def overlaps? start, stop
+      Event.where(Event.between(start, stop)).where('id not in (?)', id).where('area_id in(?)', area_id).present?
     end
 
     def build_schedule

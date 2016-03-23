@@ -1,5 +1,5 @@
 = form_for :events, url: bulk_process_my_events_path do |f|
-  - if @events.unpaid.present?
+  - if @events.unpaid.future.present?
     %h4 Неоплаченные занятия
     %table.table.table-hover
       %thead
@@ -10,7 +10,7 @@
           %th Период занятий
           %th Время тренировок
           %th Стоимость
-      - @events.unpaid.each do |event|
+      - @events.unpaid.future.each do |event|
         %tr
           %td= check_box_tag "event_ids[]", event.id
           %td= event.area.stadium.name
@@ -18,7 +18,7 @@
           %td= l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
           %td= event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
           %td= number_to_integer_currency event.price
-  - if @event_changes.unpaid.present?
+  - if @event_changes.unpaid.future.present?
     %h4 Переносы
     %table.table.table-hover
       %thead
@@ -27,7 +27,7 @@
           %th Стадион
           %th Площадка
           %th Стоимость
-      - @event_changes.unpaid.each do |event_change|
+      - @event_changes.unpaid.future.each do |event_change|
         %tr
           %td= check_box_tag "event_change_ids[]", event_change.id
           %td= event_change.event.area.stadium.name
