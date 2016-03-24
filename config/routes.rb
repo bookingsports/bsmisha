@@ -41,6 +41,7 @@ Rails.application.routes.draw do
     end
     member do
       get 'ticket'
+      post 'pay_change'
     end
   end
 

@@ -69,7 +69,11 @@
         %td
           = event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
           - if event.has_unpaid_changes?
-            = link_to orders_path('event_change_ids[]' => event.event_change.id), method: :post, class: 'label' do
-              %span.label.label-success Оплатить перенос
+            - if event.event_change.total == 0
+              = link_to pay_change_my_event_path(event.event_change.id), method: :post, class: 'label' do
+                %span.label.label-success Подтвердить перенос
+            - else
+              = link_to orders_path('event_change_ids[]' => event.event_change.id), method: :post, class: 'label' do
+                %span.label.label-success Оплатить перенос
         %td= number_to_integer_currency event.price
         %td= link_to "Чек", ticket_event_path(event)

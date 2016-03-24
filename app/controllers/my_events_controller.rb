@@ -24,6 +24,16 @@ class MyEventsController < EventsController
   def bulk_process
   end
 
+  def pay_change
+    @change = EventChange.find(params[:id])
+
+    if @change.update order: Order.create(status: :paid)
+      redirect_to my_events_path, notice: "Перенос успешно подтвержден."
+    else
+      redirect_to my_events_path, notice: "Ошибка сервера."
+    end
+  end
+
   def destroy
     if params[:event_ids].present?
       current_user.events.unpaid.where(id: params[:event_ids]).destroy_all
