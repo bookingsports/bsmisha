@@ -54,27 +54,31 @@ class Order < ActiveRecord::Base
   end
 
   def pay!
-    unless self.paid?
-      transaction = ActiveRecord::Base.transaction do
-        user.wallet.withdraw! self.total
-        self.events.each do |event|
-          rec = user.recoupments.where(area: event.area).first
-          if rec.present? && rec.duration >= event.duration * event.occurrences
-            user.wallet.deposit! event.price
-            rec.update duration: (rec.duration - event.duration * event.occurrences)
-          else
-            event.area.stadium.user.wallet.deposit_with_tax_deduction! event.area_price
-            event.coach.present? && event.coach.user.wallet.deposit_with_tax_deduction!(event.coach_price)
-            event.stadium_services.present? && event.area.stadium.user.wallet.deposit_with_tax_deduction!(event.stadium_services_price)
+    if total == 0
+      self.paid!
+    else
+      unless self.paid?
+        transaction = ActiveRecord::Base.transaction do
+          user.wallet.withdraw! self.total
+          self.events.each do |event|
+            rec = user.recoupments.where(area: event.area).first
+            if rec.present? && rec.duration >= event.duration * event.occurrences
+              user.wallet.deposit! event.price
+              rec.update duration: (rec.duration - event.duration * event.occurrences)
+            else
+              event.area.stadium.user.wallet.deposit_with_tax_deduction! event.area_price
+              event.coach.present? && event.coach.user.wallet.deposit_with_tax_deduction!(event.coach_price)
+              event.stadium_services.present? && event.area.stadium.user.wallet.deposit_with_tax_deduction!(event.stadium_services_price)
+            end
+          end
+          self.event_changes.each do |event_change|
+            event_change.event.area.stadium.user.wallet.deposit_with_tax_deduction! event_change.total
           end
         end
-        self.event_changes.each do |event_change|
-          event_change.event.area.stadium.user.wallet.deposit_with_tax_deduction! event_change.total
-        end
-      end
 
-      if transaction
-        self.paid!
+        if transaction
+          self.paid!
+        end
       end
     end
   end
