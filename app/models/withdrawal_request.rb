@@ -30,7 +30,7 @@ class WithdrawalRequest < ActiveRecord::Base
   end
 
   def set_payment
-    account = self.wallet.user.account
+    account = self.wallet.user.type == "StadiumUser" ? self.wallet.user.stadium.account: self.wallet.user.coach.account
     self.payment = <<-ENDLINE
 1CClientBankExchange
 ВерсияФормата=1.02
