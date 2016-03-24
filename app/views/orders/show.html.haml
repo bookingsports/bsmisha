@@ -2,13 +2,15 @@
 %table.table.table-hover
   = render @order.events
 %table.table.table-hover
-  %h4 Переносы
-  - @order.event_changes.each do |change|
-    %tr
-      %td= change.event.area.name
-      %td= l change.event.start, format: :short
-      %td= l change.event.stop, format: :short
-      %td= number_to_integer_currency change.total
+  - if @order.event_changes.present?
+    %h4 Переносы
+    %h5 Перенос заказа осуществляется 1 раз. После оплаты вы уже не сможете его поменять.
+    - @order.event_changes.each do |change|
+      %tr
+        %td= change.event.area.name
+        %td= l change.event.start, format: :short
+        %td= l change.event.stop, format: :short
+        %td= number_to_integer_currency change.total
 - if @order.user.wallet.can_spend? @order.total
   = link_to "Заплатить #{number_to_integer_currency @order.total} из кошелька", pay_order_path(@order), method: :patch, class: 'btn btn-primary'
 - else
