@@ -24,7 +24,7 @@ class Price < ActiveRecord::Base
 
   after_create { daily_price_rules.create start: area.stadium.opens_at, stop: area.stadium.closes_at, value: 0 }
 
-  accepts_nested_attributes_for :daily_price_rules
+  accepts_nested_attributes_for :daily_price_rules, reject_if: :all_blank, allow_destroy: true
 
   scope :overlaps, -> (event) do
     start = arel_table['start']
