@@ -17,7 +17,9 @@ class DailyPriceRule < ActiveRecord::Base
   has_paper_trail
 
   belongs_to :price
-  validates :start, :stop, :value, presence: true
+  validates :start, :stop, :value, :price, presence: true
+  validate :working_days_not_empty
+  before_save :fix_working_days
 
   default_scope ->{ order(created_at: :desc) }
 
@@ -50,4 +52,27 @@ class DailyPriceRule < ActiveRecord::Base
   def name
     "Правило цены с #{start} по #{stop}"
   end
+
+  def overlaps_others?
+    date_start = start.strftime('%H:%M')
+    date_stop = stop.strftime('%H:%M')
+
+    price.daily_price_rules
+    .where('(start >= :start and start < :stop) or (stop > :start and stop <= :stop) or (start < :start and stop > :stop)', {start: date_start, stop: date_stop} )
+    .where.not(id: id)
+    .select {|p| (p.working_days & working_days).compact.present? }
+    .present?
+  end
+
+  private
+    def working_days_not_empty
+      if working_days.compact.empty?
+        errors.add(:working_days, "can't be empty")
+      end
+    end
+
+    def fix_working_days
+      working_days.compact!
+    end
 end
+

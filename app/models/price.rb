@@ -26,6 +26,8 @@ class Price < ActiveRecord::Base
 
   accepts_nested_attributes_for :daily_price_rules, reject_if: :all_blank, allow_destroy: true
 
+  around_save :validate_price_rules_overlapping
+
   scope :overlaps, -> (event) do
     start = arel_table['start']
     stop = arel_table['stop']
@@ -52,4 +54,20 @@ class Price < ActiveRecord::Base
   def name
     "Период с #{start} по #{stop}"
   end
+
+  def daily_price_rules_overlap?
+    daily_price_rules.each do |d|
+      return true if d.overlaps_others?
+    end
+    return false
+  end
+
+  private
+    def validate_price_rules_overlapping
+      yield
+      if daily_price_rules_overlap?
+        errors.add(:base, 'Правила накладываются друг на друга')
+        raise ActiveRecord::Rollback
+      end
+    end
 end

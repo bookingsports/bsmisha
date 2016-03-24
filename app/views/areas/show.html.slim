@@ -17,7 +17,7 @@
         - @area.prices.current.daily_price_rules.each do |rule|
           li.list-group-item
             = rule.working_days.map{|d| d.present? ? t(:"date.abbr_day_names").at(d.to_i) : nil}.join(', ')
-            = rule.start.utc.strftime('%H:%M') + ' - ' + rule.stop.utc.strftime('%H:%M')
+            = ' ' + rule.start.utc.strftime('%H:%M') + ' - ' + rule.stop.utc.strftime('%H:%M')
             = ' ' + number_to_integer_currency(rule.value)
     - if @area.stadium.stadium_services.any?
       h4 Дополнительные услуги

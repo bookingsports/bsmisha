@@ -6,6 +6,7 @@
   .col-sm-8
     = simple_form_for([:dashboard, @area, @price]) do |f|
       = f.error_notification
+      .has-error.help-block= f.error :base
       .form-inputs
         %h5= @area.name_with_stadium
         = f.input :start, as: :datetime, default: DateTime.current.beginning_of_year, minute_step: 30

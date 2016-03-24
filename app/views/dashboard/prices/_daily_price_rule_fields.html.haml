@@ -1,3 +1,4 @@
+.has-error.help-block= f.error :base
 %tr.nested-fields
   %td= f.input :start, as: :datetime, discard_year: true, discard_month: true, default: Time.parse('09:00'), minute_step: 30, label: false
   %td= f.input :stop, as: :datetime, discard_year: true, discard_month: true, default: Time.parse('18:00'), minute_step: 30, label: false
