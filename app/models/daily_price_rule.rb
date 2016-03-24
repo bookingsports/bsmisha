@@ -19,6 +19,7 @@ class DailyPriceRule < ActiveRecord::Base
   belongs_to :price
   validates :start, :stop, :value, :price, presence: true
   validate :working_days_not_empty
+  validate :start_and_stop_stadium_hours
   before_save :fix_working_days
 
   default_scope ->{ order(created_at: :desc) }
@@ -73,6 +74,15 @@ class DailyPriceRule < ActiveRecord::Base
 
     def fix_working_days
       working_days.compact!
+    end
+
+    def start_and_stop_stadium_hours
+      if start < price.area.stadium.opens_at
+        errors.add(:start, "не может быть меньше, чем время открытие стадиона")
+      end
+      if stop > price.area.stadium.closes_at
+        errors.add(:stop, "не может быть больше, чем время закрытия стадиона")
+      end
     end
 end
 
