@@ -72,4 +72,4 @@
             = link_to orders_path('event_change_ids[]' => event.event_change.id), method: :post, class: 'label' do
               %span.label.label-success Оплатить перенос
         %td= number_to_integer_currency event.price
-        %td= link_to "Талон", ticket_event_path(event), format: :pdf
+        %td= link_to "Чек", ticket_event_path(event)
