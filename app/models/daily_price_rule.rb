@@ -78,7 +78,7 @@ class DailyPriceRule < ActiveRecord::Base
     elsif price_stop >= event_stop && price_start >= event_start
       price = event_stop - price_start
     elsif price_start <= event_start && price_stop >= event_stop
-      price = event_stop.event_start
+      price = event_stop - event_start
     end
     price / 1.hour
   end

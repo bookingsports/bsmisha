@@ -179,7 +179,7 @@ class Event < ActiveRecord::Base
   def area_price
     if recurring?
       build_schedule
-      @schedule.all_occurrences.map{|e| prices_for_time(e, e + duration).sum(:value) * duration_in_hours}.sum
+      @schedule.all_occurrences.map{|e| prices_for_time(e, e + duration).map{|p| p.time_for_event(self) * p.value}.sum}.sum
     else
       daily_price_rules.map{|p| p.time_for_event(self) * p.value}.sum
     end
