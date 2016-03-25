@@ -88,7 +88,7 @@ class Event < ActiveRecord::Base
   end
 
   def wday
-    start.wday == 0 ? 7 : start.wday
+    start.wday
   end
 
   def duration_in_hours
