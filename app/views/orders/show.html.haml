@@ -10,7 +10,14 @@
         %td= change.event.area.name
         %td= l change.event.start, format: :short
         %td= l change.event.stop, format: :short
+        %td= l change.event.stop, format: :short
         %td= number_to_integer_currency change.total
+  - if @recoupments.present?
+    %h4 Отыгрыши
+    - @recoupments.each do |rec|
+      %tr
+        %td= rec.area.name_with_stadium
+        %td= rec.duration_in_hours
 - if @order.user.wallet.can_spend? @order.total
   = link_to "Заплатить #{number_to_integer_currency @order.total} из кошелька", pay_order_path(@order), method: :patch, class: 'btn btn-primary'
 - else

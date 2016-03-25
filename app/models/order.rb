@@ -19,6 +19,7 @@ class Order < ActiveRecord::Base
   belongs_to :user
   has_many :events, dependent: :destroy
   has_many :event_changes, dependent: :destroy
+  has_many :areas, through: :events
   accepts_nested_attributes_for :events
 
   enum status: [:unpaid, :paid, :change, :rain, :other]
@@ -50,7 +51,7 @@ class Order < ActiveRecord::Base
   end
 
   def associated_emails
-    events.map(&:products).flatten.uniq.map(&:email).to_a
+    events.map(&:area).flatten.uniq.map(&:email).to_a
   end
 
   def pay!
