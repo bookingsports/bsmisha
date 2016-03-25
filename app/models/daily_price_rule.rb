@@ -95,10 +95,10 @@ class DailyPriceRule < ActiveRecord::Base
     end
 
     def start_and_stop_stadium_hours
-      if start < price.area.stadium.opens_at
+      if start.utc.strftime( "%H%M%S%N" ) < price.area.stadium.opens_at.utc.strftime( "%H%M%S%N" )
         errors.add(:start, "не может быть меньше, чем время открытие стадиона")
       end
-      if stop > price.area.stadium.closes_at
+      if stop.utc.strftime( "%H%M%S%N" ) > price.area.stadium.closes_at.utc.strftime( "%H%M%S%N" )
         errors.add(:stop, "не может быть больше, чем время закрытия стадиона")
       end
     end
