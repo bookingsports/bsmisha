@@ -56,6 +56,7 @@ class Price < ActiveRecord::Base
   end
 
   def daily_price_rules_overlap?
+    return false if errors.present?
     daily_price_rules.each do |d|
       return true if d.overlaps_others?
     end
