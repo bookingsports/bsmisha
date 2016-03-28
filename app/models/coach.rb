@@ -28,6 +28,7 @@ class Coach < ActiveRecord::Base
   friendly_id :name, use: [:slugged]
 
   accepts_nested_attributes_for :user, :account
+  accepts_nested_attributes_for :coaches_areas, reject_if: :all_blank, allow_destroy: true
 
   delegate :email, to: :user
   delegate :avatar, to: :user

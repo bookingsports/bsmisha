@@ -35,6 +35,8 @@ class Dashboard::CoachUsersController < DashboardController
     end
 
     def coach_user_params
-      params.require(:coach_user).permit(:name, :password, :password_confirmation, :email, coach_attributes: [:name, :price, :id, area_ids: []])
+      params.require(:coach_user).permit(:name, :password, :password_confirmation, :email,
+        coach_attributes: [:name, :price, :id, area_ids: [],
+        coaches_areas_attributes: [:id, :area_id, :price, :_destroy]])
     end
 end
