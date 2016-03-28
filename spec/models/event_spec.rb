@@ -30,7 +30,7 @@ RSpec.describe Event do
     it { should belong_to(:area) }
     it { should belong_to(:coach) }
 
-    it { should have_many(:event_changes) }
+    it { should have_one(:event_change) }
     it { should have_many(:additional_event_items) }
     it { should have_many(:prices) }
 
@@ -255,7 +255,7 @@ RSpec.describe Event do
             event.start = Time.zone.parse('2017-02-12 11:00')
             event.stop = event.start + 2.hours
 
-            expect(event.wday).to eq 7
+            expect(event.wday).to eq 0
             expect(event.daily_price_rules.count).to eq 2
             expect(event.price).to eq 2234.0
           end

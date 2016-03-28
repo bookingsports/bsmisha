@@ -55,6 +55,7 @@ class DailyPriceRule < ActiveRecord::Base
   end
 
   def overlaps_others?
+    return if errors.any?
     date_start = start.strftime('%H:%M')
     date_stop = stop.strftime('%H:%M')
 
@@ -95,7 +96,7 @@ class DailyPriceRule < ActiveRecord::Base
     end
 
     def start_and_stop_stadium_hours
-      return if errors.present?
+      return if errors.any? || price.area.stadium.opens_at.blank? || price.area.stadium.opens_at.blank?
       if start.utc.strftime( "%H%M%S%N" ) < price.area.stadium.opens_at.utc.strftime( "%H%M%S%N" )
         errors.add(:start, "не может быть меньше, чем время открытие стадиона")
       end
