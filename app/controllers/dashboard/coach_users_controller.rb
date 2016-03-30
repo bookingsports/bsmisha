@@ -39,7 +39,7 @@ class Dashboard::CoachUsersController < DashboardController
     else
       ActiveRecord::Base.transaction do
         @coach.assign_attributes coach_user_params.delete_if {|k, v| k == "password" and v.empty? }
-        result = @coach.save(context: :stadium_dashboard)
+        result = @coach.save(context: :stadium_dashboard) && @coach.coach.save && @coach.coach.coaches_areas.map(&:save)
         if @coach.coach.coaches_areas.where(area: current_user.stadium.area_ids).blank?
           @coach.errors.add(:base, "Добавьте хотя бы 1 площадку")
           render :edit
