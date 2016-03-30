@@ -12,8 +12,8 @@ class CoachesArea < ActiveRecord::Base
   include CoachesAreaConcern
   has_paper_trail
 
-  belongs_to :coach
-  belongs_to :area
+  belongs_to :coach, required: true
+  belongs_to :area, required: true
 
   def name_and_price
     "#{coach.name} (#{price} руб. в час)"

@@ -17,7 +17,7 @@ class Area < ActiveRecord::Base
   include FriendlyId
 
   belongs_to :stadium
-  has_many :coaches_areas
+  has_many :coaches_areas, dependent: :destroy
   has_many :coaches, through: :coaches_areas
   has_many :events
   has_many :prices, dependent: :destroy

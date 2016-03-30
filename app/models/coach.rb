@@ -16,7 +16,7 @@ class Coach < ActiveRecord::Base
   include FriendlyId
 
   belongs_to :user, class_name: "User"
-  has_many :coaches_areas
+  has_many :coaches_areas, dependent: :destroy
   has_many :areas, through: :coaches_areas
   validate :has_at_least_one_area, on: :stadium_dashboard
   validates :user, presence: true
