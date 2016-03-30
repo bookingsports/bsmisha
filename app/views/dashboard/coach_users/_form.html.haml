@@ -1,8 +1,19 @@
 = simple_form_for [:dashboard, @coach] do |f|
-  = f.simple_fields_for :coach do |cf|
-    = cf.input :name
-    = cf.input :price, as: :string
-    = cf.association :areas, as: :check_boxes, collection: current_user.stadium.areas
+  = f.error_notification
+  = f.error :base
+  = f.input :name
+  = f.simple_fields_for :coach, @coach.coach || Coach.new do |coach|
+    = coach.input :id, as: :hidden
+    %table.table
+      %thead
+        %tr
+          %th Площадка
+          %th Стоимость
+          %th
+      %tbody.coaches_areas
+        = link_to_add_association 'Добавить', coach, :coaches_areas, class: 'btn btn-primary', 'data-association-insertion-node' => '.coaches_areas', 'data-association-insertion-method' => 'append'
+        = coach.simple_fields_for :coaches_areas do |ca|
+          = render "coaches_area_fields", f: ca
   = f.input :email
   = f.input :password
   - if action_name == 'new'

@@ -39,6 +39,10 @@ Rails.application.routes.draw do
       post 'bulk_process', constraints: ButtonParamRouting.new('pay'), action: 'create', controller: 'orders'
       post 'bulk_process', constraints: ButtonParamRouting.new('destroy'), action: 'destroy'
     end
+    member do
+      get 'ticket'
+      post 'pay_change'
+    end
   end
 
   resources :products, concerns: :bookable

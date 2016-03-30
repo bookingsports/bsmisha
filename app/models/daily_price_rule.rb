@@ -17,7 +17,10 @@ class DailyPriceRule < ActiveRecord::Base
   has_paper_trail
 
   belongs_to :price
-  validates :start, :stop, :value, presence: true
+  validates :start, :stop, :value, :price, presence: true
+  validate :working_days_not_empty
+  validate :start_and_stop_stadium_hours
+  before_save :fix_working_days
 
   default_scope ->{ order(created_at: :desc) }
 
@@ -50,4 +53,56 @@ class DailyPriceRule < ActiveRecord::Base
   def name
     "Правило цены с #{start} по #{stop}"
   end
+
+  def overlaps_others?
+    return if errors.any?
+    date_start = start.strftime('%H:%M')
+    date_stop = stop.strftime('%H:%M')
+
+    price.daily_price_rules
+    .where('(start >= :start and start < :stop) or (stop > :start and stop <= :stop) or (start < :start and stop > :stop)', {start: date_start, stop: date_stop} )
+    .where.not(id: id)
+    .select {|p| (p.working_days & working_days).compact.present? }
+    .present?
+  end
+
+  def time_for_event e
+    d = Time.new
+    event_start = Time.new(d.year, d.month, d.day, e.start.hour, e.start.min, e.start.sec)
+    event_stop = Time.new(d.year, d.month, d.day, e.stop.hour, e.stop.min, e.stop.sec)
+    price_start = Time.new(d.year, d.month, d.day, start.hour, start.min, start.sec)
+    price_stop = Time.new(d.year, d.month, d.day, stop.hour, stop.min, stop.sec)
+
+    price = 0
+    if price_start <= event_start && price_stop <= event_stop
+      price = price_stop - event_start
+    elsif price_stop >= event_stop && price_start >= event_start
+      price = event_stop - price_start
+    elsif price_start <= event_start && price_stop >= event_stop
+      price = event_stop - event_start
+    end
+    price / 1.hour
+  end
+
+  private
+    def working_days_not_empty
+      if working_days.compact.empty?
+        errors.add(:working_days, "can't be empty")
+      end
+    end
+
+    def fix_working_days
+      working_days.compact!
+    end
+
+    def start_and_stop_stadium_hours
+      return if errors.any? || price.area.stadium.opens_at.blank? || price.area.stadium.opens_at.blank?
+      if start.utc.strftime( "%H%M%S%N" ) < price.area.stadium.opens_at.utc.strftime( "%H%M%S%N" )
+        errors.add(:start, "не может быть меньше, чем время открытие стадиона")
+      end
+      if stop.utc.strftime( "%H%M%S%N" ) > price.area.stadium.closes_at.utc.strftime( "%H%M%S%N" )
+        errors.add(:stop, "не может быть больше, чем время закрытия стадиона")
+      end
+    end
 end
+

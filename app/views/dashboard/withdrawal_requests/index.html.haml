@@ -1,6 +1,7 @@
 = simple_form_for [:dashboard, @request], wrapper: :inline_form, html: { class: 'form-inline'} do |f|
   = f.input :amount, label: 'Сумма'
   = f.button :submit, "Перейти к выводу"
+  = f.error_notification
 %table.table.table-striped
   %thead
     %tr

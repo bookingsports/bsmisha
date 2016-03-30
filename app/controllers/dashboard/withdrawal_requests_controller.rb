@@ -1,13 +1,11 @@
 class Dashboard::WithdrawalRequestsController < DashboardController
   def index
     @requests = current_user.wallet.withdrawal_requests.all
-
     @request = current_user.wallet.withdrawal_requests.new
   end
 
   def create
     @request = current_user.wallet.withdrawal_requests.new request_params
-
     @request.save
 
     redirect_to dashboard_withdrawal_requests_url

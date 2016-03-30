@@ -431,6 +431,7 @@ GEM
       request_store (~> 1.1)
     parser (2.3.0.6)
       ast (~> 2.2)
+    pdf-core (0.6.1)
     pg (0.18.4)
     pg_array_parser (0.0.9)
     phantomjs (2.1.1.0)
@@ -441,6 +442,9 @@ GEM
       arel (>= 4.0.1)
       pg_array_parser (~> 0.0.9)
     powerpack (0.1.1)
+    prawn (2.1.0)
+      pdf-core (~> 0.6.1)
+      ttfunk (~> 1.4.0)
     pry (0.10.3)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -593,6 +597,7 @@ GEM
     traceroute (0.5.0)
       rails (>= 3.0.0)
     trollop (2.1.2)
+    ttfunk (1.4.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.7.2)
@@ -674,6 +679,7 @@ DEPENDENCIES
   paper_trail
   pg
   postgres_ext
+  prawn
   quiet_assets
   railroady
   rails (= 4.2.5)

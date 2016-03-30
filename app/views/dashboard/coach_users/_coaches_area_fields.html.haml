@@ -1,0 +1,5 @@
+%tr.nested-fields
+  = f.input :id, as: :hidden
+  %td= f.select :area_id, current_user.stadium.areas.map{|a| [a.name, a.id]}, label: false
+  %td= f.input :price, label: false
+  %td= link_to_remove_association 'Удалить', f

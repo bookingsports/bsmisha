@@ -19,6 +19,7 @@ class Order < ActiveRecord::Base
   belongs_to :user
   has_many :events, dependent: :destroy
   has_many :event_changes, dependent: :destroy
+  has_many :areas, through: :events
   accepts_nested_attributes_for :events
 
   enum status: [:unpaid, :paid, :change, :rain, :other]
@@ -50,31 +51,35 @@ class Order < ActiveRecord::Base
   end
 
   def associated_emails
-    events.map(&:products).flatten.uniq.map(&:email).to_a
+    events.map(&:area).flatten.uniq.map(&:email).to_a
   end
 
   def pay!
-    unless self.paid?
-      transaction = ActiveRecord::Base.transaction do
-        user.wallet.withdraw! self.total
-        self.events.each do |event|
-          rec = user.recoupments.where(area: event.area).first
-          if rec.present? && rec.duration >= event.duration * event.occurrences
-            user.wallet.deposit! event.price
-            rec.update duration: (rec.duration - event.duration * event.occurrences)
-          else
-            event.area.stadium.user.wallet.deposit_with_tax_deduction! event.area_price
-            event.coach.present? && event.coach.user.wallet.deposit_with_tax_deduction!(event.coach_price)
-            event.stadium_services.present? && event.area.stadium.user.wallet.deposit_with_tax_deduction!(event.stadium_services_price)
+    if total == 0
+      self.paid!
+    else
+      unless self.paid?
+        transaction = ActiveRecord::Base.transaction do
+          user.wallet.withdraw! self.total
+          self.events.each do |event|
+            rec = user.recoupments.where(area: event.area).first
+            if rec.present? && rec.duration >= event.duration * event.occurrences
+              user.wallet.deposit! event.price
+              rec.update duration: (rec.duration - event.duration * event.occurrences)
+            else
+              event.area.stadium.user.wallet.deposit_with_tax_deduction! event.area_price
+              event.coach.present? && event.coach.user.wallet.deposit_with_tax_deduction!(event.coach_price)
+              event.stadium_services.present? && event.area.stadium.user.wallet.deposit_with_tax_deduction!(event.stadium_services_price)
+            end
+          end
+          self.event_changes.each do |event_change|
+            event_change.event.area.stadium.user.wallet.deposit_with_tax_deduction! event_change.total
           end
         end
-        self.event_changes.each do |event_change|
-          event_change.event.area.stadium.user.wallet.deposit_with_tax_deduction! event_change.total
-        end
-      end
 
-      if transaction
-        self.paid!
+        if transaction
+          self.paid!
+        end
       end
     end
   end

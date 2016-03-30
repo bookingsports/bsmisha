@@ -15,8 +15,8 @@ class Coach < ActiveRecord::Base
   include CoachConcern
   include FriendlyId
 
-  belongs_to :user
-  has_many :coaches_areas
+  belongs_to :user, class_name: "User"
+  has_many :coaches_areas, dependent: :destroy
   has_many :areas, through: :coaches_areas
   validate :has_at_least_one_area, on: :stadium_dashboard
   validates :user, presence: true
@@ -24,10 +24,10 @@ class Coach < ActiveRecord::Base
   has_one :account, as: :accountable
   after_create :create_account
 
-  delegate :name, to: :user
   friendly_id :name, use: [:slugged]
 
   accepts_nested_attributes_for :user, :account
+  accepts_nested_attributes_for :coaches_areas, reject_if: :all_blank, allow_destroy: true
 
   delegate :email, to: :user
   delegate :avatar, to: :user
@@ -39,6 +39,10 @@ class Coach < ActiveRecord::Base
 
   def has_areas?
     areas.size > 0
+  end
+
+  def name
+    user.present? ? user.name : nil
   end
 
   def has_at_least_one_area

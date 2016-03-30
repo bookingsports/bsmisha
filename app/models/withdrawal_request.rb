@@ -19,6 +19,7 @@ class WithdrawalRequest < ActiveRecord::Base
   belongs_to :wallet
   composed_of :request_data, class_name: "WithdrawalRequestData", mapping: [ %w(id order_id), %w(amount amount)]
 
+  validates :amount, presence: true, numericality: { greater_than: 0, less_than_or_equal_to: Rails.application.secrets.amount_limit }
   validate :amount_no_more_than_can_spend
 
   before_save :set_payment
@@ -30,7 +31,7 @@ class WithdrawalRequest < ActiveRecord::Base
   end
 
   def set_payment
-    account = self.wallet.user.account
+    account = self.wallet.user.type == "StadiumUser" ? self.wallet.user.stadium.account: self.wallet.user.coach.account
     self.payment = <<-ENDLINE
 1CClientBankExchange
 ВерсияФормата=1.02
@@ -74,6 +75,7 @@ ENDLINE
   end
 
   def amount_no_more_than_can_spend
+    return if errors.any?
     unless wallet.can_spend? amount
       errors.add :base, "Недостаточно средств"
     end

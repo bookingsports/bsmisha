@@ -25,7 +25,7 @@ class Dashboard::PicturesController < DashboardController
   private
 
     def find_imageable
-      @imageable = current_user.product
+      @imageable = current_user.type == "StadiumUser" ? current_user.stadium : current_user.coach
     end
 
     def find_picture

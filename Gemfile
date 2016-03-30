@@ -79,6 +79,9 @@ gem 'paper_trail'
 # SCOPES UNION
 gem 'active_record_union'
 
+# PDF RENDERING
+gem 'prawn'
+
 group :development do
   gem "better_errors"
   gem "guard-bundler"

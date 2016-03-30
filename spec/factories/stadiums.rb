@@ -30,5 +30,7 @@ FactoryGirl.define do
     latitude 55.747655
     longitude 37.603513
     description "MyText"
+    opens_at Time.zone.parse("07:00")
+    closes_at Time.zone.parse("23:00")
   end
 end
