@@ -11,6 +11,7 @@
         %h5= @area.name_with_stadium
         = f.input :start, as: :datetime, default: DateTime.current.beginning_of_year, minute_step: 30
         = f.input :stop, as: :datetime, default: DateTime.current.end_of_year, minute_step: 30
+        = link_to_add_association '+ добавить правило', f, :daily_price_rules, 'data-association-insertion-node' => '.rule_fields', 'data-association-insertion-method' => 'prepend'
         %table.table
           %thead
             %tr
@@ -22,8 +23,5 @@
           %tbody.rule_fields
             = f.simple_fields_for :daily_price_rules do |rf|
               = render "daily_price_rule_fields", f: rf
-            %tr
-              %td
-                = link_to_add_association '+ добавить правило', f, :daily_price_rules, 'data-association-insertion-node' => '.rule_fields', 'data-association-insertion-method' => 'prepend'
       .form-actions
         = f.button :submit
