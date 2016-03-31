@@ -18,8 +18,8 @@
     - else
       .col-xs-4
         ul.nav.nav-pills.nav-stacked
-          -current_user.areas.each do |cc|
-            = active_link_to cc.name, dashboard_grid_path(cc), active: /#{cc.to_param}/, wrap_tag: :li
+          -current_user.areas.uniq.each do |cc|
+            = active_link_to cc.name_with_stadium, dashboard_grid_path(cc), active: /#{cc.to_param}/, wrap_tag: :li
       .col-xs-8
         = render "schedule_legend"
         #scheduler
