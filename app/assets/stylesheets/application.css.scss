@@ -630,6 +630,15 @@ body.stadium_user, body.coach{
 .legend-paid-change{
   background-color: #3234C2;
 }
+
+$colors: ("#1ABC9C", "#3498DB", "#34495E", "#E67E22", "#8ED869", "#ECF0F1", "#2ECC71", "#9B59B6", "#F1C40F", "#E74C3C", "#95A5A6");
+
+@for $i from 0 to 10 {
+    .legend-kendo-area-#{$i} {
+        background-color: unquote(nth($colors, $i+1));
+    }
+}
+
 #switch_user_identifier{
   float: left;
   margin-top: 14px;

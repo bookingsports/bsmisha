@@ -17,6 +17,7 @@ class AreasController < ApplicationController
   before_filter :set_scope
 
   def index
+    @stadium = Stadium.friendly.find(params[:stadium_id])
   end
 
   def show
