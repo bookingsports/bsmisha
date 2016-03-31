@@ -28,9 +28,11 @@ class OrdersController < DashboardController
     @order.events = Event.find(params[:event_ids]) if params[:event_ids]
     @order.event_changes = EventChange.find(params[:event_change_ids]) if params[:event_change_ids]
 
-    @order.save!
-
-    respond_with @order
+    if @order.save
+      respond_with @order
+    else
+      redirect_to my_events_url, alert: "Произошла ошибка. Скорее всего, данное время уже занято"
+    end
   end
 
   def pay
