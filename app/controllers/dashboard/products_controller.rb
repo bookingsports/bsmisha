@@ -19,7 +19,7 @@ class Dashboard::ProductsController < DashboardController
     def product_params
       params.require(:product).permit(
         :email, :password, :password_confirmation,
-        :name, :description, :price, :phone, :avatar, :opens_at, :closes_at,
+        :name, :description, :price, :phone, :avatar, :main_image, :opens_at, :closes_at,
         :category_id,
         :address, :latitude, :longitude,
         area_ids: [],
