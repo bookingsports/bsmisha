@@ -24,8 +24,10 @@ class EventsController < ApplicationController
   before_filter :authenticate_user!, except: [:index, :parents_events]
 
   def index
-    if current_user.present? && current_user.type == "StadiumUser"
-      @events = current_user.stadium_events.active.paid.where(area: current_product)
+    if current_user.present? && current_user.type == "StadiumUser" && params[:area_id].present?
+      @events = current_user.stadium_events.active.paid.where(area: current_product).union(current_user.events.active.where(area: current_product))
+    elsif current_user.present? && current_user.type == "StadiumUser"
+      @events = current_user.stadium_events.active.paid
     elsif current_user.present? && params[:area_id].present?
       @events = current_user.events.active.where(area: current_product)
     elsif current_user.present?
