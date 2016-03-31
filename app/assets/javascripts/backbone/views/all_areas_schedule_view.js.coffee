@@ -20,6 +20,11 @@ class Tennis.Views.AllAreasScheduleView extends Backbone.View
         {type: 'week', selected: true},
         'month'
       ]
+      editable:
+        create: false
+        move: false
+        resize: false
+        update: false
       schema:
         model:
           id: "id",
@@ -172,18 +177,6 @@ class Tennis.Views.AllAreasScheduleView extends Backbone.View
       $('#area').on 'change', =>
         scheduler.dataSource.read()
         scheduler.resources[1].dataSource.read()
-
-      scheduler.wrapper.on 'mouseup touchend', '.k-scheduler-table td, .k-event', (e) ->
-        target = $(e.currentTarget)
-        if target.hasClass('k-event')
-          event = scheduler.occurrenceByUid(target.data('uid'))
-          scheduler.editEvent event
-        else
-          slot = scheduler.slotByElement(target[0])
-          scheduler.addEvent
-            start: slot.startDate
-            stop: slot.stopDate
-        return
 
   timeIsOccupied: (start, stop, event) =>
     occurences = @scheduler().occurrencesInRange(start, stop)
