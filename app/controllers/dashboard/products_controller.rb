@@ -24,7 +24,7 @@ class Dashboard::ProductsController < DashboardController
         :address, :latitude, :longitude,
         area_ids: [],
         profile_attributes: [:description],
-        user_attributes: [:id, :phone, :name],
+        user_attributes: [:id, :phone, :name, :avatar],
         account_attributes: [:id, :number, :company, :inn, :kpp, :agreement_number, :date, :bik],
         areas_attributes: [:id, :name, :price, :change_price, :category_id, :_destroy],
         stadium_services_attributes: [:id, :periodic, :price, :_destroy, service_attributes: [:id, :name, :_destroy]]
