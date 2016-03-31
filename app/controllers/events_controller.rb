@@ -31,7 +31,7 @@ class EventsController < ApplicationController
     elsif current_user.present?
       @events = current_user.events.active
     else
-      @events = Event.active.where(area: current_product)
+      @events = Event.active.paid.where(area: current_product)
     end
     respond_with @events
   end
