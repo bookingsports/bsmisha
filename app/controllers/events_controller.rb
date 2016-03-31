@@ -24,16 +24,10 @@ class EventsController < ApplicationController
   before_filter :authenticate_user!, except: [:index, :parents_events]
 
   def index
-    if current_user.present? && current_user.type == "StadiumUser" && params[:area_id].present?
-      @events = current_user.stadium_events.active.paid.where(area: current_product).union(current_user.events.active.where(area: current_product))
-    elsif current_user.present? && current_user.type == "StadiumUser"
-      @events = current_user.stadium_events.active.paid.union(current_user.events.active)
-    elsif current_user.present? && params[:area_id].present?
-      @events = current_user.events.active.where(area: current_product)
-    elsif current_user.present?
-      @events = current_user.events.active
+    if params[:area_id].present?
+      @events = Event.active.paid.where(area: current_product).union(current_user.events.where(area: current_product))
     else
-      @events = Event.active.paid.where(area: current_product)
+      @events = Event.active.paid.union(current_user.events)
     end
     respond_with @events
   end
@@ -41,11 +35,7 @@ class EventsController < ApplicationController
   def parents_events
     if params[:scope] == "stadium"
       stadium = Stadium.friendly.find(params[:stadium_id])
-      if current_user.type == "StadiumUser"
-        @events = stadium.areas.flat_map {|area| Event.paid.where(area: area)}.union(current_user.events.active)
-      else
-        @events = stadium.areas.flat_map {|area| current_user.events.paid.where(area: area)}
-      end
+      @events = stadium.areas.flat_map {|area| current_user.events.paid.where(area: area)}
     end
 
     render :index
