@@ -46,8 +46,6 @@ class Event < ActiveRecord::Base
   has_and_belongs_to_many :stadium_services
   accepts_nested_attributes_for :stadium_services
 
-  enum status: [:active, :cancelled]
-
   attr_reader :schedule
 
   scope :paid_or_owned_by, -> (user) do
@@ -238,7 +236,11 @@ class Event < ActiveRecord::Base
     end
 
     def overlaps? start, stop
-      Event.where(Event.between(start, stop)).where('id not in (?)', id).where('area_id in(?)', area_id).present?
+      Event.where(Event.between(start, stop))
+            .where('events.id not in (?)', id)
+            .where('events.area_id in(?)', area_id)
+            .paid
+            .present?
     end
 
     def build_schedule

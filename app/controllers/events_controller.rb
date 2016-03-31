@@ -25,9 +25,9 @@ class EventsController < ApplicationController
 
   def index
     if params[:area_id].present?
-      @events = Event.active.paid.where(area: current_product).union(current_user.events.where(area: current_product))
+      @events = Event.paid.where(area: current_product).union(current_user.events.where(area: current_product))
     else
-      @events = Event.active.paid.union(current_user.events)
+      @events = Event.paid.union(current_user.events)
     end
     respond_with @events
   end
@@ -110,6 +110,6 @@ class EventsController < ApplicationController
     end
 
     def current_product
-      Area.where(slug: params[:area_id].to_s).last
+      Area.friendly.find params[:area_id]
     end
 end
