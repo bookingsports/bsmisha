@@ -161,11 +161,11 @@ class Event < ActiveRecord::Base
   end
 
   def start_before_change
-    event_change.present? ? event_change.old_start : attributes["start"]
+    has_unpaid_changes? ? event_change.old_start : attributes["start"]
   end
 
   def end_before_change
-    event_change.present? ? event_change.old_stop : attributes["stop"]
+    has_unpaid_changes?  ? event_change.old_stop : attributes["stop"]
   end
 
   def stadium_services_price
