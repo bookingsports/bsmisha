@@ -20,7 +20,7 @@ class OrdersController < DashboardController
 
   def show
     @order = Order.find(params[:id])
-    @recoupments = Recoupment.where(area: @order.area_ids)
+    @recoupments = current_user.recoupments.where(area: @order.area_ids)
   end
 
   def create
