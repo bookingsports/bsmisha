@@ -15,10 +15,12 @@ class StadiumService < ActiveRecord::Base
   include StadiumServiceConcern
   has_paper_trail
 
-  belongs_to :stadium
-  belongs_to :service, dependent: :destroy
+  belongs_to :stadium, required: true
+  belongs_to :service, dependent: :destroy, required: true
   has_and_belongs_to_many :events
   accepts_nested_attributes_for :service
+
+  validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
   delegate :user, to: :stadium
 

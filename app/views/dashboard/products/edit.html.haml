@@ -1,5 +1,6 @@
 - if @product.kind_of? Stadium
   = simple_form_for @product, as: :product, url: dashboard_product_path do |f|
+    = f.error_notification
     .row.top15
       .col-xs-12
         .btn-toolbar

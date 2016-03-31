@@ -6,8 +6,11 @@ class Dashboard::ProductsController < DashboardController
   end
 
   def update
-    @product.update product_params
-    redirect_to :back
+    if @product.update product_params
+      redirect_to :back, notice: "Успешно сохранено"
+    else
+      render :edit
+    end
   end
 
   private
