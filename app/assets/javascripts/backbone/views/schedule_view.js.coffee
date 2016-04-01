@@ -80,6 +80,11 @@ class Tennis.Views.ScheduleView extends Backbone.View
                 e.container.find("#services-wrapper").hide();
         })
 
+        dropdown = e.container.find("[data-role=dropdownlist]").data("kendoDropDownList")
+        dropdown.unbind("change", @hide_never)
+        dropdown.bind("change", @hide_never)
+        $(".k-recur-end-never").closest("li").hide()
+
         if !gon.current_user || (e.event.visual_type == 'disowned' && gon.current_user.type != "StadiumUser")
           alert 'Пожалуйста, сначала авторизуйтесь.'
           e.preventDefault()
@@ -249,3 +254,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
     idx = occurences.indexOf(event)
     occurences.splice(idx, 1) if idx > -1
     if occurences.length > 0 then true else false
+
+  hide_never: () =>
+    $(".k-recur-end-never").closest("li").hide()
+    $(".k-recur-end-count").click()
