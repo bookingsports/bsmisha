@@ -123,7 +123,7 @@ class Event < ActiveRecord::Base
   end
 
   def paid?
-    order && order.paid?
+    order.present? && order.paid?
   end
 
   def recurring?
@@ -188,6 +188,14 @@ class Event < ActiveRecord::Base
     daily_price_rules = prices.first.daily_price_rules.where(DailyPriceRule.between start, stop)
   end
 
+  def overlaps? start, stop
+    Event.where(Event.between(start, stop))
+          .where('events.id not in (?)', id)
+          .where('events.area_id in(?)', area_id)
+          .paid
+          .present?
+  end
+
   private
     def create_event_change_if_not_present
       if unpaid?
@@ -233,14 +241,6 @@ class Event < ActiveRecord::Base
           end
         end
       end
-    end
-
-    def overlaps? start, stop
-      Event.where(Event.between(start, stop))
-            .where('events.id not in (?)', id)
-            .where('events.area_id in(?)', area_id)
-            .paid
-            .present?
     end
 
     def build_schedule

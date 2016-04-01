@@ -62,7 +62,7 @@ class Order < ActiveRecord::Base
         transaction = ActiveRecord::Base.transaction do
           user.wallet.withdraw! self.total
           self.events.each do |event|
-            if event.overlaps? event.start, event.end
+            if event.overlaps? event.start, event.stop
               order.errors.add(:event, 'накладываются на другие события')
               raise ActiveRecord::Rollback
             end
