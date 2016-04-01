@@ -43,6 +43,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
         move: @url().indexOf('grid') == -1
         resize: @url().indexOf('grid') == -1
         update: @url().indexOf('grid') == -1
+        editRecurringMode: "series"
       height: 700
       views: [
         "day",
