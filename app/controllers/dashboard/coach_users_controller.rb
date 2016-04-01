@@ -6,49 +6,36 @@ class Dashboard::CoachUsersController < DashboardController
   end
 
   def new
-    @coach = CoachUser.new
+    @coach_user = CoachUser.new
+    @coach = @coach_user.build_coach
   end
 
   def create
     # TODO add defence strategy if area_ids in params are of not current_user's stadium
-    @coach = CoachUser.new coach_user_params
+    @coach_user = CoachUser.new coach_user_params
+    @coach = @coach_user.coach.present? ? @coach_user.coach : @coach_user.build_coach
     if coach_user_params[:coach_attributes].blank?
-      @coach.errors.add(:base, "Добавьте хотя бы 1 площадку")
+      @coach_user.errors.add(:base, "Добавьте хотя бы 1 площадку")
       render :new
     else
-      ActiveRecord::Base.transaction do
-        @coach.coach = nil
-        @coach.save(context: :stadium_dashboard) or ((render :new) && return)
-        result = @coach.coach.update(coach_user_params[:coach_attributes])
-        if @coach.coach.coaches_areas.where(area: current_user.stadium.area_ids).blank?
-          @coach.errors.add(:base, "Добавьте хотя бы 1 площадку")
-          render :new
-        elsif result
-          redirect_to dashboard_coach_users_path, notice: "Тренер успешно создан"
-        else
-          render :new
-        end
+      if !@coach_user.save(context: :stadium_dashboard)
+        render :new
+      else
+        redirect_to dashboard_coach_users_path, notice: "Тренер успешно создан"
       end
     end
   end
 
   def update
     if coach_user_params[:coach_attributes].blank?
-      @coach.errors.add(:base, "Добавьте хотя бы 1 площадку")
+      @coach_user.errors.add(:base, "Добавьте хотя бы 1 площадку")
       render :edit
     else
-      ActiveRecord::Base.transaction do
-        @coach.assign_attributes coach_user_params.delete_if {|k, v| k == "password" and v.empty? }
-        result = @coach.save && @coach.coach.save
-        if @coach.coach.coaches_areas.where(area: current_user.stadium.area_ids).blank?
-          @coach.errors.add(:base, "Добавьте хотя бы 1 площадку")
-          render :edit
-          raise ActiveRecord::Rollback
-        elsif result
-          redirect_to dashboard_coach_users_path, notice: "Тренер успешно создан"
-        else
-          render :edit
-        end
+      @coach_user.assign_attributes coach_user_params.delete_if {|k, v| k == "password" and v.empty? }
+      if @coach_user.save
+        redirect_to dashboard_coach_users_path, notice: "Тренер успешно создан"
+      else
+        render :edit
       end
     end
   end
@@ -56,7 +43,8 @@ class Dashboard::CoachUsersController < DashboardController
   private
 
     def find_coach
-      @coach = CoachUser.find(params[:id]) if params[:id]
+      @coach_user = CoachUser.find(params[:id]) if params[:id]
+      @coach = @coach_user.coach.present? ? @coach_user.coach : @coach_user.build_coach
     end
 
     def coach_user_params

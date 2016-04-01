@@ -18,8 +18,6 @@ class Coach < ActiveRecord::Base
   belongs_to :user, class_name: "User"
   has_many :coaches_areas, dependent: :destroy
   has_many :areas, through: :coaches_areas
-  validate :has_at_least_one_area, on: :stadium_dashboard
-  validates :user, presence: true
 
   has_one :account, as: :accountable
   after_create :create_account
@@ -43,11 +41,5 @@ class Coach < ActiveRecord::Base
 
   def name
     user.present? ? user.name : nil
-  end
-
-  def has_at_least_one_area
-    if areas.size < 1
-      errors.add :areas, "Выберите хотя бы одну площадку."
-    end
   end
 end
