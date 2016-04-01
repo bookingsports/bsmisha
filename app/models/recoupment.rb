@@ -20,6 +20,6 @@ class Recoupment < ActiveRecord::Base
   validates :user, :duration, :area, presence: true
 
   def duration_in_hours
-    duration / 1.hour
+    duration / 1.hour.to_f
   end
 end
