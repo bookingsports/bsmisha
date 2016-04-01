@@ -26,8 +26,7 @@ class Dashboard::PricesController < DashboardController
   # POST /dashboard/prices
   # POST /dashboard/prices.json
   def create
-    @price = Price.new(price_params)
-
+    @price = @area.prices.new(price_params)
     respond_to do |format|
       if @price.save
         format.html { redirect_to dashboard_area_prices_path(@price.area), notice: 'Период создан.' }
