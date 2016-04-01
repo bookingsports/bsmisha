@@ -15,4 +15,6 @@ class Service < ActiveRecord::Base
 
   has_many :stadium_services, dependent: :destroy
   has_many :stadiums, through: :stadium_services
+
+  validates :name, presence: true
 end

@@ -23,7 +23,7 @@ class Area < ActiveRecord::Base
   has_many :prices, dependent: :destroy
 
   validates :name, :stadium_id, presence: true
-  validates :change_price, numericality: { greater_than_or_equal_to: 0 }
+  validates :change_price, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
 
   friendly_id :name, use: [:slugged]
 

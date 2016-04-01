@@ -1,16 +1,23 @@
-.row.schedule-legend-nav
-  .col-xs-4
-    .legend-label.legend-owned
-    = raw " &mdash; своё"
-  .col-xs-4
-    .legend-label.legend-disowned
-    = raw " &mdash; чужое"
-  .col-xs-4
-    .legend-label.legend-paid
-    = raw " &mdash; оплаченное"
-  .col-xs-4
-    .legend-label.legend-unpaid-change
-    = raw " &mdash; неоплаченный перенос"
-  .col-xs-4
-    .legend-label.legend-paid-change
-    = raw " &mdash; оплаченный перенос"
+- if params[:id].present? || @stadium.nil?
+  .row.schedule-legend-nav
+    .col-xs-4
+      .legend-label.legend-owned
+      = raw " &mdash; своё"
+    .col-xs-4
+      .legend-label.legend-disowned
+      = raw " &mdash; чужое"
+    .col-xs-4
+      .legend-label.legend-paid
+      = raw " &mdash; оплаченное"
+    .col-xs-4
+      .legend-label.legend-unpaid-change
+      = raw " &mdash; неоплаченный перенос"
+    .col-xs-4
+      .legend-label.legend-paid-change
+      = raw " &mdash; оплаченный перенос"
+- else
+  .row.schedule-legend-nav
+    - @stadium.areas.each do |area|
+      .col-xs-4
+        %div{ class: "legend-label legend-kendo-area-#{area.kendo_area_id}" }
+        = raw area.name

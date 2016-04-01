@@ -120,7 +120,12 @@ class Tennis.Views.ScheduleView extends Backbone.View
           e.preventDefault()
         return
       remove: (e) =>
-        e.sender.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.js')
+        if !gon.current_user || (e.event.visual_type == 'disowned' && gon.current_user.type != "StadiumUser")
+          alert("Нельзя удалить заказ чужого пользователя.")
+          e.preventDefault();
+          return
+        else
+          e.sender.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.js')
       schema:
         timezone: 'Europe/Moscow'
         model:

@@ -46,8 +46,6 @@ class Event < ActiveRecord::Base
   has_and_belongs_to_many :stadium_services
   accepts_nested_attributes_for :stadium_services
 
-  enum status: [:active, :cancelled]
-
   attr_reader :schedule
 
   scope :paid_or_owned_by, -> (user) do
@@ -125,7 +123,7 @@ class Event < ActiveRecord::Base
   end
 
   def paid?
-    order && order.paid?
+    order.present? && order.paid?
   end
 
   def recurring?
@@ -161,11 +159,11 @@ class Event < ActiveRecord::Base
   end
 
   def start_before_change
-    event_change.present? ? event_change.old_start : attributes["start"]
+    has_unpaid_changes? ? event_change.old_start : attributes["start"]
   end
 
   def end_before_change
-    event_change.present? ? event_change.old_stop : attributes["stop"]
+    has_unpaid_changes?  ? event_change.old_stop : attributes["stop"]
   end
 
   def stadium_services_price
@@ -188,6 +186,14 @@ class Event < ActiveRecord::Base
   def prices_for_time start, stop
     prices = area.prices.where(Price.between start, stop)
     daily_price_rules = prices.first.daily_price_rules.where(DailyPriceRule.between start, stop)
+  end
+
+  def overlaps? start, stop
+    Event.where(Event.between(start, stop))
+          .where('events.id not in (?)', id)
+          .where('events.area_id in(?)', area_id)
+          .paid
+          .present?
   end
 
   private
@@ -235,10 +241,6 @@ class Event < ActiveRecord::Base
           end
         end
       end
-    end
-
-    def overlaps? start, stop
-      Event.where(Event.between(start, stop)).where('id not in (?)', id).where('area_id in(?)', area_id).present?
     end
 
     def build_schedule

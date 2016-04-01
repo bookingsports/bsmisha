@@ -53,6 +53,7 @@ class Stadium < ActiveRecord::Base
   enum status: [:pending, :active, :locked]
 
   validates :user, presence: true
+  validates_associated :stadium_services, :areas
 
   def events
     Event.where area_id: area_ids

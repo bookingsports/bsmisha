@@ -62,6 +62,10 @@ class Order < ActiveRecord::Base
         transaction = ActiveRecord::Base.transaction do
           user.wallet.withdraw! self.total
           self.events.each do |event|
+            if event.overlaps? event.start, event.stop
+              order.errors.add(:event, 'накладываются на другие события')
+              raise ActiveRecord::Rollback
+            end
             rec = user.recoupments.where(area: event.area).first
             if rec.present? && rec.duration >= event.duration * event.occurrences
               user.wallet.deposit! event.price

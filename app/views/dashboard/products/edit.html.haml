@@ -1,5 +1,6 @@
 - if @product.kind_of? Stadium
   = simple_form_for @product, as: :product, url: dashboard_product_path do |f|
+    = f.error_notification
     .row.top15
       .col-xs-12
         .btn-toolbar
@@ -12,6 +13,7 @@
         = f.input :longitude, as: :hidden
         = f.input :phone
         = f.input :description
+        = f.input :main_image
 
         %label Время работы стадиона:
         = f.input :opens_at, as: :datetime, discard_year: true, discard_month: true, minute_step: 30, label: false
