@@ -85,6 +85,10 @@ class Tennis.Views.ScheduleView extends Backbone.View
         dropdown.bind("change", @hide_never)
         $(".k-recur-end-never").closest("li").hide()
 
+        if e.event.paid
+          e.container.find("#coach-wrapper").hide()
+          e.container.find("#services-wrapper").hide()
+
         if !gon.current_user || (e.event.visual_type == 'disowned' && gon.current_user.type != "StadiumUser")
           alert 'Пожалуйста, сначала авторизуйтесь.'
           e.preventDefault()
