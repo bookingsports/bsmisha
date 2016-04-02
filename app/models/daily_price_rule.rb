@@ -17,7 +17,7 @@ class DailyPriceRule < ActiveRecord::Base
   has_paper_trail
 
   belongs_to :price
-  validates :start, :stop, :value, :price, presence: true
+  validates :start, :stop, :value, presence: true
   validate :working_days_not_empty
   validate :start_and_stop_stadium_hours
   before_save :fix_working_days
@@ -96,7 +96,7 @@ class DailyPriceRule < ActiveRecord::Base
     end
 
     def start_and_stop_stadium_hours
-      return if errors.any? || price.area.stadium.opens_at.blank? || price.area.stadium.opens_at.blank?
+      return if errors.any? || price.blank? || price.area.stadium.opens_at.blank? || price.area.stadium.opens_at.blank?
       if start.utc.strftime( "%H%M%S%N" ) < price.area.stadium.opens_at.utc.strftime( "%H%M%S%N" )
         errors.add(:start, "не может быть меньше, чем время открытие стадиона")
       end

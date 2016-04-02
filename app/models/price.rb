@@ -22,8 +22,6 @@ class Price < ActiveRecord::Base
   validates :stop, greater_by_30_min: {than: :start}, allow_blank: true
   validates :start, :stop, step_by_30_min: true, allow_blank: true
 
-  after_create { daily_price_rules.create start: area.stadium.opens_at, stop: area.stadium.closes_at, value: 0, working_days: [0,1,2,3,4,5,6] }
-
   accepts_nested_attributes_for :daily_price_rules, reject_if: :all_blank, allow_destroy: true
 
   around_save :validate_price_rules_overlapping

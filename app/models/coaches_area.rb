@@ -12,7 +12,7 @@ class CoachesArea < ActiveRecord::Base
   include CoachesAreaConcern
   has_paper_trail
 
-  belongs_to :coach, required: true
+  belongs_to :coach
   belongs_to :area, required: true
 
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0}

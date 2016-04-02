@@ -24,10 +24,14 @@ class EventsController < ApplicationController
   before_filter :authenticate_user!, except: [:index, :parents_events]
 
   def index
-    if params[:area_id].present?
+    if params[:area_id].present? && current_user.present?
       @events = Event.paid.where(area: current_product).union(current_user.events.where(area: current_product))
-    else
+    elsif current_user.present?
       @events = Event.paid.union(current_user.events)
+    elsif params[:area_id].present?
+      @events = Event.paid.where(area: current_product)
+    else
+      @events = Event.paid
     end
     respond_with @events
   end
@@ -35,7 +39,11 @@ class EventsController < ApplicationController
   def parents_events
     if params[:scope] == "stadium"
       stadium = Stadium.friendly.find(params[:stadium_id])
-      @events = stadium.areas.flat_map {|area| current_user.events.paid.where(area: area)}
+      if current_user.present?
+        @events = stadium.areas.flat_map {|area| current_user.events.where(area: area)}
+      else
+        @events = []
+      end
     end
 
     render :index

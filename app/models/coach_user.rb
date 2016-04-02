@@ -29,8 +29,6 @@ class CoachUser < User
 
   accepts_nested_attributes_for :coach
 
-  after_create :create_coach
-
   def name
     attributes["name"] || "Тренер ##{id}"
   end

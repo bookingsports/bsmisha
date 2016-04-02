@@ -13,9 +13,12 @@ class Dashboard::WithdrawalRequestsController < DashboardController
 
   def destroy
     @request = current_user.wallet.withdrawal_requests.find params[:id]
-    @request.destroy!
-
-    redirect_to dashboard_withdrawal_requests_url
+    if !@request.success?
+      @request.destroy!
+      redirect_to dashboard_withdrawal_requests_url
+    else
+      redirect_to dashboard_withdrawal_requests_url, alert: "Нельзя удалить уже подтвержденное снятие средств!"
+    end
   end
 
   def print

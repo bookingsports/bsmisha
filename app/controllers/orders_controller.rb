@@ -24,6 +24,11 @@ class OrdersController < DashboardController
   end
 
   def create
+    if params[:event_ids].blank? && params[:event_ids].blank?
+      redirect_to my_events_url, alert: "Не выбрано ни одного заказа"
+      return
+    end
+
     @order = current_user.orders.new
     @order.events = Event.find(params[:event_ids]) if params[:event_ids]
     @order.event_changes = EventChange.find(params[:event_change_ids]) if params[:event_change_ids]
