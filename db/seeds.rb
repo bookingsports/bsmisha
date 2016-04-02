@@ -46,7 +46,8 @@ stadium_addresses = ["ул. Большая Филевская, 20, Москва,
   end
 end
 
-coach_user.coach.account.update(number: "30101810200000000700", company: "АО “Райффайзенбанк”, 129090, Россия, г. Москва, ул. Троицкая, д.17/1", inn: "7744000302", kpp: "775001001", bik: "044525700", agreement_number: "1234567890", date: Time.now)
+coach_user.create_coach
+coach_user.coach.create_account(number: "30101810200000000700", company: "АО “Райффайзенбанк”, 129090, Россия, г. Москва, ул. Троицкая, д.17/1", inn: "7744000302", kpp: "775001001", bik: "044525700", agreement_number: "1234567890", date: Time.now)
 
 customer.wallet.deposits.create amount: 100000, status: :active
 coach_user.wallet.deposits.create amount: 100000, status: :active
