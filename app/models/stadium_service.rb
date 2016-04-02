@@ -16,7 +16,7 @@ class StadiumService < ActiveRecord::Base
   has_paper_trail
 
   belongs_to :stadium, required: true
-  belongs_to :service, dependent: :destroy, required: true
+  belongs_to :service, required: true
   has_and_belongs_to_many :events
   accepts_nested_attributes_for :service
 
