@@ -70,7 +70,8 @@ Rails.application.routes.draw do
   end
 
   namespace :dashboard do
-    resource :product, concerns: [:has_pictures] do
+    post 'product', to: "products#update"
+    resource :product, concerns: [:has_pictures], except: [:create] do
       get 'edit_account', on: :member
     end
     resources :area do

@@ -20,7 +20,6 @@ class Coach < ActiveRecord::Base
   has_many :areas, through: :coaches_areas
 
   has_one :account, as: :accountable
-  after_create :create_account
 
   friendly_id :name, use: [:slugged]
 
