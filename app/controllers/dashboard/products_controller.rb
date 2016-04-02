@@ -23,6 +23,7 @@ class Dashboard::ProductsController < DashboardController
         @product = current_user.stadium
       elsif current_user.coach.present?
         @product = current_user.coach
+        @product.build_account if @product.account.blank?
       else
         @product = current_user.build_coach
         @product.build_account
