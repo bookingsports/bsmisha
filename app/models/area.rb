@@ -19,8 +19,9 @@ class Area < ActiveRecord::Base
   belongs_to :stadium
   has_many :coaches_areas, dependent: :destroy
   has_many :coaches, through: :coaches_areas
-  has_many :events
+  has_many :events, dependent: :destroy
   has_many :prices, dependent: :destroy
+  has_many :recoupments, dependent: :destroy
 
   validates :name, :stadium_id, presence: true
   validates :change_price, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
