@@ -45,7 +45,7 @@
               %th Периодичность
               %th
           %tbody.services
-            = f.simple_fields_for :stadium_services, @product.stadium_services.any? && @product.stadium_services || @product.stadium_services.new do |stadium_service|
+            = f.simple_fields_for :stadium_services, @product.stadium_services.any? && @product.stadium_services do |stadium_service|
               = render "stadium_service_fields", f: stadium_service
         = f.button :submit
 - elsif @product.kind_of? Coach

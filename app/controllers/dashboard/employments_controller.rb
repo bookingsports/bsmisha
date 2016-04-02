@@ -1,12 +1,14 @@
 class Dashboard::EmploymentsController < DashboardController
   def index
-    @areas = current_user.coach.coaches_areas
+    @coach = current_user.coach.present? ? current_user.coach : current_user.build_coach
+    @areas = @coach.coaches_areas
   end
 
   def create
     @area = Area.find(params[:coaches_area][:area_id])
-    current_user.coach.coaches_areas.new area: @area, price: params[:coaches_area][:price]
-    current_user.coach.save
+    @coach = current_user.coach.present? ? current_user.coach : current_user.build_coach
+    @coach.coaches_areas.new area: @area, price: params[:coaches_area][:price]
+    @coach.save
 
     redirect_to dashboard_employments_path
   end

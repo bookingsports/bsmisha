@@ -13,10 +13,21 @@ class Dashboard::ProductsController < DashboardController
     end
   end
 
+  def edit_account
+  end
+
   private
 
     def find_product
-      @product = (current_user.kind_of? StadiumUser) ? current_user.stadium : current_user.coach
+      if current_user.kind_of? StadiumUser
+        @product = current_user.stadium
+      elsif current_user.coach.present?
+        @product = current_user.coach
+        @product.build_account if @product.account.blank?
+      else
+        @product = current_user.build_coach
+        @product.build_account
+      end
     end
 
     def product_params

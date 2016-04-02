@@ -19,7 +19,6 @@
 class Account < ActiveRecord::Base
   include AccountConcern
   belongs_to :accountable, polymorphic: true
-  validates :accountable, presence: true
 
   def name
     "Реквизиты #{accountable.name}"
