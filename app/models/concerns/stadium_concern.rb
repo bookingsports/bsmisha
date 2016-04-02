@@ -23,7 +23,16 @@ module StadiumConcern
         field :updated_at
         field :main_image
         field :status
-        field :opens_at
+        field :opens_at do
+          pretty_value do
+            value.utc.strftime("%H:%M")
+          end
+        end
+        field :closes_at do
+          pretty_value do
+            value.utc.strftime("%H:%M")
+          end
+        end
         field :closes_at
       end
 
@@ -40,8 +49,16 @@ module StadiumConcern
         field :pictures
         field :main_image
         field :status
-        field :opens_at
-        field :closes_at
+        field :opens_at do
+          formatted_value do
+            value.utc.strftime("%H:%M")
+          end
+        end
+        field :closes_at do
+          formatted_value do
+            value.utc.strftime("%H:%M")
+          end
+        end
         field :services
       end
 
@@ -60,8 +77,16 @@ module StadiumConcern
         field :updated_at
         field :main_image
         field :status
-        field :opens_at
-        field :closes_at
+        field :opens_at do
+          pretty_value do
+            value.utc.strftime("%H:%M")
+          end
+        end
+        field :closes_at do
+          pretty_value do
+            value.utc.strftime("%H:%M")
+          end
+        end
         field :services
       end
     end
