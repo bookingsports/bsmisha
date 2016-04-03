@@ -65,6 +65,7 @@ ru:
         events: События
         event_changes: Изменение событий
         wallet: Кошелек
+        terms_agree: Условия соглашения
       admin:
         <<: *user
       customer:
