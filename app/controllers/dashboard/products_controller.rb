@@ -7,7 +7,7 @@ class Dashboard::ProductsController < DashboardController
 
   def update
     if @product.update product_params
-      redirect_to edit_dashboard_product_url, notice: "Успешно сохранено"
+      redirect_to (product_params[:account_attributes].present? ? edit_account_dashboard_product_url : edit_dashboard_product_url), notice: "Успешно сохранено"
     else
       render :edit
     end

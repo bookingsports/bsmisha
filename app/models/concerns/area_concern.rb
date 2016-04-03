@@ -17,6 +17,7 @@ module AreaConcern
         field :stadium
         field :events
         field :coaches_areas
+        field :slug
         field :created_at
         field :updated_at
       end
@@ -27,6 +28,7 @@ module AreaConcern
         field :stadium
         field :events
         field :coaches_areas
+        field :slug
       end
 
       show do
@@ -35,6 +37,7 @@ module AreaConcern
         field :stadium
         field :events
         field :coaches_areas
+        field :slug
         field :created_at
         field :updated_at
       end
