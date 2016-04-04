@@ -5,10 +5,14 @@ class Dashboard::WithdrawalRequestsController < DashboardController
   end
 
   def create
-    @request = current_user.wallet.withdrawal_requests.new request_params
-    @request.save
+    if current_user.type == 'CoachUser' && (current_user.coach.blank? || current_user.coach.account.blank?)
+      redirect_to edit_account_dashboard_product_url, alert: "Укажите реквизиты для вывода!"
+    else
+      @request = current_user.wallet.withdrawal_requests.new request_params
+      @request.save
 
-    redirect_to dashboard_withdrawal_requests_url
+      redirect_to dashboard_withdrawal_requests_url
+    end
   end
 
   def destroy
