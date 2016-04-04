@@ -22,7 +22,7 @@ class WithdrawalRequest < ActiveRecord::Base
   validates :amount, presence: true, numericality: { greater_than: 0, less_than_or_equal_to: Rails.application.secrets.amount_limit }
   validate :amount_no_more_than_can_spend
 
-  before_save :set_payment
+  before_create :set_payment
 
   enum status: [:pending, :success, :failure]
 
