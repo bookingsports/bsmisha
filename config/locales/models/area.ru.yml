@@ -17,5 +17,6 @@ ru:
         events: События
         price: Цена
         type: Тип
+        slug: Короткий URL
         created_at: Дата создания
         updated_at: Дата изменения

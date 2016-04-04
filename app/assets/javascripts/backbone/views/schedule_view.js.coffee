@@ -241,7 +241,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
   validate: (start, stop, event) =>
     if @timeIsPast(event.start)
       return 'Невозможно сделать заказ на прошедшее время'
-    else if @timeIsOccupied(start, stop, event)
+    else if @timeIsOccupied(event.start, event.stop, event)
       return 'Это время занято'
     else if event.paid && event.paidTransfer
       return 'Нельзя изменить оплаченный и перенесенный заказ'
