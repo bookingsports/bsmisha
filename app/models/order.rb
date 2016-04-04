@@ -62,9 +62,9 @@ class Order < ActiveRecord::Base
             raise ActiveRecord::Rollback
           end
           rec = user.recoupments.where(area: event.area).first
-          if rec.present? && rec.price >= event.price
+          if rec.present? && rec.price > event.price
             rec.update price: (rec.price - event.price)
-          elsif rec.present? && rec.price < event.price && rec.price > 0
+          elsif rec.present? && rec.price <= event.price && rec.price > 0
             user.wallet.withdraw! event.price - rec.price
             rec.destroy
           else
@@ -75,10 +75,10 @@ class Order < ActiveRecord::Base
           end
         end
         self.event_changes.each do |event_change|
-          rec = user.recoupments.where(area: event.area).first
-          if rec.present? && rec.price >= event_change.price
+          rec = user.recoupments.where(area: event_changes.event.area).first
+          if rec.present? && rec.price > event_change.price
             rec.update price: (rec.price - event_change.price)
-          elsif rec.present? && rec.price < event_change.price && rec.price > 0
+          elsif rec.present? && rec.price <= event_change.price && rec.price > 0
             user.wallet.withdraw! event_change.price - rec.price
             rec.destroy
           else
