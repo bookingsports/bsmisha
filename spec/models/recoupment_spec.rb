@@ -3,7 +3,7 @@
 # Table name: recoupments
 #
 #  id         :integer          not null, primary key
-#  duration   :integer
+#  price      :integer
 #  user_id    :integer
 #  area_id    :integer
 #  reason     :string

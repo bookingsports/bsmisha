@@ -10,6 +10,7 @@
 #  area_id              :integer
 #  order_id             :integer
 #  user_id              :integer
+#  price                :float
 #  recurrence_rule      :string
 #  recurrence_exception :string
 #  recurrence_id        :integer
