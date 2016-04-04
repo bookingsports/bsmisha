@@ -19,6 +19,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
       setInterval ->
         if !scheduler._editor.container
           scheduler.dataSource.read()
+          scheduler.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.js')
         else
       , 30000
 
@@ -130,12 +131,12 @@ class Tennis.Views.ScheduleView extends Backbone.View
           e.preventDefault()
         return
       remove: (e) =>
-        if !gon.current_user || (e.event.visual_type == 'disowned' && gon.current_user.type != "StadiumUser")
-          alert("Нельзя удалить заказ чужого пользователя.")
+        if e.event.visual_type == "owned" || (gon.current_user && gon.current_user.type == "StadiumUser" && gon.current_user.areas.indexOf(gon.area_id) != -1)
+          e.sender.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.js')
+        else
+          alert("Нельзя удалить заказ.")
           e.preventDefault();
           return
-        else
-          e.sender.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.js')
       schema:
         timezone: 'Europe/Moscow'
         model:
