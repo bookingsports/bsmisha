@@ -29,9 +29,8 @@ class Order < ActiveRecord::Base
   end
 
   def total
-    _total = events.map(&:price).inject(:+).to_i + event_changes.map(&:total).inject(:+).to_i
-    return attributes["total"].to_i if _total.zero?
-    _total
+    _total = events.map(&:price).inject(:+).to_i + event_changes.map(&:total).inject(:+).to_i - Recoupment.where(area: area_ids).uniq.map(&:price).sum
+    _total < 0 ? 0 : _total
   end
 
   def total_hours
@@ -55,35 +54,42 @@ class Order < ActiveRecord::Base
   end
 
   def pay!
-    if total == 0
-      self.paid!
-    else
-      unless self.paid?
-        transaction = ActiveRecord::Base.transaction do
-          user.wallet.withdraw! self.total
-          self.events.each do |event|
-            if event.overlaps? event.start, event.stop
-              order.errors.add(:event, 'накладываются на другие события')
-              raise ActiveRecord::Rollback
-            end
-            rec = user.recoupments.where(area: event.area).first
-            if rec.present? && rec.duration >= event.duration * event.occurrences
-              user.wallet.deposit! event.price
-              rec.update duration: (rec.duration - event.duration * event.occurrences)
-            else
-              event.area.stadium.user.wallet.deposit_with_tax_deduction! event.area_price
-              event.coach.present? && event.coach.user.wallet.deposit_with_tax_deduction!(event.coach_price)
-              event.stadium_services.present? && event.area.stadium.user.wallet.deposit_with_tax_deduction!(event.stadium_services_price)
-            end
+    unless self.paid?
+      transaction = ActiveRecord::Base.transaction do
+        self.events.each do |event|
+          if event.overlaps? event.start, event.stop
+            order.errors.add(:event, 'накладываются на другие события')
+            raise ActiveRecord::Rollback
           end
-          self.event_changes.each do |event_change|
+          rec = user.recoupments.where(area: event.area).first
+          if rec.present? && rec.price >= event.price
+            rec.update price: (rec.price - event.price)
+          elsif rec.present? && rec.price < event.price && rec.price > 0
+            user.wallet.withdraw! event.price - rec.price
+            rec.destroy
+          else
+            user.wallet.withdraw! event.price
+            event.area.stadium.user.wallet.deposit_with_tax_deduction! event.area_price
+            event.coach.present? && event.coach.user.wallet.deposit_with_tax_deduction!(event.coach_price)
+            event.stadium_services.present? && event.area.stadium.user.wallet.deposit_with_tax_deduction!(event.stadium_services_price)
+          end
+        end
+        self.event_changes.each do |event_change|
+          rec = user.recoupments.where(area: event.area).first
+          if rec.present? && rec.price >= event_change.price
+            rec.update price: (rec.price - event_change.price)
+          elsif rec.present? && rec.price < event_change.price && rec.price > 0
+            user.wallet.withdraw! event_change.price - rec.price
+            rec.destroy
+          else
+            user.wallet.withdraw! event_change.total
             event_change.event.area.stadium.user.wallet.deposit_with_tax_deduction! event_change.total
           end
         end
+      end
 
-        if transaction
-          self.paid!
-        end
+      if transaction
+        self.paid!
       end
     end
   end

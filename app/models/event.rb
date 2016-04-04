@@ -10,6 +10,7 @@
 #  area_id              :integer
 #  order_id             :integer
 #  user_id              :integer
+#  price                :float
 #  recurrence_rule      :string
 #  recurrence_exception :string
 #  recurrence_id        :integer
@@ -213,9 +214,9 @@ class Event < ActiveRecord::Base
       if paid?
         if user.recoupments.where(area: self.area).any?
           rec = user.recoupments.where(area: self.area).first
-          rec.update duration: rec.duration + self.duration * self.occurrences
+          rec.update price: rec.price + self.price
         else
-          Recoupment.create user: self.user, duration: self.duration * self.occurrences, area: self.area
+          Recoupment.create user: self.user, price: self.price, area: self.area
         end
       end
     end

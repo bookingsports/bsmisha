@@ -43,12 +43,12 @@
         %tr
           %th Стадион
           %th Площадка
-          %th Количество часов
+          %th Цена
       - @recoupments.each do |recoupment|
         %tr
           %td= recoupment.area.stadium.name
           %td= recoupment.area.name
-          %td= number_with_precision(recoupment.duration_in_hours, precision: 1)
+          %td= number_to_integer_currency(recoupment.price)
   %h4 Оплаченные занятия
   %table.table.table-striped
     %thead

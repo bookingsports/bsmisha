@@ -59,7 +59,7 @@ class User < ActiveRecord::Base
   end
 
   def total_recoupments(area = {})
-    recoupments.where(area: area).map(&:duration_in_hours).inject(:+) || 0
+    recoupments.where(area: area[:area]).map(&:price).inject(:+) || 0
   end
 
   def events_maybe_scoped_by options
