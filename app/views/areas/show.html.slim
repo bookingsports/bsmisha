@@ -14,7 +14,7 @@
     h4 Стоимость занятий
     - if @area.prices.current.present?
       ul.list-group
-        - @area.prices.current.daily_price_rules.each do |rule|
+        - @area.prices.current.daily_price_rules.sort_by{|x| [x.working_days, x.start] }.each do |rule|
           li.list-group-item
             = rule.working_days.map{|d| d.present? ? t(:"date.abbr_day_names").at(d.to_i) : nil}.join(', ')
             = ' ' + rule.start.utc.strftime('%H:%M') + ' - ' + rule.stop.utc.strftime('%H:%M')

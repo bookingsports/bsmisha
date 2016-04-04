@@ -28,6 +28,10 @@ class Order < ActiveRecord::Base
     "Заказ №#{id} на сумму #{total} #{user_id.present? ? "пользователя " + user.try(:name).to_s : ""}"
   end
 
+  def area_ids
+    (events.map(&:area_id) + event_changes.map{|e| e.event.area_id}).uniq
+  end
+
   def total
     _total = events.map(&:price).inject(:+).to_i + event_changes.map(&:total).inject(:+).to_i - Recoupment.where(area: area_ids).uniq.map(&:price).sum
     _total < 0 ? 0 : _total
@@ -62,9 +66,9 @@ class Order < ActiveRecord::Base
             raise ActiveRecord::Rollback
           end
           rec = user.recoupments.where(area: event.area).first
-          if rec.present? && rec.price >= event.price
+          if rec.present? && rec.price > event.price
             rec.update price: (rec.price - event.price)
-          elsif rec.present? && rec.price < event.price && rec.price > 0
+          elsif rec.present? && rec.price <= event.price && rec.price > 0
             user.wallet.withdraw! event.price - rec.price
             rec.destroy
           else
@@ -75,11 +79,11 @@ class Order < ActiveRecord::Base
           end
         end
         self.event_changes.each do |event_change|
-          rec = user.recoupments.where(area: event.area).first
-          if rec.present? && rec.price >= event_change.price
-            rec.update price: (rec.price - event_change.price)
-          elsif rec.present? && rec.price < event_change.price && rec.price > 0
-            user.wallet.withdraw! event_change.price - rec.price
+          rec = user.recoupments.where(area: event_change.event.area).first
+          if rec.present? && rec.price > event_change.total
+            rec.update price: (rec.price - event_change.total)
+          elsif rec.present? && rec.price <= event_change.total && rec.price > 0
+            user.wallet.withdraw! event_change.total - rec.price
             rec.destroy
           else
             user.wallet.withdraw! event_change.total

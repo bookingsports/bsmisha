@@ -1,7 +1,8 @@
-= simple_form_for CoachesArea.new, url: dashboard_employments_path, wrapper: :inline_form, html: { class: 'form-inline' } do |f|
-  = f.association :area, label: 'Площадка', collection: Area.all - current_user.coach.areas, label_method: :name_with_stadium, include_blank: false
-  = f.input :price, label: 'Стоимость часа', as: :decimal
-  = f.button :submit, "Привязаться к стадиону"
+- if (Area.all - current_user.coach.areas).present?
+  = simple_form_for CoachesArea.new, url: dashboard_employments_path, wrapper: :inline_form, html: { class: 'form-inline' } do |f|
+    = f.association :area, label: 'Площадка', collection: Area.all - current_user.coach.areas, label_method: :name_with_stadium, include_blank: false
+    = f.input :price, label: 'Стоимость часа', as: :decimal
+    = f.button :submit, "Привязаться к стадиону"
 
 %h3 Ваши стадионы
 %table.table.table-hover
