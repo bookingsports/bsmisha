@@ -3,7 +3,7 @@
 # Table name: recoupments
 #
 #  id         :integer          not null, primary key
-#  duration   :integer
+#  price      :integer
 #  user_id    :integer
 #  area_id    :integer
 #  reason     :string
@@ -17,9 +17,5 @@ class Recoupment < ActiveRecord::Base
   belongs_to :user
   belongs_to :area
 
-  validates :user, :duration, :area, presence: true
-
-  def duration_in_hours
-    duration / 1.hour.to_f
-  end
+  validates :user, :price, :area, presence: true
 end

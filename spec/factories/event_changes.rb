@@ -4,11 +4,14 @@
 #
 #  id         :integer          not null, primary key
 #  event_id   :integer
+#  order_id   :integer
+#  old_start  :datetime
+#  old_stop   :datetime
+#  new_start  :datetime
+#  new_stop   :datetime
+#  old_price  :float
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  status     :integer
-#  summary    :string
-#  order_id   :integer
 #
 
 FactoryGirl.define do

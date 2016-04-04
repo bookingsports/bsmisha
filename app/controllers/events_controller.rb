@@ -10,6 +10,7 @@
 #  area_id              :integer
 #  order_id             :integer
 #  user_id              :integer
+#  price                :float
 #  recurrence_rule      :string
 #  recurrence_exception :string
 #  recurrence_id        :integer
@@ -24,8 +25,12 @@ class EventsController < ApplicationController
   before_filter :authenticate_user!, except: [:index, :parents_events]
 
   def index
-    if params[:area_id].present? && current_user.present?
+    if params[:area_id].present? && current_user.present? && current_user.type == "CoachUser"
+      @events = Event.paid.where(area: current_product).where(coach: current_user.coach).union(current_user.events.where(area: current_product))
+    elsif params[:area_id].present? && current_user.present?
       @events = Event.paid.where(area: current_product).union(current_user.events.where(area: current_product))
+    elsif current_user.present? && current_user.type == "CoachUser"
+      @events = Event.paid.where(coach: current_user.coach).union(current_user.events)
     elsif current_user.present?
       @events = Event.paid.union(current_user.events)
     elsif params[:area_id].present?
