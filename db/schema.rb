@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160310084934) do
+ActiveRecord::Schema.define(version: 20160404072042) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -208,7 +208,7 @@ ActiveRecord::Schema.define(version: 20160310084934) do
   add_index "prices", ["area_id"], name: "index_prices_on_area_id", using: :btree
 
   create_table "recoupments", force: :cascade do |t|
-    t.integer  "duration"
+    t.integer  "price"
     t.integer  "user_id"
     t.integer  "area_id"
     t.string   "reason"
