@@ -25,6 +25,7 @@ class Tennis.Views.AllAreasScheduleView extends Backbone.View
         move: false
         resize: false
         update: false
+        destroy: @url().indexOf('grid') != -1
       schema:
         model:
           id: "id",
@@ -86,7 +87,6 @@ class Tennis.Views.AllAreasScheduleView extends Backbone.View
         else
           e.sender.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.js')
         return
-
       resources: [
         {
           field: 'kendo_area_id'
