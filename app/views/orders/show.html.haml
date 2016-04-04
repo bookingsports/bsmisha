@@ -1,8 +1,8 @@
 %h3= "Заказ #{@order.guid}"
 %table.table.table-hover
   = render @order.events
-%table.table.table-hover
-  - if @order.event_changes.present?
+- if @order.event_changes.present?
+  %table.table.table-hover
     %h4 Переносы
     %h5 Перенос заказа осуществляется 1 раз. После оплаты вы уже не сможете его поменять.
     - @order.event_changes.each do |change|
@@ -12,7 +12,8 @@
         %td= l change.event.stop, format: :short
         %td= l change.event.stop, format: :short
         %td= number_to_integer_currency change.total
-  - if @recoupments.present?
+- if @recoupments.present?
+  %table.table.table-hover
     %h4 Отыгрыши
     - @recoupments.each do |rec|
       %tr
