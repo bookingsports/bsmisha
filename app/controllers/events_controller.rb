@@ -31,6 +31,8 @@ class EventsController < ApplicationController
       @events = Event.paid.where(area: current_product).union(current_user.events.where(area: current_product))
     elsif current_user.present? && current_user.type == "CoachUser"
       @events = Event.paid.where(coach: current_user.coach).union(current_user.events)
+    elsif current_user.present? && current_user.type == "StadiumUser"
+      @events = current_user.stadium_events.union(current_user.events)
     elsif current_user.present?
       @events = Event.paid.union(current_user.events)
     elsif params[:area_id].present?
