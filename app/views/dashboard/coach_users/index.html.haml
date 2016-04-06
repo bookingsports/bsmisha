@@ -1,7 +1,3 @@
-= link_to new_dashboard_coach_user_path, class: 'btn btn-default' do
-  = fa_icon 'user-plus'
-  Создать тренера
-
 - if @coaches.any?
   %table.table
     %thead
@@ -9,13 +5,16 @@
         %th Имя
         %th Почта
         %th Дата создания
-        %th
+        %th Площадки
     %tbody
       - @coaches.each do |coach|
         %tr
           %td= coach.name
           %td= coach.email
           %td= coach.created_at
-          %td= link_to fa_icon('edit') + ' Редактировать', edit_dashboard_coach_user_path(coach.user.id)
+          %td
+            %ul
+              - coach.coaches_areas.where(area: current_user.stadium.area_ids).each do |ca|
+                %li= ca.area_and_price
 - else
   Пока нет тренеров

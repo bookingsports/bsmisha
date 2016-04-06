@@ -20,4 +20,8 @@ class CoachesArea < ActiveRecord::Base
   def name_and_price
     "#{coach.name} (#{price} руб. в час)"
   end
+
+  def area_and_price
+    "#{area.name} - #{price} руб. в час"
+  end
 end
