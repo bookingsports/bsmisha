@@ -38,6 +38,7 @@ Rails.application.routes.draw do
       get 'grid'
       post 'bulk_process', constraints: ButtonParamRouting.new('pay'), action: 'create', controller: 'orders'
       post 'bulk_process', constraints: ButtonParamRouting.new('destroy'), action: 'destroy'
+      post 'bulk_process', constraints: ButtonParamRouting.new('confirm'), action: 'confirm'
     end
     member do
       get 'ticket'
