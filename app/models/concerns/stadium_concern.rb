@@ -50,12 +50,12 @@ module StadiumConcern
         field :main_image
         field :status
         field :opens_at do
-          pretty_value do
+          formatted_value do
             value.present? ? value.utc.strftime("%H:%M") : Time.parse("07:00")
           end
         end
         field :closes_at do
-          pretty_value do
+          formatted_value do
             value.present? ? value.utc.strftime("%H:%M") : Time.parse("23:00")
           end
         end
