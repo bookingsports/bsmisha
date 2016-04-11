@@ -8,6 +8,8 @@
       %th Период занятий
       %th Время тренировок
       %th Стоимость
+      %th Доплатить минут
+      %th
   - @events.paid.each do |event|
     %tr
       %td= event.id
@@ -20,3 +22,6 @@
           = link_to orders_path('event_change_ids[]' => event.event_change.id), method: :post, class: 'label' do
             %span.label.label-success Оплатить перенос
       %td= number_to_integer_currency event.price
+      = form_for :events, url: overpay_my_event_path(event) do |f|
+        %td= text_field_tag :value
+        %td= f.submit 'Выставить счет'

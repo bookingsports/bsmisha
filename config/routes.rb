@@ -43,6 +43,7 @@ Rails.application.routes.draw do
     member do
       get 'ticket'
       post 'pay_change'
+      post 'overpay'
     end
   end
 
