@@ -6,10 +6,14 @@ class Dashboard::ProductsController < DashboardController
   end
 
   def update
-    if @product.update product_params
-      redirect_to (product_params[:account_attributes].present? ? edit_account_dashboard_product_url : edit_dashboard_product_url), notice: "Успешно сохранено"
-    else
-      render :edit
+    begin
+      if @product.update product_params
+        redirect_to (product_params[:account_attributes].present? ? edit_account_dashboard_product_url : edit_dashboard_product_url), notice: "Успешно сохранено"
+      else
+        render :edit
+      end
+    rescue ActiveRecord::RecordNotDestroyed => invalid
+      redirect_to (product_params[:account_attributes].present? ? edit_account_dashboard_product_url : edit_dashboard_product_url), alert: "Нельзя удалить площадку, у которой еще есть заказы!"
     end
   end
 
