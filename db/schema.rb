@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160404072042) do
+ActiveRecord::Schema.define(version: 20160411072134) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,9 +90,10 @@ ActiveRecord::Schema.define(version: 20160404072042) do
     t.time     "start"
     t.time     "stop"
     t.integer  "value"
-    t.integer  "working_days", default: [],              array: true
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.integer  "working_days", default: [],                 array: true
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.boolean  "is_discount",  default: false
   end
 
   add_index "daily_price_rules", ["price_id"], name: "index_daily_price_rules_on_price_id", using: :btree

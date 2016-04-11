@@ -15,10 +15,12 @@
     - if @area.prices.current.present?
       ul.list-group
         - @area.prices.current.daily_price_rules.sort_by{|x| [x.working_days, x.start] }.each do |rule|
-          li.list-group-item
+          li class=(rule.is_discount ? "price-discount list-group-item" : "list-group-item")
             = rule.working_days.map{|d| d.present? ? t(:"date.abbr_day_names").at(d.to_i) : nil}.join(', ')
             = ' ' + rule.start.utc.strftime('%H:%M') + ' - ' + rule.stop.utc.strftime('%H:%M')
             = ' ' + number_to_integer_currency(rule.value)
+            - if rule.is_discount
+              = " (Акция)"
     - if @area.stadium.stadium_services.any?
       h4 Дополнительные услуги
       ul.list-group
