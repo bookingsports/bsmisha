@@ -202,6 +202,14 @@ class Event < ActiveRecord::Base
           .present?
   end
 
+  def past?
+    stop < Time.now
+  end
+
+  def future?
+    stop < Time.now
+  end
+
   private
     def create_event_change_if_not_present
       if unpaid?

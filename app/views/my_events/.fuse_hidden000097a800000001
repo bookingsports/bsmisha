@@ -1,0 +1,86 @@
+= form_for :events, url: bulk_process_my_events_path do |f|
+  - if @events.unpaid.future.present?
+    %h4 Неоплаченные занятия
+    %table.table.table-hover
+      %thead
+        %tr
+          %th
+          %th Стадион
+          %th Площадка
+          %th Период занятий
+          %th Время тренировок
+          %th Стоимость
+      - @events.unpaid.future.each do |event|
+        %tr
+          %td= check_box_tag "event_ids[]", event.id
+          %td= event.area.stadium.name
+          %td= event.area.name
+          %td= l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
+          %td= event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
+          %td= number_to_integer_currency event.price
+  - if @event_changes.unpaid.future.present?
+    %h4 Переносы
+    %table.table.table-hover
+      %thead
+        %tr
+          %th
+          %th Стадион
+          %th Площадка
+          %th Начало
+          %th Конец
+          %th Стоимость
+      - @event_changes.unpaid.future.each do |event_change|
+        %tr
+          %td= check_box_tag "event_change_ids[]", event_change.id
+          %td= event_change.event.area.stadium.name
+          %td= event_change.event.area.name
+          %td= event_change.old_start.strftime("%d.%m.%Y %H:%M") + ' -> ' + event_change.new_start.strftime("%d.%m.%Y %H:%M")
+          %td= event_change.old_stop.strftime("%d.%m.%Y %H:%M") + ' -> ' + event_change.new_stop.strftime("%d.%m.%Y %H:%M")
+          %td= number_to_integer_currency event_change.total
+  - if @events.unpaid.present? || @event_changes.unpaid.present?
+    = f.button 'Перейти к оплате', value: :pay
+    = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}
+  - if @recoupments.present?
+    %h4 Отыгрыши
+    %table.table.table-hover
+      %thead
+        %tr
+          %th Стадион
+          %th Площадка
+          %th Цена
+      - @recoupments.each do |recoupment|
+        %tr
+          %td= recoupment.area.stadium.name
+          %td= recoupment.area.name
+          %td= number_to_integer_currency(recoupment.price)
+  %h4 Оплаченные занятия
+  %table.table.table-striped
+    %thead
+      %tr
+        %th #
+        %th Стадион
+        %th Площадка
+        %th Период занятий
+        %th Время тренировок
+        %th Стоимость
+        %th Перенос
+        %th
+    - @events.paid.each do |event|
+      %tr
+        %td= event.id
+        %td= event.area.stadium.name
+        %td= event.area.name
+        %td= l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
+        %td= event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
+        %td= number_to_integer_currency event.price
+        %td
+          - if event.has_unpaid_changes?
+            - if event.event_change.total == 0
+              = link_to "Подтвердить перенос", pay_change_my_event_path(event.event_change.id), method: :post, data: { confirm: "Вы действительно хотите подтвердить перенос? Впоследствии вы не сможете его поменять" }
+            - else
+              = link_to "Оплатить перенос", orders_path('event_change_ids[]' => event.event_change.id), method: :post
+          - elsif event.has_paid_changes?
+            Оплачен
+          - else
+            &mdash;
+        %td= link_to "Чек", ticket_event_path(event)

@@ -16,12 +16,12 @@
       %td= event.area.stadium.name
       %td= event.area.name
       %td= l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
-      %td
-        = event.start.strftime("%H:%M:%S") + ' - ' + event.stop.strftime("%H:%M:%S")
-        - if event.has_unpaid_changes?
-          = link_to orders_path('event_change_ids[]' => event.event_change.id), method: :post, class: 'label' do
-            %span.label.label-success Оплатить перенос
+      %td= event.start.strftime("%H:%M:%S") + ' - ' + event.stop.strftime("%H:%M:%S")
       %td= number_to_integer_currency event.price
-      = form_for :events, url: overpay_my_event_path(event) do |f|
-        %td= text_field_tag :value
-        %td= f.submit 'Выставить счет'
+      - if event.past?
+        = form_for :events, url: overpay_my_event_path(event) do |f|
+          %td= text_field_tag :value
+          %td= f.submit 'Выставить счет'
+      - else
+        %td Заказ еще не завершился
+        %td
