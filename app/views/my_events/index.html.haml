@@ -19,7 +19,6 @@
           %td= event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
           %td= number_to_integer_currency event.price
     = f.button 'Забронировать', value: :confirm, data: {confirm: "Подтвердите бронирование"}
-    = f.button 'Перейти к оплате', value: :pay
     = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}
   - if @events.unpaid.future.where(confirmed: true).present?
     %h4 Забронированные занятия
@@ -59,7 +58,7 @@
           %td= event_change.old_start.strftime("%d.%m.%Y %H:%M") + ' -> ' + event_change.new_start.strftime("%d.%m.%Y %H:%M")
           %td= event_change.old_stop.strftime("%d.%m.%Y %H:%M") + ' -> ' + event_change.new_stop.strftime("%d.%m.%Y %H:%M")
           %td= number_to_integer_currency event_change.total
-  - if @events.unpaid.present? || @event_changes.unpaid.present?
+  - if @events.unpaid.where(confirmed: true).present? || @event_changes.unpaid.future.present?
     = f.button 'Перейти к оплате', value: :pay
     = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}
   - if @recoupments.present?
