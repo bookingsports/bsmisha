@@ -25,12 +25,12 @@ module StadiumConcern
         field :status
         field :opens_at do
           pretty_value do
-            value.utc.strftime("%H:%M")
+            value.present? ? value.utc.strftime("%H:%M") : ""
           end
         end
         field :closes_at do
           pretty_value do
-            value.utc.strftime("%H:%M")
+            value.present? ? value.utc.strftime("%H:%M") : ""
           end
         end
         field :closes_at
@@ -51,12 +51,12 @@ module StadiumConcern
         field :status
         field :opens_at do
           formatted_value do
-            value.utc.strftime("%H:%M")
+            value.present? ? value.utc.strftime("%H:%M") : Time.parse("07:00")
           end
         end
         field :closes_at do
           formatted_value do
-            value.utc.strftime("%H:%M")
+            value.present? ? value.utc.strftime("%H:%M") : Time.parse("23:00")
           end
         end
         field :services
@@ -79,12 +79,12 @@ module StadiumConcern
         field :status
         field :opens_at do
           pretty_value do
-            value.utc.strftime("%H:%M")
+            value.present? ? value.utc.strftime("%H:%M") : ""
           end
         end
         field :closes_at do
           pretty_value do
-            value.utc.strftime("%H:%M")
+            value.present? ? value.utc.strftime("%H:%M") : ""
           end
         end
         field :services

@@ -26,19 +26,19 @@ class EventsController < ApplicationController
 
   def index
     if params[:area_id].present? && current_user.present? && current_user.type == "CoachUser"
-      @events = Event.paid.where(area: current_product).where(coach: current_user.coach).union(current_user.events.where(area: current_product))
+      @events = Event.paid_or_confirmed.where(area: current_product).where(coach: current_user.coach).union(current_user.events.where(area: current_product))
     elsif params[:area_id].present? && current_user.present?
-      @events = Event.paid.where(area: current_product).union(current_user.events.where(area: current_product))
+      @events = Event.paid_or_confirmed.where(area: current_product).union(current_user.events.where(area: current_product))
     elsif current_user.present? && current_user.type == "CoachUser"
-      @events = Event.paid.where(coach: current_user.coach).union(current_user.events)
+      @events = Event.paid_or_confirmed.where(coach: current_user.coach).union(current_user.events)
     elsif current_user.present? && current_user.type == "StadiumUser"
       @events = current_user.stadium_events.union(current_user.events)
     elsif current_user.present?
-      @events = Event.paid.union(current_user.events)
+      @events = Event.paid_or_confirmed.union(current_user.events)
     elsif params[:area_id].present?
-      @events = Event.paid.where(area: current_product)
+      @events = Event.paid_or_confirmed.where(area: current_product)
     else
-      @events = Event.paid
+      @events = Event.paid_or_confirmed
     end
     respond_with @events
   end

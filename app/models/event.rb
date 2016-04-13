@@ -59,6 +59,9 @@ class Event < ActiveRecord::Base
   scope :unpaid, -> {
     Event.where(order_id: nil).union(Event.joins(:order).where(orders: {status: Order.statuses[:unpaid]}))
   }
+  scope :paid_or_confirmed, -> {
+    Event.paid.union(Event.where(confirmed: true)).uniq
+  }
   scope :between, -> (start, stop) do
     table_start = arel_table['start']
     table_stop = arel_table['stop']
@@ -118,6 +121,8 @@ class Event < ActiveRecord::Base
       "has_paid_changes"
     when self.paid?
       "paid"
+    when self.confirmed == true
+      "confirmed"
     when self.user == user
       "owned"
     end
@@ -195,6 +200,14 @@ class Event < ActiveRecord::Base
           .where('events.area_id in(?)', area_id)
           .paid
           .present?
+  end
+
+  def past?
+    stop < Time.now
+  end
+
+  def future?
+    stop < Time.now
   end
 
   private

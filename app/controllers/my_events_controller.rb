@@ -24,6 +24,15 @@ class MyEventsController < EventsController
   def bulk_process
   end
 
+  def confirm
+    if params[:event_ids].present?
+      current_user.events.where(id: params[:event_ids]).update_all confirmed: true
+      redirect_to my_events_path, notice: "Заказы успешно забронированы."
+    else
+      redirect_to my_events_path, alert: "Не выбрано ни одного заказа!"
+    end
+  end
+
   def pay_change
     @change = EventChange.find(params[:id])
 
@@ -32,6 +41,23 @@ class MyEventsController < EventsController
     else
       redirect_to my_events_path, notice: "Ошибка сервера."
     end
+  end
+
+  def overpay
+    if params[:value].blank? || (params[:value].to_i > 0 && params[:value].to_i <= 10)
+      @overpayed = 0
+    elsif (params[:value].to_i > 10 && params[:value].to_i <= 30)
+      @overpayed = 30.minutes
+    else
+      @overpayed = params[:value].to_i.minutes
+    end
+
+    @event = Event.find(params[:id])
+    old_price = @event.price
+    @event.update_attribute('stop', @event.stop + @overpayed)
+    @event.user.wallet.withdrawals.create amount: @event.price - old_price
+
+    redirect_to paid_my_events_path
   end
 
   def destroy

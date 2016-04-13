@@ -1,5 +1,5 @@
 = form_for :events, url: bulk_process_my_events_path do |f|
-  - if @events.unpaid.future.present?
+  - if @events.unpaid.future.where(confirmed: false).present?
     %h4 Неоплаченные занятия
     %table.table.table-hover
       %thead
@@ -10,7 +10,28 @@
           %th Период занятий
           %th Время тренировок
           %th Стоимость
-      - @events.unpaid.future.each do |event|
+      - @events.unpaid.future.where(confirmed: false).each do |event|
+        %tr
+          %td= check_box_tag "event_ids[]", event.id
+          %td= event.area.stadium.name
+          %td= event.area.name
+          %td= l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
+          %td= event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
+          %td= number_to_integer_currency event.price
+    = f.button 'Забронировать', value: :confirm, data: {confirm: "Подтвердите бронирование"}
+    = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}
+  - if @events.unpaid.future.where(confirmed: true).present?
+    %h4 Забронированные занятия
+    %table.table.table-hover
+      %thead
+        %tr
+          %th
+          %th Стадион
+          %th Площадка
+          %th Период занятий
+          %th Время тренировок
+          %th Стоимость
+      - @events.unpaid.future.where(confirmed: true).each do |event|
         %tr
           %td= check_box_tag "event_ids[]", event.id
           %td= event.area.stadium.name
@@ -37,7 +58,7 @@
           %td= event_change.old_start.strftime("%d.%m.%Y %H:%M") + ' -> ' + event_change.new_start.strftime("%d.%m.%Y %H:%M")
           %td= event_change.old_stop.strftime("%d.%m.%Y %H:%M") + ' -> ' + event_change.new_stop.strftime("%d.%m.%Y %H:%M")
           %td= number_to_integer_currency event_change.total
-  - if @events.unpaid.present? || @event_changes.unpaid.present?
+  - if @events.unpaid.where(confirmed: true).present? || @event_changes.unpaid.future.present?
     = f.button 'Перейти к оплате', value: :pay
     = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}
   - if @recoupments.present?
