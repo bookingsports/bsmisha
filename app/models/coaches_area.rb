@@ -16,6 +16,7 @@ class CoachesArea < ActiveRecord::Base
   belongs_to :area, required: true
 
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0}
+  validates :stadium_percent, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100}
 
   def name_and_price
     "#{coach.name} (#{price} руб. в час)"

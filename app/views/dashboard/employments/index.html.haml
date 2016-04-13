@@ -2,6 +2,7 @@
   = simple_form_for CoachesArea.new, url: dashboard_employments_path, wrapper: :inline_form, html: { class: 'form-inline' } do |f|
     = f.association :area, label: 'Площадка', collection: Area.all - current_user.coach.areas, label_method: :name_with_stadium, include_blank: false
     = f.input :price, label: 'Стоимость часа', as: :decimal
+    = f.input :stadium_percent, label: 'Процент стадиона', as: :decimal
     = f.button :submit, "Привязаться к стадиону"
 
 %h3 Ваши стадионы
@@ -11,6 +12,7 @@
       %th Название
       %th Площадка
       %th Стоимость часа
+      %th Процент стадиона
       %th
   %tbody
     = render collection: @areas, partial: 'area', as: 'coach_area'
