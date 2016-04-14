@@ -57,14 +57,14 @@ class TicketPdf < Prawn::Document
   def print_stadium_services
     if @event.stadium_services.present?
       text 'Услуги:', style: :bold
-      table(@event.stadium_services.each.map{|ss| [ss.service.name, ss.price.to_s + " руб."]})
+      table([['Название услуги', 'Цена']] + @event.stadium_services.each.map{|ss| [ss.service.name, ss.price_formatted]})
     end
   end
 
   def print_occurrences
     if @event.recurring?
       text 'Повторения:', style: :bold
-      table(@event.all_occurrences.each.map{|o| [o.to_date, o.strftime("%H:%M"), (o + @event.duration).strftime("%H:%M")]})
+      table([['Дата', 'Начало', 'Конец']] + @event.all_occurrences.each.map{|o| [o.to_date, o.strftime("%H:%M"), (o + @event.duration).strftime("%H:%M")]})
     end
   end
 end
