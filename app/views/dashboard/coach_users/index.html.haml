@@ -16,5 +16,6 @@
             %ul
               - coach.coaches_areas.where(area: current_user.stadium.area_ids).each do |ca|
                 %li= ca.area_and_price
+                = " (комиссия стадиона #{ca.stadium_percent}%)"
 - else
   Пока нет тренеров
