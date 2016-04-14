@@ -16,7 +16,7 @@ class CoachesController < ApplicationController
 
   def index
     if params[:area_id]
-      @coaches_areas = CoachesArea.where(area: Area.friendly.find(params[:area_id]))
+      @coaches_areas = CoachesArea.active.where(area: Area.friendly.find(params[:area_id]))
       respond_with @coaches_areas
     else
       @q = Coach.ransack(params[:q])

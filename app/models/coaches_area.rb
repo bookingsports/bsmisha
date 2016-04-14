@@ -18,11 +18,17 @@ class CoachesArea < ActiveRecord::Base
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0}
   validates :stadium_percent, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100}
 
+  enum status: [:pending, :active, :locked]
+
+  def price_formatted
+    "#{price} руб. в час"
+  end
+
   def name_and_price
-    "#{coach.name} (#{price} руб. в час)"
+    "#{coach.name} (#{price_formatted})"
   end
 
   def area_and_price
-    "#{area.name} - #{price} руб. в час"
+    "#{area.name} - #{price_formatted}"
   end
 end
