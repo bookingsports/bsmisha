@@ -111,6 +111,12 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def all_occurrences
+    return [] unless recurring?
+    build_schedule
+    @schedule.all_occurrences
+  end
+
   def visual_type_for user
     case
     when self.user != user
