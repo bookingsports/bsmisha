@@ -81,6 +81,7 @@ gem 'active_record_union'
 
 # PDF RENDERING
 gem 'prawn'
+gem 'prawn-table'
 
 group :development do
   gem "better_errors"
