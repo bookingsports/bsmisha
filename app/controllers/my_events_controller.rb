@@ -56,6 +56,7 @@ class MyEventsController < EventsController
     old_price = @event.price
     @event.update_attribute('stop', @event.stop + @overpayed)
     @event.user.wallet.withdrawals.create amount: @event.price - old_price
+    @event.area.stadium.user.wallet.deposits.create amount: @event.price - old_price
 
     redirect_to paid_my_events_path
   end
