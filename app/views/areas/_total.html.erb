@@ -8,8 +8,8 @@
       <% if current_user.total_hours(area: @area) %>
         <%= t('hours', count: number_with_precision(current_user.total_hours(area: @area), precision: 2)) %> на сумму <%= number_to_currency current_user.total(area: @area), precision: 0 %></p>
       <% end %>
-    <% if current_user.event_changes.unpaid.present? %>
-      <%= t('changes', count: current_user.event_changes.unpaid.count) %> на сумму <%= number_to_currency current_user.changes_total(area: @area), precision: 0 %></p>
+    <% if current_user.event_changes.future.unpaid.present? %>
+      <%= t('changes', count: current_user.future.event_changes.unpaid.count) %> на сумму <%= number_to_currency current_user.changes_total(area: @area), precision: 0 %></p>
     <% end %>
     <% if current_user.recoupments.where(area: @area).present? &&  current_user.recoupments.where(area: @area).first.price > 0 %>
       Отыгрышей на сумму <%= number_to_currency current_user.total_recoupments(area: @area), precision: 0 %>
