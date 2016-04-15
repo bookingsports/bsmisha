@@ -74,7 +74,10 @@ class Order < ActiveRecord::Base
           else
             user.wallet.withdraw! event.price
             event.area.stadium.user.wallet.deposit_with_tax_deduction! event.area_price
-            event.coach.present? && event.coach.user.wallet.deposit_with_tax_deduction!(event.coach_price)
+            if event.coach.present?
+             event.coach.user.wallet.deposit_with_tax_deduction!(event.coach_percent_price)
+             event.area.stadium.user.wallet.deposit_with_tax_deduction!(event.coach_stadium_price)
+           end
             event.stadium_services.present? && event.area.stadium.user.wallet.deposit_with_tax_deduction!(event.stadium_services_price)
           end
         end

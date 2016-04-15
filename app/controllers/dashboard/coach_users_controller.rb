@@ -1,5 +1,5 @@
 class Dashboard::CoachUsersController < DashboardController
-  before_filter :find_coach, except: [ :index, :new, :create ]
+  before_filter :find_coach, except: [ :index, :new, :create, :confirm ]
 
   def index
     @coaches = current_user.stadium.coaches.uniq
@@ -24,6 +24,17 @@ class Dashboard::CoachUsersController < DashboardController
         redirect_to dashboard_coach_users_path, notice: "Тренер успешно создан"
       end
     end
+  end
+
+  def confirm
+    @ca = CoachesArea.find(params[:id])
+    if @ca.active?
+      @ca.update status: :locked
+    else
+      @ca.update status: :active
+    end
+
+    redirect_to dashboard_coach_users_path
   end
 
   def update

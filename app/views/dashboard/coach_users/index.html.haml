@@ -7,14 +7,30 @@
         %th Дата создания
         %th Площадки
     %tbody
-      - @coaches.each do |coach|
+      - @coaches.sort_by(&:id).each do |coach|
         %tr
           %td= coach.name
           %td= coach.email
           %td= coach.created_at
           %td
-            %ul
-              - coach.coaches_areas.where(area: current_user.stadium.area_ids).each do |ca|
-                %li= ca.area_and_price
+            %table.table
+              %thead
+                %tr
+                  %th Название
+                  %th Цена
+                  %th % стадиона
+                  %th
+              %tbody
+              - coach.coaches_areas.where(area: current_user.stadium.area_ids).sort_by(&:area_id).each do |ca|
+                %tr
+                  %td= ca.area.name
+                  %td= ca.price_formatted
+                  %td= ca.stadium_percent.to_s
+                  - if ca.pending?
+                    %td= link_to 'Подтвердить', confirm_dashboard_coach_user_path(ca.id)
+                  - elsif ca.active?
+                    %td= link_to 'Заблокировать', confirm_dashboard_coach_user_path(ca.id)
+                  - else
+                    %td= link_to 'Разблокировать', confirm_dashboard_coach_user_path(ca.id)
 - else
   Пока нет тренеров

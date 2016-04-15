@@ -30,7 +30,7 @@
     - if @area.coaches_areas.any?
       h4 Тренеры
       ul.list-group
-        - @area.coaches_areas.each do |p|
+        - @area.coaches_areas.active.each do |p|
           li.list-group-item
             = p.name_and_price
 

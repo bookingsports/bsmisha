@@ -28,9 +28,13 @@ class StadiumService < ActiveRecord::Base
     "Услуга #{service_id.present? ? service.name : ""} стадиона #{stadium_id.present? ? stadium.name : ""}"
   end
 
-  def service_name_and_price
+  def price_formatted
     periodicity = periodic? ? ' в час' : ''
-    "#{service.name} (#{price} руб.#{periodicity})"
+    "#{price} руб.#{periodicity}"
+  end
+
+  def service_name_and_price
+    "#{service.name} (#{price_formatted})"
   end
 
   def service_attributes= attributes

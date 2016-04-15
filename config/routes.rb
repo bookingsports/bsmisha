@@ -81,7 +81,11 @@ Rails.application.routes.draw do
     end
     resources :customers
     resources :employments
-    resources :coach_users
+    resources :coach_users do
+      member do
+        get 'confirm'
+      end
+    end
     resources :withdrawal_requests do
       get :print, on: :member
     end

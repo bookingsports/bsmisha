@@ -8,18 +8,24 @@ module CoachesAreaConcern
         field :coach
         field :area
         field :price
+        field :status
+        field :stadium_percent
       end
 
       show do
         field :coach
         field :area
         field :price
+        field :status
+        field :stadium_percent
       end
 
       edit do
         field :coach
         field :area
         field :price
+        field :status
+        field :stadium_percent
       end
     end
   end

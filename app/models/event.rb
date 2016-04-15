@@ -111,6 +111,12 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def all_occurrences
+    return [] unless recurring?
+    build_schedule
+    @schedule.all_occurrences
+  end
+
   def visual_type_for user
     case
     when self.user != user
@@ -189,6 +195,14 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def coach_stadium_price
+    coach_price * coach.coaches_areas.where(area: area).first.stadium_percent / 100
+  end
+
+  def coach_percent_price
+    coach_price * (100 - coach.coaches_areas.where(area: area).first.stadium_percent) / 100
+  end
+
   def prices_for_time start, stop
     prices = area.prices.where(Price.between start, stop)
     daily_price_rules = prices.first.daily_price_rules.where(DailyPriceRule.between start, stop)
@@ -207,7 +221,7 @@ class Event < ActiveRecord::Base
   end
 
   def future?
-    stop < Time.now
+    start > Time.now
   end
 
   private

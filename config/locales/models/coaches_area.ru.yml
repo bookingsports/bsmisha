@@ -1,4 +1,10 @@
 ru:
+  enums:
+    coaches_area:
+      status:
+        pending: В ожидании
+        active: Активный
+        locked: Заблокирован
   activerecord:
     models:
       coaches_area:
@@ -13,3 +19,5 @@ ru:
         price: Цена
         coach: Тренер
         area: Площадка
+        stadium_percent: Процент стадиона
+        status: Статус

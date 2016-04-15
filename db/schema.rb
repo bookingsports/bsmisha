@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160411082019) do
+ActiveRecord::Schema.define(version: 20160414091354) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,7 +79,9 @@ ActiveRecord::Schema.define(version: 20160411082019) do
   create_table "coaches_areas", force: :cascade do |t|
     t.integer "coach_id"
     t.integer "area_id"
-    t.decimal "price",    precision: 8, scale: 2, default: 0.0
+    t.decimal "price",           precision: 8, scale: 2, default: 0.0
+    t.float   "stadium_percent",                         default: 0.0
+    t.integer "status",                                  default: 0
   end
 
   add_index "coaches_areas", ["area_id"], name: "index_coaches_areas_on_area_id", using: :btree
