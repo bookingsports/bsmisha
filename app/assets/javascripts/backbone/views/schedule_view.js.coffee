@@ -2,8 +2,8 @@ class Tennis.Views.ScheduleView extends Backbone.View
   initialize: (attrs) ->
     @mainUrl = attrs.url
     @area_id = attrs.area
-    @opens_at = attrs.opens_at
-    @closes_at = attrs.closes_at
+    @opens_at = new Date(attrs.opens_at)
+    @closes_at = new Date(attrs.closes_at)
 
     @bindExternalEvents()
 
@@ -34,8 +34,8 @@ class Tennis.Views.ScheduleView extends Backbone.View
       culture: 'ru-RU'
       date: new Date()
       allDaySlot: false
-      workDayStart: new Date(@opens_at)
-      workDayEnd: new Date(@closes_at)
+      workDayStart: @opens_at
+      workDayEnd: @closes_at
       min: new Date()
       showWorkHours: true
       editable:
@@ -89,6 +89,16 @@ class Tennis.Views.ScheduleView extends Backbone.View
         if e.event.paid
           e.container.find("#coach-wrapper").hide()
           e.container.find("#services-wrapper").hide()
+
+        if e.event.isNew && e.sender.viewName() == "month"
+          start = e.container.find("[name=start][data-role=datetimepicker]");
+          end = e.container.find("[name=stop][data-role=datetimepicker]");
+          date_start = new Date(e.event.start.getFullYear(), e.event.start.getMonth(), e.event.start.getDate(), @opens_at.getHours(), @opens_at.getMinutes(), @opens_at.getSeconds())
+          date_end = new Date(e.event.start.getFullYear(), e.event.start.getMonth(), e.event.start.getDate(), @closes_at.getHours(), @closes_at.getMinutes(), @opens_at.getSeconds())
+
+          $(start).data("kendoDateTimePicker").value(date_start);
+          $(end).data("kendoDateTimePicker").value(date_end);
+
 
         if !gon.current_user || (e.event.visual_type == 'disowned' && gon.current_user.type != "StadiumUser")
           alert 'Пожалуйста, сначала авторизуйтесь.'
