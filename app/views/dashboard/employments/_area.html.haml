@@ -3,4 +3,5 @@
   %td= coach_area.area.name
   %td= coach_area.price
   %td= coach_area.stadium_percent
+  %td= I18n.t "enums.coaches_area.status.#{coach_area.status}"
   %td= link_to fa_icon('times') + ' Отвязаться', dashboard_employment_path(id: coach_area.id), method: :delete, data_confirm: 'Вы уверены?'
