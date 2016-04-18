@@ -29,6 +29,9 @@ class Tennis.Views.ScheduleView extends Backbone.View
       $('#area').on 'change', =>
         scheduler.dataSource.read()
 
+      scheduler.dataSource.read()
+      scheduler.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.js')
+
   render: ->
     @$el.kendoScheduler
       culture: 'ru-RU'
@@ -38,6 +41,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
       workDayEnd: @closes_at
       min: new Date()
       showWorkHours: true
+      mobile: true
       editable:
         template: $("#eventFormTemplate").html()
         create: @url().indexOf('grid') == -1

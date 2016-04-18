@@ -15,6 +15,7 @@ class Tennis.Views.AllAreasScheduleView extends Backbone.View
       allDaySlot: false
       startTime: new Date('2013/6/13 07:00 AM')
       height: 700
+      mobile: true
       views: [
         'day',
         {type: 'week', selected: true},
