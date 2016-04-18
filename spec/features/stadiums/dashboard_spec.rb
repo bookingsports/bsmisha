@@ -107,42 +107,58 @@ RSpec.feature "dashboard" do
     context "prices editing" do
       before(:each) do
         visit edit_dashboard_product_path
-        click "Настроить цены"
-        click "Редактировать"
+        click_link "Настроить цены"
+        click_link "Создать период"
+      end
 
-        it "displays an error if a price is not set" do
-          fill_in "price_daily_price_rules_attributes_0_value", with: ""
-          click "Сохранить период"
-          expect(page).to have_content "Были введены неверные данные"
-        end
+      it "displays an error if a price is not set" do
+        fill_in "price_daily_price_rules_attributes_0_value", with: ""
+        click_link "Сохранить период"
+        expect(page).to have_content "Были введены неверные данные"
+      end
 
-        it "prevents overlapping dailyprice rules when working days are overlapping" do
-          check "#price_daily_price_rules_attributes_0_working_days_1"
-          fill_in "price_daily_price_rules_attributes_0_value", with: "300"
-          click "Добавить правило"
-          check "#price_daily_price_rules_attributes_1_working_days_1"
-          fill_in "price_daily_price_rules_attributes_1_value", with: "300"
-          click "Сохранить период"
+      it "prevents overlapping dailyprice rules when working days are overlapping" do
+        check "price_daily_price_rules_attributes_0_working_days_1"
+        fill_in "price_daily_price_rules_attributes_0_value", with: "300"
+        click_link "+ добавить правило"
+        check "price_daily_price_rules_attributes_1_working_days_1"
+        fill_in "price_daily_price_rules_attributes_1_value", with: "300"
+        click_link "Сохранить период"
 
-          expect(page).to have_content "Правила накладываются друг на друга"
-        end
+        expect(page).to have_content "Правила накладываются друг на друга"
+      end
 
-        it "prevents overlapping dailyprice rules" do
-          check "#price_daily_price_rules_attributes_0_working_days_1"
-          fill_in "price_daily_price_rules_attributes_0_value", with: "300"
-          click "Добавить правило"
-          check "#price_daily_price_rules_attributes_1_working_days_1"
-          fill_in "price_daily_price_rules_attributes_1_value", with: "300"
-          click "Сохранить период"
+      it "prevents overlapping dailyprice rules" do
+        check "price_daily_price_rules_attributes_0_working_days_1"
+        fill_in "price_daily_price_rules_attributes_0_value", with: "300"
+        click_link "+ добавить правило"
+        check "price_daily_price_rules_attributes_1_working_days_1"
+        fill_in "price_daily_price_rules_attributes_1_value", with: "300"
+        click_link "Сохранить период"
 
-          expect(page).to have_content "Правила накладываются друг на друга"
-        end
+        expect(page).to have_content "Правила накладываются друг на друга"
       end
     end
   end
 
   describe "orders listing" do
+    let(:event) {create(:event, area: area)}
+    let(:another_event) {create(:event, area: area)}
+    let(:order) {create(:order, events: [event, another_event], status: :paid)}
 
+    let(:unpaid_event) {create(:event, area: area)}
+
+    let(:third_event) {create(:event)}
+    let(:order) {create(:order, events: [third_event], status: :paid)}
+
+    before(:each) do
+      visit edit_dashboard_product_path
+      within(".dashboard-nav") { click_link "Заказы" }
+    end
+
+    it "should display paid events of this stadium" do
+      expect(page).to have_selector('table tbody tr', :count => 2)
+    end
   end
 
   describe "withdrawing money" do
