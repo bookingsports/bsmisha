@@ -24,12 +24,6 @@ describe Coach do
   it { should have_many(:areas) }
   it { should have_one(:account) }
 
-  describe "#account" do
-    it "should be created on initialize" do
-      expect(@coach.account).not_to be_nil
-    end
-  end
-
   describe "#name" do
     it "should be delegated to user" do
       expect(@coach.name).to eq "Coach"

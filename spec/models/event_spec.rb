@@ -41,7 +41,7 @@ RSpec.describe Event do
       let!(:overlap_price) { create(:price, area: area, start: Time.zone.parse('10:00')+1.day, stop: Time.zone.parse('14:00')+1.day)}
 
       let!(:daily_price_rule) { create(:daily_price_rule, price: overlap_price, start: Time.zone.parse('10:00'), stop: Time.zone.parse('12:00'), working_days: [event.wday]) }
-      let!(:daily_price_rule_2) { create(:daily_price_rule, price: overlap_price, start: Time.zone.parse('12:00'), stop: Time.zone.parse('14:00'), working_days: (1..7).to_a) }
+      let!(:daily_price_rule_2) { create(:daily_price_rule, price: overlap_price, start: Time.zone.parse('12:00'), stop: Time.zone.parse('14:00'), working_days: (0..6).to_a) }
 
       it 'should return prices that have stops between event start and event stop' do
         event.start = Time.zone.parse('11:00')+1.day
@@ -78,6 +78,8 @@ RSpec.describe Event do
       it 'should return only daily price rules that has same working days' do
         event.start = Time.zone.parse('11:00')+1.day
         event.stop = event.start + 2.hours
+        event.save
+        event.reload
 
         expect(event.daily_price_rules.count).to eq 2
         expect(event.daily_price_rules).to include daily_price_rule
@@ -95,6 +97,8 @@ RSpec.describe Event do
       it 'should return only daily price rules that overlaps by event.start and event.stop' do
         event.start = Time.zone.parse('09:00')+1.day
         event.stop = event.start + 2.hours
+        event.save
+        event.reload
 
         expect(event.daily_price_rules.count).to eq 1
         expect(event.daily_price_rules).to include daily_price_rule
@@ -236,25 +240,38 @@ RSpec.describe Event do
     describe '#price' do
       let!(:area) { create(:area, events: [event]) }
       let!(:price) { create(:price, area: area) }
-      let!(:daily_price_rule) { create(:daily_price_rule, start: Time.zone.parse('07:00'), stop: Time.zone.parse('19:00'), value: 1234.0, working_days: (1..7).to_a, price: price) }
-      let!(:daily_price_rule_2) { create(:daily_price_rule, start: Time.zone.parse('10:00'), stop: Time.zone.parse('12:00'), value: 1000.0, working_days: [7], price: price) }
+      let!(:daily_price_rule) { create(:daily_price_rule, start: Time.zone.parse('07:00'), stop: Time.zone.parse('23:00'), value: 1234.0, working_days: (0..6).to_a, price: price) }
 
       context 'without stadium services' do
         context 'without occurences' do
           it 'shows price of a area for event duration hours' do
             event.stop = event.start + 2.hours
+            event.save
+            event.reload
+            event.save
+            event.reload
             expect(event.price).to eq 2468.0
 
             event.stop = event.start + 1.hours
+            event.save
+            event.reload
             expect(event.price).to eq 1234.0
 
             event.stop = event.start + 30.minutes
+            event.save
+            event.reload
             expect(event.price).to eq 617.0
           end
 
           it 'should calc daily price rules' do
+            daily_price_rule1 = create(:daily_price_rule, start: Time.zone.parse('11:00'), stop: Time.zone.parse('12:00'), value: 1234.0, working_days: [0], price: price)
+            daily_price_rule2 = create(:daily_price_rule, start: Time.zone.parse('12:00'), stop: Time.zone.parse('13:00'), value: 1000.0, working_days: [0], price: price)
+            daily_price_rule.destroy
+
             event.start = Time.zone.parse('2017-02-12 11:00')
             event.stop = event.start + 2.hours
+            event.save
+            event.reload
 
             expect(event.wday).to eq 0
             expect(event.daily_price_rules.count).to eq 2
@@ -267,7 +284,8 @@ RSpec.describe Event do
             event.recurrence_rule = 'FREQ=DAILY;COUNT=10'
             event.area = area
             event.stop = event.start + 3.5.hours
-            expect(event.price).to eq 250 * 3.5 * 10
+            event.save
+            expect(event.price).to eq 1234 * 3.5 * 10
           end
         end
       end

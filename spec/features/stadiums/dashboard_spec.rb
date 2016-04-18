@@ -11,31 +11,54 @@ RSpec.feature "dashboard" do
   end
 
   describe "coaches section" do
-    it "lets you create coach" do
-      visit dashboard_coach_users_path
-      click_link "Создать тренера"
+    context "displaying coaches" do
+      let(:another_stadium_user) {create(:stadium_user)}
+      let(:another_area) {another_stadium_user.stadium.areas.first}
 
-      fill_in "Имя", with: "Имя"
-      fill_in "Эл. почта", with: "test_coach@example.com"
-      fill_in "Пароль", with: "123123123"
-      fill_in "Подтверждение пароля", with: "123123123"
+      it "doesn't display other stadiums' coaches" do
+        coach_user = create(:coach_user)
+        coaches_area = coach_user.coach.coaches_areas.create area: another_area, price: 100, stadium_percent: 30
 
-      # click_link "Добавить"
+        visit dashboard_coach_users_path
+        expect(page).not_to have_content coach_user.name
+      end
 
-      expect{ click_button "Сохранить" }.to change(CoachUser, :count).by 1
-      expect(page).to have_text CoachUser.last.coach.name
+      it "displays this stadium's coaches" do
+        coach_user = create(:coach_user)
+        coaches_area = coach_user.coach.coaches_areas.create area: area, price: 100, stadium_percent: 30
+
+        visit dashboard_coach_users_path
+        expect(page).to have_content coach_user.name
+      end
     end
 
-    it "lets you edit coach" do
+    context "editing coaches" do
+      it "lets you confirm coaches" do
+        coach_user = create(:coach_user, name: "Антон")
+        coaches_area = coach_user.coach.coaches_areas.create area: area, price: 100, stadium_percent: 30, status: :pending
+
+        visit dashboard_coach_users_path
+        click_link "Подтвердить"
+        expect(coaches_area.reload.status).to eq "active"
+      end
+
+      it "lets you block coaches" do
+        coach_user = create(:coach_user, name: "Антон")
+        coaches_area = coach_user.coach.coaches_areas.create area: area, price: 100, stadium_percent: 30, status: :active
+
+        visit dashboard_coach_users_path
+        click_link "Заблокировать"
+        expect(coaches_area.reload.status).to eq "locked"
+      end
+    end
+
+    it "lets you unblock coaches" do
       coach_user = create(:coach_user, name: "Антон")
-      coach_user.coach.coaches_areas.create area: area, price: 100
+      coaches_area = coach_user.coach.coaches_areas.create area: area, price: 100, stadium_percent: 30, status: :locked
 
       visit dashboard_coach_users_path
-      click_link "Редактировать"
-      fill_in "Имя", with: "Антонбей"
-      click_button "Сохранить"
-
-      expect(area.coaches.last.name).to eq("Антонбей")
+      click_link "Разблокировать"
+      expect(coaches_area.reload.status).to eq "active"
     end
   end
 =begin
