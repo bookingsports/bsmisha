@@ -41,6 +41,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
       workDayEnd: @closes_at
       min: new Date()
       showWorkHours: true
+      mobile: true
       editable:
         template: $("#eventFormTemplate").html()
         create: @url().indexOf('grid') == -1
