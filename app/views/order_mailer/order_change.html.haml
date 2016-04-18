@@ -14,9 +14,9 @@
       %tr
         %td= event.area.name
         %td= event.start
-        %td= event.end
+        %td= event.stop
         %td= event.duration
         %td= t('repeats', count: event.occurrences) + ' ' + (event.schedule.to_s if event.recurring?).to_s
-        %td= event.total
+        %td= event.price
 
 был изменен, статус: #{@order.human_status}, комментарий: #{@order.comment}

@@ -22,6 +22,12 @@ class Order < ActiveRecord::Base
   has_many :areas, through: :events
   accepts_nested_attributes_for :events
 
+  after_save do
+    if unpaid?
+      update_columns("total" =>  calculate_total)
+    end
+  end
+
   enum status: [:unpaid, :paid, :change, :rain, :other]
 
   def name
@@ -32,7 +38,7 @@ class Order < ActiveRecord::Base
     (events.map(&:area_id) + event_changes.map{|e| e.event.area_id}).uniq
   end
 
-  def total
+  def calculate_total
     _total = events.map(&:price).inject(:+).to_i + event_changes.map(&:total).inject(:+).to_i - Recoupment.where(area: area_ids).uniq.map(&:price).sum
     _total < 0 ? 0 : _total
   end
@@ -54,7 +60,7 @@ class Order < ActiveRecord::Base
   end
 
   def associated_emails
-    events.map(&:area).flatten.uniq.map(&:email).to_a
+    events.map{|e| e.area.stadium.user.email}.flatten.uniq.to_a
   end
 
   def pay!
