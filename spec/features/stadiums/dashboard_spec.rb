@@ -118,22 +118,9 @@ RSpec.feature "dashboard" do
       end
 
       it "prevents overlapping dailyprice rules when working days are overlapping" do
-        check "price_daily_price_rules_attributes_0_working_days_1"
-        fill_in "price_daily_price_rules_attributes_0_value", with: "300"
-        click_link "+ добавить правило"
-        check "price_daily_price_rules_attributes_1_working_days_1"
-        fill_in "price_daily_price_rules_attributes_1_value", with: "300"
-        click_link "Сохранить период"
-
-        expect(page).to have_content "Правила накладываются друг на друга"
-      end
-
-      it "prevents overlapping dailyprice rules" do
-        check "price_daily_price_rules_attributes_0_working_days_1"
-        fill_in "price_daily_price_rules_attributes_0_value", with: "300"
-        click_link "+ добавить правило"
-        check "price_daily_price_rules_attributes_1_working_days_1"
-        fill_in "price_daily_price_rules_attributes_1_value", with: "300"
+        find(".add_fields").click
+        all("input.check_boxes").each {|e| e.click }
+        all(".numeric.integer").each {|e| fill_in e[:id], with: 300}
         click_link "Сохранить период"
 
         expect(page).to have_content "Правила накладываются друг на друга"
@@ -142,22 +129,27 @@ RSpec.feature "dashboard" do
   end
 
   describe "orders listing" do
-    let(:event) {create(:event, area: area)}
-    let(:another_event) {create(:event, area: area)}
-    let(:order) {create(:order, events: [event, another_event], status: :paid)}
+    let!(:order) {create(:order, status: :paid)}
+    let!(:event) {create(:event, order: order, area: area)}
+    let!(:another_event) {create(:event, order: order, area: area)}
 
-    let(:unpaid_event) {create(:event, area: area)}
+    let!(:unpaid_event) {create(:event, area: area)}
 
-    let(:third_event) {create(:event)}
-    let(:order) {create(:order, events: [third_event], status: :paid)}
+    let!(:another_order) {create(:order, status: :paid)}
+    let!(:third_event) {create(:event, order: another_order)}
 
     before(:each) do
       visit edit_dashboard_product_path
       within(".dashboard-nav") { click_link "Заказы" }
+      byebug
     end
 
     it "should display paid events of this stadium" do
       expect(page).to have_selector('table tbody tr', :count => 2)
+    end
+
+    it "should not display paid events of other stadium" do
+
     end
   end
 
