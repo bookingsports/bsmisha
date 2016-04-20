@@ -65,6 +65,12 @@ Rails.application.routes.draw do
   post 'payments/success'
   post 'payments/failure'
 
+  scope 'robokassa' do
+    post 'paid'    => 'payments#paid'
+    post 'success' => 'payments#success'
+    post 'fail'    => 'payments#failure'
+  end
+
   resources :orders do
     member do
       patch 'pay'
