@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.feature "dashboard" do
+RSpec.feature "dashboard", :js do
 
-  let(:stadium_user) {create(:stadium_user)}
-  let(:area) {stadium_user.stadium.areas.first}
-  let(:category) {Category.create!(name: "Футбол")}
+  let!(:stadium_user) {create(:stadium_user)}
+  let!(:area) {stadium_user.stadium.areas.first}
+  let!(:category) {Category.create!(name: "Футбол")}
 
   before(:each) do
     signin(stadium_user.email, stadium_user.password)
@@ -12,8 +12,8 @@ RSpec.feature "dashboard" do
 
   describe "coaches section" do
     context "displaying coaches" do
-      let(:another_stadium_user) {create(:stadium_user)}
-      let(:another_area) {another_stadium_user.stadium.areas.first}
+      let!(:another_stadium_user) {create(:stadium_user)}
+      let!(:another_area) {another_stadium_user.stadium.areas.first}
 
       it "doesn't display other stadiums' coaches" do
         coach_user = create(:coach_user)
@@ -39,6 +39,7 @@ RSpec.feature "dashboard" do
 
         visit dashboard_coach_users_path
         click_link "Подтвердить"
+        sleep 1
         expect(coaches_area.reload.status).to eq "active"
       end
 
@@ -48,6 +49,7 @@ RSpec.feature "dashboard" do
 
         visit dashboard_coach_users_path
         click_link "Заблокировать"
+        sleep 1
         expect(coaches_area.reload.status).to eq "locked"
       end
     end
@@ -58,6 +60,7 @@ RSpec.feature "dashboard" do
 
       visit dashboard_coach_users_path
       click_link "Разблокировать"
+      sleep 1
       expect(coaches_area.reload.status).to eq "active"
     end
   end
@@ -98,7 +101,7 @@ RSpec.feature "dashboard" do
     it "should fail when deleting area that has events" do
       event = create(:event, area: area)
       visit edit_dashboard_product_path
-      page.find("#product_areas_attributes_0__destroy").click
+      click_on"Удалить площадку"
       click_button "Сохранить стадион"
 
       expect(page).to have_content "Нельзя удалить площадку, у которой еще есть заказы"
@@ -108,20 +111,21 @@ RSpec.feature "dashboard" do
       before(:each) do
         visit edit_dashboard_product_path
         click_link "Настроить цены"
-        click_link "Создать период"
+        click_on "Создать период"
       end
 
       it "displays an error if a price is not set" do
         fill_in "price_daily_price_rules_attributes_0_value", with: ""
-        click_link "Сохранить период"
+        click_on "Создать период"
         expect(page).to have_content "Были введены неверные данные"
       end
 
       it "prevents overlapping dailyprice rules when working days are overlapping" do
         find(".add_fields").click
-        all("input.check_boxes").each {|e| e.click }
+        sleep 0.5
+        all("input.check_boxes.optional").each {|e| check(e[:id]) }
         all(".numeric.integer").each {|e| fill_in e[:id], with: 300}
-        click_link "Сохранить период"
+        click_on "Создать период"
 
         expect(page).to have_content "Правила накладываются друг на друга"
       end
@@ -141,7 +145,6 @@ RSpec.feature "dashboard" do
     before(:each) do
       visit edit_dashboard_product_path
       within(".dashboard-nav") { click_link "Заказы" }
-      byebug
     end
 
     it "should display paid events of this stadium" do
