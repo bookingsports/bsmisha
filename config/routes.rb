@@ -92,7 +92,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :deposit_requests
+  resources :deposit_requests do
+    member do
+      get 'pay'
+    end
+  end
 
   constraints RoleRouteConstraint.new('admin') do
     namespace :dashboard do
