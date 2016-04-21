@@ -3,7 +3,7 @@ class DepositRequestData
 
   class << self
     def query_string
-      "MerchantLogin={merchant_login}&OutSum={amount}&SignatureValue={signature_value}&InvDesc={order_description}&InvId={inv_id}&ResultURL={result_url}&IsTest={is_test}"
+      "MerchantLogin={merchant_login}&OutSum={amount}&SignatureValue={signature_value}&InvDesc={order_description}&InvId={inv_id}&IsTest={is_test}"
     end
 
     def md5_string

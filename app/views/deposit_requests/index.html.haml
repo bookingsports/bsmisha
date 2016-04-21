@@ -23,5 +23,7 @@
           %td= t request.status || 'none'
           - if request.pending?
             %td= link_to "Оплатить", pay_deposit_request_path(request)
+          - else
+            %td
 - else
   Пока ни одного.
