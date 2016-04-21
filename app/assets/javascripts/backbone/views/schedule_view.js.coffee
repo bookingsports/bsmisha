@@ -32,6 +32,20 @@ class Tennis.Views.ScheduleView extends Backbone.View
       scheduler.dataSource.read()
       scheduler.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.js')
 
+      $("#scheduler").on("click", ".k-scheduler-table td, .k-event", (e) =>
+        e.stopPropagation();
+        target = $(e.currentTarget);
+        ee=e;
+        if (target.hasClass("k-si-close"))
+          return
+        else if (target.hasClass("k-event"))
+          event = scheduler.occurrenceByUid(target.data("uid"));
+          scheduler.editEvent(event);
+        else
+          slot = scheduler.slotByElement(target[0]);
+          scheduler.addEvent({ start: slot.startDate, end: slot.endDate });
+      )
+
   render: ->
     @$el.kendoScheduler
       culture: 'ru-RU'

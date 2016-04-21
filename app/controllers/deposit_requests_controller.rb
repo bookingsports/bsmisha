@@ -29,6 +29,11 @@ class DepositRequestsController < DashboardController
     end
   end
 
+  def pay
+    @request = DepositRequest.find(params[:id])
+    redirect_to @request.data.payment_url
+  end
+
   def new
   end
 

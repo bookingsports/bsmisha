@@ -4,7 +4,7 @@ require 'rails_helper'
 #   As a user
 #   I want to sign out
 #   So I can protect my account from unauthorized access
-RSpec.feature "Sign out" do
+RSpec.feature "Sign out", :js do
   # Scenario: User signs out successfully
   #   Given I am signed in
   #   When I sign out
@@ -14,7 +14,8 @@ RSpec.feature "Sign out" do
     signin(user.email, user.password)
     expect(page).to have_content(I18n.t("devise.sessions.signed_in"))
 
-    find("a[href='/users/sign_out']", visible: false).click
+    find("a.dropdown-toggle").click
+    find("a[href='/users/sign_out']").click
 
     expect(page).to have_content(I18n.t("devise.sessions.signed_out"))
   end

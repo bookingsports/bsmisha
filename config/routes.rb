@@ -62,6 +62,7 @@ Rails.application.routes.draw do
   end
   # resources :changes, only: :create
 
+  post 'payments/process'
   post 'payments/success'
   post 'payments/failure'
 
@@ -91,7 +92,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :deposit_requests
+  resources :deposit_requests do
+    member do
+      get 'pay'
+    end
+  end
 
   constraints RoleRouteConstraint.new('admin') do
     namespace :dashboard do

@@ -10,7 +10,7 @@ RSpec.feature "Sign Up", :devise do
   #   When I sign up with a valid email address and password and choose Тип Стадион
   #   Then I see a successful sign up message
   scenario "stadium owner visitor can sign up with valid email address and password" do
-    sign_up_with("test@example.com", "please123", "please123", "Стадион")
+    sign_up_with("Test User", "test@example.com", "please123", "please123", "Стадион")
     txts = [
       I18n.t( "devise.registrations.signed_up"),
       I18n.t( "devise.registrations.signed_up_but_unconfirmed")
@@ -20,7 +20,7 @@ RSpec.feature "Sign Up", :devise do
   end
 
   scenario "Стадион недоступен для пользователей сразу после регистрации стадиона" do
-    sign_up_with("test@example.com", "please123", "please123", "Стадион")
+    sign_up_with("Test User", "test@example.com", "please123", "please123", "Стадион")
     click_link "Стадионы"
 
     expect(find(:css, ".stadiums").all("*")).to be_empty

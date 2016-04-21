@@ -14,40 +14,90 @@
 require 'rails_helper'
 
 RSpec.describe Order do
-  let(:area) {create(:area)}
-  let(:price) {create(:price, area: area, start: Time.zone.parse("12:00") - 100.years, stop: Time.zone.parse("12:00") + 100.years)}
-  let(:daily_price_rule) {price.daily_price_rules.first.update value: 300}
-  let(:stadium) {area.stadium}
-  let(:stadium_user) {stadium.user}
-  let(:coach_user) {create(:coach_user)}
-  let(:coach_area) {CoachesArea.create coach: coach, area: area, price: 100}
-  let(:event) {create(:event, area: area, start: Time.zone.parse('12:00')+1.day, stop: Time.zone.parse('15:00')+1.day)}
-  let(:user) {event.user}
-  let(:order) {create(:order, events: [event])}
+  let!(:area) {create(:area)}
+  let!(:stadium) {area.stadium}
+  let!(:stadium_user) {stadium.user}
+  let!(:price) {create(:price, area: area, start: Time.zone.parse("12:00") - 100.years, stop: Time.zone.parse("12:00") + 100.years)}
+  let!(:daily_price_rule) {price.daily_price_rules.create value: 300, working_days: [0,1,2,3,4,5,6], start: stadium.opens_at, stop: stadium.closes_at}
+  let!(:coach_user) {create(:coach_user)}
+  let!(:coach_area) {CoachesArea.create coach: coach_user.coach, area: area, price: 100, stadium_percent: 50}
+  let!(:event) {create(:event, area: area, start: Time.zone.parse('12:00')+1.day, stop: Time.zone.parse('15:00')+1.day, coach: coach_user.coach)}
+  let!(:user) {event.user}
+  let!(:order) {create(:order, events: [event], user: user)}
 
   describe "#total" do
-    it "returns correct value" do
-      expect(order.total).to eq(event.price)
+    context "without recoupments" do
+      it "returns correct value" do
+        expect(order.total).to eq(event.price)
+      end
+    end
+
+    context "with full recoupments" do
+      let!(:recoupment) {Recoupment.create area: area, user: user, price: order.total + 1000}
+      let!(:second_order) {create(:order, events: [event], user: user)}
+
+      it "returns correct value" do
+        expect(second_order.total).to eq(0)
+      end
+    end
+
+    context "with partial recoupments" do
+      let!(:recoupment) {Recoupment.create area: area, user: user, price: 500}
+      let!(:third_order) {create(:order, events: [event], user: user)}
+
+      it "returns correct value" do
+        expect(third_order.total).to eq(1200 - 500)
+      end
     end
   end
 
   describe "#pay!" do
-    it "gives money to whom it belongs" do
-      user.wallet.deposits.create amount: 2000
-      order.pay!
+    context "without recoupments" do
+      it "gives money to whom it belongs" do
+        user.wallet.deposits.create amount: 2000
+        order.pay!
 
-      expect(event.price).to eq 300*3
+        expect(order.total).to eq(300 * 3 + 100 * 3)
+        expect(coach_user.wallet.total).to eq((100 * 3 * (100 - Rails.application.secrets.tax) / 100) * (50.0 / 100))
+        expect(stadium.user.wallet.total).to eq(300 * 3* (100 - Rails.application.secrets.tax) / 100 + (100 * 3 * (100 - Rails.application.secrets.tax) / 100) * (50.0 / 100))
+        expect(user.wallet.total).to eq(2000 - 300 * 3 - 100 * 3)
+      end
 
-      expect(order.total).to eq(300 * 3)
-      #expect(coach_user.wallet.total).to eq(100 * 3 * Rails.application.secrets.tax / 100)
-      expect(area.user.wallet.total).to eq(300 * 3* Rails.application.secrets.tax / 100)
-      expect(user.wallet.total).to eq(2000 - 300 * 3)
+      it "fails when insufficient funds" do
+        expect { order.pay! }.to raise_error "Недостаточно средств"
+      end
     end
 
-    it "fails when insufficient funds" do
-      expect { order.pay! }.not_to change {user.wallet.total}
+    context "with recoupments priced more that order's price" do
+      let!(:recoupment) {Recoupment.create area: area, user: user, price: order.total + 1000}
+      let!(:depositing) {user.wallet.deposits.create amount: 2000}
+
+      it "not charges any money from user" do
+        expect{order.pay!}.to_not change{ user.wallet.total }
+      end
+      it "not sends any money to stadium user" do
+        expect{order.pay!}.to_not change{ stadium_user.wallet.total }
+      end
+      it "not sends any money to coach" do
+        expect{order.pay!}.to_not change{ coach_user.wallet.total }
+      end
     end
 
+    context "with partial recoupments" do
+      let!(:recoupment) {Recoupment.create area: area, user: user, price: 500}
+      let!(:depositing) {user.wallet.deposits.create amount: 2000}
+
+      it "charges part of money from user" do
+        expect{order.pay!}.to change{ user.wallet.total }.by(-(1200 - 500))
+      end
+      #it "sends money to stadium user"do
+      #  expect{order.pay!}.to_not change{ stadium_user.wallet.total }
+      #end
+      #it "sends money to coach" do
+      #  expect{order.pay!}.to_not change{ coach_user.wallet.total }
+      #end
+    end
+  end
 =begin
     it "sends emails to coach" do
       ActionMailer::Base.deliveries.clear
@@ -73,5 +123,4 @@ RSpec.describe Order do
       expect(ActionMailer::Base.deliveries.first.subject).to eq("⚽️ Bookingsports: Занятие перенесено")
     end
 =end
-  end
 end

@@ -1,9 +1,9 @@
 module Features
   module SessionHelpers
-    def sign_up_with(email, password, confirmation, type = nil)
+    def sign_up_with(name, email, password, confirmation, type = nil)
       visit new_user_session_path
       within ".new_registration" do
-        fill_in "Имя", with: "Test User"
+        fill_in "Имя", with: name
         fill_in "Эл. почта", with: email
         fill_in "Пароль", with: password
         fill_in "Подтверждение пароля", :with => confirmation
@@ -19,7 +19,8 @@ module Features
         fill_in "Эл. почта", with: email
         fill_in "Пароль", with: password
       end
-      click_button "Войти"
+      page.execute_script('$(".new_session input[name=\'commit\']").trigger("click")')
+      sleep 0.5
     end
   end
 end

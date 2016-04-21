@@ -30,7 +30,9 @@ FactoryGirl.define do
     phone { Faker::PhoneNumber.cell_phone }
 
     factory :customer, class: 'Customer'
-    factory :coach_user, class: 'CoachUser'
+    factory :coach_user, class: 'CoachUser' do
+      coach
+    end
     factory :admin, class: 'Admin'
     factory :stadium_user, class: 'StadiumUser'
   end

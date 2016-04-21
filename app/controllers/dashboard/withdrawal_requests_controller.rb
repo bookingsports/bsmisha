@@ -20,10 +20,15 @@ class Dashboard::WithdrawalRequestsController < DashboardController
         end
       end
     else
-      @request = current_user.wallet.withdrawal_requests.new request_params
-      @request.save
+      a = current_user.stadium.account
+      if a.number.blank? || a.company.blank? || a.inn.blank? || a.kpp.blank? || a.bik.blank? || a.agreement_number.blank? || a.date.blank?
+        redirect_to edit_account_dashboard_product_url, alert: "Не все реквизиты заполнены!"
+      else
+        @request = current_user.wallet.withdrawal_requests.new request_params
+        @request.save
 
-      redirect_to dashboard_withdrawal_requests_url
+        redirect_to dashboard_withdrawal_requests_url
+      end
     end
   end
 

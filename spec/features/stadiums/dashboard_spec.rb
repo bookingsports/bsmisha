@@ -1,41 +1,210 @@
 require 'rails_helper'
 
-RSpec.feature "dashboard" do
+RSpec.feature "dashboard", :js do
 
-  let(:stadium_user) {create(:stadium_user)}
-  let(:area) {stadium_user.stadium.areas.first}
-  let(:category) {Category.create!(name: "Футбол")}
+  let!(:stadium_user) {create(:stadium_user)}
+  let!(:area) {stadium_user.stadium.areas.first}
+  let!(:category) {Category.create!(name: "Футбол")}
 
   before(:each) do
     signin(stadium_user.email, stadium_user.password)
   end
 
   describe "coaches section" do
-    it "lets you create coach" do
-      visit dashboard_coach_users_path
-      click_link "Создать тренера"
+    context "displaying coaches" do
+      let!(:another_stadium_user) {create(:stadium_user)}
+      let!(:another_area) {another_stadium_user.stadium.areas.first}
 
-      fill_in "Имя", with: "Имя"
-      fill_in "Эл. почта", with: "test_coach@example.com"
-      fill_in "Пароль", with: "123123123"
-      fill_in "Подтверждение пароля", with: "123123123"
+      it "doesn't display other stadiums' coaches" do
+        coach_user = create(:coach_user)
+        coaches_area = coach_user.coach.coaches_areas.create area: another_area, price: 100, stadium_percent: 30
 
-      # click_link "Добавить"
+        visit dashboard_coach_users_path
+        expect(page).not_to have_content coach_user.name
+      end
 
-      expect{ click_button "Сохранить" }.to change(CoachUser, :count).by 1
-      expect(page).to have_text CoachUser.last.coach.name
+      it "displays this stadium's coaches" do
+        coach_user = create(:coach_user)
+        coaches_area = coach_user.coach.coaches_areas.create area: area, price: 100, stadium_percent: 30
+
+        visit dashboard_coach_users_path
+        expect(page).to have_content coach_user.name
+      end
     end
 
-    it "lets you edit coach" do
+    context "editing coaches" do
+      it "lets you confirm coaches" do
+        coach_user = create(:coach_user, name: "Антон")
+        coaches_area = coach_user.coach.coaches_areas.create area: area, price: 100, stadium_percent: 30, status: :pending
+
+        visit dashboard_coach_users_path
+        click_link "Подтвердить"
+        sleep 1
+        expect(coaches_area.reload.status).to eq "active"
+      end
+
+      it "lets you block coaches" do
+        coach_user = create(:coach_user, name: "Антон")
+        coaches_area = coach_user.coach.coaches_areas.create area: area, price: 100, stadium_percent: 30, status: :active
+
+        visit dashboard_coach_users_path
+        click_link "Заблокировать"
+        sleep 1
+        expect(coaches_area.reload.status).to eq "locked"
+      end
+    end
+
+    it "lets you unblock coaches" do
       coach_user = create(:coach_user, name: "Антон")
-      coach_user.coach.coaches_areas.create area: area, price: 100
+      coaches_area = coach_user.coach.coaches_areas.create area: area, price: 100, stadium_percent: 30, status: :locked
 
       visit dashboard_coach_users_path
-      click_link "Редактировать"
-      fill_in "Имя", with: "Антонбей"
-      click_button "Сохранить"
+      click_link "Разблокировать"
+      sleep 1
+      expect(coaches_area.reload.status).to eq "active"
+    end
+  end
 
-      expect(area.coaches.last.name).to eq("Антонбей")
+  describe "stadium editing" do
+    it "should fail when area name is not set" do
+      visit edit_dashboard_product_path
+      fill_in "product_areas_attributes_0_name", with: ""
+      click_button "Сохранить стадион"
+
+      expect(page).to have_content "Были введены неверные данные"
+    end
+
+    it "should fail when area's change price is not set" do
+      visit edit_dashboard_product_path
+      fill_in "product_areas_attributes_0_change_price", with: ""
+      click_button "Сохранить стадион"
+
+      expect(page).to have_content "Были введены неверные данные"
+    end
+
+    it "should fail when area's change price is less than 0" do
+      visit edit_dashboard_product_path
+      fill_in "product_areas_attributes_0_change_price", with: "-5"
+      click_button "Сохранить стадион"
+
+      expect(page).to have_content "Были введены неверные данные"
+    end
+
+    it "should fail when area's change price is more than 100" do
+      visit edit_dashboard_product_path
+      fill_in "product_areas_attributes_0_change_price", with: "300"
+      click_button "Сохранить стадион"
+
+      expect(page).to have_content "Были введены неверные данные"
+    end
+
+    it "should fail when deleting area that has events" do
+      event = create(:event, area: area)
+      visit edit_dashboard_product_path
+      click_on"Удалить площадку"
+      click_button "Сохранить стадион"
+
+      expect(page).to have_content "Нельзя удалить площадку, у которой еще есть заказы"
+    end
+
+    context "prices editing" do
+      before(:each) do
+        visit edit_dashboard_product_path
+        click_link "Настроить цены"
+        click_on "Создать период"
+      end
+
+      it "displays an error if a price is not set" do
+        fill_in "price_daily_price_rules_attributes_0_value", with: ""
+        click_on "Создать период"
+        expect(page).to have_content "Были введены неверные данные"
+      end
+
+      it "prevents overlapping dailyprice rules when working days are overlapping" do
+        find(".add_fields").click
+        sleep 0.5
+        all("input.check_boxes.optional").each {|e| check(e[:id]) }
+        all(".numeric.integer").each {|e| fill_in e[:id], with: 300}
+        click_on "Создать период"
+
+        expect(page).to have_content "Правила накладываются друг на друга"
+      end
+    end
+  end
+
+  describe "orders listing" do
+    let!(:order) {create(:order, status: :paid)}
+    let!(:event) {create(:event, order: order, area: area)}
+    let!(:another_event) {create(:event, order: order, area: area)}
+
+    let!(:unpaid_event) {create(:event, area: area)}
+
+    let!(:another_order) {create(:order, status: :paid)}
+    let!(:third_event) {create(:event, order: another_order)}
+
+    before(:each) do
+      visit edit_dashboard_product_path
+      within(".dashboard-nav") { click_link "Заказы" }
+    end
+
+    it "should display paid events of this stadium" do
+      expect(page).to have_selector('table tbody tr', :count => 2)
+    end
+
+    it "should not display paid events of other stadium" do
+
+    end
+  end
+
+  describe "withdrawing money" do
+    it "should display an error when some of account's fields are not set" do
+      stadium_user.wallet.deposits.create amount: 5000
+
+      visit dashboard_withdrawal_requests_path
+      fill_in "withdrawal_request_amount", with: 3000
+      click_button "Перейти к выводу"
+      expect(page).to have_content "Не все реквизиты заполнены!"
+    end
+
+    it "should not add a withdrawal with negative amount" do
+      stadium_user.wallet.deposits.create amount: 5000
+      stadium_user.stadium.account.update(number: "30101810200000000700", company: "АО “Райффайзенбанк”, 129090, Россия, г. Москва, ул. Троицкая, д.17/1", inn: "7744000302", kpp: "775001001", bik: "044525700", agreement_number: "1234567890", date: Time.now)
+
+      visit dashboard_withdrawal_requests_path
+      fill_in "withdrawal_request_amount", with: -5000
+      click_button "Перейти к выводу"
+      expect(page).to have_selector('table tbody tr', :count => 0)
+    end
+
+    it "should not add a withdrawal with amount more than amount limit" do
+      stadium_user.wallet.deposits.create amount: 5000
+      stadium_user.stadium.account.update(number: "30101810200000000700", company: "АО “Райффайзенбанк”, 129090, Россия, г. Москва, ул. Троицкая, д.17/1", inn: "7744000302", kpp: "775001001", bik: "044525700", agreement_number: "1234567890", date: Time.now)
+
+      visit dashboard_withdrawal_requests_path
+      fill_in "withdrawal_request_amount", with: 50000
+      click_button "Перейти к выводу"
+      expect(page).to have_selector('table tbody tr', :count => 0)
+    end
+
+    it "should not add a withdrawal with amount more than user's total" do
+      stadium_user.wallet.deposits.create amount: 5000
+      stadium_user.stadium.account.update(number: "30101810200000000700", company: "АО “Райффайзенбанк”, 129090, Россия, г. Москва, ул. Троицкая, д.17/1", inn: "7744000302", kpp: "775001001", bik: "044525700", agreement_number: "1234567890", date: Time.now)
+
+      visit dashboard_withdrawal_requests_path
+      fill_in "withdrawal_request_amount", with: 10000
+      click_button "Перейти к выводу"
+      expect(page).to have_selector('table tbody tr', :count => 0)
+    end
+
+    it "should not display an error when all fields are set" do
+      stadium_user.wallet.deposits.create amount: 5000
+      stadium_user.stadium.account.update(number: "30101810200000000700", company: "АО “Райффайзенбанк”, 129090, Россия, г. Москва, ул. Троицкая, д.17/1", inn: "7744000302", kpp: "775001001", bik: "044525700", agreement_number: "1234567890", date: Time.now)
+
+      visit dashboard_withdrawal_requests_path
+      fill_in "withdrawal_request_amount", with: 3000
+      click_button "Перейти к выводу"
+      expect(page).not_to have_content "Не все реквизиты заполнены!"
+      expect(page).to have_selector('table tbody tr', :count => 1)
     end
   end
 =begin

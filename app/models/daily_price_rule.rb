@@ -28,8 +28,8 @@ class DailyPriceRule < ActiveRecord::Base
     start = arel_table['start']
     stop = arel_table['stop']
 
-    event_start = event.start.strftime('%H:%M')
-    event_stop = event.stop.strftime('%H:%M')
+    event_start = event.start.utc.strftime('%H:%M')
+    event_stop = event.stop.utc.strftime('%H:%M')
 
     arel_table['working_days'].any(event.wday)
     .and(start.gteq(event_start).and(start.lt(event_stop))

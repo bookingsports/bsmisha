@@ -14,11 +14,16 @@
         %th Дата
         %th Количество
         %th Результат
+        %th
     %tbody
       - @requests.each do |request|
         %tr
           %td= l request.created_at, format: :short
           %td= number_to_currency request.amount, precision: 0
           %td= t request.status || 'none'
+          - if request.pending?
+            %td= link_to "Оплатить", pay_deposit_request_path(request)
+          - else
+            %td
 - else
   Пока ни одного.
