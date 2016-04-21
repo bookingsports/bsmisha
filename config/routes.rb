@@ -62,14 +62,9 @@ Rails.application.routes.draw do
   end
   # resources :changes, only: :create
 
+  post 'payments/process'
   post 'payments/success'
   post 'payments/failure'
-
-  scope 'robokassa' do
-    post 'paid'    => 'payments#paid'
-    post 'success' => 'payments#success'
-    post 'fail'    => 'payments#failure'
-  end
 
   resources :orders do
     member do
