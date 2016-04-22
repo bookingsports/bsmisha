@@ -20,7 +20,7 @@ class DepositRequestData
     @order_description = "Пополнение кошелька в системе BookingSports"
     @result_url = CGI::escape(Rails.application.secrets.payment_result_url)
     @signature_value = Digest::MD5.hexdigest("#{@merchant_login}:#{@amount}:#{@inv_id}:#{Rails.application.secrets.merchant_password1}")
-    @is_test = Rails.env.production? ? "0" : "1"
+    @is_test = Rails.application.secrets.payment_is_test
   end
 
   def query_string
