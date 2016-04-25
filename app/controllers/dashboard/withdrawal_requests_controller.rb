@@ -14,9 +14,11 @@ class Dashboard::WithdrawalRequestsController < DashboardController
           redirect_to edit_account_dashboard_product_url, alert: "Не все реквизиты заполнены!"
         else
           @request = current_user.wallet.withdrawal_requests.new request_params
-          @request.save
-
-          redirect_to dashboard_withdrawal_requests_url
+          if @request.save
+            redirect_to dashboard_withdrawal_requests_url, notice: "Запрос на вывод средств создан."
+          else
+            redirect_to dashboard_withdrawal_requests_url, notice: "Возникла ошибка."
+          end
         end
       end
     else
@@ -25,9 +27,11 @@ class Dashboard::WithdrawalRequestsController < DashboardController
         redirect_to edit_account_dashboard_product_url, alert: "Не все реквизиты заполнены!"
       else
         @request = current_user.wallet.withdrawal_requests.new request_params
-        @request.save
-
-        redirect_to dashboard_withdrawal_requests_url
+        if @request.save
+          redirect_to dashboard_withdrawal_requests_url, notice: "Запрос на вывод средств создан."
+        else
+          redirect_to dashboard_withdrawal_requests_url, alert: "Возникла ошибка."
+        end
       end
     end
   end
