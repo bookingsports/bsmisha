@@ -40,6 +40,6 @@ class DepositRequestsController < DashboardController
   private
 
     def dr_params
-      params.require(:deposit_request).permit(:amount)
+      params.require(:deposit_request).permit(:amount, :payment_method)
     end
 end

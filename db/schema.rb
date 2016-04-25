@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160414091354) do
+ActiveRecord::Schema.define(version: 20160425112009) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -102,12 +102,13 @@ ActiveRecord::Schema.define(version: 20160414091354) do
 
   create_table "deposit_requests", force: :cascade do |t|
     t.integer  "wallet_id"
-    t.integer  "status",                             default: 0
-    t.decimal  "amount",     precision: 8, scale: 2
+    t.integer  "status",                                 default: 0
+    t.decimal  "amount",         precision: 8, scale: 2
     t.text     "data"
     t.string   "uuid"
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
+    t.integer  "payment_method",                         default: 0
   end
 
   add_index "deposit_requests", ["wallet_id"], name: "index_deposit_requests_on_wallet_id", using: :btree

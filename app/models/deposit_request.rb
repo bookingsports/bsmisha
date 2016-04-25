@@ -18,7 +18,7 @@ class DepositRequest < ActiveRecord::Base
   has_paper_trail
 
   belongs_to :wallet
-  composed_of :data, class_name: 'DepositRequestData', mapping: [%w(id order_id), %w(amount amount)]
+  composed_of :data, class_name: 'DepositRequestData', mapping: [%w(id order_id), %w(amount amount), %w(payment_method payment_method), %w(wallet.user.id customer_number)]
   has_many :deposit_responses, dependent: :destroy
 
   validates :amount, numericality: { greater_than: 0, less_than_or_equal_to: Rails.application.secrets.amount_limit }
@@ -26,6 +26,7 @@ class DepositRequest < ActiveRecord::Base
   before_save { self.uuid = SecureRandom.uuid }
 
   enum status: [:pending, :success, :failure]
+  enum payment_method:  [:robokassa, :yandex_kassa]
 
   def name
     "Запрос депозита №#{id} #{wallet_id.present? ? 'кошелька №' + wallet.id.to_s : ''}"

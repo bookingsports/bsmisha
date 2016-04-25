@@ -3,7 +3,9 @@
   .row
     .col-xs-4
       = f.input :amount, label: 'Сумма', hint: "Макс. сумма: #{number_to_currency(Rails.application.secrets.amount_limit, locale: :ru)}", as: :integer, input_html: { max: Rails.application.secrets.amount_limit, value: 5000 }
-    .col-xs-8
+    .col-xs-4
+      = f.input :payment_method, label: 'Метод оплаты', collection: DepositRequest.payment_methods.map {|k,v| [I18n.t("enums.deposit_request.payment_method.#{k}"), k] }, selected: 0
+    .col-xs-4
       = f.button :submit, 'Пополнить'
 
 %h3 История
@@ -14,6 +16,7 @@
         %th Дата
         %th Количество
         %th Результат
+        %th Метод оплаты
         %th
     %tbody
       - @requests.each do |request|
@@ -21,6 +24,7 @@
           %td= l request.created_at, format: :short
           %td= number_to_currency request.amount, precision: 0
           %td= t request.status || 'none'
+          %td= t "enums.deposit_request.payment_method.#{request.payment_method}"
           - if request.pending?
             %td= link_to "Оплатить", pay_deposit_request_path(request)
           - else

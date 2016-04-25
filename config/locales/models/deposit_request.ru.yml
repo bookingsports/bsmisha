@@ -5,6 +5,9 @@ ru:
         success: Успешно
         failure: Неудача
         pending: В ожидании
+      payment_method:
+        robokassa: Robokassa
+        yandex_kassa: Яндекс.Касса
   activerecord:
     models:
       deposit_request:
