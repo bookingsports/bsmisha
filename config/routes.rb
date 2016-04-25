@@ -62,7 +62,7 @@ Rails.application.routes.draw do
   end
   # resources :changes, only: :create
 
-  post 'payments/process'
+  post 'payments/process_order'
   post 'payments/success'
   post 'payments/failure'
 
