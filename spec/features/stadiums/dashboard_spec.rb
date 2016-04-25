@@ -39,7 +39,7 @@ RSpec.feature "dashboard", :js do
 
         visit dashboard_coach_users_path
         click_link "Подтвердить"
-        sleep 1
+        sleep 2
         expect(coaches_area.reload.status).to eq "active"
       end
 
@@ -49,7 +49,7 @@ RSpec.feature "dashboard", :js do
 
         visit dashboard_coach_users_path
         click_link "Заблокировать"
-        sleep 1
+        sleep 2
         expect(coaches_area.reload.status).to eq "locked"
       end
     end
@@ -60,7 +60,7 @@ RSpec.feature "dashboard", :js do
 
       visit dashboard_coach_users_path
       click_link "Разблокировать"
-      sleep 1
+      sleep 2
       expect(coaches_area.reload.status).to eq "active"
     end
   end
@@ -121,9 +121,10 @@ RSpec.feature "dashboard", :js do
       end
 
       it "prevents overlapping dailyprice rules when working days are overlapping" do
+        page.driver.browser.manage.window.maximize
         find(".add_fields").click
         sleep 0.5
-        all("input.check_boxes.optional").each {|e| check(e[:id]) }
+        all("input.check_boxes.optional").each {|e| e.set(true)}
         all(".numeric.integer").each {|e| fill_in e[:id], with: 300}
         click_on "Создать период"
 
