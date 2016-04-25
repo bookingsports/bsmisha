@@ -4,7 +4,7 @@ class PaymentsController < ApplicationController
   before_filter :set_request_and_response
 
   def process_order
-    if params["SignatureValue"] == Digest::MD5.hexdigest("#{@request.amount}:#{@request.id}:#{Rails.application.secrets.merchant_password2}")
+    if params["SignatureValue"] == Digest::MD5.hexdigest("#{@request.amount}:#{@request.id}:#{Rails.application.secrets.merchant_password2}").upcase
       @request.update status: :success
       render text: "OK#{@request.id}", status: 200
     else
