@@ -36,7 +36,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
         e.stopPropagation();
         target = $(e.currentTarget);
         ee=e;
-        if (target.hasClass("k-si-close"))
+        if (@url().indexOf('grid') != -1)
           return
         else if (target.hasClass("k-event"))
           event = scheduler.occurrenceByUid(target.data("uid"));
@@ -273,6 +273,8 @@ class Tennis.Views.ScheduleView extends Backbone.View
       return 'Невозможно сделать заказ на прошедшее время'
     else if @timeIsOccupied(event.start, event.stop, event)
       return 'Это время занято'
+    else if @eventLongerThanOneDay(event.start, event.end, event)
+      return 'Заказ должен начинаться и заканчиваться в один день'
     else if event.paid && event.paidTransfer
       return 'Нельзя изменить оплаченный и перенесенный заказ'
     else if event.visual_type == "confirmed"
@@ -290,6 +292,9 @@ class Tennis.Views.ScheduleView extends Backbone.View
     idx = occurences.indexOf(event)
     occurences.splice(idx, 1) if idx > -1
     if occurences.length > 0 then true else false
+
+  eventLongerThanOneDay: (start, stop) =>
+    if (start == undefined || stop == undefined) || (start.getFullYear() == stop.getFullYear() && start.getMonth() == stop.getMonth() && start.getDate() == stop.getDate()) then false else true
 
   hide_never: () =>
     $(".k-recur-end-never").closest("li").hide()
