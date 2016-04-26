@@ -26,7 +26,7 @@ class DepositRequestData
     @is_test = Rails.application.secrets.payment_is_test
     @shop_id = Rails.application.secrets.shop_id
     @scid = Rails.application.secrets.scid
-    @customer_number = customer_number
+    @customer_number = inv_id
   end
 
   def payment_url
