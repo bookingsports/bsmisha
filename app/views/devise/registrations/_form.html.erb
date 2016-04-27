@@ -11,6 +11,10 @@
       <%= f.email_field :email, class: 'form-control' %>
     </div>
     <div class="form-group">
+      <%= f.label :phone %>
+      <%= f.text_field :phone, class: 'form-control' %>
+    </div>
+    <div class="form-group">
       <%= f.label :type %>
       <%= f.select :type, options_for_select([%w(Стадион StadiumUser ), %w(Тренер CoachUser), %w(Клиент Customer)].reverse, 'Customer'), {}, class: 'form-control' %>
     </div>
