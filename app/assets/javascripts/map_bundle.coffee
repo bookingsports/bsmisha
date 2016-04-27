@@ -15,9 +15,11 @@ class window.CustomMarkerBuilder extends Gmaps.Google.Builders.Marker
     @serviceObject = new(@primitives().marker)(options)
 
   custom_options: ->
+    console.log(@args.attributes)
     {
       icon: @args.attributes.icon
       draggable: @args.attributes.draggable
       position: @args.attributes.position
+      opacity: @args.attributes.opacity
     }
 

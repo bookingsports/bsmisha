@@ -4,7 +4,6 @@ class VisitorsController < ApplicationController
 
     @stadiums = @q.result(distinct: true)
                   .includes(:areas, :pictures)
-                  .active
 
     set_markers @stadiums
   end
