@@ -1,0 +1,23 @@
+%h2 Расписание
+= simple_form_for "", url: one_day_events_path, wrapper: 'horizontal_form' do |f|
+  .row
+    .col-xs-6
+      = f.input :day, label: 'День', as: :datetime, default: @day, discard_hour: true
+    .col-xs-4
+      = f.input :stadium, label: 'Стадион', collection: Stadium.active.map {|s|[s.name, s.id]}, selected: @stadium.to_i
+    .col-xs-4
+      = f.button :submit, 'Выбрать'
+
+-if @events.present?
+  - @events.group_by{|e| e.area.stadium}.each do |connection|
+    %h3= connection.first.name
+    %table.table
+      %thead
+        %tr
+          %th Начало
+          %th Конец
+      %tbody
+      - connection.last.sort_by(&:start).each do |e|
+        %tr
+          %td= e.start
+          %td= e.stop

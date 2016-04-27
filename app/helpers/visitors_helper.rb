@@ -8,7 +8,7 @@ module VisitorsHelper
   end
 
   def stadium_get_category_icon(stadium)
-    if stadium.active?
+    if stadium.active? || stadium.pending?
       stadium.category.try(:icon)
     elsif stadium.locked?
       "gray-icon.png"

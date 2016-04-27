@@ -39,6 +39,8 @@ Rails.application.routes.draw do
       post 'bulk_process', constraints: ButtonParamRouting.new('pay'), action: 'create', controller: 'orders'
       post 'bulk_process', constraints: ButtonParamRouting.new('destroy'), action: 'destroy'
       post 'bulk_process', constraints: ButtonParamRouting.new('confirm'), action: 'confirm'
+      get 'one_day'
+      post 'one_day'
     end
     member do
       get 'ticket'
