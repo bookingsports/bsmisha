@@ -8,7 +8,7 @@
       <% if current_user.total_hours(area: @area) %>
         <%= t('hours', count: number_with_precision(current_user.total_hours(area: @area), precision: 2)) %> на сумму <%= number_to_currency current_user.total(area: @area), precision: 0 %>:</p>
         <ul>
-        <% current_user.events.unpaid.future.where(area: @area).each do |event| %>
+        <% current_user.events.unpaid.future.where(area: @area).sort_by(&:start).each do |event| %>
           <li><%= event.start.strftime("%d.%m.%Y %H:%M") + " - " + event.stop.strftime("%H:%M") + " " + number_to_currency(event.price) %>
           <ul>
             <li>Стоимость площадки: <%= number_to_currency event.area_price %> </li>
