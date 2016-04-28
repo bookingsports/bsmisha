@@ -5,7 +5,7 @@ class PaymentsController < ApplicationController
 
   def process_order
     if @request.robokassa?
-      if params["SignatureValue"] == Digest::MD5.hexdigest("#{@request.amount}:#{@request.id}:#{Rails.application.secrets.merchant_password2}").upcase
+      if params["SignatureValue"] == Digest::MD5.hexdigest("#{params["OutSum"]}:#{@request.id}:#{Rails.application.secrets.merchant_password2}").upcase
         @request.update status: :success
         render text: "OK#{@request.id}", status: 200
       else
