@@ -1,0 +1,7 @@
+%h2 Пополнение кошелька
+= form_tag @request.data.payment_url, authenticity_token: false
+.row
+  - @request.data.yandex_kassa_params.each do |key, value|
+    = hidden_field_tag key.to_s, value.to_s
+  .col-xs-4
+    = submit_tag 'Подтвердить'

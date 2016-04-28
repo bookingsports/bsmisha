@@ -4,7 +4,7 @@
     .col-xs-4
       = f.input :amount, label: 'Сумма', hint: "Макс. сумма: #{number_to_currency(Rails.application.secrets.amount_limit, locale: :ru)}", as: :integer, input_html: { max: Rails.application.secrets.amount_limit, value: 5000 }
     .col-xs-4
-      = f.input :payment_method, label: 'Метод оплаты', collection: DepositRequest.payment_methods.map {|k,v| [I18n.t("enums.deposit_request.payment_method.#{k}"), k] }, selected: 0
+      = f.input :payment_method, as: :hidden, label: 'Метод оплаты', collection: DepositRequest.payment_methods.map {|k,v| [I18n.t("enums.deposit_request.payment_method.#{k}"), k] }, selected: 0
     .col-xs-4
       = f.button :submit, 'Пополнить'
 

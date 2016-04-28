@@ -26,12 +26,11 @@ class DepositRequestData
   end
 
   def payment_url
-    URI::encode "http://auth.robokassa.ru/Merchant/Index.aspx?#{query_string}"
-  end
-
-  def redirect_via_post
-    %Q{<form action="https://money.yandex.ru/eshop.xml" method="post">#{yandex_kassa_params.map{|k,v| %Q{<input type=
-"hidden" name="#{k}" value="#{v}" />}}.join('')}</form><script>document.forms[0].submit()</script>}
+    if @payment_method == 0
+      URI::encode "http://auth.robokassa.ru/Merchant/Index.aspx?#{query_string}"
+    else
+      URI::encode "https://money.yandex.ru/eshop.xml"
+    end
   end
 
   def yandex_kassa_params
