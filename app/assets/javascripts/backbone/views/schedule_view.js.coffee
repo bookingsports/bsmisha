@@ -271,10 +271,12 @@ class Tennis.Views.ScheduleView extends Backbone.View
   validate: (start, stop, event) =>
     if @timeIsPast(event.start)
       return 'Невозможно сделать заказ на прошедшее время'
-    else if @timeIsOccupied(event.start, event.stop, event)
+    else if @timeIsOccupied(event.start, event.end, event)
       return 'Это время занято'
     else if @eventLongerThanOneDay(event.start, event.end, event)
       return 'Заказ должен начинаться и заканчиваться в один день'
+    else if @hasSpanOfHalfAnHour(event.start - 1000 * 60 * 60, event.end + 1000 * 60 * 60)
+      return 'Окна между заказами должны быть длиной в час или более'
     else if event.paid && event.paidTransfer
       return 'Нельзя изменить оплаченный и перенесенный заказ'
     else if event.visual_type == "confirmed"
@@ -295,6 +297,10 @@ class Tennis.Views.ScheduleView extends Backbone.View
 
   eventLongerThanOneDay: (start, stop) =>
     if (start == undefined || stop == undefined) || (start.getFullYear() == stop.getFullYear() && start.getMonth() == stop.getMonth() && start.getDate() == stop.getDate()) then false else true
+
+  hasSpanOfHalfAnHour: (start, stop) =>
+    occurences = @scheduler().occurrencesInRange(start, stop)
+    if occurences.length > 1 then true else false
 
   hide_never: () =>
     $(".k-recur-end-never").closest("li").hide()
