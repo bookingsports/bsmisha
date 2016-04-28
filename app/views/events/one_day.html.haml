@@ -21,11 +21,9 @@
                 %th Начало
                 %th Конец
                 %th Покупатель
-                %th Оплачено?
             %tbody
             - by_area.sort_by(&:start).each do |e|
               %tr
                 %td= e.start.strftime("%H:%M")
                 %td= e.stop.strftime("%H:%M")
                 %td= e.user.name
-                %td= e.paid? ? "Да" : "Нет"
