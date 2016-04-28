@@ -6,7 +6,7 @@ json.markers do
       json.lng s.longitude.to_f
     end
     json.name s.name
-    json.opacity (s.active? ? 1 : 0.3)
+    json.opacity (s.active? ? 1 : 0.5)
     json.infowindow stadium_infowindow(s)
   end
 end
