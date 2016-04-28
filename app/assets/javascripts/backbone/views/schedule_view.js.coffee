@@ -275,7 +275,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
       return 'Это время занято'
     else if @eventLongerThanOneDay(event.start, event.end, event)
       return 'Заказ должен начинаться и заканчиваться в один день'
-    else if @hasSpanOfHalfAnHour(event.start - 1000 * 60 * 60, event.end + 1000 * 60 * 60)
+    else if @hasSpanOfHalfAnHour(event.start, event.end)
       return 'Окна между заказами должны быть длиной в час или более'
     else if event.paid && event.paidTransfer
       return 'Нельзя изменить оплаченный и перенесенный заказ'
@@ -299,8 +299,11 @@ class Tennis.Views.ScheduleView extends Backbone.View
     if (start == undefined || stop == undefined) || (start.getFullYear() == stop.getFullYear() && start.getMonth() == stop.getMonth() && start.getDate() == stop.getDate()) then false else true
 
   hasSpanOfHalfAnHour: (start, stop) =>
-    occurences = @scheduler().occurrencesInRange(start, stop)
-    if occurences.length > 1 then true else false
+    occurencesBefore1 = @scheduler().occurrencesInRange(new Date(start.getTime() - 1000 * 60 * 30), start).length
+    occurencesBefore2 = @scheduler().occurrencesInRange(new Date(start.getTime() - 1000 * 60 * 60), new Date(start.getTime() - 1000 * 60 * 30)).length
+    occurencesAfter1 = @scheduler().occurrencesInRange(stop, new Date(stop.getTime() + 1000 * 60 * 30)).length
+    occurencesAfter2 = @scheduler().occurrencesInRange(new Date(stop.getTime() + 1000 * 60 * 30), new Date(stop.getTime() + 1000 * 60 * 60)).length
+    if occurencesBefore1 - occurencesBefore2 >= 0 && occurencesAfter1 - occurencesAfter2 >= 0 then false else true
 
   hide_never: () =>
     $(".k-recur-end-never").closest("li").hide()
