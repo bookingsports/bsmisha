@@ -2,11 +2,7 @@ class DepositRequestData
   include Payments::Utility
 
   def query_string
-    if @payment_method == 0
-      interpolate "MerchantLogin={merchant_login}&OutSum={amount}&SignatureValue={signature_value}&InvDesc={order_description}&InvId={inv_id}&IsTest={is_test}"
-    else
-      interpolate "shopId={shop_id}&scid={scid}&sum={amount}&customerNumber={customer_number}&orderNumber={inv_id}"
-    end
+    interpolate "MerchantLogin={merchant_login}&OutSum={amount}&SignatureValue={signature_value}&InvDesc={order_description}&InvId={inv_id}&IsTest={is_test}"
   end
 
   def md5_string
@@ -30,10 +26,15 @@ class DepositRequestData
   end
 
   def payment_url
-    if @payment_method == 0
-      URI::encode "http://auth.robokassa.ru/Merchant/Index.aspx?#{query_string}"
-    else
-      URI::encode "https://money.yandex.ru/eshop.xml?#{query_string}"
-    end
+    URI::encode "http://auth.robokassa.ru/Merchant/Index.aspx?#{query_string}"
+  end
+
+  def redirect_via_post
+    %Q{<form action="https://money.yandex.ru/eshop.xml" method="post">#{yandex_kassa_params.map{|k,v| %Q{<input type=
+"hidden" name="#{k}" value="#{v}" />}}.join('')}</form><script>document.forms[0].submit()</script>}
+  end
+
+  def yandex_kassa_params
+    {shopId: shop_id, scid: scid, sum: amount, customerNumber: customer_number, orderNumber: inv_id}
   end
 end

@@ -23,7 +23,11 @@ class DepositRequestsController < DashboardController
   def create
     @request = current_user.wallet.deposit_requests.new dr_params
     if @request.save
-      redirect_to @request.data.payment_url
+      if @request.robokassa?
+        redirect_to @request.data.payment_url
+      else
+        render text: @request.data.redirect_via_post
+      end
     else
       redirect_to deposit_requests_path, alert: "Кошелек не удалось пополнить. Свяжитесь с администратором пожалуйста назвав свой логин."
     end
@@ -31,7 +35,11 @@ class DepositRequestsController < DashboardController
 
   def pay
     @request = DepositRequest.find(params[:id])
-    redirect_to @request.data.payment_url
+    if @request.robokassa?
+      redirect_to @request.data.payment_url
+    else
+      render text: @request.data.redirect_via_post
+    end
   end
 
   def new
