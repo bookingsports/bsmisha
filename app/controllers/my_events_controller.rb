@@ -26,7 +26,7 @@ class MyEventsController < EventsController
 
   def confirm
     if params[:event_ids].present?
-      current_user.events.where(id: params[:event_ids]).update_all confirmed: true
+      current_user.events.where(id: params[:event_ids]).update_all status: Event.statuses[:confirmed]
       redirect_to my_events_path, notice: "Заказы успешно забронированы."
     else
       redirect_to my_events_path, alert: "Не выбрано ни одного заказа!"

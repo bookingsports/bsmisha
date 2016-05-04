@@ -200,6 +200,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
             { text: 'Чужое', value: 'disowned', color: '#ccc' },
             { text: 'Оплачено', value: 'paid', color: '#8ED869' },
             { text: 'Забронировано', value: 'confirmed', color: '#2f4f4f' },
+            { text: 'Заблокировано', value: 'locked', color: '#000' },
             { text: 'Неоплаченный перенос', value: 'has_unpaid_changes', color: '#69D8D8' }
             { text: 'Оплаченный перенос', value: 'has_paid_changes', color: '#3234c2' }
           ]
@@ -269,7 +270,13 @@ class Tennis.Views.ScheduleView extends Backbone.View
                 from: 'paid_transfer'
 
   validate: (start, stop, event) =>
-    if @timeIsPast(event.start)
+    if event.visual_type == 'disowned' || event.visual_type == 'locked'
+      return 'Нельзя изменить заказ чужого пользователя'
+    else if event.visual_type == "confirmed"
+      return 'Нельзя изменить забронированный заказ'
+    else if event.paid && event.paidTransfer
+      return 'Нельзя изменить оплаченный и перенесенный заказ'
+    else if @timeIsPast(event.start)
       return 'Невозможно сделать заказ на прошедшее время'
     else if @timeIsOccupied(event.start, event.end, event)
       return 'Это время занято'
@@ -277,12 +284,6 @@ class Tennis.Views.ScheduleView extends Backbone.View
       return 'Заказ должен начинаться и заканчиваться в один день'
     else if @hasSpanOfHalfAnHour(event.start, event.end)
       return 'Окна между заказами должны быть длиной в час или более'
-    else if event.paid && event.paidTransfer
-      return 'Нельзя изменить оплаченный и перенесенный заказ'
-    else if event.visual_type == "confirmed"
-      return 'Нельзя изменить забронированный заказ'
-    else if event.visual_type == 'disowned'
-      return 'Нельзя изменить заказ чужого пользователя'
     else
       true
 
@@ -299,6 +300,8 @@ class Tennis.Views.ScheduleView extends Backbone.View
     if (start == undefined || stop == undefined) || (start.getFullYear() == stop.getFullYear() && start.getMonth() == stop.getMonth() && start.getDate() == stop.getDate()) then false else true
 
   hasSpanOfHalfAnHour: (start, stop) =>
+    if gon.current_user.type == "StadiumUser"
+      return false
     occurencesBefore1 = @scheduler().occurrencesInRange(new Date(start.getTime() - 1000 * 60 * 30), start).length
     occurencesBefore2 = @scheduler().occurrencesInRange(new Date(start.getTime() - 1000 * 60 * 60), new Date(start.getTime() - 1000 * 60 * 30)).length
     occurencesAfter1 = @scheduler().occurrencesInRange(stop, new Date(stop.getTime() + 1000 * 60 * 30)).length

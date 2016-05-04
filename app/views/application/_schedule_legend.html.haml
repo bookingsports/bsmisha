@@ -18,6 +18,9 @@
     .col-xs-4
       .legend-label.legend-paid-change
       = raw " &mdash; оплаченный перенос"
+    .col-xs-4
+      .legend-label.legend-locked
+      = raw " &mdash; заблокировано администратором"
 - else
   .row.schedule-legend-nav
     - @stadium.areas.each do |area|

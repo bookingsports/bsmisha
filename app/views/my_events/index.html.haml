@@ -1,4 +1,4 @@
-- if @events.unpaid.future.where(confirmed: false).present?
+- if @events.unpaid.future.unconfirmed.present?
   = form_for :events, url: bulk_process_my_events_path do |f|
     %h4 Неоплаченные занятия
     %table.table.table-hover#unconfirmed-events
@@ -11,7 +11,7 @@
           %th Время тренировок
           %th Стоимость
       %tbody
-        - @events.unpaid.future.where(confirmed: false).each do |event|
+        - @events.unpaid.future.unconfirmed.each do |event|
           %tr
             %td= check_box_tag "event_ids[]", event.id
             %td= event.area.stadium.name
@@ -22,7 +22,7 @@
     = f.button 'Забронировать', value: :confirm, data: {confirm: "Подтвердите бронирование"}
     = f.button 'Перейти к оплате', value: :pay
     = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}
-- if @events.unpaid.future.where(confirmed: true).present?
+- if @events.unpaid.future.confirmed.present?
   = form_for :events, url: bulk_process_my_events_path do |f|
     %h4 Забронированные занятия
     %table.table.table-hover#confirmed-events
@@ -35,7 +35,7 @@
           %th Время тренировок
           %th Стоимость
       %tbody
-        - @events.unpaid.future.where(confirmed: true).each do |event|
+        - @events.unpaid.future.confirmed.each do |event|
           %tr
             %td= check_box_tag "event_ids[]", event.id
             %td= event.area.stadium.name

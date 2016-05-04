@@ -47,6 +47,8 @@ class Event < ActiveRecord::Base
   has_and_belongs_to_many :stadium_services
   accepts_nested_attributes_for :stadium_services
 
+  enum status: [:unconfirmed, :confirmed, :locked]
+
   attr_reader :schedule
 
   scope :paid_or_owned_by, -> (user) do
@@ -60,7 +62,7 @@ class Event < ActiveRecord::Base
     Event.where(order_id: nil).union(Event.joins(:order).where(orders: {status: Order.statuses[:unpaid]}))
   }
   scope :paid_or_confirmed, -> {
-    Event.paid.union(Event.where(confirmed: true)).uniq
+    Event.paid.union(Event.confirmed).union(Event.locked).uniq
   }
   scope :between, -> (start, stop) do
     table_start = arel_table['start']
@@ -119,6 +121,8 @@ class Event < ActiveRecord::Base
 
   def visual_type_for user
     case
+    when self.locked?
+      "locked"
     when self.user != user
       "disowned"
     when self.has_unpaid_changes?
@@ -127,7 +131,7 @@ class Event < ActiveRecord::Base
       "has_paid_changes"
     when self.paid?
       "paid"
-    when self.confirmed == true
+    when self.confirmed?
       "confirmed"
     when self.user == user
       "owned"
