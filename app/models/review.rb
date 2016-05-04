@@ -22,7 +22,8 @@ class Review < ActiveRecord::Base
 
   default_scope -> { order(created_at: :desc) }
 
-  validates :rating, inclusion: { in: 0..5 }, presence: true
+  validates :rating, inclusion: { in: 1..5 }, presence: true
+  validates :text, presence: true
 
   def name
     "Обзор #{user_id.present? ? "пользователя " + user.name : ""} #{reviewable_id.present? ? "на продукт " + reviewable.name.to_s : ""}"

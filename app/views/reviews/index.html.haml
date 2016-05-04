@@ -1,4 +1,4 @@
-- if current_user.nil? 
+- if current_user.nil?
   %h4 Сперва авторизуйтесь, пожалуйста:
   = link_to 'Вход / Регистрация', new_user_session_path, class: 'button add_to_cart_button product_type_simple'
 - else
@@ -9,7 +9,7 @@
       = simple_form_for [@product.model_name.singular_route_key, @review] do |f|
         .row
           .col-md-2
-            = f.input :rating, collection: 0..5, label: "Оценка"
+            = f.input :rating, collection: 1..5, label: "Оценка", selected: 1
           .col-md-6
             = f.input :text, label: "Текст"
         = f.button :submit, 'Отправить'

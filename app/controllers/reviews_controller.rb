@@ -29,7 +29,7 @@ class ReviewsController < NestedResourcesController
     if @review.save
       redirect_to :back, notice: "Отзыв успешно добавлен"
     else
-      render :index
+      redirect_to stadium_reviews_url, alert: "Возникла ошибка."
     end
   end
 
