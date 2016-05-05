@@ -3,6 +3,7 @@
   = javascript_include_tag 'show-area'
 
 .row.top15
+  - if current_user.present? && current_user.type == "Customer"
   .col-xs-4
     - if current_user.present? && current_user.type == "Customer"
       = render 'total'
