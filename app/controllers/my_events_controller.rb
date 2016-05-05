@@ -43,6 +43,13 @@ class MyEventsController < EventsController
     end
   end
 
+  def sell
+    @event = Event.find(params[:id])
+
+    @event.destroy
+    redirect_to my_events_path
+  end
+
   def overpay
     if params[:value].blank? || (params[:value].to_i > 0 && params[:value].to_i <= 10)
       @overpayed = 0

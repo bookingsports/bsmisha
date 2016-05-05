@@ -46,6 +46,7 @@ Rails.application.routes.draw do
       get 'ticket'
       post 'pay_change'
       post 'overpay'
+      post 'sell'
     end
   end
 
