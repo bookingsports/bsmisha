@@ -270,7 +270,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
                 from: 'paid_transfer'
 
   validate: (start, stop, event) =>
-    if event.visual_type == 'disowned' || event.visual_type == 'locked'
+    if event.visual_type == 'disowned'
       return 'Нельзя изменить заказ чужого пользователя'
     else if event.visual_type == "confirmed"
       return 'Нельзя изменить забронированный заказ'
