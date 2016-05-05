@@ -138,12 +138,14 @@ class Tennis.Views.ScheduleView extends Backbone.View
         return
       moveEnd: (e) =>
         validation = @validate(e.start, e.end, e.event)
+        e.sender.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.js')
         return if validation == true
         alert(validation)
         e.preventDefault()
         return
       add: (e) =>
         validation = @validate(e.start, e.end, e.event)
+        e.sender.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.js')
         return if validation == true
         alert(validation)
         e.preventDefault()
