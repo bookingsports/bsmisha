@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160425112009) do
+ActiveRecord::Schema.define(version: 20160505132036) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -260,7 +260,7 @@ ActiveRecord::Schema.define(version: 20160425112009) do
   create_table "stadiums", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "category_id"
-    t.string   "name",        default: "Без названия", null: false
+    t.string   "name",        default: "Без названия",        null: false
     t.string   "phone"
     t.string   "description"
     t.string   "address"
@@ -270,8 +270,8 @@ ActiveRecord::Schema.define(version: 20160425112009) do
     t.integer  "status",      default: 0
     t.string   "email"
     t.string   "main_image"
-    t.time     "opens_at"
-    t.time     "closes_at"
+    t.time     "opens_at",    default: '2000-01-01 07:00:00'
+    t.time     "closes_at",   default: '2000-01-01 23:00:00'
     t.datetime "created_at"
     t.datetime "updated_at"
   end

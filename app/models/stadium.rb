@@ -54,6 +54,8 @@ class Stadium < ActiveRecord::Base
 
   validates :user, presence: true
   validates_associated :stadium_services, :areas
+  validates :opens_at, :closes_at, presence: true
+  validates :closes_at, greater_by_30_min: {than: :opens_at}, allow_blank: true
 
   def events
     Event.where area_id: area_ids
