@@ -2,7 +2,7 @@
   <% if current_user.nil? %>
     <h4>Для того, чтобы воспользоваться всеми возможностями портала, пожалуйста зарегистрируйтесь, или войдите в свою учетную запись.</h4>
     <%= link_to 'Вход / Регистрация', new_user_session_path, class: 'btn btn-primary add_to_cart_button product_type_simple' %>
-  <% else %>
+  <% elsif current_user.type == "Customer" %>
     <h4>В корзине:</h4>
     <p data-total>
       <% if current_user.total_hours(area: @area) %>

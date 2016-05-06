@@ -205,6 +205,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
             { text: 'Заблокировано', value: 'locked', color: '#000' },
             { text: 'Неоплаченный перенос', value: 'has_unpaid_changes', color: '#69D8D8' }
             { text: 'Оплаченный перенос', value: 'has_paid_changes', color: '#3234c2' }
+            { text: 'Выставлено на продажу', value: 'for_sale', color: '#ffe135' }
           ]
         }
       ]
@@ -272,6 +273,8 @@ class Tennis.Views.ScheduleView extends Backbone.View
                 from: 'paid_transfer'
 
   validate: (start, stop, event) =>
+    if !gon.current_user
+      return "Пожалуйста, авторизуйтесь или зарегистрируйтесь"
     if event.visual_type == 'disowned'
       return 'Нельзя изменить заказ чужого пользователя'
     else if event.visual_type == "confirmed"
