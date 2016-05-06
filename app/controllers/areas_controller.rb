@@ -28,7 +28,7 @@ class AreasController < ApplicationController
   def total
     @area = Area.friendly.find(params[:id])
     respond_to do |format|
-      format.js {}
+      format.json {}
     end
   end
 
