@@ -47,7 +47,7 @@ class Event < ActiveRecord::Base
   has_and_belongs_to_many :stadium_services
   accepts_nested_attributes_for :stadium_services
 
-  enum status: [:unconfirmed, :confirmed, :locked]
+  enum status: [:unconfirmed, :confirmed, :locked, :for_sale]
 
   attr_reader :schedule
 
@@ -123,6 +123,8 @@ class Event < ActiveRecord::Base
     case
     when self.locked?
       "locked"
+    when self.for_sale?
+      "for_sale"
     when self.user != user
       "disowned"
     when self.has_unpaid_changes?

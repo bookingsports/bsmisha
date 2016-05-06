@@ -19,7 +19,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
       setInterval ->
         if !scheduler._editor.container
           scheduler.dataSource.read()
-          scheduler.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.json')
+          scheduler.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.js')
         else
       , 30000
 
@@ -30,7 +30,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
         scheduler.dataSource.read()
 
       scheduler.dataSource.read()
-      scheduler.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.json')
+      scheduler.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.js')
 
       $("#scheduler").on("click", ".k-scheduler-table td, .k-event", (e) =>
         e.stopPropagation();
@@ -138,7 +138,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
         return
       moveEnd: (e) =>
         validation = @validate(e.start, e.end, e.event)
-        e.sender.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.json')
+        e.sender.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.js')
         return if validation == true
         alert(validation)
         e.preventDefault()
@@ -152,7 +152,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
       save: (e) =>
         validation = @validate(e.start, e.end, e.event)
         if validation == true
-          e.sender.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.json')
+          e.sender.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.js')
           if e.event.visual_type == 'paid'
             e.event.visual_type = 'has_unpaid_changes'
         else
@@ -161,7 +161,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
         return
       remove: (e) =>
         if e.event.visual_type == "owned" || (gon.current_user && gon.current_user.type == "StadiumUser" && gon.current_user.areas.indexOf(gon.area_id) != -1)
-          e.sender.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.json')
+          e.sender.dataSource.one 'requestEnd', -> $.get(window.location.pathname + '/total.js')
         else
           alert("Нельзя удалить заказ.")
           e.preventDefault();
