@@ -275,7 +275,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
   validate: (start, stop, event) =>
     if !gon.current_user
       return "Пожалуйста, авторизуйтесь или зарегистрируйтесь"
-    if event.visual_type == 'disowned'
+    else if event.visual_type == 'disowned'
       return 'Нельзя изменить заказ чужого пользователя'
     else if event.visual_type == "confirmed"
       return 'Нельзя изменить забронированный заказ'
