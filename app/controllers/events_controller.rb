@@ -97,10 +97,25 @@ class EventsController < ApplicationController
   def edit
   end
 
+  def for_sale
+    @my_events = current_user.present? ? current_user.events.paid.future.where.not(status: Event.statuses[:for_sale]) : []
+    @events = Event.paid.for_sale
+  end
+
   def show
     @event = Event.find(params[:id])
 
     respond_with @event
+  end
+
+  def buy
+    @event = Event.find(params[:id])
+    transaction = ActiveRecord::Base.transaction do
+      current_user.wallet.withdraw! @event.price
+      @event.user.wallet.deposit! @event.price
+      @event.update user: current_user, status: :unconfirmed
+    end
+    redirect_to for_sale_events_path, notice: "Заказ успешно куплен."
   end
 
   def destroy

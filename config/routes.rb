@@ -41,12 +41,14 @@ Rails.application.routes.draw do
       post 'bulk_process', constraints: ButtonParamRouting.new('confirm'), action: 'confirm'
       get 'one_day'
       post 'one_day'
+      get 'for_sale'
     end
     member do
       get 'ticket'
       post 'pay_change'
       post 'overpay'
       post 'sell'
+      post 'buy'
     end
   end
 

@@ -96,7 +96,7 @@
       %th
       %th
   %tbody
-    - @events.paid.each do |event|
+    - @events.paid.future.each do |event|
       %tr
         %td= event.id
         %td= event.area.stadium.name
