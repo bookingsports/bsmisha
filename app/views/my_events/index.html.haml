@@ -115,4 +115,7 @@
           - else
             &mdash;
         %td= link_to "Чек", ticket_event_path(event)
-        %td= link_to "Продать", sell_my_event_path(event), method: :post, data: {confirm: "Вы действительно хотите продать данный заказ?"}
+        - if event.for_sale?
+          %td Заказ выставлен на продажу
+        - else
+          %td= link_to "Продать", sell_my_event_path(event), method: :post, data: {confirm: "Вы действительно хотите продать данный заказ?"}
