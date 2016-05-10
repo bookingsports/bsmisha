@@ -17,6 +17,7 @@
         %tbody
           - @my_events.each do |event|
             %tr
+              %td= event.id
               %td= event.area.stadium.name
               %td= event.area.name
               %td= l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
