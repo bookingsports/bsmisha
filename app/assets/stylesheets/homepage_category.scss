@@ -1,0 +1,60 @@
+.homepage_category_link {
+  &:hover {
+    .hpt-border {
+      border-color: #4070B6;
+      background-color: #4070B6;
+    }
+  }
+}
+
+.homepage_category_wrap {
+  margin: 20px 0;
+}
+
+.homepage_category {
+  @include display-block;
+  height: 200px;
+  padding: 20px;
+}
+
+.homepage-categories-first {
+  @include background-asset('tennis.jpg', no-repeat center center);
+  -webkit-background-size: cover;
+  background-size: cover;
+}
+.homepage-categories-second {
+  @include background-asset('football.jpg', no-repeat center center);
+  -webkit-background-size: cover;
+  background-size: cover;
+}
+.homepage-categories-third {
+  @include background-asset('group.jpg', no-repeat center center);
+  -webkit-background-size: cover;
+  background-size: cover;
+}
+.homepage-categories-fourth {
+  @include background-asset('fitness.jpg', no-repeat center center);
+  -webkit-background-size: cover;
+  background-size: cover;
+}
+.homepage-categories-fifth {
+  @include background-asset('joga.jpg', no-repeat center center);
+  -webkit-background-size: cover;
+  background-size: cover;
+}
+
+.homepage-txt-block {
+  font-size: 24px;
+  color: #fff;
+  text-align: center;
+  font-weight: 400;
+  margin-top: 60px;
+}
+.hpt-border {
+  @include display-inline;
+  padding: 10px 40px;
+  border: 3px solid rgba(255,255,255,0.6);
+  @include border-radius(2px);
+  background-color: rgba(255, 255, 255, 0.2);
+  @include transition(all .15s linear);
+}

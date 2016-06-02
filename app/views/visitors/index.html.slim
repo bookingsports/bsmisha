@@ -6,25 +6,26 @@
 .body-bg
   .container-fluid.homepage-container
     h1 Спортивные объекты для бронирования
-    .row
-      = link_to category_path('tennis') do
-        .col-md-8.homepage-categories-first
-          .homepage-txt-block
-            .hpt-border Теннис
-      = link_to category_path('futbol') do
-        .col-md-4.homepage-categories-second
-          .homepage-txt-block
-            .hpt-border Футбол
-    .row
-      = link_to category_path('gruppovye-zanyatiya') do
-        .col-xs-12.col-sm-6.col-md-6.image-grid-item.homepage-categories-third
-          .homepage-txt-block
-            .hpt-border Групповые занятия
-      = link_to category_path('fitness') do
-        .col-xs-12.col-sm-6.col-md-3.image-grid-item.homepage-categories-fourth
-          .homepage-txt-block
-            .hpt-border Фитнес
-      = link_to category_path('yoga') do
-        .col-xs-12.col-sm-6.col-md-3.image-grid-item.homepage-categories-fifth
-          .homepage-txt-block
-            .hpt-border Йога
+    .col-xs-12.homepage_category_wrap
+      .row
+        = link_to category_path('tennis'), class: 'homepage_category_link' do
+          .col-md-8.col-xs-12.homepage_category.homepage-categories-first
+            .homepage-txt-block
+              .hpt-border Теннис
+        = link_to category_path('futbol'), class: 'homepage_category_link' do
+          .col-md-4.col-xs-12.homepage_category.homepage-categories-second
+            .homepage-txt-block
+              .hpt-border Футбол
+      .row
+        = link_to category_path('gruppovye-zanyatiya'), class: 'homepage_category_link' do
+          .col-md-6.col-xs-12.homepage_category.image-grid-item.homepage-categories-third
+            .homepage-txt-block
+              .hpt-border Групповые занятия
+        = link_to category_path('fitness'), class: 'homepage_category_link' do
+          .col-xs-12.col-sm-6.col-md-3.homepage_category.image-grid-item.homepage-categories-fourth
+            .homepage-txt-block
+              .hpt-border Фитнес
+        = link_to category_path('yoga'), class: 'homepage_category_link' do
+          .col-xs-12.col-sm-6.col-md-3.homepage_category.image-grid-item.homepage-categories-fifth
+            .homepage-txt-block
+              .hpt-border Йога

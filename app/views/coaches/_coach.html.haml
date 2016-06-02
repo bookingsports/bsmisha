@@ -1,11 +1,12 @@
 - if coach.has_areas?
-  %li.clearfix
+  .col-md-4.col-sm-6.col-xs-12.coach__item
     .row
-      .col-md-2
-        = image_tag coach.avatar.small_square.presence || 'placeholder.png', class: 'avatar photo pull-left'
-      .col-md-10
-        = link_to coach.name, coach_area_path(coach, coach.areas.first)
+      .col-sm-6.col-xs-12.coach__item_image
+        = link_to coach_area_path(coach, coach.areas.first) do
+          = image_tag coach.avatar.small_square.presence || 'placeholder.png', class: 'avatar photo pull-left'
+      .col-sm-6.col-xs-12.coach__item_info
+        = link_to coach.name, coach_area_path(coach, coach.areas.first), class: 'coach__item_name'
         - if coach.phone.present?
-          %h5= fa_icon('phone') + ' ' + coach.phone
+          %h5.coach__item_text= fa_icon('phone') + ' ' + coach.phone
         - if coach.description.present?
-          %h5= fa_icon('info-circle') + ' ' +  truncate(coach.description)
+          %h5.coach__item_text= fa_icon('info-circle') + ' ' +  truncate(coach.description)
