@@ -1,15 +1,15 @@
 <%- if stadium.areas.any? %>
-  <li class="clearfix">
+  <div class="col-md-4 col-sm-6 col-xs-12 coach__item">
     <div class="row">
-      <div class="col-xs-2">
-        <%= link_to stadium, class: 'stadium-link' do %>
+      <div class="col-sm-6 col-xs-12 coach__item_image">
+        <%= link_to stadium do %>
           <%= image_tag stadium.main_image.small_square.url, class: 'avatar photo pull-left' %>
         <% end %>
       </div>
-      <div class="col-xs-10">
-        <h3><%= link_to stadium.name, stadium %></h3>
-        <p><%= stadium.address %></p>
+      <div class="col-sm-6 col-xs-12 coach__item_info">
+        <h3 class="coach__item_name"><%= link_to stadium.name, stadium %></h3>
+        <p class="coach__item_text"><%= stadium.address %></p>
       </div>
     </div>
-  </li>
+  </div>
 <% end %>

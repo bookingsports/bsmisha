@@ -10,5 +10,6 @@
         = f.input :areas_stadium_category_id_eq, collection: Category.all,  prompt: 'Все категории', label: false
         = f.button :submit, 'Поиск'
       %hr/
-      %ul.list-unstyled.coaches
-        = render @coaches
+      .list-unstyled.coaches
+        .row
+          = render @coaches
