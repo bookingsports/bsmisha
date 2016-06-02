@@ -39,7 +39,7 @@ class Order < ActiveRecord::Base
   end
 
   def calculate_total
-    _total = events.map(&:price).inject(:+).to_i + event_changes.map(&:total).inject(:+).to_i - Recoupment.where(area: area_ids).uniq.map(&:price).sum
+    _total = events.map(&:price).inject(:+).to_i + event_changes.map(&:total).inject(:+).to_i - user.recoupments.where(area: area_ids).uniq.map(&:price).sum
     _total < 0 ? 0 : _total
   end
 
@@ -76,14 +76,20 @@ class Order < ActiveRecord::Base
             rec.update price: (rec.price - event.price)
           elsif rec.present? && rec.price <= event.price && rec.price > 0
             user.wallet.withdraw! event.price - rec.price
+            event.area.stadium.user.wallet.deposit_with_tax_deduction!(event.area_price * (event.price - rec.price) / event.price)
+            if event.coach.present?
+              event.coach.user.wallet.deposit_with_tax_deduction!(event.coach_percent_price * (event.price - rec.price) / event.price)
+              event.area.stadium.user.wallet.deposit_with_tax_deduction!(event.coach_stadium_price * (event.price - rec.price) / event.price)
+            end
+            event.stadium_services.present? && event.area.stadium.user.wallet.deposit_with_tax_deduction!(event.stadium_services_price * (event.price - rec.price) / event.price)
             rec.destroy
           else
             user.wallet.withdraw! event.price
             event.area.stadium.user.wallet.deposit_with_tax_deduction! event.area_price
             if event.coach.present?
-             event.coach.user.wallet.deposit_with_tax_deduction!(event.coach_percent_price)
-             event.area.stadium.user.wallet.deposit_with_tax_deduction!(event.coach_stadium_price)
-           end
+              event.coach.user.wallet.deposit_with_tax_deduction!(event.coach_percent_price)
+              event.area.stadium.user.wallet.deposit_with_tax_deduction!(event.coach_stadium_price)
+            end
             event.stadium_services.present? && event.area.stadium.user.wallet.deposit_with_tax_deduction!(event.stadium_services_price)
           end
         end
@@ -93,6 +99,7 @@ class Order < ActiveRecord::Base
             rec.update price: (rec.price - event_change.total)
           elsif rec.present? && rec.price <= event_change.total && rec.price > 0
             user.wallet.withdraw! event_change.total - rec.price
+            event_change.event.area.stadium.user.wallet.deposit_with_tax_deduction! (event_change.total  * (event_change.price - rec.price) / event_change.price)
             rec.destroy
           else
             user.wallet.withdraw! event_change.total
