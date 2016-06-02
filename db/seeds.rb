@@ -17,7 +17,7 @@ def create_user(model, name, email, password)
   user
 end
 
-categories = ['Теннис', 'Групповые занятия', 'Йога', 'Фитнесс']
+categories = ['Теннис', 'Групповые занятия', 'Йога', 'Фитнес']
 categories.each { |name| Category.create! name: name }
 
 create_user(Admin, "Admin", 'admin@bookingsports.ru', 'changeme')

@@ -8,7 +8,7 @@
       .col-xs-12.text-center
         h3 У вас пока не создано ни одного заказа! Заходите в наш #{ link_to 'список стадионов', stadiums_path }, и найдите подходящий вам стадион!
     -else
-      .col-xs-8
+      .col-md-10.col-sm-11.col-xs-12
         = render "schedule_legend"
         #scheduler
   - else

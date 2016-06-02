@@ -4,47 +4,118 @@
   .body-bg
     .row
       %h4 Ваши оплаченные заказы:
-      %table.table.table-striped#paid-events
-        %thead
-          %tr
-            %th #
-            %th Стадион
-            %th Площадка
-            %th Период занятий
-            %th Время тренировок
-            %th Стоимость
-            %th
-        %tbody
-          - @my_events.each do |event|
+      -# начало блока который нужно показывать с разрешения экрана 768px и выше
+      .site-table
+        %table.table.table-striped#paid-events
+          %thead
             %tr
-              %td= event.id
-              %td= event.area.stadium.name
-              %td= event.area.name
-              %td= l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
-              %td= event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
-              %td= number_to_integer_currency event.price
-              %td= link_to "Продать", sell_my_event_path(event), method: :post, data: {confirm: "Вы действительно хотите продать данный заказ?"}
+              %th #
+              %th Стадион
+              %th Площадка
+              %th Период занятий
+              %th Время тренировок
+              %th Стоимость
+              %th
+          %tbody
+            - @my_events.each do |event|
+              %tr
+                %td= event.id
+                %td= event.area.stadium.name
+                %td= event.area.name
+                %td= l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
+                %td= event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
+                %td= number_to_integer_currency event.price
+                %td= link_to "Продать", sell_my_event_path(event), method: :post, data: {confirm: "Вы действительно хотите продать данный заказ?"}
+      -# конец блока который нужно показывать с разрешения экрана 768px и выше
+
+      -# начало блока который нужно показывать с разрешения экрана 767px и ниже
+      %div.site-table_list#paid-events
+        - @my_events.each do |event|
+          %div.site-table_list__item
+            %div.site-table_list__item-option
+              %h5.site-table_list__item-title Стадион:
+              %p.site-table_list__item-text
+                = event.area.stadium.name
+            %div.site-table_list__item-option
+              %h5.site-table_list__item-title Площадка:
+              %p.site-table_list__item-text
+                = event.area.name
+            %div.site-table_list__item-option
+              %h5.site-table_list__item-title Период занятий:
+              %p.site-table_list__item-text
+                = l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
+            %div.site-table_list__item-option
+              %h5.site-table_list__item-title Время тренировок:
+              %p.site-table_list__item-text
+                = event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
+            %div.site-table_list__item-option
+              %h5.site-table_list__item-title Стоимость:
+              %p.site-table_list__item-text
+                = number_to_integer_currency event.price
+            %div.site-table_list__item-option
+              %h5.site-table_list__item-title
+                = link_to "Продать", sell_my_event_path(event), method: :post, data: {confirm: "Вы действительно хотите продать данный заказ?"}
+      -# конец блока который нужно показывать с разрешения экрана 767px и ниже
+
+      %hr
+
       %h4 Занятия, выставленные на продажу
-      %table.table.table-striped#paid-events
-        %thead
-          %tr
-            %th Стадион
-            %th Площадка
-            %th Период занятий
-            %th Время тренировок
-            %th Стоимость
-            %th Покупатель
-            %th
-        %tbody
-          - @events.each do |event|
+      -# начало блока который нужно показывать с разрешения экрана 768px и выше
+      .site-table
+        %table.table.table-striped#paid-events
+          %thead
             %tr
-              %td= event.area.stadium.name
-              %td= event.area.name
-              %td= l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
-              %td= event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
-              %td= number_to_integer_currency event.price
-              %td= event.user.name
+              %th Стадион
+              %th Площадка
+              %th Период занятий
+              %th Время тренировок
+              %th Стоимость
+              %th Покупатель
+              %th
+          %tbody
+            - @events.each do |event|
+              %tr
+                %td= event.area.stadium.name
+                %td= event.area.name
+                %td= l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
+                %td= event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
+                %td= number_to_integer_currency event.price
+                %td= event.user.name
+                - if current_user.wallet.can_spend? event.price
+                  %td= link_to "Купить", buy_event_path(event), method: :post, data: {confirm: "Вы действительно хотите купить данный заказ?"}
+                - else
+                  %td Недостаточно средств
+      -# конец блока который нужно показывать с разрешения экрана 768px и выше
+
+      -# начало блока который нужно показывать с разрешения экрана 767px и ниже
+      %div.site-table_list#paid-events
+        - @events.each do |event|
+          %div.site-table_list__item
+            %div.site-table_list__item-option
+              %h5.site-table_list__item-title Стадион:
+              %p.site-table_list__item-text
+                = event.area.stadium.name
+            %div.site-table_list__item-option
+              %h5.site-table_list__item-title Площадка:
+              %p.site-table_list__item-text
+                = event.area.name
+            %div.site-table_list__item-option
+              %h5.site-table_list__item-title Период занятий:
+              %p.site-table_list__item-text
+                = l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
+            %div.site-table_list__item-option
+              %h5.site-table_list__item-title Время тренировок:
+              %p.site-table_list__item-text
+                = event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
+            %div.site-table_list__item-option
+              %h5.site-table_list__item-title Стоимость:
+              %p.site-table_list__item-text
+                = number_to_integer_currency event.price
+            %div.site-table_list__item-option
               - if current_user.wallet.can_spend? event.price
-                %td= link_to "Купить", buy_event_path(event), method: :post, data: {confirm: "Вы действительно хотите купить данный заказ?"}
+                %h5.site-table_list__item-title
+                  = link_to "Купить", buy_event_path(event), method: :post, data: {confirm: "Вы действительно хотите купить данный заказ?"}
               - else
-                %td Недостаточно средств
+                %h5.site-table_list__item-title
+                  Недостаточно средств для покупки
+      -# конец блока который нужно показывать с разрешения экрана 767px и ниже

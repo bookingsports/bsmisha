@@ -18,6 +18,9 @@
 @import "header";
 @import "coach";
 @import "homepage_category";
+@import "map";
+@import "calendar";
+@import "site-table";
 @import "footer";
 
 html {
@@ -64,53 +67,6 @@ main {
 
 .menu-item-120 {
   margin-right: 12px;
-}
-
-#map-container {
-  width: 100%;
-}
-
-#map {
-  width: 100%;
-  height: 450px;
-}
-
-#map.filter-map {
-  height: 280px;
-  width: 100%;
-}
-
-#map-container {
-  position: relative;
-}
-
-.searchonmap {
-  position: absolute;
-  width: 610px;
-  bottom: 20px;
-  left: 50%;
-  margin-left: -305px;
-  padding: 10px;
-  border-radius: 7px;
-  background-color: #F5F5F5;
-  box-shadow: 0 5px 14px 0 rgba(50, 50, 50, .2);
-  text-align: center;
-
-  @media all and (max-width: 767px) {
-    @include display-block;
-    width: 100%;
-    left: 0;
-    margin-left: 0;
-    @include border-radius(0);
-  }
-}
-
-.location-detector {
-  background: asset-url('locate.png') no-repeat;
-  cursor: pointer;
-  border: none;
-  width: 25px;
-  height: 30px;
 }
 
 input[type="TEXT"] {
@@ -730,10 +686,6 @@ h1, h2, h3, h4, h5, h6 {
   margin: 20px 0;
 }
 
-.homepage-container {
-  margin: 20px 0 0;
-}
-
 #switch_user_identifier {
   background-color: #fff;
 }
@@ -744,4 +696,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .k-si-close {
   display: none;
+}
+
+@media all and (max-width: 991px) {
+  .entry {
+    padding: 0 15px 30px 15px;
+  }
 }

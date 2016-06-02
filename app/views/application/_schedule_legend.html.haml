@@ -1,32 +1,32 @@
 - if params[:id].present? || @stadium.nil?
   .row.schedule-legend-nav
-    .col-xs-4
+    .col-lg-4.col-sm-6.col-xs-12
       .legend-label.legend-owned
       = raw " &mdash; неоплаченное"
-    .col-xs-4
+    .col-lg-4.col-sm-6.col-xs-12
       .legend-label.legend-confirmed
       = raw " &mdash; забронировано"
-    .col-xs-4
+    .col-lg-4.col-sm-6.col-xs-12
       .legend-label.legend-disowned
       = raw " &mdash; чужое"
-    .col-xs-4
+    .col-lg-4.col-sm-6.col-xs-12
       .legend-label.legend-paid
       = raw " &mdash; оплаченное"
-    .col-xs-4
+    .col-lg-4.col-sm-6.col-xs-12
       .legend-label.legend-unpaid-change
       = raw " &mdash; неоплаченный перенос"
-    .col-xs-4
+    .col-lg-4.col-sm-6.col-xs-12
       .legend-label.legend-paid-change
       = raw " &mdash; оплаченный перенос"
-    .col-xs-4
+    .col-lg-4.col-sm-6.col-xs-12
       .legend-label.legend-locked
       = raw " &mdash; заблокировано администратором"
-    .col-xs-4
+    .col-lg-4.col-sm-6.col-xs-12
       .legend-label.legend-for-sale
       = raw " &mdash; выставлено на продажу"
 - else
   .row.schedule-legend-nav
     - @stadium.areas.each do |area|
-      .col-xs-4
+      .col-lg-4.col-sm-6.col-xs-12
         %div{ class: "legend-label legend-kendo-area-#{area.kendo_area_id}" }
         = raw area.name

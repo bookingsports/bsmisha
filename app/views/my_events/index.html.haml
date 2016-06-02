@@ -1,110 +1,292 @@
+-# на данной странице нужно доделать кнопки на мобильной верстке так,
+  что бы они работали только для одного конкретного элемента списка (того, в котором они находятся визуально) !!!!
+
 - if @events.unpaid.future.unconfirmed.present?
+
   = form_for :events, url: bulk_process_my_events_path do |f|
     %h4 Неоплаченные занятия
-    %table.table.table-hover#unconfirmed-events
-      %thead
-        %tr
-          %th
-          %th Стадион
-          %th Площадка
-          %th Период занятий
-          %th Время тренировок
-          %th Стоимость
-      %tbody
-        - @events.unpaid.future.unconfirmed.each do |event|
+
+    -# начало блока который нужно показывать с разрешения экрана 768px и выше
+    .site-table
+      %table.table.table-hover#unconfirmed-events
+        %thead
           %tr
-            %td= check_box_tag "event_ids[]", event.id
-            %td= event.area.stadium.name
-            %td= event.area.name
-            %td= l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
-            %td= event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
-            %td= number_to_integer_currency event.price
-    = f.button 'Забронировать', value: :confirm, data: {confirm: "Подтвердите бронирование"}
-    = f.button 'Перейти к оплате', value: :pay
-    = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}
+            %th
+            %th Стадион
+            %th Площадка
+            %th Период занятий
+            %th Время тренировок
+            %th Стоимость
+        %tbody
+          - @events.unpaid.future.unconfirmed.each do |event|
+            %tr
+              %td= check_box_tag "event_ids[]", event.id
+              %td= event.area.stadium.name
+              %td= event.area.name
+              %td= l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
+              %td= event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
+              %td= number_to_integer_currency event.price
+      = f.button 'Забронировать', value: :confirm, data: {confirm: "Подтвердите бронирование"}
+      = f.button 'Перейти к оплате', value: :pay
+      = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}
+    -# конец блока который нужно показывать с разрешения экрана 768px и выше
+
+    -# начало блока который нужно показывать с разрешения экрана 767px и ниже
+    %div.site-table_list#unconfirmed-events
+      - @events.unpaid.future.unconfirmed.each do |event|
+        %div.site-table_list__item
+          %div.site-table_list__item-option
+            %h5.site-table_list__item-title Стадион:
+            %p.site-table_list__item-text
+              = event.area.stadium.name
+          %div.site-table_list__item-option
+            %h5.site-table_list__item-title Площадка:
+            %p.site-table_list__item-text
+              = event.area.name
+          %div.site-table_list__item-option
+            %h5.site-table_list__item-title Период занятий:
+            %p.site-table_list__item-text
+              = l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
+          %div.site-table_list__item-option
+            %h5.site-table_list__item-title Время тренировок:
+            %p.site-table_list__item-text
+              = event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
+          %div.site-table_list__item-option
+            %h5.site-table_list__item-title Стоимость:
+            %p.site-table_list__item-text
+              = number_to_integer_currency event.price
+          = f.button 'Забронировать', value: :confirm, data: {confirm: "Подтвердите бронирование заказа"}
+          = f.button 'Перейти к оплате', value: :pay
+          = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить этот заказы?"}
+      -# конец блока который нужно показывать с разрешения экрана 767px и ниже
+
 - if @events.unpaid.future.confirmed.present?
+  %hr
   = form_for :events, url: bulk_process_my_events_path do |f|
     %h4 Забронированные занятия
-    %table.table.table-hover#confirmed-events
-      %thead
-        %tr
-          %th
-          %th Стадион
-          %th Площадка
-          %th Период занятий
-          %th Время тренировок
-          %th Стоимость
-      %tbody
-        - @events.unpaid.future.confirmed.each do |event|
+
+    -# начало блока который нужно показывать с разрешения экрана 768px и выше
+    .site-table
+      %table.table.table-hover#confirmed-events
+        %thead
           %tr
-            %td= check_box_tag "event_ids[]", event.id
-            %td= event.area.stadium.name
-            %td= event.area.name
-            %td= l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
-            %td= event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
-            %td= number_to_integer_currency event.price
-    = f.button 'Перейти к оплате', value: :pay
-    = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}
+            %th
+            %th Стадион
+            %th Площадка
+            %th Период занятий
+            %th Время тренировок
+            %th Стоимость
+        %tbody
+          - @events.unpaid.future.confirmed.each do |event|
+            %tr
+              %td= check_box_tag "event_ids[]", event.id
+              %td= event.area.stadium.name
+              %td= event.area.name
+              %td= l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
+              %td= event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
+              %td= number_to_integer_currency event.price
+      = f.button 'Перейти к оплате', value: :pay
+      = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}
+    -# конец блока который нужно показывать с разрешения экрана 768px и выше
+
+    -# начало блока который нужно показывать с разрешения экрана 767px и ниже
+    %div.site-table_list#confirmed-events
+      - @events.unpaid.future.confirmed.each do |event|
+        %div.site-table_list__item
+          %div.site-table_list__item-option
+            %h5.site-table_list__item-title Стадион:
+            %p.site-table_list__item-text
+              = event.area.stadium.name
+          %div.site-table_list__item-option
+            %h5.site-table_list__item-title Площадка:
+            %p.site-table_list__item-text
+              = event.area.name
+          %div.site-table_list__item-option
+            %h5.site-table_list__item-title Период занятий:
+            %p.site-table_list__item-text
+              = l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
+          %div.site-table_list__item-option
+            %h5.site-table_list__item-title Время тренировок:
+            %p.site-table_list__item-text
+              = event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
+          %div.site-table_list__item-option
+            %h5.site-table_list__item-title Стоимость:
+            %p.site-table_list__item-text
+              = number_to_integer_currency event.price
+          = f.button 'Перейти к оплате', value: :pay
+          = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить данный заказ?"}
+    -# конец блока который нужно показывать с разрешения экрана 767px и ниже
+
+
 - if @event_changes.unpaid.future.present?
+  %hr
   = form_for :events, url: bulk_process_my_events_path do |f|
     %h4 Переносы
-    %table.table.table-hover#event-changes
+
+    -# начало блока который нужно показывать с разрешения экрана 768px и выше
+    .site-table
+      %table.table.table-hover#event-changes
+        %thead
+          %tr
+            %th
+            %th Стадион
+            %th Площадка
+            %th Начало
+            %th Конец
+            %th Стоимость
+        %tbody
+          - @event_changes.unpaid.future.each do |event_change|
+            %tr
+              %td= check_box_tag "event_change_ids[]", event_change.id
+              %td= event_change.event.area.stadium.name
+              %td= event_change.event.area.name
+              %td= event_change.old_start.strftime("%d.%m.%Y %H:%M") + ' -> ' + event_change.new_start.strftime("%d.%m.%Y %H:%M")
+              %td= event_change.old_stop.strftime("%d.%m.%Y %H:%M") + ' -> ' + event_change.new_stop.strftime("%d.%m.%Y %H:%M")
+              %td= number_to_integer_currency event_change.total
+      = f.button 'Перейти к оплате', value: :pay
+      = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}
+    -# конец блока который нужно показывать с разрешения экрана 768px и выше
+
+    -# начало блока который нужно показывать с разрешения экрана 767px и ниже
+    %div.site-table_list#event-changes
+      - @event_changes.unpaid.future.each do |event_change|
+        %div.site-table_list__item
+          %div.site-table_list__item-option
+            %h5.site-table_list__item-title Стадион:
+            %p.site-table_list__item-text
+              = event_change.event.area.stadium.name
+          %div.site-table_list__item-option
+            %h5.site-table_list__item-title Площадка:
+            %p.site-table_list__item-text
+              = event_change.event.area.name
+          %div.site-table_list__item-option
+            %h5.site-table_list__item-title Начало:
+            %p.site-table_list__item-text
+              = event_change.old_start.strftime("%d.%m.%Y %H:%M") + ' -> ' + event_change.new_start.strftime("%d.%m.%Y %H:%M")
+          %div.site-table_list__item-option
+            %h5.site-table_list__item-title Конец:
+            %p.site-table_list__item-text
+              = event_change.old_stop.strftime("%d.%m.%Y %H:%M") + ' -> ' + event_change.new_stop.strftime("%d.%m.%Y %H:%M")
+          %div.site-table_list__item-option
+            %h5.site-table_list__item-title Стоимость:
+            %p.site-table_list__item-text
+              = number_to_integer_currency event_change.total
+          = f.button 'Перейти к оплате', value: :pay
+          = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить данный заказ?"}
+    -# конец блока который нужно показывать с разрешения экрана 767px и ниже
+
+
+
+- if @recoupments.present?
+  %hr
+  %h4 Отыгрыши
+
+  -# начало блока который нужно показывать с разрешения экрана 768px и выше
+  .site-table
+    %table.table.table-hover#recoupments
       %thead
         %tr
-          %th
           %th Стадион
           %th Площадка
-          %th Начало
-          %th Конец
-          %th Стоимость
+          %th Цена
       %tbody
-        - @event_changes.unpaid.future.each do |event_change|
+        - @recoupments.each do |recoupment|
           %tr
-            %td= check_box_tag "event_change_ids[]", event_change.id
-            %td= event_change.event.area.stadium.name
-            %td= event_change.event.area.name
-            %td= event_change.old_start.strftime("%d.%m.%Y %H:%M") + ' -> ' + event_change.new_start.strftime("%d.%m.%Y %H:%M")
-            %td= event_change.old_stop.strftime("%d.%m.%Y %H:%M") + ' -> ' + event_change.new_stop.strftime("%d.%m.%Y %H:%M")
-            %td= number_to_integer_currency event_change.total
-    = f.button 'Перейти к оплате', value: :pay
-    = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}
-- if @recoupments.present?
-  %h4 Отыгрыши
-  %table.table.table-hover#recoupments
+            %td= recoupment.area.stadium.name
+            %td= recoupment.area.name
+            %td= number_to_integer_currency(recoupment.price)
+  -# конец блока который нужно показывать с разрешения экрана 768px и выше
+
+  -# начало блока который нужно показывать с разрешения экрана 767px и ниже
+  %div.site-table_list#recoupments
+    - @recoupments.each do |recoupment|
+      %div.site-table_list__item
+        %div.site-table_list__item-option
+          %h5.site-table_list__item-title Стадион:
+          %p.site-table_list__item-text
+            = recoupment.area.stadium.name
+        %div.site-table_list__item-option
+          %h5.site-table_list__item-title Площадка:
+          %p.site-table_list__item-text
+            = recoupment.area.name
+        %div.site-table_list__item-option
+          %h5.site-table_list__item-title Стоимость:
+          %p.site-table_list__item-text
+            = number_to_integer_currency(recoupment.price)
+  -# конец блока который нужно показывать с разрешения экрана 767px и ниже
+
+
+
+%hr
+%h4 Оплаченные занятия
+
+-# начало блока который нужно показывать с разрешения экрана 768px и выше
+.site-table
+  %table.table.table-striped#paid-events
     %thead
       %tr
+        %th #
         %th Стадион
         %th Площадка
-        %th Цена
+        %th Период занятий
+        %th Время тренировок
+        %th Стоимость
+        %th Перенос
+        %th
+        %th
     %tbody
-      - @recoupments.each do |recoupment|
+      - @events.paid.future.each do |event|
         %tr
-          %td= recoupment.area.stadium.name
-          %td= recoupment.area.name
-          %td= number_to_integer_currency(recoupment.price)
-%h4 Оплаченные занятия
-%table.table.table-striped#paid-events
-  %thead
-    %tr
-      %th #
-      %th Стадион
-      %th Площадка
-      %th Период занятий
-      %th Время тренировок
-      %th Стоимость
-      %th Перенос
-      %th
-      %th
-  %tbody
-    - @events.paid.future.each do |event|
-      %tr
-        %td= event.id
-        %td= event.area.stadium.name
-        %td= event.area.name
-        %td= l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
-        %td= event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
-        %td= number_to_integer_currency event.price
-        %td
+          %td= event.id
+          %td= event.area.stadium.name
+          %td= event.area.name
+          %td= l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
+          %td= event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
+          %td= number_to_integer_currency event.price
+          %td
+            - if event.has_unpaid_changes?
+              - if event.event_change.total == 0
+                = link_to "Подтвердить перенос", pay_change_my_event_path(event.event_change.id), method: :post, data: { confirm: "Вы действительно хотите подтвердить перенос? Впоследствии вы не сможете его поменять" }
+              - else
+                = link_to "Оплатить перенос", orders_path('event_change_ids[]' => event.event_change.id), method: :post
+            - elsif event.has_paid_changes?
+              Оплачен
+            - else
+              &mdash;
+          %td= link_to "Чек", ticket_event_path(event)
+          - if event.for_sale?
+            %td Заказ выставлен на продажу
+          - else
+            %td= link_to "Продать", sell_my_event_path(event), method: :post, data: {confirm: "Вы действительно хотите продать данный заказ?"}
+-# конец блока который нужно показывать с разрешения экрана 768px и выше
+
+-# начало блока который нужно показывать с разрешения экрана 767px и ниже
+%div.site-table_list#paid-events
+  - @events.paid.future.each do |event|
+    %div.site-table_list__item
+      %div.site-table_list__item-option
+        %h5.site-table_list__item-title Стадион:
+        %p.site-table_list__item-text
+          = event.area.stadium.name
+      %div.site-table_list__item-option
+        %h5.site-table_list__item-title Площадка:
+        %p.site-table_list__item-text
+          = event.area.name
+      %div.site-table_list__item-option
+        %h5.site-table_list__item-title Период занятий:
+        %p.site-table_list__item-text
+          = l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
+      %div.site-table_list__item-option
+        %h5.site-table_list__item-title Время тренирово:
+        %p.site-table_list__item-text
+          = event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
+      %div.site-table_list__item-option
+        %h5.site-table_list__item-title Стоимость:
+        %p.site-table_list__item-text
+          = number_to_integer_currency event.price
+      %div.site-table_list__item-option
+        %h5.site-table_list__item-title Перенос:
+        %p.site-table_list__item-text
           - if event.has_unpaid_changes?
             - if event.event_change.total == 0
               = link_to "Подтвердить перенос", pay_change_my_event_path(event.event_change.id), method: :post, data: { confirm: "Вы действительно хотите подтвердить перенос? Впоследствии вы не сможете его поменять" }
@@ -114,8 +296,15 @@
             Оплачен
           - else
             &mdash;
-        %td= link_to "Чек", ticket_event_path(event)
-        - if event.for_sale?
-          %td Заказ выставлен на продажу
-        - else
-          %td= link_to "Продать", sell_my_event_path(event), method: :post, data: {confirm: "Вы действительно хотите продать данный заказ?"}
+      %div.site-table_list__item-option
+        %h5.site-table_list__item-title
+          = link_to "Чек", ticket_event_path(event)
+      - if event.for_sale?
+        %div.site-table_list__item-option
+          %h5.site-table_list__item-title
+            Заказ выставлен на продажу
+      - else
+        %div.site-table_list__item-option
+          %h5.site-table_list__item-title
+            = link_to "Продать", sell_my_event_path(event), method: :post, data: {confirm: "Вы действительно хотите продать данный заказ?"}
+-# конец блока который нужно показывать с разрешения экрана 767px и ниже

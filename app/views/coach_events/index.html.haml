@@ -4,9 +4,9 @@
       %h1
         Тренер
       .row
-        .col-xs-2
+        .col-sm-6.col-xs-12.coach__item_image
           = image_tag @coach.avatar.small_square.presence || 'placeholder.png', class: 'avatar photo pull-left'
-        .col-xs-10
+        .col-sm-6.col-xs-12.coach__item_info
           %h3= @coach.name
           - if @coach.phone?
             %h5= fa_icon('phone') + ' ' + @coach.phone

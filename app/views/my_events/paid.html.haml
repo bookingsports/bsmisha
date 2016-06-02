@@ -1,27 +1,71 @@
 %h4 Заказы
-%table.table
-  %thead
-    %tr
-      %th #
-      %th Стадион
-      %th Площадка
-      %th Период занятий
-      %th Время тренировок
-      %th Стоимость
-      %th Доплатить минут
-      %th
+-# начало блока который нужно показывать с разрешения экрана 768px и выше
+.site-table
+  %table.table
+    %thead
+      %tr
+        %th #
+        %th Стадион
+        %th Площадка
+        %th Период занятий
+        %th Время тренировок
+        %th Стоимость
+        %th Доплатить минут
+        %th
+    - @events.paid.each do |event|
+      %tr
+        %td= event.id
+        %td= event.area.stadium.name
+        %td= event.area.name
+        %td= l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
+        %td= event.start.strftime("%H:%M:%S") + ' - ' + event.stop.strftime("%H:%M:%S")
+        %td= number_to_integer_currency event.price
+        - if event.past?
+          = form_for :events, url: overpay_my_event_path(event) do |f|
+            %td= text_field_tag :value
+            %td= f.submit 'Выставить счет'
+        - else
+          %td Заказ еще не завершился
+          %td
+-# конец блока который нужно показывать с разрешения экрана 768px и выше
+
+
+-# начало блока который нужно показывать с разрешения экрана 767px и ниже
+%div.site-table_list
   - @events.paid.each do |event|
-    %tr
-      %td= event.id
-      %td= event.area.stadium.name
-      %td= event.area.name
-      %td= l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
-      %td= event.start.strftime("%H:%M:%S") + ' - ' + event.stop.strftime("%H:%M:%S")
-      %td= number_to_integer_currency event.price
+    %div.site-table_list__item
+      %div.site-table_list__item-option
+        %h5.site-table_list__item-title Стадион:
+        %p.site-table_list__item-text
+          = event.area.stadium.name
+      %div.site-table_list__item-option
+        %h5.site-table_list__item-title Площадка:
+        %p.site-table_list__item-text
+          = event.area.name
+      %div.site-table_list__item-option
+        %h5.site-table_list__item-title Период занятий:
+        %p.site-table_list__item-text
+          = l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
+      %div.site-table_list__item-option
+        %h5.site-table_list__item-title Время тренировок:
+        %p.site-table_list__item-text
+          = event.start.strftime("%H:%M:%S") + ' - ' + event.stop.strftime("%H:%M:%S")
+      %div.site-table_list__item-option
+        %h5.site-table_list__item-title Стоимость:
+        %p.site-table_list__item-text
+          = number_to_integer_currency event.price
       - if event.past?
         = form_for :events, url: overpay_my_event_path(event) do |f|
-          %td= text_field_tag :value
-          %td= f.submit 'Выставить счет'
+          %div.site-table_list__item-option
+            %h5.site-table_list__item-title Доплатить минут:
+            %p.site-table_list__item-text
+              = text_field_tag :value
+          %div.site-table_list__item-option
+            %h5.site-table_list__item-title
+              = f.submit 'Выставить счет'
       - else
-        %td Заказ еще не завершился
-        %td
+        %div.site-table_list__item-option
+          %h5.site-table_list__item-title Доплатить минут:
+          %p.site-table_list__item-text
+            Заказ еще не завершился
+-# конец блока который нужно показывать с разрешения экрана 767px и ниже

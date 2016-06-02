@@ -3,11 +3,11 @@
     %h2 Расписание
     = simple_form_for "", url: one_day_events_path, wrapper: 'horizontal_form' do |f|
       .row
-        .col-xs-6
+        .col-sm-5.col-xs-12
           = f.input :day, label: 'День', as: :datetime, default: @day, discard_hour: true
-        .col-xs-4
+        .col-sm-5.col-xs-12
           = f.input :stadium, label: 'Стадион', as: :check_boxes, collection: Stadium.active.map {|s|[s.name, s.id]}, checked: @stadium.map(&:to_i)
-        .col-xs-2
+        .col-sm-2.col-xs-12
           = f.button :submit, 'Выбрать'
 
     -if @events.present?
@@ -15,15 +15,37 @@
         %h3= stadium.name
         - by_stadium.group_by{|e| e.area}.each do |area, by_area|
           %h4= area.name
-          %table.table
-            %thead
-              %tr
-                %th Начало
-                %th Конец
-                %th Покупатель
-            %tbody
+
+          -# начало блока который нужно показывать с разрешения экрана 768px и выше
+          .site-table
+            %table.table
+              %thead
+                %tr
+                  %th Начало
+                  %th Конец
+                  %th Покупатель
+              %tbody
+              - by_area.sort_by(&:start).each do |e|
+                %tr
+                  %td= e.start.strftime("%H:%M")
+                  %td= e.stop.strftime("%H:%M")
+                  %td= e.user.name
+          -# конец блока который нужно показывать с разрешения экрана 768px и выше
+
+          -# начало блока который нужно показывать с разрешения экрана 767px и ниже
+          %div.site-table_list
             - by_area.sort_by(&:start).each do |e|
-              %tr
-                %td= e.start.strftime("%H:%M")
-                %td= e.stop.strftime("%H:%M")
-                %td= e.user.name
+              %div.site-table_list__item
+                %div.site-table_list__item-option
+                  %h5.site-table_list__item-title Начало:
+                  %p.site-table_list__item-text
+                    = e.start.strftime("%H:%M")
+                %div.site-table_list__item-option
+                  %h5.site-table_list__item-title Конец:
+                  %p.site-table_list__item-text
+                    = e.stop.strftime("%H:%M")
+                %div.site-table_list__item-option
+                  %h5.site-table_list__item-title Покупатель:
+                  %p.site-table_list__item-text
+                    = e.user.name
+          -# конец блока который нужно показывать с разрешения экрана 767px и ниже

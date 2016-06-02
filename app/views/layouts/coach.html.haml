@@ -5,15 +5,15 @@
         %h1
           Тренер
         .row
-          .col-xs-2
+          .col-sm-3.col-xs-12.coach__item_image
             = image_tag @coach.avatar.small_square.presence || 'placeholder.png', class: 'avatar photo pull-left'
-          .col-xs-10
+          .col-sm-9.col-xs-12
             %h3= @coach.name
             - if @coach.phone.present?
               %h5= fa_icon('phone') + ' ' + @coach.phone
             - if @coach.email.present?
               %h5= fa_icon('envelope') + ' ' + @coach.email
-            %p= truncate(@coach.description, length: 240)
+            %p= truncate(@coach.description)
         %hr/
         .row
           .col-xs-12.col-sm-12.col-md-12.col-lg-12

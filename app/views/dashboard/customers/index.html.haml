@@ -1,11 +1,18 @@
 %h2 Клиенты
-%table.table.table-hover
-  %thead
-    %tr
-      %th Имя
-      %th Телефон
-      %th Почта
-      %th Количество занятий
-      %th
-  %tbody
-    = render collection: @customers, partial: 'customer'
+-# начало блока который нужно показывать с разрешения экрана 768px и выше
+.site-table
+  %table.table.table-hover
+    %thead
+      %tr
+        %th Имя
+        %th Телефон
+        %th Почта
+        %th Количество занятий
+        %th
+    %tbody
+      = render collection: @customers, partial: 'customer'
+-# конец блока который нужно показывать с разрешения экрана 768px и выше
+
+-# начало блока который нужно показывать с разрешения экрана 767px и ниже
+= render collection: @customers, partial: 'customer_list', as: 'customer'
+-# конец блока который нужно показывать с разрешения экрана 767px и ниже

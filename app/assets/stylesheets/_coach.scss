@@ -42,6 +42,17 @@
   margin: 0 0 10px;
 }
 
+@media all and (max-width: 1200px) {
+  .coach__item_name {
+    margin: 0 0 10px;
+    font-size: 12px;
+    line-height: 16px;
+  }
+  .coach__item_text {
+    font-size: 11px;
+  }
+}
+
 @media all and (max-width: 767px) {
   .coach__item {
     padding-bottom: 30px;
