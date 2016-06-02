@@ -6,46 +6,53 @@
         .col-sm-5.col-xs-12
           = f.input :day, label: 'День', as: :datetime, default: @day, discard_hour: true
         .col-sm-5.col-xs-12
-          = f.input :stadium, label: 'Стадион', as: :check_boxes, collection: Stadium.active.map {|s|[s.name, s.id]}, checked: @stadium.map(&:to_i)
+          = f.input :stadium, label: 'Стадион', as: :check_boxes, collection: Stadium.active.map {|s|[s.name, s.id]}, checked: @stadiums.map(&:to_i)
         .col-sm-2.col-xs-12
           = f.button :submit, 'Выбрать'
 
-    -if @events.present?
-      - @events.group_by{|e| e.area.stadium}.each do |stadium, by_stadium|
+      - Stadium.find(@stadiums - [""]).each do |stadium|
         %h3= stadium.name
-        - by_stadium.group_by{|e| e.area}.each do |area, by_area|
-          %h4= area.name
-
-          -# начало блока который нужно показывать с разрешения экрана 768px и выше
-          .site-table
-            %table.table
-              %thead
+        -# начало блока который нужно показывать с разрешения экрана 768px и выше
+        .site-table
+          %table.table
+            %tbody
+              - stadium.areas.each do |area|
                 %tr
-                  %th Начало
-                  %th Конец
-                  %th Покупатель
-              %tbody
-              - by_area.sort_by(&:start).each do |e|
-                %tr
-                  %td= e.start.strftime("%H:%M")
-                  %td= e.stop.strftime("%H:%M")
-                  %td= e.user.name
+                  %td= area.name
+                  - if Event.paid_or_confirmed.where(area: area).where(start: @day.beginning_of_day..@day.end_of_day).present?
+                    - Event.paid_or_confirmed.where(area: area).where(start: @day.beginning_of_day..@day.end_of_day).sort_by(&:start).each do |e|
+                      %td= "#{e.start.strftime("%H:%M")} -#{e.stop.strftime("%H:%M")} #{e.user.name}"
+                  - else
+                    %td Нет заказов
+          -#.site-table
+          -#  %table.table
+          -#    %thead
+          -#      %tr
+          -#        %th Начало
+          -#        %th Конец
+          -#        %th Покупатель
+          -#    %tbody
+          -#    - by_area.sort_by(&:start).each do |e|
+          -#      %tr
+          -#        %td= e.start.strftime("%H:%M")
+          -#        %td= e.stop.strftime("%H:%M")
+          -#        %td= e.user.name
           -# конец блока который нужно показывать с разрешения экрана 768px и выше
 
           -# начало блока который нужно показывать с разрешения экрана 767px и ниже
-          %div.site-table_list
-            - by_area.sort_by(&:start).each do |e|
-              %div.site-table_list__item
-                %div.site-table_list__item-option
-                  %h5.site-table_list__item-title Начало:
-                  %p.site-table_list__item-text
-                    = e.start.strftime("%H:%M")
-                %div.site-table_list__item-option
-                  %h5.site-table_list__item-title Конец:
-                  %p.site-table_list__item-text
-                    = e.stop.strftime("%H:%M")
-                %div.site-table_list__item-option
-                  %h5.site-table_list__item-title Покупатель:
-                  %p.site-table_list__item-text
-                    = e.user.name
+          -# %div.site-table_list
+          -#   - by_area.sort_by(&:start).each do |e|
+          -#     %div.site-table_list__item
+          -#       %div.site-table_list__item-option
+          -#         %h5.site-table_list__item-title Начало:
+          -#         %p.site-table_list__item-text
+          -#           = e.start.strftime("%H:%M")
+          -#       %div.site-table_list__item-option
+          -#         %h5.site-table_list__item-title Конец:
+          -#         %p.site-table_list__item-text
+          -#           = e.stop.strftime("%H:%M")
+          -#       %div.site-table_list__item-option
+          -#         %h5.site-table_list__item-title Покупатель:
+          -#         %p.site-table_list__item-text
+          -#           = e.user.name
           -# конец блока который нужно показывать с разрешения экрана 767px и ниже

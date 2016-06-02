@@ -52,6 +52,8 @@ class TicketPdf < Prawn::Document
       text @event.coach.name
     end
     print_stadium_services
+
+    print_qr_code qrcode_content, extent: 250, stroke: false
   end
 
   def print_stadium_services
@@ -66,5 +68,9 @@ class TicketPdf < Prawn::Document
       text 'Повторения:', style: :bold
       table([['Дата', 'Начало', 'Конец']] + @event.all_occurrences.each.map{|o| [o.to_date, o.strftime("%H:%M"), (o + @event.duration).strftime("%H:%M")]})
     end
+  end
+
+  def qrcode_content
+    "Заказ №#{@event.id}, начало: #{@event.start}, конец: #{@event.stop}, повторений: #{@event.occurrences}, стоимость: #{@event.price.to_s} руб."
   end
 end

@@ -57,10 +57,8 @@ class EventsController < ApplicationController
   end
 
   def one_day
-    @stadium = params[:stadium].present? ? params[:stadium] : Stadium.active.map(&:id)
+    @stadiums = params[:stadium].present? ? params[:stadium] : Stadium.active.map(&:id)
     @day = params["day(1i)"].present? ? DateTime.new(params["day(1i)"].to_i, params["day(2i)"].to_i, params["day(3i)"].to_i) : DateTime.now
-
-    @events = Event.paid_or_confirmed.joins(:area).where(areas: {stadium_id: @stadium}).where(start: @day.beginning_of_day..@day.end_of_day)
   end
 
   def private
