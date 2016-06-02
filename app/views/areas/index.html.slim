@@ -3,14 +3,14 @@
   = javascript_include_tag 'all-areas'
 
 .row.top15
-  .col-xs-4
+  .col-lg-4.col-xs-12
     h4 Площадки
     ul.nav.nav-pills.nav-stacked
       - if @product.kind_of? Stadium
         = active_link_to 'Все площадки', stadium_areas_path, active: /areas$/, wrap_tag: :li
       - @product.areas.each do |cc|
         = active_link_to [cc.name].compact.join(', '), url_for([@product, cc]), active: /areas\/#{cc.to_param}/, wrap_tag: :li
-  .col-xs-8
+  .col-lg-8.col-xs-12
     = render 'schedule_legend'
 
     #scheduler

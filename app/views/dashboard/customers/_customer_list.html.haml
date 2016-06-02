@@ -1,0 +1,21 @@
+%div.site-table_list
+  %div.site-table_list__item
+    %div.site-table_list__item-option
+      %h5.site-table_list__item-title Имя:
+      %p.site-table_list__item-text
+        = customer.name
+    %div.site-table_list__item-option
+      %h5.site-table_list__item-title Телефон:
+      %p.site-table_list__item-text
+        = customer.phone
+    %div.site-table_list__item-option
+      %h5.site-table_list__item-title Почта:
+      %p.site-table_list__item-text
+        = customer.email
+    %div.site-table_list__item-option
+      %h5.site-table_list__item-title Количество занятий:
+      %p.site-table_list__item-text
+        = customer.events.where(coach: current_user.coach).count
+    %div.site-table_list__item-option
+      %h5.site-table_list__item-title
+        = link_to "Подробнее", dashboard_customer_path(id: customer.id), class: 'btn btn-info btn-sm'

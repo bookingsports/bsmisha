@@ -1,36 +1,86 @@
 - if @coaches.any?
-  %table.table
-    %thead
-      %tr
-        %th Имя
-        %th Почта
-        %th Дата создания
-        %th Площадки
-    %tbody
-      - @coaches.sort_by(&:id).each do |coach|
+  -# начало блока который нужно показывать с разрешения экрана 768px и выше
+  .site-table
+    %table.table
+      %thead
         %tr
-          %td= coach.name
-          %td= coach.email
-          %td= coach.created_at
-          %td
-            %table.table
-              %thead
-                %tr
-                  %th Название
-                  %th Цена
-                  %th % стадиона
-                  %th
-              %tbody
-              - coach.coaches_areas.where(area: current_user.stadium.area_ids).sort_by(&:area_id).each do |ca|
-                %tr
-                  %td= ca.area.name
-                  %td= ca.price_formatted
-                  %td= ca.stadium_percent.to_s
-                  - if ca.pending?
-                    %td= link_to 'Подтвердить', confirm_dashboard_coach_user_path(ca.id)
-                  - elsif ca.active?
-                    %td= link_to 'Заблокировать', confirm_dashboard_coach_user_path(ca.id)
-                  - else
-                    %td= link_to 'Разблокировать', confirm_dashboard_coach_user_path(ca.id)
+          %th Имя
+          %th Почта
+          %th Дата создания
+          %th Площадки
+      %tbody
+        - @coaches.sort_by(&:id).each do |coach|
+          %tr
+            %td= coach.name
+            %td= coach.email
+            %td= coach.created_at
+            %td
+              %table.table
+                %thead
+                  %tr
+                    %th Название
+                    %th Цена
+                    %th % стадиона
+                    %th
+                %tbody
+                - coach.coaches_areas.where(area: current_user.stadium.area_ids).sort_by(&:area_id).each do |ca|
+                  %tr
+                    %td= ca.area.name
+                    %td= ca.price_formatted
+                    %td= ca.stadium_percent.to_s
+                    - if ca.pending?
+                      %td= link_to 'Подтвердить', confirm_dashboard_coach_user_path(ca.id)
+                    - elsif ca.active?
+                      %td= link_to 'Заблокировать', confirm_dashboard_coach_user_path(ca.id)
+                    - else
+                      %td= link_to 'Разблокировать', confirm_dashboard_coach_user_path(ca.id)
+  -# конец блока который нужно показывать с разрешения экрана 768px и выше
+
+  -# начало блока который нужно показывать с разрешения экрана 767px и ниже
+  %div.site-table_list
+    - @coaches.sort_by(&:id).each do |coach|
+      %div.site-table_list__item
+        %div.site-table_list__item-option
+          %h5.site-table_list__item-title Имя:
+          %p.site-table_list__item-text
+            = coach.name
+        %div.site-table_list__item-option
+          %h5.site-table_list__item-title Почта:
+          %p.site-table_list__item-text
+            = coach.email
+        %div.site-table_list__item-option
+          %h5.site-table_list__item-title Дата создания:
+          %p.site-table_list__item-text
+            = coach.created_at
+        %div.site-table_list__item-option
+          %h5.site-table_list__item-title Площадки:
+          - coach.coaches_areas.where(area: current_user.stadium.area_ids).sort_by(&:area_id).each do |ca|
+            %div.site-table_list__item
+              %div.site-table_list__item-option
+                %h5.site-table_list__item-title Название:
+                %p.site-table_list__item-text
+                  = ca.area.name
+              %div.site-table_list__item-option
+                %h5.site-table_list__item-title Цена:
+                %p.site-table_list__item-text
+                  = ca.price_formatted
+              %div.site-table_list__item-option
+                %h5.site-table_list__item-title % стадиона:
+                %p.site-table_list__item-text
+                  = ca.stadium_percent.to_s
+              - if ca.pending?
+                %div.site-table_list__item-option
+                  %h5.site-table_list__item-title
+                    = link_to 'Подтвердить', confirm_dashboard_coach_user_path(ca.id)
+              - elsif ca.active?
+                %div.site-table_list__item-option
+                  %h5.site-table_list__item-title
+                    = link_to 'Заблокировать', confirm_dashboard_coach_user_path(ca.id)
+              - else
+                %div.site-table_list__item-option
+                  %h5.site-table_list__item-title
+                    = link_to 'Разблокировать', confirm_dashboard_coach_user_path(ca.id)
+  -# конец блока который нужно показывать с разрешения экрана 767px и ниже
+
 - else
   Пока нет тренеров

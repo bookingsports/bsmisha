@@ -1,23 +1,53 @@
-%h1
-  Настройка цен
+%h1 Настройка цен
 = link_to 'Создать период', new_dashboard_area_price_path, class: 'btn btn-primary'
-%table.table
-  %thead
-    %tr
-      %th Стадион/площадка
-      %th Начало
-      %th Конец
-      %th
-      %th
-  %tbody
-    - @prices.each do |dashboard_price|
+-# начало блока который нужно показывать с разрешения экрана 768px и выше
+.site-table
+  %table.table
+    %thead
       %tr
-        %td= dashboard_price.area.name
-        %td= dashboard_price.start
-        %td= dashboard_price.stop
-        -# %td= t(dashboard_price.is_sale.to_s)
-        %td= link_to 'Редактировать', edit_dashboard_area_price_path(dashboard_price.area, dashboard_price)
-        %td= link_to 'Удалить', dashboard_area_price_path(dashboard_price.area, dashboard_price), method: :delete, data: { confirm: 'Вы уверены?' }
-    - if @prices.empty?
-      %tr
-        %td.text-center{colspan: 7} Пока не создано
+        %th Стадион/площадка
+        %th Начало
+        %th Конец
+        %th
+        %th
+    %tbody
+      - @prices.each do |dashboard_price|
+        %tr
+          %td= dashboard_price.area.name
+          %td= dashboard_price.start
+          %td= dashboard_price.stop
+          %td= link_to 'Редактировать', edit_dashboard_area_price_path(dashboard_price.area, dashboard_price)
+          %td= link_to 'Удалить', dashboard_area_price_path(dashboard_price.area, dashboard_price), method: :delete, data: { confirm: 'Вы уверены?' }
+      - if @prices.empty?
+        %tr
+          %td.text-center{colspan: 7} Пока не создано
+-# конец блока который нужно показывать с разрешения экрана 768px и выше
+
+-# начало блока который нужно показывать с разрешения экрана 767px и ниже
+%div.site-table_list
+  - @prices.each do |dashboard_price|
+    %div.site-table_list__item
+      %div.site-table_list__item-option
+        %h5.site-table_list__item-title Стадион/площадка:
+        %p.site-table_list__item-text
+          = dashboard_price.area.name
+      %div.site-table_list__item-option
+        %h5.site-table_list__item-title Начало:
+        %p.site-table_list__item-text
+          = dashboard_price.start
+      %div.site-table_list__item-option
+        %h5.site-table_list__item-title Конец:
+        %p.site-table_list__item-text
+          = dashboard_price.stop
+      %div.site-table_list__item-option
+        %h5.site-table_list__item-title
+          = link_to 'Редактировать', edit_dashboard_area_price_path(dashboard_price.area, dashboard_price)
+      %div.site-table_list__item-option
+        %h5.site-table_list__item-title
+          = link_to 'Удалить', dashboard_area_price_path(dashboard_price.area, dashboard_price), method: :delete, data: { confirm: 'Вы уверены?' }
+  - if @prices.empty?
+    %div.site-table_list__item
+      %div.site-table_list__item-option
+        %h5.site-table_list__item-title
+          Пока не создано
+-# конец блока который нужно показывать с разрешения экрана 767px и ниже

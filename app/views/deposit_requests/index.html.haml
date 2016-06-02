@@ -1,33 +1,64 @@
 %h2 Пополнение кошелька
 = simple_form_for [DepositRequest.new], wrapper: 'horizontal_form' do |f|
   .row
-    .col-xs-4
+    .col-sm-4.col-xs-12
       = f.input :amount, label: 'Сумма', hint: "Макс. сумма: #{number_to_currency(Rails.application.secrets.amount_limit, locale: :ru)}", as: :integer, input_html: { max: Rails.application.secrets.amount_limit, value: 5000 }
-    .col-xs-4
+    .col-sm-4.col-xs-12
       = f.input :payment_method, as: :hidden, label: 'Метод оплаты', collection: DepositRequest.payment_methods.map {|k,v| [I18n.t("enums.deposit_request.payment_method.#{k}"), k] }, selected: 0
-    .col-xs-4
+    .col-sm-4.col-xs-12
       = f.button :submit, 'Пополнить'
 
 %h3 История
 - if @requests.any?
-  %table.table
-    %thead
-      %tr
-        %th Дата
-        %th Количество
-        %th Результат
-        %th Метод оплаты
-        %th
-    %tbody
-      - @requests.each do |request|
+
+  -# начало блока который нужно показывать с разрешения экрана 768px и выше
+  .site-table
+    %table.table
+      %thead
         %tr
-          %td= l request.created_at, format: :short
-          %td= number_to_currency request.amount, precision: 0
-          %td= t request.status || 'none'
-          %td= t "enums.deposit_request.payment_method.#{request.payment_method}"
-          - if request.pending?
-            %td= link_to "Оплатить", pay_deposit_request_path(request)
-          - else
-            %td
+          %th Дата
+          %th Количество
+          %th Результат
+          %th Метод оплаты
+          %th
+      %tbody
+        - @requests.each do |request|
+          %tr
+            %td= l request.created_at, format: :short
+            %td= number_to_currency request.amount, precision: 0
+            %td= t request.status || 'none'
+            %td= t "enums.deposit_request.payment_method.#{request.payment_method}"
+            - if request.pending?
+              %td= link_to "Оплатить", pay_deposit_request_path(request)
+            - else
+              %td
+  -# конец блока который нужно показывать с разрешения экрана 768px и выше
+
+  -# начало блока который нужно показывать с разрешения экрана 767px и ниже
+  %div.site-table_list
+    - @requests.each do |request|
+      %div.site-table_list__item
+        %div.site-table_list__item-option
+          %h5.site-table_list__item-title Дата:
+          %p.site-table_list__item-text
+            = l request.created_at, format: :short
+        %div.site-table_list__item-option
+          %h5.site-table_list__item-title Количество:
+          %p.site-table_list__item-text
+            = number_to_currency request.amount, precision: 0
+        %div.site-table_list__item-option
+          %h5.site-table_list__item-title Результат:
+          %p.site-table_list__item-text
+            = t request.status || 'none'
+        %div.site-table_list__item-option
+          %h5.site-table_list__item-title Метод оплаты:
+          %p.site-table_list__item-text
+            = t "enums.deposit_request.payment_method.#{request.payment_method}"
+        - if request.pending?
+          %div.site-table_list__item-option
+            %h5.site-table_list__item-title
+              = link_to "Оплатить", pay_deposit_request_path(request)
+  -# конец блока который нужно показывать с разрешения экрана 767px и ниже
+
 - else
   Пока ни одного.

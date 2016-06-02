@@ -40,10 +40,16 @@
   }
 }
 
+@media all and (max-width: 991px) {
+  .navbar-default {
+    padding-right: 30px;
+    padding-left: 0;
+  }
+}
+
 @media all and (max-width: 767px) {
   .navbar-default {
     padding-right: 0;
-    padding-left: 0;
   }
   .navbar-collapse {
     background-color: #4070B6;

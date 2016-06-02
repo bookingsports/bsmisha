@@ -12,17 +12,53 @@
         = f.input :start, as: :datetime, default: DateTime.current.beginning_of_year, minute_step: 30
         = f.input :stop, as: :datetime, default: DateTime.current.end_of_year, minute_step: 30
         = link_to_add_association '+ добавить правило', f, :daily_price_rules, 'data-association-insertion-node' => '.rule_fields', 'data-association-insertion-method' => 'prepend'
-        %table.table
-          %thead
-            %tr
-              %th Начало
-              %th Конец
-              %th Рабочие дни
-              %th Цена
-              %th Акция?
-              %th
-          %tbody.rule_fields
-            = f.simple_fields_for :daily_price_rules do |rf|
-              = render "daily_price_rule_fields", f: rf
+
+        %hr
+
+        -# начало блока который нужно показывать с разрешения экрана 768px и выше
+        .site-table
+          %table.table
+            %thead
+              %tr
+                %th Начало
+                %th Конец
+                %th Рабочие дни
+                %th Цена
+                %th Акция?
+                %th
+            %tbody.rule_fields
+              = f.simple_fields_for :daily_price_rules do |rf|
+                = render "daily_price_rule_fields", f: rf
+        -# конец блока который нужно показывать с разрешения экрана 768px и выше
+
+        -# начало блока который нужно показывать с разрешения экрана 767px и ниже
+        %div.site-table_list
+          = f.simple_fields_for :daily_price_rules do |rf|
+            %div.site-table_list__item
+              %div.site-table_list__item-option
+                %h5.site-table_list__item-title Начало:
+                %p.site-table_list__item-text
+                  = rf.input :start, as: :datetime, discard_year: true, discard_month: true, default: Time.parse('09:00'), minute_step: 30, label: false
+              %div.site-table_list__item-option
+                %h5.site-table_list__item-title Конец:
+                %p.site-table_list__item-text
+                  = rf.input :stop, as: :datetime, discard_year: true, discard_month: true, default: Time.parse('18:00'), minute_step: 30, label: false
+              %div.site-table_list__item-option
+                %h5.site-table_list__item-title Рабочие дни:
+                %p.site-table_list__item-text
+                  = rf.input :working_days, collection: [["Пн", 1], ["Вт", 2], ["Ср", 3], ["Чт", 4], ["Пт", 5], ["Сб", 6], ["Вс", 0]], as: :check_boxes, item_wrapper_class: 'commented-out-checkbox-inline', label: false
+              %div.site-table_list__item-option
+                %h5.site-table_list__item-title Цена:
+                %p.site-table_list__item-text
+                  = rf.input :value, label: false
+              %div.site-table_list__item-option
+                %h5.site-table_list__item-title Акция?
+                %p.site-table_list__item-text
+                  = rf.input :is_discount, label: false
+              %div.site-table_list__item-option
+                %h5.site-table_list__item-title
+                  = link_to_remove_association 'Удалить правило', rf
+          -# конец блока который нужно показывать с разрешения экрана 767px и ниже
+
       .form-actions
         = f.button :submit

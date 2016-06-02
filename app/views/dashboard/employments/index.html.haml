@@ -1,19 +1,29 @@
 - if (Area.all - current_user.coach.areas).present?
+  %hr
   = simple_form_for CoachesArea.new, url: dashboard_employments_path, wrapper: :inline_form, html: { class: 'form-inline' } do |f|
     = f.association :area, label: 'Площадка', collection: Area.all - current_user.coach.areas, label_method: :name_with_stadium, include_blank: false
     = f.input :price, label: 'Стоимость часа', as: :decimal
     = f.input :stadium_percent, label: 'Процент стадиона', as: :decimal
     = f.button :submit, "Привязаться к стадиону"
 
+%hr
+
 %h3 Ваши стадионы
-%table.table.table-hover
-  %thead
-    %tr
-      %th Название
-      %th Площадка
-      %th Стоимость часа
-      %th Процент стадиона
-      %th Статус
-      %th
-  %tbody
-    = render collection: @areas, partial: 'area', as: 'coach_area'
+-# начало блока который нужно показывать с разрешения экрана 768px и выше
+.site-table
+  %table.table.table-hover
+    %thead
+      %tr
+        %th Название
+        %th Площадка
+        %th Стоимость часа
+        %th Процент стадиона
+        %th Статус
+        %th
+    %tbody
+      = render collection: @areas, partial: 'area', as: 'coach_area'
+-# конец блока который нужно показывать с разрешения экрана 768px и выше
+
+-# начало блока который нужно показывать с разрешения экрана 767px и ниже
+= render collection: @areas, partial: 'area_list', as: 'coach_area'
+-# конец блока который нужно показывать с разрешения экрана 767px и ниже

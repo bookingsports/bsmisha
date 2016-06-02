@@ -6,24 +6,59 @@
       .pull-right='Сумма ' + (number_to_currency order.total).to_s
       .pull-right= 'Cтатус:' + t(order.status, scope: 'simple_form.options.order.status') + '; '
     .panel-body
-      %table.table
-        %thead
-          %tr
-            %th Площадка
-            %th Начало
-            %th Конец
-            %th Длительность
-            %th Повторяется?
-            %th Цена
-        %tbody
-          - order.events.joins(area: :stadium).where('stadiums.id = ?', current_user.stadium.id).each do |event|
+
+      -# начало блока который нужно показывать с разрешения экрана 768px и выше
+      .site-table
+        %table.table
+          %thead
             %tr
-              %td= event.area.name
-              %td= event.start
-              %td= event.end
-              %td= (event.duration/3600).to_i
-              %td= t('repeats', count: event.occurrences) + ' ' + (event.schedule.to_s if event.recurring?).to_s
-              %td= event.total.to_s + ' руб.'
+              %th Площадка
+              %th Начало
+              %th Конец
+              %th Длительность
+              %th Повторяется?
+              %th Цена
+          %tbody
+            - order.events.joins(area: :stadium).where('stadiums.id = ?', current_user.stadium.id).each do |event|
+              %tr
+                %td= event.area.name
+                %td= event.start
+                %td= event.end
+                %td= (event.duration/3600).to_i
+                %td= t('repeats', count: event.occurrences) + ' ' + (event.schedule.to_s if event.recurring?).to_s
+                %td= event.total.to_s + ' руб.'
+      -# конец блока который нужно показывать с разрешения экрана 768px и выше
+
+      -# начало блока который нужно показывать с разрешения экрана 767px и ниже
+      %div.site-table_list
+        - order.events.joins(area: :stadium).where('stadiums.id = ?', current_user.stadium.id).each do |event|
+          %div.site-table_list__item
+            %div.site-table_list__item-option
+              %h5.site-table_list__item-title Площадка:
+              %p.site-table_list__item-text
+                = event.area.name
+            %div.site-table_list__item-option
+              %h5.site-table_list__item-title Начало:
+              %p.site-table_list__item-text
+                = event.start
+            %div.site-table_list__item-option
+              %h5.site-table_list__item-title Конец:
+              %p.site-table_list__item-text
+                = event.end
+            %div.site-table_list__item-option
+              %h5.site-table_list__item-title Длительность:
+              %p.site-table_list__item-text
+                = (event.duration/3600).to_i
+            %div.site-table_list__item-option
+              %h5.site-table_list__item-title Повторяется?
+              %p.site-table_list__item-text
+                = t('repeats', count: event.occurrences) + ' ' + (event.schedule.to_s if event.recurring?).to_s
+            %div.site-table_list__item-option
+              %h5.site-table_list__item-title Цена:
+              %p.site-table_list__item-text
+                = event.total.to_s + ' руб.'
+      -# конец блока который нужно показывать с разрешения экрана 767px и ниже
+
     = simple_form_for [:dashboard, order], wrapper: :inline_form, html: { class: 'form-inline' } do |f|
       = f.input :status, collection: [:unpaid, :paid, :change, :rain, :other], :label => 'Статус'
       = f.input :comment, :label => 'Комментарий'
