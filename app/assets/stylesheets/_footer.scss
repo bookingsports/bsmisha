@@ -43,8 +43,9 @@
 
 @media all and (max-width: 767px) {
   .footer {
-    position: relative;
-    height: auto;
+    //position: relative;
+    //height: auto;
+    height: 140px;
     padding: 15px 10px;
   }
   .footer__menu {

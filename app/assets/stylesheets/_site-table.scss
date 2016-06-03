@@ -1,7 +1,7 @@
 .site-table {
   display: block;
 
-  @media all and (max-width: 767px) {
+  @media all and (max-width: 991px) {
     display: none;
   }
 }
@@ -9,7 +9,7 @@
 .site-table_list {
   display: none;
 
-  @media all and (max-width: 767px) {
+  @media all and (max-width: 991px) {
     display: block;
   }
 }

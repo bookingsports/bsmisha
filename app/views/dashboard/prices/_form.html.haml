@@ -15,7 +15,7 @@
 
         %hr
 
-        -# начало блока который нужно показывать с разрешения экрана 768px и выше
+        -# начало блока который нужно показывать с разрешения экрана 992px и выше
         .site-table
           %table.table
             %thead
@@ -29,9 +29,9 @@
             %tbody.rule_fields
               = f.simple_fields_for :daily_price_rules do |rf|
                 = render "daily_price_rule_fields", f: rf
-        -# конец блока который нужно показывать с разрешения экрана 768px и выше
+        -# конец блока который нужно показывать с разрешения экрана 992px и выше
 
-        -# начало блока который нужно показывать с разрешения экрана 767px и ниже
+        -# начало блока который нужно показывать с разрешения экрана 991px и ниже
         %div.site-table_list
           = f.simple_fields_for :daily_price_rules do |rf|
             %div.site-table_list__item
@@ -58,7 +58,7 @@
               %div.site-table_list__item-option
                 %h5.site-table_list__item-title
                   = link_to_remove_association 'Удалить правило', rf
-          -# конец блока который нужно показывать с разрешения экрана 767px и ниже
+          -# конец блока который нужно показывать с разрешения экрана 991px и ниже
 
       .form-actions
         = f.button :submit

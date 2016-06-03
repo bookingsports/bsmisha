@@ -3,7 +3,7 @@
   %dt Баланс
   %dd= number_to_integer_currency @customer.events.paid.where(coach: current_user.coach).map(&:price).inject(&:+).to_i
 %h3 Грядущие
--# начало блока который нужно показывать с разрешения экрана 768px и выше
+-# начало блока который нужно показывать с разрешения экрана 992px и выше
 .site-table
   %table.table
     %thead
@@ -19,9 +19,9 @@
           %td= l e.start, format: :short
           %td= l e.stop, format: :short
           %td= number_to_integer_currency e.price
--# конец блока который нужно показывать с разрешения экрана 768px и выше
+-# конец блока который нужно показывать с разрешения экрана 992px и выше
 
--#начало блока который нужно показывать с разрешения экрана 767px и ниже
+-#начало блока который нужно показывать с разрешения экрана 991px и ниже
 %div.site-table_list
   - @customer.events.future.paid.where(coach: current_user.coach).order(created_at: :desc).each do |e|
     %div.site-table_list__item
@@ -37,10 +37,10 @@
       %div.site-table_list__item-option
         %h5.site-table_list__item-title Сумма:
         %p.site-table_list__item-text= number_to_integer_currency e.price
--#конец блока который нужно показывать с разрешения экрана 767px и ниже
+-#конец блока который нужно показывать с разрешения экрана 991px и ниже
 
 %h3 Прошедшие
--# начало блока который нужно показывать с разрешения экрана 768px и выше
+-# начало блока который нужно показывать с разрешения экрана 992px и выше
 .site-table
   %table.table
     %thead
@@ -56,9 +56,9 @@
           %td= l e.start, format: :short
           %td= l e.end, format: :short
           %td= number_to_integer_currency e.price
-          -# конец блока который нужно показывать с разрешения экрана 768px и выше
+          -# конец блока который нужно показывать с разрешения экрана 992px и выше
 
--#начало блока который нужно показывать с разрешения экрана 767px и ниже
+-#начало блока который нужно показывать с разрешения экрана 991px и ниже
 %div.site-table_list
   - @customer.events.past.paid.where(coach: current_user.coach).order(created_at: :desc).each do |e|
     %div.site-table_list__item
@@ -74,4 +74,4 @@
       %div.site-table_list__item-option
         %h5.site-table_list__item-title Сумма:
         %p.site-table_list__item-text= number_to_integer_currency e.price
--#конец блока который нужно показывать с разрешения экрана 767px и ниже
+-#конец блока который нужно показывать с разрешения экрана 991px и ниже

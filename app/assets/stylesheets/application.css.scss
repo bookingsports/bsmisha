@@ -30,9 +30,9 @@ html {
 
 body {
   font-family: 'Roboto', Helvetica, Arial, sans-serif !important;
-
-  @media all and (min-width: 768px) {
-    padding-bottom: 90px;
+  padding-bottom: 90px;
+  @media all and (max-width: 767px) {
+    padding-bottom: 140px;
   }
 }
 

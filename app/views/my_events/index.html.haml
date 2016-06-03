@@ -6,7 +6,7 @@
   = form_for :events, url: bulk_process_my_events_path do |f|
     %h4 Неоплаченные занятия
 
-    -# начало блока который нужно показывать с разрешения экрана 768px и выше
+    -# начало блока который нужно показывать с разрешения экрана 992px и выше
     .site-table
       %table.table.table-hover#unconfirmed-events
         %thead
@@ -29,9 +29,9 @@
       = f.button 'Забронировать', value: :confirm, data: {confirm: "Подтвердите бронирование"}
       = f.button 'Перейти к оплате', value: :pay
       = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}
-    -# конец блока который нужно показывать с разрешения экрана 768px и выше
+    -# конец блока который нужно показывать с разрешения экрана 992px и выше
 
-    -# начало блока который нужно показывать с разрешения экрана 767px и ниже
+    -# начало блока который нужно показывать с разрешения экрана 991px и ниже
     %div.site-table_list#unconfirmed-events
       - @events.unpaid.future.unconfirmed.each do |event|
         %div.site-table_list__item
@@ -58,14 +58,14 @@
           = f.button 'Забронировать', value: :confirm, data: {confirm: "Подтвердите бронирование заказа"}
           = f.button 'Перейти к оплате', value: :pay
           = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить этот заказы?"}
-      -# конец блока который нужно показывать с разрешения экрана 767px и ниже
+      -# конец блока который нужно показывать с разрешения экрана 991px и ниже
 
 - if @events.unpaid.future.confirmed.present?
   %hr
   = form_for :events, url: bulk_process_my_events_path do |f|
     %h4 Забронированные занятия
 
-    -# начало блока который нужно показывать с разрешения экрана 768px и выше
+    -# начало блока который нужно показывать с разрешения экрана 992px и выше
     .site-table
       %table.table.table-hover#confirmed-events
         %thead
@@ -87,9 +87,9 @@
               %td= number_to_integer_currency event.price
       = f.button 'Перейти к оплате', value: :pay
       = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}
-    -# конец блока который нужно показывать с разрешения экрана 768px и выше
+    -# конец блока который нужно показывать с разрешения экрана 992px и выше
 
-    -# начало блока который нужно показывать с разрешения экрана 767px и ниже
+    -# начало блока который нужно показывать с разрешения экрана 991px и ниже
     %div.site-table_list#confirmed-events
       - @events.unpaid.future.confirmed.each do |event|
         %div.site-table_list__item
@@ -115,7 +115,7 @@
               = number_to_integer_currency event.price
           = f.button 'Перейти к оплате', value: :pay
           = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить данный заказ?"}
-    -# конец блока который нужно показывать с разрешения экрана 767px и ниже
+    -# конец блока который нужно показывать с разрешения экрана 991px и ниже
 
 
 - if @event_changes.unpaid.future.present?
@@ -123,7 +123,7 @@
   = form_for :events, url: bulk_process_my_events_path do |f|
     %h4 Переносы
 
-    -# начало блока который нужно показывать с разрешения экрана 768px и выше
+    -# начало блока который нужно показывать с разрешения экрана 992px и выше
     .site-table
       %table.table.table-hover#event-changes
         %thead
@@ -145,9 +145,9 @@
               %td= number_to_integer_currency event_change.total
       = f.button 'Перейти к оплате', value: :pay
       = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}
-    -# конец блока который нужно показывать с разрешения экрана 768px и выше
+    -# конец блока который нужно показывать с разрешения экрана 992px и выше
 
-    -# начало блока который нужно показывать с разрешения экрана 767px и ниже
+    -# начало блока который нужно показывать с разрешения экрана 991px и ниже
     %div.site-table_list#event-changes
       - @event_changes.unpaid.future.each do |event_change|
         %div.site-table_list__item
@@ -173,7 +173,7 @@
               = number_to_integer_currency event_change.total
           = f.button 'Перейти к оплате', value: :pay
           = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить данный заказ?"}
-    -# конец блока который нужно показывать с разрешения экрана 767px и ниже
+    -# конец блока который нужно показывать с разрешения экрана 991px и ниже
 
 
 
@@ -181,7 +181,7 @@
   %hr
   %h4 Отыгрыши
 
-  -# начало блока который нужно показывать с разрешения экрана 768px и выше
+  -# начало блока который нужно показывать с разрешения экрана 992px и выше
   .site-table
     %table.table.table-hover#recoupments
       %thead
@@ -195,9 +195,9 @@
             %td= recoupment.area.stadium.name
             %td= recoupment.area.name
             %td= number_to_integer_currency(recoupment.price)
-  -# конец блока который нужно показывать с разрешения экрана 768px и выше
+  -# конец блока который нужно показывать с разрешения экрана 992px и выше
 
-  -# начало блока который нужно показывать с разрешения экрана 767px и ниже
+  -# начало блока который нужно показывать с разрешения экрана 991px и ниже
   %div.site-table_list#recoupments
     - @recoupments.each do |recoupment|
       %div.site-table_list__item
@@ -213,14 +213,14 @@
           %h5.site-table_list__item-title Стоимость:
           %p.site-table_list__item-text
             = number_to_integer_currency(recoupment.price)
-  -# конец блока который нужно показывать с разрешения экрана 767px и ниже
+  -# конец блока который нужно показывать с разрешения экрана 991px и ниже
 
 
 
 %hr
 %h4 Оплаченные занятия
 
--# начало блока который нужно показывать с разрешения экрана 768px и выше
+-# начало блока который нужно показывать с разрешения экрана 992px и выше
 .site-table
   %table.table.table-striped#paid-events
     %thead
@@ -258,9 +258,9 @@
             %td Заказ выставлен на продажу
           - else
             %td= link_to "Продать", sell_my_event_path(event), method: :post, data: {confirm: "Вы действительно хотите продать данный заказ?"}
--# конец блока который нужно показывать с разрешения экрана 768px и выше
+-# конец блока который нужно показывать с разрешения экрана 992px и выше
 
--# начало блока который нужно показывать с разрешения экрана 767px и ниже
+-# начало блока который нужно показывать с разрешения экрана 991px и ниже
 %div.site-table_list#paid-events
   - @events.paid.future.each do |event|
     %div.site-table_list__item
@@ -307,4 +307,4 @@
         %div.site-table_list__item-option
           %h5.site-table_list__item-title
             = link_to "Продать", sell_my_event_path(event), method: :post, data: {confirm: "Вы действительно хотите продать данный заказ?"}
--# конец блока который нужно показывать с разрешения экрана 767px и ниже
+-# конец блока который нужно показывать с разрешения экрана 991px и ниже

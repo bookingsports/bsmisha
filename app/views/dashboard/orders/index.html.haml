@@ -7,7 +7,7 @@
       .pull-right= 'Cтатус:' + t(order.status, scope: 'simple_form.options.order.status') + '; '
     .panel-body
 
-      -# начало блока который нужно показывать с разрешения экрана 768px и выше
+      -# начало блока который нужно показывать с разрешения экрана 992px и выше
       .site-table
         %table.table
           %thead
@@ -27,9 +27,9 @@
                 %td= (event.duration/3600).to_i
                 %td= t('repeats', count: event.occurrences) + ' ' + (event.schedule.to_s if event.recurring?).to_s
                 %td= event.total.to_s + ' руб.'
-      -# конец блока который нужно показывать с разрешения экрана 768px и выше
+      -# конец блока который нужно показывать с разрешения экрана 992px и выше
 
-      -# начало блока который нужно показывать с разрешения экрана 767px и ниже
+      -# начало блока который нужно показывать с разрешения экрана 991px и ниже
       %div.site-table_list
         - order.events.joins(area: :stadium).where('stadiums.id = ?', current_user.stadium.id).each do |event|
           %div.site-table_list__item
@@ -57,7 +57,7 @@
               %h5.site-table_list__item-title Цена:
               %p.site-table_list__item-text
                 = event.total.to_s + ' руб.'
-      -# конец блока который нужно показывать с разрешения экрана 767px и ниже
+      -# конец блока который нужно показывать с разрешения экрана 991px и ниже
 
     = simple_form_for [:dashboard, order], wrapper: :inline_form, html: { class: 'form-inline' } do |f|
       = f.input :status, collection: [:unpaid, :paid, :change, :rain, :other], :label => 'Статус'

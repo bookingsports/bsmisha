@@ -1,5 +1,5 @@
 - if @coaches.any?
-  -# начало блока который нужно показывать с разрешения экрана 768px и выше
+  -# начало блока который нужно показывать с разрешения экрана 992px и выше
   .site-table
     %table.table
       %thead
@@ -34,9 +34,9 @@
                       %td= link_to 'Заблокировать', confirm_dashboard_coach_user_path(ca.id)
                     - else
                       %td= link_to 'Разблокировать', confirm_dashboard_coach_user_path(ca.id)
-  -# конец блока который нужно показывать с разрешения экрана 768px и выше
+  -# конец блока который нужно показывать с разрешения экрана 992px и выше
 
-  -# начало блока который нужно показывать с разрешения экрана 767px и ниже
+  -# начало блока который нужно показывать с разрешения экрана 991px и ниже
   %div.site-table_list
     - @coaches.sort_by(&:id).each do |coach|
       %div.site-table_list__item
@@ -80,7 +80,7 @@
                 %div.site-table_list__item-option
                   %h5.site-table_list__item-title
                     = link_to 'Разблокировать', confirm_dashboard_coach_user_path(ca.id)
-  -# конец блока который нужно показывать с разрешения экрана 767px и ниже
+  -# конец блока который нужно показывать с разрешения экрана 991px и ниже
 
 - else
   Пока нет тренеров
