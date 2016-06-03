@@ -1,0 +1,13 @@
+%div.site-table_list__item-option
+  %h5.site-table_list__item-title Название
+  %p.site-table_list__item-text
+    = f.simple_fields_for :service, f.object.service || Service.new do |sf|
+      = sf.input :name, label: false
+  %div.site-table_list__item-option
+    %h5.site-table_list__item-title Стоимость
+    %p.site-table_list__item-text= f.input :price, label: false
+  %div.site-table_list__item-option
+    %h5.site-table_list__item-title Периодичность
+    %p.site-table_list__item-text= f.input :periodic?, as: :boolean, label: 'Да'
+  %div.site-table_list__item-option
+    %h5.site-table_list__item-title= link_to_remove_association 'Удалить услугу', f

@@ -229,6 +229,7 @@ h1 {
 }
 
 .body-bg {
+  overflow: hidden;
   padding-left: 25px;
   padding-right: 25px;
   margin: 0 auto;
@@ -538,9 +539,15 @@ tr.cart-subtotal, tr.shipping {
   display: inline;
 }
 
+.form-group {
+  position: relative;
+  display: block;
+}
+
 .form-group.datetime {
   label {
     display: block;
+    position: relative;
   }
   select {
     width: auto;

@@ -22,27 +22,62 @@
 
 .searchonmap {
   position: absolute;
-  width: 650px;
+  width: 585px;
   bottom: 20px;
   left: 50%;
-  margin-left: -305px;
-  padding: 10px;
+  margin-left: -292px;
+  padding: 10px 5px;
   border-radius: 7px;
   background-color: #F5F5F5;
   box-shadow: 0 5px 14px 0 rgba(50, 50, 50, .2);
   text-align: center;
+
+  .form {
+    margin: 0 !important;
+  }
+  .form-group {
+    margin: 0 !important;
+  }
 }
 
 .location-detector {
+  position: absolute;
+  left: 0;
+  top: 0;
   width: 25px;
-  height: 30px;
+  height: 34px;
   border: none;
-  @include background-asset('locate.png', no-repeat);
+  @include background-asset('locate.png', no-repeat center center);
   cursor: pointer;
 }
 
-.form_input {
-  &:focus {outline: none;}
+.form {
+  width: 100%;
+  padding: 0;
+}
+
+.form_box {
+  float: left;
+  position: relative;
+  display: inline-block;
+  width: 150px;
+  padding: 0 5px;
+
+  input, select {
+    width: 100% !important;
+    height: 34px !important;
+    margin: 0 !important;
+    &:focus {outline: none;}
+  }
+}
+
+.form_box_location {
+  padding-left: 30px;
+  width: 175px;
+}
+
+.form_box_small {
+  width: 100px;
 }
 
 @media all and (max-width: 767px) {
@@ -54,10 +89,23 @@
     @include border-radius(0);
   }
 
-  .form_input {
+  .form_box {
     position: relative;
     display: block;
     width: 100%;
     margin: 0 0 20px;
+
+    .form-group {
+      margin: 0 !important;
+    }
+  }
+
+  .form_box_location {
+    padding-left: 5px;
+    padding-right: 30px;
+  }
+  .location-detector {
+    left: inherit;
+    right: 0;
   }
 }

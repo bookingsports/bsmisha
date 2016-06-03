@@ -45,6 +45,16 @@
   color: #fff;
 }
 
+@media all and (max-width: 1050px) {
+  .navbar-brand {
+    padding-top: 16px;
+    img {width: 106px;}
+  }
+  .navbar-default .navbar-nav > li > a {
+    font-size: 12px;
+  }
+}
+
 @media all and (max-width: 991px) {
   .navbar-default {
     padding-right: 30px;
@@ -58,10 +68,6 @@
   }
   .navbar-collapse {
     background-color: #4070B6;
-  }
-  .navbar-brand {
-    padding-top: 16px;
-    img {width: 106px;}
   }
   .navbar-nav {
     margin: 0;
