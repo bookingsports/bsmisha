@@ -2,57 +2,44 @@
   .row
     %h2 Расписание
     = simple_form_for "", url: one_day_events_path, wrapper: 'horizontal_form' do |f|
-      .row
-        .col-sm-5.col-xs-12
-          = f.input :day, label: 'День', as: :datetime, default: @day, discard_hour: true
-        .col-sm-5.col-xs-12
-          = f.input :stadium, label: 'Стадион', as: :check_boxes, collection: Stadium.active.map {|s|[s.name, s.id]}, checked: @stadiums.map(&:to_i)
-        .col-sm-2.col-xs-12
-          = f.button :submit, 'Выбрать'
-
-      - Stadium.find(@stadiums - [""]).each do |stadium|
-        %h3= stadium.name
-        -# начало блока который нужно показывать с разрешения экрана 768px и выше
-        .site-table
-          %table.table
-            %tbody
-              - stadium.areas.each do |area|
-                %tr
-                  %td= area.name
-                  - if Event.paid_or_confirmed.where(area: area).where(start: @day.beginning_of_day..@day.end_of_day).present?
-                    - Event.paid_or_confirmed.where(area: area).where(start: @day.beginning_of_day..@day.end_of_day).sort_by(&:start).each do |e|
-                      %td= "#{e.start.strftime("%H:%M")} -#{e.stop.strftime("%H:%M")} #{e.user.name}"
-                  - else
-                    %td Нет заказов
-          -#.site-table
-          -#  %table.table
-          -#    %thead
-          -#      %tr
-          -#        %th Начало
-          -#        %th Конец
-          -#        %th Покупатель
-          -#    %tbody
-          -#    - by_area.sort_by(&:start).each do |e|
-          -#      %tr
-          -#        %td= e.start.strftime("%H:%M")
-          -#        %td= e.stop.strftime("%H:%M")
-          -#        %td= e.user.name
+      .col-lg-4.col-xs-12
+        .row
+          .col-lg-12.col-sm-5.col-xs-12
+            = f.input :day, label: 'День', as: :datetime, default: @day, discard_hour: true
+          .col-lg-12.col-sm-5.col-xs-12
+            = f.input :stadium, label: 'Стадион', as: :check_boxes, collection: Stadium.active.map {|s|[s.name, s.id]}, checked: @stadiums.map(&:to_i)
+          .col-lg-12.col-sm-2.col-xs-12
+            = f.button :submit, 'Выбрать'
+      .col-lg-8.col-xs-12
+        - Stadium.find(@stadiums - [""]).each do |stadium|
+          %h3= stadium.name
+          -# начало блока который нужно показывать с разрешения экрана 768px и выше
+          .site-table
+            %table.table
+              %tbody
+                - stadium.areas.each do |area|
+                  %tr
+                    %td= area.name
+                    - if Event.paid_or_confirmed.where(area: area).where(start: @day.beginning_of_day..@day.end_of_day).present?
+                      - Event.paid_or_confirmed.where(area: area).where(start: @day.beginning_of_day..@day.end_of_day).sort_by(&:start).each do |e|
+                        %td= "#{e.start.strftime("%H:%M")} -#{e.stop.strftime("%H:%M")} #{e.user.name}"
+                    - else
+                      %td
+                        Нет заказов
           -# конец блока который нужно показывать с разрешения экрана 768px и выше
 
-          -# начало блока который нужно показывать с разрешения экрана 767px и ниже
-          -# %div.site-table_list
-          -#   - by_area.sort_by(&:start).each do |e|
-          -#     %div.site-table_list__item
-          -#       %div.site-table_list__item-option
-          -#         %h5.site-table_list__item-title Начало:
-          -#         %p.site-table_list__item-text
-          -#           = e.start.strftime("%H:%M")
-          -#       %div.site-table_list__item-option
-          -#         %h5.site-table_list__item-title Конец:
-          -#         %p.site-table_list__item-text
-          -#           = e.stop.strftime("%H:%M")
-          -#       %div.site-table_list__item-option
-          -#         %h5.site-table_list__item-title Покупатель:
-          -#         %p.site-table_list__item-text
-          -#           = e.user.name
-          -# конец блока который нужно показывать с разрешения экрана 767px и ниже
+          -#начало блока который нужно показывать с разрешения экрана 767px и ниже
+          %div.site-table_list
+            - stadium.areas.each do |area|
+              %div.site-table_list__item
+                %div.site-table_list__item-option
+                  %h5.site-table_list__item-title
+                    = area.name
+                %div.site-table_list__item-option
+                  %p.site-table_list__item-text
+                    - if Event.paid_or_confirmed.where(area: area).where(start: @day.beginning_of_day..@day.end_of_day).present?
+                      - Event.paid_or_confirmed.where(area: area).where(start: @day.beginning_of_day..@day.end_of_day).sort_by(&:start).each do |e|
+                        = "#{e.start.strftime("%H:%M")} -#{e.stop.strftime("%H:%M")} #{e.user.name}"
+                    - else
+                      Нет заказов
+          -#конец блока который нужно показывать с разрешения экрана 767px и ниже

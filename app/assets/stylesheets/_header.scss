@@ -40,6 +40,21 @@
   }
 }
 
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+  background-color: transparent;
+  color: #fff;
+}
+
+@media all and (max-width: 1050px) {
+  .navbar-brand {
+    padding-top: 16px;
+    img {width: 106px;}
+  }
+  .navbar-default .navbar-nav > li > a {
+    font-size: 12px;
+  }
+}
+
 @media all and (max-width: 991px) {
   .navbar-default {
     padding-right: 30px;
@@ -53,5 +68,15 @@
   }
   .navbar-collapse {
     background-color: #4070B6;
+  }
+  .navbar-nav {
+    margin: 0;
+    @include display-block;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+    color: #fff;
+  }
+  .navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
+    max-height: inherit;
   }
 }

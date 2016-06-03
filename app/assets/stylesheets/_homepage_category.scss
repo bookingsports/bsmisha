@@ -7,13 +7,16 @@
   @media all and (min-width: 1200px) {
     &:hover {
       .hpt-border {
-        height: 74px;
+        //height: 74px;
         border-color: #4070B6;
         background-color: #4070B6;
       }
       .hpt-col {
         bottom: 10px;
         @include opacity(100);
+      }
+      .homepage_category:before {
+        @include scale(1.03);
       }
     }
   }
@@ -27,29 +30,39 @@
   @include display-block;
   height: 200px;
   padding: 20px;
+
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    @include transition(all .15s linear);
+  }
 }
 
-.homepage-categories-first {
+.homepage-categories-first:before {
   @include background-asset('tennis.jpg', no-repeat center center);
   -webkit-background-size: cover;
   background-size: cover;
 }
-.homepage-categories-second {
+.homepage-categories-second:before {
   @include background-asset('football.jpg', no-repeat center center);
   -webkit-background-size: cover;
   background-size: cover;
 }
-.homepage-categories-third {
+.homepage-categories-third:before {
   @include background-asset('group.jpg', no-repeat center center);
   -webkit-background-size: cover;
   background-size: cover;
 }
-.homepage-categories-fourth {
+.homepage-categories-fourth:before {
   @include background-asset('fitness.jpg', no-repeat center center);
   -webkit-background-size: cover;
   background-size: cover;
 }
-.homepage-categories-fifth {
+.homepage-categories-fifth:before {
   @include background-asset('joga.jpg', no-repeat center center);
   -webkit-background-size: cover;
   background-size: cover;

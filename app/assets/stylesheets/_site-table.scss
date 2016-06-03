@@ -18,12 +18,14 @@
   @include display-block;
   width: 100%;
   padding: 10px;
-  margin-bottom: 30px;
-  background-color: rgba(0, 0, 0, 0.2);
+  margin: 10px 0;
+  @include border-radius(4px);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .site-table_list__item-option {
-  @include display-block;
+  position: relative;
+  display: block;
   margin: 0 0 10px;
 }
 
