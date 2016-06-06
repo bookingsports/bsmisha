@@ -23,25 +23,29 @@
           = event.area.stadium.name
         %td.site-table__item-option
           %span.site-table__item-title
-            Период занятий:
+            Площадка:
           = event.area.name
         %td.site-table__item-option
           %span.site-table__item-title
-            Время тренировок:
+            Период занятий:
           = l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
         %td.site-table__item-option
           %span.site-table__item-title
-            Стоимость:
+            Время тренировок:
           = event.start.strftime("%H:%M:%S") + ' - ' + event.stop.strftime("%H:%M:%S")
         %td.site-table__item-option
           %span.site-table__item-title
-            Доплатить минут:
+            Стоимость:
           = number_to_integer_currency event.price
         - if event.past?
           = form_for :events, url: overpay_my_event_path(event) do |f|
             %td.site-table__item-option
+              %span.site-table__item-title
+                Доплатить минут:
               = text_field_tag :value
             %td.site-table__item-option
+              %span.site-table__item-title
+                Доплатить минут:
               = f.submit 'Выставить счет'
         - else
           %td.site-table__item-option

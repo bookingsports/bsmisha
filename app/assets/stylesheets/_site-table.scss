@@ -40,7 +40,11 @@
     width: 100%;
     padding: 10px;
     margin: 10px 0;
-    background-color: rgba(0, 176, 255, 0.3);
+    background-color: rgba(0, 176, 255, 0.3) !important;
+
+    &:hover {
+      background-color: rgba(0, 176, 255, 0.3) !important;
+    }
   }
 
   .site-table__item-title {

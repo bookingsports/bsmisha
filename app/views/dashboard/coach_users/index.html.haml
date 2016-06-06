@@ -43,8 +43,7 @@
                       Цена:
                     = ca.price_formatted
                   %td.site-table__item-option
-                    %span.site-table__item-title
-                      % стадиона:
+                    %span.site-table__item-title % стадиона:
                     = ca.stadium_percent.to_s
                   - if ca.pending?
                     %td= link_to 'Подтвердить', confirm_dashboard_coach_user_path(ca.id)
