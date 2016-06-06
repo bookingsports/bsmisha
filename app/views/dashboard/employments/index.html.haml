@@ -9,21 +9,14 @@
 %hr
 
 %h3 Ваши стадионы
--# начало блока который нужно показывать с разрешения экрана 992px и выше
-.site-table
-  %table.table.table-hover
-    %thead
-      %tr
-        %th Название
-        %th Площадка
-        %th Стоимость часа
-        %th Процент стадиона
-        %th Статус
-        %th
-    %tbody
-      = render collection: @areas, partial: 'area', as: 'coach_area'
--# конец блока который нужно показывать с разрешения экрана 992px и выше
-
--# начало блока который нужно показывать с разрешения экрана 991px и ниже
-= render collection: @areas, partial: 'area_list', as: 'coach_area'
--# конец блока который нужно показывать с разрешения экрана 991px и ниже
+%table.table.table-hover.site-table
+  %thead.site-table__head
+    %tr
+      %th Название
+      %th Площадка
+      %th Стоимость часа
+      %th Процент стадиона
+      %th Статус
+      %th
+  %tbody.site-table__body
+    = render collection: @areas, partial: 'area', as: 'coach_area'

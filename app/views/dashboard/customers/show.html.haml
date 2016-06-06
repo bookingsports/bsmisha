@@ -3,75 +3,57 @@
   %dt Баланс
   %dd= number_to_integer_currency @customer.events.paid.where(coach: current_user.coach).map(&:price).inject(&:+).to_i
 %h3 Грядущие
--# начало блока который нужно показывать с разрешения экрана 992px и выше
-.site-table
-  %table.table
-    %thead
-      %tr
-        %th Стадион
-        %th Начало
-        %th Конец
-        %th Сумма
-    %tbody
-      - @customer.events.future.paid.where(coach: current_user.coach).order(created_at: :desc).each do |e|
-        %tr
-          %td= l- e.area.stadium.name
-          %td= l e.start, format: :short
-          %td= l e.stop, format: :short
-          %td= number_to_integer_currency e.price
--# конец блока который нужно показывать с разрешения экрана 992px и выше
-
--#начало блока который нужно показывать с разрешения экрана 991px и ниже
-%div.site-table_list
-  - @customer.events.future.paid.where(coach: current_user.coach).order(created_at: :desc).each do |e|
-    %div.site-table_list__item
-      %div.site-table_list__item-option
-        %h5.site-table_list__item-title Стадион:
-        %p.site-table_list__item-text= l- e.area.stadium.name
-      %div.site-table_list__item-option
-        %h5.site-table_list__item-title Начало:
-        %p.site-table_list__item-text= l e.start, format: :short
-      %div.site-table_list__item-option
-        %h5.site-table_list__item-title Конец:
-        %p.site-table_list__item-text= l e.stop, format: :short
-      %div.site-table_list__item-option
-        %h5.site-table_list__item-title Сумма:
-        %p.site-table_list__item-text= number_to_integer_currency e.price
--#конец блока который нужно показывать с разрешения экрана 991px и ниже
+%table.table.table-hover.site-table
+  %thead.site-table__head
+    %tr
+      %th Стадион
+      %th Начало
+      %th Конец
+      %th Сумма
+  %tbody.site-table__body
+    - @customer.events.future.paid.where(coach: current_user.coach).order(created_at: :desc).each do |e|
+      %tr.site-table__item
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Стадион:
+          = l- e.area.stadium.name
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Начало:
+          = l e.start, format: :short
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Конец:
+          = l e.stop, format: :short
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Сумма:
+          = number_to_integer_currency e.price
 
 %h3 Прошедшие
--# начало блока который нужно показывать с разрешения экрана 992px и выше
-.site-table
-  %table.table
-    %thead
-      %tr
-        %th Стадион
-        %th Начало
-        %th Конец
-        %th Сумма
-    %tbody
-      - @customer.events.past.paid.where(coach: current_user.coach).order(created_at: :desc).each do |e|
-        %tr
-          %td= e.product_names
-          %td= l e.start, format: :short
-          %td= l e.end, format: :short
-          %td= number_to_integer_currency e.price
-          -# конец блока который нужно показывать с разрешения экрана 992px и выше
-
--#начало блока который нужно показывать с разрешения экрана 991px и ниже
-%div.site-table_list
-  - @customer.events.past.paid.where(coach: current_user.coach).order(created_at: :desc).each do |e|
-    %div.site-table_list__item
-      %div.site-table_list__item-option
-        %h5.site-table_list__item-title Стадион:
-        %p.site-table_list__item-text= e.product_names
-      %div.site-table_list__item-option
-        %h5.site-table_list__item-title Начало:
-        %p.site-table_list__item-text= l e.start, format: :short
-      %div.site-table_list__item-option
-        %h5.site-table_list__item-title Конец:
-        %p.site-table_list__item-text= l e.end, format: :short
-      %div.site-table_list__item-option
-        %h5.site-table_list__item-title Сумма:
-        %p.site-table_list__item-text= number_to_integer_currency e.price
--#конец блока который нужно показывать с разрешения экрана 991px и ниже
+%table.table.table-hover.site-table
+  %thead.site-table__head
+    %tr
+      %th Стадион
+      %th Начало
+      %th Конец
+      %th Сумма
+  %tbody.site-table__body
+    - @customer.events.past.paid.where(coach: current_user.coach).order(created_at: :desc).each do |e|
+      %tr.site-table__item
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Стадион:
+          = e.product_names
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Начало:
+          = l e.start, format: :short
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Конец:
+          = l e.end, format: :short
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Сумма:
+          = number_to_integer_currency e.price

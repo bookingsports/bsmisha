@@ -1,24 +1,33 @@
 %h3= "Заказ #{@order.guid}"
-%table.table.table-hover
+%table.table.table-hover.site-table
   = render @order.events
 - if @order.event_changes.present?
-  %table.table.table-hover
-    %h4 Переносы
-    %h5 Перенос заказа осуществляется 1 раз. После оплаты вы уже не сможете его поменять.
-    - @order.event_changes.each do |change|
-      %tr
-        %td= change.event.area.name
-        %td= l change.event.start, format: :short
-        %td= l change.event.stop, format: :short
-        %td= l change.event.stop, format: :short
-        %td= number_to_integer_currency change.total
+  %table.table.table-hover.site-table
+    %tbody.site-table__body
+      %h4 Переносы
+      %h5 Перенос заказа осуществляется 1 раз. После оплаты вы уже не сможете его поменять.
+      - @order.event_changes.each do |change|
+        %tr.site-table__item
+          %td.site-table__item-option
+            = change.event.area.name
+          %td.site-table__item-option
+            = l change.event.start, format: :short
+          %td.site-table__item-option
+            = l change.event.stop, format: :short
+          %td.site-table__item-option
+            = l change.event.stop, format: :short
+          %td.site-table__item-option
+            = number_to_integer_currency change.total
 - if @recoupments.present?
-  %table.table.table-hover
-    %h4 Отыгрыши
-    - @recoupments.each do |rec|
-      %tr
-        %td= rec.area.name_with_stadium
-        %td= rec.price
+  %table.table.table-hover.site-table
+    %tbody.site-table__body
+      %h4 Отыгрыши
+      - @recoupments.each do |rec|
+        %tr.site-table__item
+          %td.site-table__item-option
+            = rec.area.name_with_stadium
+          %td.site-table__item-option
+            = rec.price
 - if @order.total == 0
   = link_to "Подтвердить заказ", pay_order_path(@order), method: :patch, class: 'btn btn-primary'
 - elsif @order.user.wallet.can_spend? @order.total

@@ -4,13 +4,13 @@
   = f.input :name
   = f.simple_fields_for :coach, @coach do |coach|
     = coach.input :id, as: :hidden
-    %table.table
-      %thead
+    %table.table.table-hover.site-table
+      %thead.site-table__head
         %tr
           %th Площадка
           %th Стоимость
           %th
-      %tbody.coaches_areas
+      %tbody.coaches_areas.site-table__body
         = link_to_add_association 'Добавить', coach, :coaches_areas, class: 'btn btn-primary', 'data-association-insertion-node' => '.coaches_areas', 'data-association-insertion-method' => 'append'
         = coach.simple_fields_for :coaches_areas, @coach.coaches_areas.present? ? @coach.coaches_areas : @coach.coaches_areas.new do |ca|
           = render "coaches_area_fields", f: ca

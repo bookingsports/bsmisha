@@ -1,5 +1,17 @@
-%tr
-  %td= event_change.event.area.name
-  %td= l JSON.parse(event_change.summary)['start'].to_datetime, format: :short
-  %td= l JSON.parse(event_change.summary)['end'].to_datetime, format: :short
-  %td= event_change.total
+%tr.site-table__item
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Стадион:
+    = event_change.event.area.name
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Начало:
+    = l JSON.parse(event_change.summary)['start'].to_datetime, format: :short
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Конец:
+    = l JSON.parse(event_change.summary)['end'].to_datetime, format: :short
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Стоимость:
+    = event_change.total

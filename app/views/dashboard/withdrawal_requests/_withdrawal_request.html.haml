@@ -1,8 +1,18 @@
-%tr
-  %td= withdrawal_request.amount
-  %td= withdrawal_request.created_at
-  %td= I18n.t "enums.withdrawal_request.status.#{withdrawal_request.status.to_s}"
+%tr.site-table__item
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Сумма:
+    = withdrawal_request.amount
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Дата:
+    = withdrawal_request.created_at
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Статус:
+    = I18n.t "enums.withdrawal_request.status.#{withdrawal_request.status.to_s}"
   - if !withdrawal_request.success?
-    %td= link_to "Удалить", dashboard_withdrawal_request_path(withdrawal_request), data: { confirm: 'Вы уверены?' }, method: :delete
+    %td.site-table__item-option
+      = link_to "Удалить", dashboard_withdrawal_request_path(withdrawal_request), data: { confirm: 'Вы уверены?' }, method: :delete
   - else
-    %td
+    %td.site-table__item-option_hide

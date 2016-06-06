@@ -1,7 +1,23 @@
-%tr.nested-fields
-  %td= f.input :start, as: :datetime, discard_year: true, discard_month: true, default: Time.parse('09:00'), minute_step: 30, label: false
-  %td= f.input :stop, as: :datetime, discard_year: true, discard_month: true, default: Time.parse('18:00'), minute_step: 30, label: false
-  %td= f.input :working_days, collection: [["Пн", 1], ["Вт", 2], ["Ср", 3], ["Чт", 4], ["Пт", 5], ["Сб", 6], ["Вс", 0]], as: :check_boxes, item_wrapper_class: 'commented-out-checkbox-inline', label: false
-  %td= f.input :value, label: false
-  %td= f.input :is_discount, label: false
-  %td= link_to_remove_association 'Удалить правило', f
+%tr.nested-fields.site-table__item
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Начало:
+    = f.input :start, as: :datetime, discard_year: true, discard_month: true, default: Time.parse('09:00'), minute_step: 30, label: false
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Конец:
+    = f.input :stop, as: :datetime, discard_year: true, discard_month: true, default: Time.parse('18:00'), minute_step: 30, label: false
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Рабочие дни:
+    = f.input :working_days, collection: [["Пн", 1], ["Вт", 2], ["Ср", 3], ["Чт", 4], ["Пт", 5], ["Сб", 6], ["Вс", 0]], as: :check_boxes, item_wrapper_class: 'commented-out-checkbox-inline', label: false
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Цена:
+    = f.input :value, label: false
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Акция:
+    = f.input :is_discount, label: false
+  %td.site-table__item-option
+    = link_to_remove_association 'Удалить правило', f

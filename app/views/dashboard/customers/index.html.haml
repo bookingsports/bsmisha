@@ -1,18 +1,11 @@
 %h2 Клиенты
--# начало блока который нужно показывать с разрешения экрана 992px и выше
-.site-table
-  %table.table.table-hover
-    %thead
-      %tr
-        %th Имя
-        %th Телефон
-        %th Почта
-        %th Количество занятий
-        %th
-    %tbody
-      = render collection: @customers, partial: 'customer'
--# конец блока который нужно показывать с разрешения экрана 992px и выше
-
--# начало блока который нужно показывать с разрешения экрана 991px и ниже
-= render collection: @customers, partial: 'customer_list', as: 'customer'
--# конец блока который нужно показывать с разрешения экрана 991px и ниже
+%table.table.table-hover.site-table
+  %thead.site-table__head
+    %tr
+      %th Имя
+      %th Телефон
+      %th Почта
+      %th Количество занятий
+      %th
+  %tbody.site-table__body
+    = render collection: @customers, partial: 'customer'

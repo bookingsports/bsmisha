@@ -1,6 +1,19 @@
-%tr
-  %td= customer.name
-  %td= customer.phone
-  %td= customer.email
-  %td= customer.events.where(coach: current_user.coach).count
-  %td= link_to "Подробнее", dashboard_customer_path(id: customer.id), class: 'btn btn-info btn-sm'
+%tr.site-table__item
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Имя:
+    = customer.name
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Телефон:
+    = customer.phone
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Почта:
+    = customer.email
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Количество занятий:
+    = customer.events.where(coach: current_user.coach).count
+  %td.site-table__item-option
+    = link_to "Подробнее", dashboard_customer_path(id: customer.id), class: 'btn btn-info btn-sm'

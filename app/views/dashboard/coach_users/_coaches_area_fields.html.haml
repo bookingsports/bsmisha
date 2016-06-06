@@ -1,5 +1,12 @@
-%tr.nested-fields
+%tr.nested-fields.site-table__item
   = f.input :id, as: :hidden
-  %td= f.select :area_id, current_user.stadium.areas.map{|a| [a.name, a.id]}, label: false
-  %td= f.input :price, label: false
-  %td= link_to_remove_association 'Удалить', f
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Площадка:
+    = f.select :area_id, current_user.stadium.areas.map{|a| [a.name, a.id]}, label: false
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Стоимость:
+    = f.input :price, label: false
+  %td.site-table__item-option
+    = link_to_remove_association 'Удалить', f

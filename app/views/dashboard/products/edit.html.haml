@@ -28,59 +28,30 @@
         %h4 Площадки
         = link_to_add_association 'Добавить площадку', f, :areas, class: 'btn btn-primary', 'data-association-insertion-node' => '.areas', 'data-association-insertion-method' => 'append'
 
-        -# начало блока который нужно показывать с разрешения экрана 992px и выше
-        .site-table
-          %table.table
-            %thead
-              %tr
-                %th Название
-                %th Стоимость часа
-                %th Стоимость переноса
-                %th
-            %tbody.areas
-              = f.simple_fields_for :areas, @product.areas.any? && @product.areas || @product.areas.new do |area|
-                = render "area_fields", f: area
-        -# конец блока который нужно показывать с разрешения экрана 992px и выше
-        -# начало блока который нужно показывать с разрешения экрана 991px и ниже
-        %div.site-table_list.areas
-          = f.simple_fields_for :areas, @product.areas.any? && @product.areas || @product.areas.new do |area|
-            %div.site-table_list__item
-              %div.site-table_list__item-option
-                %h5.site-table_list__item-title Название
-                %p.site-table_list__item-text= area.input :name, label: false
-              %div.site-table_list__item-option
-                %h5.site-table_list__item-title Стоимость часа
-                %p.site-table_list__item-text= link_to 'Настроить цены', dashboard_area_prices_path(area_id: area.object.id) if area.object.persisted?
-              %div.site-table_list__item-option
-                %h5.site-table_list__item-title Стоимость переноса
-                %p.site-table_list__item-text= area.input :change_price, label: false
-              %div.site-table_list__item-option
-                %h5.site-table_list__item-title= link_to_remove_association 'Удалить площадку', area
-          -# конец блока который нужно показывать с разрешения экрана 991px и ниже
-
+        %table.table.table-hover.site-table
+          %thead.site-table__head
+            %tr
+              %th Название
+              %th Стоимость часа
+              %th Стоимость переноса
+              %th
+          %tbody.areas.site-table__body
+            = f.simple_fields_for :areas, @product.areas.any? && @product.areas || @product.areas.new do |area|
+              = render "area_fields", f: area
 
         %h4 Дополнительные услуги
         = link_to_add_association 'Добавить услугу', f, :stadium_services, class: 'btn btn-primary', 'data-association-insertion-node' => '.services', 'data-association-insertion-method' => 'append'
 
-        -# начало блока который нужно показывать с разрешения экрана 992px и выше
-        .site-table
-          %table.table
-            %thead
-              %tr
-                %th Название
-                %th Стоимость
-                %th Периодичность
-                %th
-            %tbody.services
-              = f.simple_fields_for :stadium_services, @product.stadium_services.any? && @product.stadium_services do |stadium_service|
-                = render "stadium_service_fields", f: stadium_service
-        -# конец блока который нужно показывать с разрешения экрана 992px и выше
-        -# начало блока который нужно показывать с разрешения экрана 991px и ниже
-        %div.site-table_list.services
-          = f.simple_fields_for :stadium_services, @product.stadium_services.any? && @product.stadium_services do |stadium_service|
-            %div.site-table_list__item
-              = render "stadium_service_fields_list", f: stadium_service
-        -# конец блока который нужно показывать с разрешения экрана 991px и ниже
+        %table.table.table-hover.site-table
+          %thead.site-table__head
+            %tr
+              %th Название
+              %th Стоимость
+              %th Периодичность
+              %th
+          %tbody.services.site-table__body
+            = f.simple_fields_for :stadium_services, @product.stadium_services.any? && @product.stadium_services do |stadium_service|
+              = render "stadium_service_fields", f: stadium_service
 
 
         = f.button :submit

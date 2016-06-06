@@ -2,12 +2,12 @@
   = f.input :amount, label: 'Сумма'
   = f.button :submit, "Перейти к выводу"
   = f.error_notification
-%table.table.table-striped
-  %thead
+%table.table.table-striped.table-hover.site-table
+  %thead.site-table__head
     %tr
       %th Сумма
       %th Дата
       %th Статус
       %th
-  %tbody
+  %tbody.site-table__body
     = render @requests

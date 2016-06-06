@@ -1,5 +1,9 @@
-%tr
-  %td= event.area.name
-  %td= l event.start, format: :short
-  %td= l event.stop, format: :short
-  %td= number_to_integer_currency event.price
+%tr.site-table__item
+  %td.site-table__item-option
+    = event.area.name
+  %td.site-table__item-option
+    = l event.start, format: :short
+  %td.site-table__item-option
+    = l event.stop, format: :short
+  %td.site-table__item-option
+    = number_to_integer_currency event.price
