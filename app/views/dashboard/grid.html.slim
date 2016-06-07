@@ -16,10 +16,10 @@
       .col-xs-12.text-center
         h3 У вас пока не создано ни одной площадки. Перейдите в раздел #{ link_to 'и создайте для начала одну!', current_user_areas_creation_path }
     - else
-      .col-xs-4
+      .col-md-4.col-xs-12
         ul.nav.nav-pills.nav-stacked
           -current_user.areas.uniq.each do |cc|
             = active_link_to cc.name_with_stadium, dashboard_grid_path(cc), active: /#{cc.to_param}/, wrap_tag: :li
-      .col-xs-8
+      .col-md-8.col-xs-12
         = render "schedule_legend"
         #scheduler

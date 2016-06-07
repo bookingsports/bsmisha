@@ -1,7 +1,23 @@
-%tr
-  %td= coach_area.area.stadium.name
-  %td= coach_area.area.name
-  %td= coach_area.price
-  %td= coach_area.stadium_percent
-  %td= I18n.t "enums.coaches_area.status.#{coach_area.status}"
-  %td= link_to fa_icon('times') + ' Отвязаться', dashboard_employment_path(id: coach_area.id), method: :delete, data_confirm: 'Вы уверены?'
+%tr.site-table__item
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Название:
+    = coach_area.area.stadium.name
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Площадка:
+    = coach_area.area.name
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Стоимость часа:
+    = coach_area.price
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Процент стадиона:
+    = coach_area.stadium_percent
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Статус:
+    = I18n.t "enums.coaches_area.status.#{coach_area.status}"
+  %td.site-table__item-option
+    = link_to fa_icon('times') + ' Отвязаться', dashboard_employment_path(id: coach_area.id), method: :delete, data_confirm: 'Вы уверены?'

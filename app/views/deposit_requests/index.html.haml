@@ -11,54 +11,38 @@
 %h3 История
 - if @requests.any?
 
-  -# начало блока который нужно показывать с разрешения экрана 768px и выше
-  .site-table
-    %table.table
-      %thead
-        %tr
-          %th Дата
-          %th Количество
-          %th Результат
-          %th Метод оплаты
-          %th
-      %tbody
-        - @requests.each do |request|
-          %tr
-            %td= l request.created_at, format: :short
-            %td= number_to_currency request.amount, precision: 0
-            %td= t request.status || 'none'
-            %td= t "enums.deposit_request.payment_method.#{request.payment_method}"
-            - if request.pending?
-              %td= link_to "Оплатить", pay_deposit_request_path(request)
-            - else
-              %td
-  -# конец блока который нужно показывать с разрешения экрана 768px и выше
-
-  -# начало блока который нужно показывать с разрешения экрана 767px и ниже
-  %div.site-table_list
-    - @requests.each do |request|
-      %div.site-table_list__item
-        %div.site-table_list__item-option
-          %h5.site-table_list__item-title Дата:
-          %p.site-table_list__item-text
+  %table.table.table-hover.site-table
+    %thead.site-table__head
+      %tr
+        %th Дата
+        %th Количество
+        %th Результат
+        %th Метод оплаты
+        %th
+    %tbody.site-table__body
+      - @requests.each do |request|
+        %tr.site-table__item
+          %td.site-table__item-option
+            %span.site-table__item-title
+              Дата:
             = l request.created_at, format: :short
-        %div.site-table_list__item-option
-          %h5.site-table_list__item-title Количество:
-          %p.site-table_list__item-text
+          %td.site-table__item-option
+            %span.site-table__item-title
+              Количество:
             = number_to_currency request.amount, precision: 0
-        %div.site-table_list__item-option
-          %h5.site-table_list__item-title Результат:
-          %p.site-table_list__item-text
+          %td.site-table__item-option
+            %span.site-table__item-title
+              Результат:
             = t request.status || 'none'
-        %div.site-table_list__item-option
-          %h5.site-table_list__item-title Метод оплаты:
-          %p.site-table_list__item-text
+          %td.site-table__item-option
+            %span.site-table__item-title
+              Метод оплаты:
             = t "enums.deposit_request.payment_method.#{request.payment_method}"
-        - if request.pending?
-          %div.site-table_list__item-option
-            %h5.site-table_list__item-title
+          - if request.pending?
+            %td.site-table__item-option
               = link_to "Оплатить", pay_deposit_request_path(request)
-  -# конец блока который нужно показывать с разрешения экрана 767px и ниже
+          - else
+            %td.site-table__item-option_hide
 
 - else
   Пока ни одного.

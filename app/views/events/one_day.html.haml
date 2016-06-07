@@ -1,7 +1,7 @@
 .body-bg
-  .row
-    %h2 Расписание
-    = simple_form_for "", url: one_day_events_path, wrapper: 'horizontal_form' do |f|
+  %div.one_day__base
+    %h2.col-xs-12 Расписание
+    = simple_form_for "schedule_form", url: one_day_events_path, wrapper: 'horizontal_form' do |f|
       .col-lg-4.col-xs-12
         .row
           .col-lg-12.col-sm-5.col-xs-12
@@ -13,33 +13,16 @@
       .col-lg-8.col-xs-12
         - Stadium.find(@stadiums - [""]).each do |stadium|
           %h3= stadium.name
-          -# начало блока который нужно показывать с разрешения экрана 768px и выше
-          .site-table
-            %table.table
-              %tbody
-                - stadium.areas.each do |area|
-                  %tr
-                    %td= area.name
-                    - if Event.paid_or_confirmed.where(area: area).where(start: @day.beginning_of_day..@day.end_of_day).present?
-                      - Event.paid_or_confirmed.where(area: area).where(start: @day.beginning_of_day..@day.end_of_day).sort_by(&:start).each do |e|
-                        %td= "#{e.start.strftime("%H:%M")} -#{e.stop.strftime("%H:%M")} #{e.user.name}"
-                    - else
-                      %td
-                        Нет заказов
-          -# конец блока который нужно показывать с разрешения экрана 768px и выше
-
-          -#начало блока который нужно показывать с разрешения экрана 767px и ниже
-          %div.site-table_list
-            - stadium.areas.each do |area|
-              %div.site-table_list__item
-                %div.site-table_list__item-option
-                  %h5.site-table_list__item-title
+          %table.table.table-hover.site-table
+            %tbody.site-table__head
+              - stadium.areas.each do |area|
+                %tr.site-table__item
+                  %td.site-table__item-option
                     = area.name
-                %div.site-table_list__item-option
-                  %p.site-table_list__item-text
-                    - if Event.paid_or_confirmed.where(area: area).where(start: @day.beginning_of_day..@day.end_of_day).present?
-                      - Event.paid_or_confirmed.where(area: area).where(start: @day.beginning_of_day..@day.end_of_day).sort_by(&:start).each do |e|
+                  - if Event.paid_or_confirmed.where(area: area).where(start: @day.beginning_of_day..@day.end_of_day).present?
+                    - Event.paid_or_confirmed.where(area: area).where(start: @day.beginning_of_day..@day.end_of_day).sort_by(&:start).each do |e|
+                      %td.site-table__item-option
                         = "#{e.start.strftime("%H:%M")} -#{e.stop.strftime("%H:%M")} #{e.user.name}"
-                    - else
+                  - else
+                    %td.site-table__item-option
                       Нет заказов
-          -#конец блока который нужно показывать с разрешения экрана 767px и ниже
