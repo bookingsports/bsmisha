@@ -46,11 +46,14 @@
                     %span.site-table__item-title % стадиона:
                     = ca.stadium_percent.to_s
                   - if ca.pending?
-                    %td= link_to 'Подтвердить', confirm_dashboard_coach_user_path(ca.id)
+                    %td.site-table__item-option
+                      = link_to 'Подтвердить', confirm_dashboard_coach_user_path(ca.id)
                   - elsif ca.active?
-                    %td= link_to 'Заблокировать', confirm_dashboard_coach_user_path(ca.id)
+                    %td.site-table__item-option
+                      = link_to 'Заблокировать', confirm_dashboard_coach_user_path(ca.id)
                   - else
-                    %td= link_to 'Разблокировать', confirm_dashboard_coach_user_path(ca.id)
+                    %td.site-table__item-option
+                      = link_to 'Разблокировать', confirm_dashboard_coach_user_path(ca.id)
 
 - else
   Пока нет тренеров

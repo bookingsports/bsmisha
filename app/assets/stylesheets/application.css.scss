@@ -22,6 +22,7 @@
 @import "calendar";
 @import "site-table";
 @import "footer";
+@import "form";
 
 html {
   position: relative;
@@ -708,5 +709,10 @@ h1, h2, h3, h4, h5, h6 {
 @media all and (max-width: 991px) {
   .entry {
     padding: 0 15px 30px 15px;
+  }
+
+  .one_day__base {
+    @include display-block;
+    margin-left: -15px;
   }
 }

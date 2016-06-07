@@ -27,25 +27,26 @@
     display: none;
   }
 
+  .site-table__item {
+    @include display-block;
+    width: 100%;
+    padding: 15px;
+    margin: 15px 0;
+    background-color: rgba(0, 176, 255, 0.1) !important;
+
+    &:hover {
+      background-color: rgba(0, 176, 255, 0.1) !important;
+    }
+  }
+
   .site-table__item-option {
-    margin-bottom: 10px;
-    &:last-child {margin-bottom: 0;}
+    padding: 0 !important;
+    margin-top: 15px;
+    &:first-child {margin-bottom: 0;}
     border: none !important;
   }
 
   .site-table__item-option_hide {display: none;}
-
-  .site-table__item {
-    @include display-block;
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    background-color: rgba(0, 176, 255, 0.3) !important;
-
-    &:hover {
-      background-color: rgba(0, 176, 255, 0.3) !important;
-    }
-  }
 
   .site-table__item-title {
     display: inline-block;
