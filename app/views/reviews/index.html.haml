@@ -2,6 +2,14 @@
   %h4 Сперва авторизуйтесь, пожалуйста:
   = link_to 'Вход / Регистрация', new_user_session_path, class: 'button add_to_cart_button product_type_simple'
 - else
+
+  - if @reviews.any?
+    = render @reviews
+  - else
+    %h5.text-center Пока ни одного отзыва
+
+  %hr
+
   .panel.panel-info
     .panel-heading
       %i Оставьте свой отзыв:
@@ -10,11 +18,6 @@
         .row
           .col-md-2
             = f.input :rating, collection: 1..5, label: "Оценка", selected: 1
-          .col-md-6
+          .col-md-10
             = f.input :text, label: "Текст"
-        = f.button :submit, 'Отправить'
-
-- if @reviews.any?
-  = render @reviews
-- else
-  %h5.text-center Пока ни одного отзыва
+        = f.button :submit, 'Отправить', class: 'btn btn-success'

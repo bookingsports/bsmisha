@@ -2,7 +2,7 @@
 
 .site-table__head {}
 
-.site-table__body
+.site-table__body {}
 
 .site-table__item {
   .site-table__item {margin-bottom: 0;}
@@ -42,8 +42,16 @@
   .site-table__item-option {
     padding: 0 !important;
     margin-top: 15px;
-    &:first-child {margin-bottom: 0;}
+    &:first-child {margin-top: 0;}
     border: none !important;
+
+    .site-table {
+      margin-top: 10px;
+      .site-table__body {
+        padding: 0 5px 5px;
+        .site-table__item {margin-top: 5px;}
+      }
+    }
   }
 
   .site-table__item-option_hide {display: none;}

@@ -1,7 +1,7 @@
 #photos.tab-pane{:role => "tabpanel"}
-  .row
+  .row.photos__wrap
     - @product.pictures.each do |picture|
-      .col-md-3
+      .col-lg-3.col-md-4.col-sm-6.col-xs-12.photos__box
         = link_to picture.name.to_s, data: { lightbox: 'stadium' }  do
           = image_tag picture.name, height: '200', class: 'img-responsive thumbnail rounded'
         = picture.description

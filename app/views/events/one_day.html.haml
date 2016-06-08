@@ -9,7 +9,7 @@
           .col-lg-12.col-sm-5.col-xs-12
             = f.input :stadium, label: 'Стадион', as: :check_boxes, collection: Stadium.active.map {|s|[s.name, s.id]}, checked: @stadiums.map(&:to_i)
           .col-lg-12.col-sm-2.col-xs-12
-            = f.button :submit, 'Выбрать'
+            = f.button :submit, 'Выбрать', class: 'btn btn-success'
       .col-lg-8.col-xs-12
         - Stadium.find(@stadiums - [""]).each do |stadium|
           %h3= stadium.name

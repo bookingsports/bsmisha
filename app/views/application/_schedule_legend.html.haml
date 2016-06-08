@@ -1,27 +1,27 @@
 - if params[:id].present? || @stadium.nil?
   .row.schedule-legend-nav
-    .col-lg-4.col-sm-6.col-xs-12
+    .col-lg-4.col-sm-6.col-xs-12.legend-label__wrap
       .legend-label.legend-owned
       = raw " &mdash; неоплаченное"
-    .col-lg-4.col-sm-6.col-xs-12
+    .col-lg-4.col-sm-6.col-xs-12.legend-label__wrap
       .legend-label.legend-confirmed
       = raw " &mdash; забронировано"
-    .col-lg-4.col-sm-6.col-xs-12
+    .col-lg-4.col-sm-6.col-xs-12.legend-label__wrap
       .legend-label.legend-disowned
       = raw " &mdash; чужое"
-    .col-lg-4.col-sm-6.col-xs-12
+    .col-lg-4.col-sm-6.col-xs-12.legend-label__wrap
       .legend-label.legend-paid
       = raw " &mdash; оплаченное"
-    .col-lg-4.col-sm-6.col-xs-12
+    .col-lg-4.col-sm-6.col-xs-12.legend-label__wrap
       .legend-label.legend-unpaid-change
       = raw " &mdash; неоплаченный перенос"
-    .col-lg-4.col-sm-6.col-xs-12
+    .col-lg-4.col-sm-6.col-xs-12.legend-label__wrap
       .legend-label.legend-paid-change
       = raw " &mdash; оплаченный перенос"
-    .col-lg-4.col-sm-6.col-xs-12
+    .col-lg-4.col-sm-6.col-xs-12.legend-label__wrap
       .legend-label.legend-locked
       = raw " &mdash; заблокировано администратором"
-    .col-lg-4.col-sm-6.col-xs-12
+    .col-lg-4.col-sm-6.col-xs-12.legend-label__wrap
       .legend-label.legend-for-sale
       = raw " &mdash; выставлено на продажу"
 - else

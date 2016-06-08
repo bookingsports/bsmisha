@@ -8,7 +8,7 @@
       %hr/
       = search_form_for @q, remote: true, wrapper: :inline_form, html: { class: 'form-inline' } do |f|
         = f.input :areas_stadium_category_id_eq, collection: Category.all,  prompt: 'Все категории', label: false
-        = f.button :submit, 'Поиск'
+        = f.button :submit, 'Поиск', class: 'btn btn-info'
       %hr/
       .list-unstyled.coaches
         .row

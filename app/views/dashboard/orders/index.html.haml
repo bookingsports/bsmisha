@@ -47,5 +47,5 @@
     = simple_form_for [:dashboard, order], wrapper: :inline_form, html: { class: 'form-inline' } do |f|
       = f.input :status, collection: [:unpaid, :paid, :change, :rain, :other], :label => 'Статус'
       = f.input :comment, :label => 'Комментарий'
-      = f.button :submit, 'Изменить статус'
+      = f.button :submit, 'Изменить статус', class: 'btn btn-primary'
       .help-block При изменении статуса заказчик будет уведомлен
