@@ -6,7 +6,7 @@
     = f.input :name_cont, placeholder: 'Название', label: false
   .form_box.form_box_location
     .location-detector.btn
-    = text_field_tag :place, nil, placeholder: 'Место'
+    = text_field_tag :place, nil, placeholder: 'Место', class: 'form-control'
   - if include_stadiums
     = hidden_field_tag :include_stadiums, true
   .form_box
