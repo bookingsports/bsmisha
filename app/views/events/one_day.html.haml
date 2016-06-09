@@ -7,7 +7,7 @@
           .col-sm-6.col-xs-12
             = f.input :day, label: 'День', as: :datetime, default: @day, discard_hour: true
           .col-sm-6.col-xs-12
-            = f.input :stadium, label: 'Стадион', as: :select, collection: Stadium.active.map {|s|[s.name, s.id]}, checked: @stadiums.map(&:to_i)
+            = f.input :stadium, label: 'Стадион', as: :select, collection: Stadium.active.map {|s|[s.name, s.id]}, selected: @stadium.id
           .col-xs-12
             = f.button :submit, 'Выбрать', class: 'btn btn-success'
       .col-xs-12
