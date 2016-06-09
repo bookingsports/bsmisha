@@ -32,28 +32,28 @@
                   %th % стадиона
                   %th
               %tbody.site-table__body
-              - coach.coaches_areas.where(area: current_user.stadium.area_ids).sort_by(&:area_id).each do |ca|
-                %tr.site-table__item
-                  %td.site-table__item-option
-                    %span.site-table__item-title
-                      Название:
-                    = ca.area.name
-                  %td.site-table__item-option
-                    %span.site-table__item-title
-                      Цена:
-                    = ca.price_formatted
-                  %td.site-table__item-option
-                    %span.site-table__item-title % стадиона:
-                    = ca.stadium_percent.to_s
-                  - if ca.pending?
+                - coach.coaches_areas.where(area: current_user.stadium.area_ids).sort_by(&:area_id).each do |ca|
+                  %tr.site-table__item
                     %td.site-table__item-option
-                      = link_to 'Подтвердить', confirm_dashboard_coach_user_path(ca.id)
-                  - elsif ca.active?
+                      %span.site-table__item-title
+                        Название:
+                      = ca.area.name
                     %td.site-table__item-option
-                      = link_to 'Заблокировать', confirm_dashboard_coach_user_path(ca.id)
-                  - else
+                      %span.site-table__item-title
+                        Цена:
+                      = ca.price_formatted
                     %td.site-table__item-option
-                      = link_to 'Разблокировать', confirm_dashboard_coach_user_path(ca.id)
+                      %span.site-table__item-title % стадиона:
+                      = ca.stadium_percent.to_s
+                    - if ca.pending?
+                      %td.site-table__item-option
+                        = link_to 'Подтвердить', confirm_dashboard_coach_user_path(ca.id)
+                    - elsif ca.active?
+                      %td.site-table__item-option
+                        = link_to 'Заблокировать', confirm_dashboard_coach_user_path(ca.id)
+                    - else
+                      %td.site-table__item-option
+                        = link_to 'Разблокировать', confirm_dashboard_coach_user_path(ca.id)
 
 - else
   Пока нет тренеров

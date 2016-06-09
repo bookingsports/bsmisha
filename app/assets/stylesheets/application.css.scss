@@ -70,36 +70,6 @@ main {
   margin-right: 12px;
 }
 
-input[type="TEXT"] {
-  margin-left: 3px;
-}
-
-select {
-  margin-left: 7px;
-}
-
-input[type="TEXT"],
-select,
-.comment-field {
-  -webkit-box-shadow: inset 0px 3px 10px 0px rgba(75, 75, 75, 0.38);
-  -moz-box-shadow: inset 0px 3px 10px 0px rgba(75, 75, 75, 0.38);
-  box-shadow: inset 0px 3px 10px 0px rgba(75, 75, 75, 0.38);
-  // width: 25%;
-  padding: 7px;
-  height: 40px;
-  border: 1px solid #ccc;
-  background: #fafafa;
-  border-radius: 4px;
-}
-
-.comment-field {
-  width: 70% !important;
-  height: 100px;
-}
-
-.chosen-container {
-  margin-left: 25px;
-}
 
 .total-price-title {
   font-family: 'Roboto', Arial;
@@ -405,6 +375,7 @@ h1 {
 label {
   font-weight: 700;
   font-family: 'Roboto', Arial;
+  padding-right: 4px;
 }
 
 .star-rating {
@@ -615,11 +586,14 @@ body.stadium_user, body.coach {
 
 .legend-label {
   display: inline-block;
-  height: 100%;
   width: 5em;
   border-radius: 4px;
   vertical-align: middle;
   height: 20px;
+}
+
+.legend-label__wrap {
+  margin-bottom: 5px;
 }
 
 .legend-paid {
@@ -678,7 +652,11 @@ select.hhmm {
 }
 
 .stadium-nav {
-  margin: 0 0 25px;
+  margin-bottom: 50px;
+
+  @media all and (max-width: 767px) {
+    margin-bottom: 30px;
+  }
 }
 
 .schedule-legend-nav {
@@ -704,6 +682,25 @@ h1, h2, h3, h4, h5, h6 {
 
 .k-si-close {
   display: none;
+}
+
+.photos__wrap {
+  font-size: 0;
+}
+
+.photos__box {
+  float: none;
+  @include display-inline;
+  font-size: 14px;
+}
+
+.dashboard-nav {
+  margin-bottom: 50px;
+
+
+  @media all and (max-width: 767px) {
+    margin-bottom: 30px;
+  }
 }
 
 @media all and (max-width: 991px) {

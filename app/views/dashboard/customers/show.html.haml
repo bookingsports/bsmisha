@@ -44,7 +44,7 @@
         %td.site-table__item-option
           %span.site-table__item-title
             Стадион:
-          = e.product_names
+          = e.area.stadium.name
         %td.site-table__item-option
           %span.site-table__item-title
             Начало:
@@ -52,7 +52,7 @@
         %td.site-table__item-option
           %span.site-table__item-title
             Конец:
-          = l e.end, format: :short
+          = l e.stop, format: :short
         %td.site-table__item-option
           %span.site-table__item-title
             Сумма:

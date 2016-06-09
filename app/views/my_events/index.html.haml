@@ -39,9 +39,9 @@
               %span.site-table__item-title
                 Стоимость:
               = number_to_integer_currency event.price
-    = f.button 'Забронировать', value: :confirm, data: {confirm: "Подтвердите бронирование"}
-    = f.button 'Перейти к оплате', value: :pay
-    = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}
+    = f.button 'Забронировать', value: :confirm, data: {confirm: "Подтвердите бронирование"}, class: 'btn btn-primary'
+    = f.button 'Перейти к оплате', value: :pay, class: 'btn btn-success'
+    = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}, class: 'btn btn-danger'
 
 - if @events.unpaid.future.confirmed.present?
   %hr
@@ -81,8 +81,8 @@
               %span.site-table__item-title
                 Стоимость:
               = number_to_integer_currency event.price
-    = f.button 'Перейти к оплате', value: :pay
-    = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}
+    = f.button 'Перейти к оплате', value: :pay, class: 'btn btn-success'
+    = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}, class: 'btn btn-danger'
 
 - if @event_changes.unpaid.future.present?
   %hr
@@ -122,8 +122,8 @@
               %span.site-table__item-title
                 Стоимость:
               = number_to_integer_currency event_change.total
-    = f.button 'Перейти к оплате', value: :pay
-    = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}
+    = f.button 'Перейти к оплате', value: :pay, class: 'btn btn-success'
+    = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}, class: 'btn btn-danger'
 
 
 

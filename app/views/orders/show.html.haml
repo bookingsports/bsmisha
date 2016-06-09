@@ -1,32 +1,53 @@
 %h3= "Заказ #{@order.guid}"
 %table.table.table-hover.site-table
-  = render @order.events
+  %thead.site-table__head
+    %tr
+      %th Площадка
+      %th Начало
+      %th Конец
+      %th Цена
+  %tbody.site-table__body
+    = render @order.events
 - if @order.event_changes.present?
+  %h4 Переносы
+  %h5 Перенос заказа осуществляется 1 раз. После оплаты вы уже не сможете его поменять.
   %table.table.table-hover.site-table
     %tbody.site-table__body
-      %h4 Переносы
-      %h5 Перенос заказа осуществляется 1 раз. После оплаты вы уже не сможете его поменять.
       - @order.event_changes.each do |change|
         %tr.site-table__item
           %td.site-table__item-option
+            %span.site-table__item-title
+              Площадка:
             = change.event.area.name
           %td.site-table__item-option
+            %span.site-table__item-title
+              Начало:
             = l change.event.start, format: :short
           %td.site-table__item-option
+            %span.site-table__item-title
+              Конец:
             = l change.event.stop, format: :short
           %td.site-table__item-option
-            = l change.event.stop, format: :short
-          %td.site-table__item-option
+            %span.site-table__item-title
+              Цена:
             = number_to_integer_currency change.total
 - if @recoupments.present?
+  %h4 Отыгрыши
   %table.table.table-hover.site-table
+    %thead.site-table__head
+      %tr
+        %th Стадион и площадка
+        %th Цена
     %tbody.site-table__body
-      %h4 Отыгрыши
       - @recoupments.each do |rec|
         %tr.site-table__item
           %td.site-table__item-option
+            %span.site-table__item-title
+              Стадион и площадка:
             = rec.area.name_with_stadium
           %td.site-table__item-option
+            %span.site-table__item-title
+              Цена:
             = rec.price
 - if @order.total == 0
   = link_to "Подтвердить заказ", pay_order_path(@order), method: :patch, class: 'btn btn-primary'

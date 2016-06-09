@@ -1,12 +1,10 @@
 %h2 Пополнение кошелька
 = simple_form_for [DepositRequest.new], wrapper: 'horizontal_form' do |f|
   .row
-    .col-sm-4.col-xs-12
+    .col-md-4.col-sm-6.col-xs-12
       = f.input :amount, label: 'Сумма', hint: "Макс. сумма: #{number_to_currency(Rails.application.secrets.amount_limit, locale: :ru)}", as: :integer, input_html: { max: Rails.application.secrets.amount_limit, value: 5000 }
-    .col-sm-4.col-xs-12
       = f.input :payment_method, as: :hidden, label: 'Метод оплаты', collection: DepositRequest.payment_methods.map {|k,v| [I18n.t("enums.deposit_request.payment_method.#{k}"), k] }, selected: 0
-    .col-sm-4.col-xs-12
-      = f.button :submit, 'Пополнить'
+      = f.button :submit, 'Пополнить', class: 'btn btn-success'
 
 %h3 История
 - if @requests.any?

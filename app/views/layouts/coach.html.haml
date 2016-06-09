@@ -13,7 +13,7 @@
               %h5= fa_icon('phone') + ' ' + @coach.phone
             - if @coach.email.present?
               %h5= fa_icon('envelope') + ' ' + @coach.email
-            %p= truncate(@coach.description)
+            %p= @coach.description
         %hr/
         .row
           .col-xs-12.col-sm-12.col-md-12.col-lg-12

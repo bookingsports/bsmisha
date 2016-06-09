@@ -41,7 +41,7 @@
   margin: 0 0 10px;
 }
 
-@media all and (max-width: 1200px) {
+@media all and (max-width: 1200px) and (min-width: 768px) {
   .coach__item_name {
     margin: 0 0 10px;
     font-size: 12px;

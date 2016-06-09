@@ -42,11 +42,9 @@
             %td.site-table__item-option
               %span.site-table__item-title
                 Доплатить минут:
-              = text_field_tag :value
+              = text_field_tag :value, '', class: 'form-control'
             %td.site-table__item-option
-              %span.site-table__item-title
-                Доплатить минут:
-              = f.submit 'Выставить счет'
+              = f.submit 'Выставить счет', class: 'btn btn-success'
         - else
           %td.site-table__item-option
             Заказ еще не завершился

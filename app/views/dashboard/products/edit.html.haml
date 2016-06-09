@@ -54,7 +54,7 @@
               = render "stadium_service_fields", f: stadium_service
 
 
-        = f.button :submit
+        = f.button :submit, class: 'btn btn-success'
 - elsif @product.kind_of? Coach
   = simple_form_for @product, as: :product, url: dashboard_product_path do |f|
     = f.simple_fields_for :user, @product.user do |user|
@@ -65,4 +65,4 @@
 
     .form-group
       = link_to fa_icon('edit') + ' Сменить пароль или почту', edit_user_registration_path, class: 'btn btn-default'
-    = f.button :submit, 'Сохранить'
+    = f.button :submit, 'Сохранить', class: 'btn btn-success'
