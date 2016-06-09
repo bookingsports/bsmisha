@@ -1,7 +1,7 @@
 .body-bg
   %div.one_day__base
     %h2.col-xs-12 Расписание
-    = simple_form_for "schedule_form", url: one_day_events_path, wrapper: 'horizontal_form' do |f|
+    = simple_form_for "schedule_form", url: one_day_events_path, method: :get, wrapper: 'horizontal_form' do |f|
       .col-xs-12
         .row
           .col-sm-6.col-xs-12

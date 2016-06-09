@@ -19,8 +19,8 @@ class TicketPdf < Prawn::Document
       table([
         ['Стадион', @event.area.stadium.name],
         ['Имя', @event.user.name],
-        ['Площадка', @event.area.stadium.category.name],
-        ['Категория', @event.area.name],
+        ['Площадка', @event.area.name],
+        ['Категория',@event.area.stadium.category.present? ? @event.area.stadium.category.name : "-"],
         ['Количество повторений', @event.occurrences.to_s]
                 ])
 
@@ -30,8 +30,8 @@ class TicketPdf < Prawn::Document
       table([
         ['Стадион', @event.area.stadium.name],
         ['Имя', @event.user.name],
-        ['Площадка', @event.area.stadium.category.name],
-        ['Категория', @event.area.name],
+        ['Площадка', @event.area.name],
+        ['Категория',@event.area.stadium.category.present? ? @event.area.stadium.category.name : "-"],
         ['Начало', @event.start.to_s],
         ['Конец', @event.stop.to_s]
           ])
