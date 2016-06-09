@@ -8,7 +8,7 @@ ru:
         other: отыгрышы
     attributes:
       recoupment:
-        duration: Протяженность
+        price: Стоимость
         user: Пользователь
         area: Площадка
         reason: Причина

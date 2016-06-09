@@ -5,7 +5,7 @@ module RecoupmentConcern
     rails_admin do
       navigation_label I18n.t(:money)
       list do
-        field :duration
+        field :price
         field :user
         field :area
         field :reason
@@ -14,7 +14,7 @@ module RecoupmentConcern
       end
 
       show do
-        field :duration
+        field :price
         field :user
         field :area
         field :reason
@@ -23,7 +23,7 @@ module RecoupmentConcern
       end
 
       edit do
-        field :duration
+        field :price
         field :user
         field :area
         field :reason
