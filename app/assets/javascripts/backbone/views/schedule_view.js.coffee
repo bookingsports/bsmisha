@@ -144,11 +144,15 @@ class Tennis.Views.ScheduleView extends Backbone.View
         e.preventDefault()
         return
       add: (e) =>
-        validation = @validate(e.start, e.end, e.event)
-        return if validation == true
-        alert(validation)
-        e.preventDefault()
-        return
+        if gon.current_user && gon.current_user.type == "CoachUser"
+          e.preventDefault()
+          return
+        else
+          validation = @validate(e.start, e.end, e.event)
+          return if validation == true
+          alert(validation)
+          e.preventDefault()
+          return
       save: (e) =>
         validation = @validate(e.start, e.end, e.event)
         if validation == true
