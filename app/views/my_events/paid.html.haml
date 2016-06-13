@@ -3,7 +3,7 @@
   %thead.site-table__head
     %tr
       %th #
-      %th Стадион
+      -#%th Стадион
       %th Площадка
       %th Период занятий
       %th Время тренировок
@@ -17,10 +17,10 @@
           %span.site-table__item-title
             №:
           = event.id
-        %td.site-table__item-option
-          %span.site-table__item-title
-            Стадион:
-          = event.area.stadium.name
+        -#%td.site-table__item-option
+        -#  %span.site-table__item-title
+        -#    Стадион:
+        -#  = event.area.stadium.name
         %td.site-table__item-option
           %span.site-table__item-title
             Площадка:
@@ -32,7 +32,7 @@
         %td.site-table__item-option
           %span.site-table__item-title
             Время тренировок:
-          = event.start.strftime("%H:%M:%S") + ' - ' + event.stop.strftime("%H:%M:%S")
+          = event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
         %td.site-table__item-option
           %span.site-table__item-title
             Стоимость:
