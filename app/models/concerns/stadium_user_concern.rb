@@ -21,7 +21,6 @@ module StadiumUserConcern
         field :password_confirmation
         field :avatar
         field :wallet
-        field :stadium
         field :phone
       end
 
