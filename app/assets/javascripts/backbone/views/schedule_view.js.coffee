@@ -144,7 +144,7 @@ class Tennis.Views.ScheduleView extends Backbone.View
         e.preventDefault()
         return
       add: (e) =>
-        if gon.current_user && gon.current_user.type == "CoachUser"
+        if gon.current_user && (gon.current_user.type == "CoachUser" || gon.current_user.type == "Admin")
           e.preventDefault()
           return
         else
