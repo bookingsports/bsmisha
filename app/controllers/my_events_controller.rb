@@ -47,7 +47,7 @@ class MyEventsController < EventsController
     @event = Event.find(params[:id])
 
     @event.update status: :for_sale
-    redirect_to my_events_path, notice: "Заказ выставлен на продажу."
+    redirect_to :back, notice: "Заказ выставлен на продажу."
   end
 
   def overpay

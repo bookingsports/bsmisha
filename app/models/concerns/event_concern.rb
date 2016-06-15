@@ -18,7 +18,7 @@ module EventConcern
         field :recurrence_exception
         field :recurrence_id
         field :additional_event_items
-        field :event_changes
+        field :event_change
         field :is_all_day
         field :user
       end
@@ -37,7 +37,7 @@ module EventConcern
         field :recurrence_exception
         field :recurrence_id
         field :additional_event_items
-        field :event_changes
+        field :event_change
         field :is_all_day
         field :user
       end
@@ -51,7 +51,7 @@ module EventConcern
         field :coach
         field :area
         field :additional_event_items
-        field :event_changes
+        field :event_change
         field :is_all_day
         field :user
       end
