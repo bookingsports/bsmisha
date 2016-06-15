@@ -12,5 +12,8 @@ ru:
         order: Заказ
         created_at: Дата создания
         updated_at: Дата изменения
-        status: Статус
-        summary: Суммарная информация
+        old_start: Старая дата начала
+        old_stop: Старая дата окончания
+        new_start: Новая дата начала
+        new_stop: Новая дата окончания
+        old_price: Старая цена
