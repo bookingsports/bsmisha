@@ -40,7 +40,6 @@ module StadiumConcern
         field :name
         field :phone
         field :category
-        field :user
         field :slug
         field :account
         field :address
