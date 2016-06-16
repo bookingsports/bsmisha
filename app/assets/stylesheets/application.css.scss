@@ -23,6 +23,7 @@
 @import "site-table";
 @import "footer";
 @import "form";
+@import "page-content";
 
 html {
   position: relative;
@@ -697,10 +698,17 @@ h1, h2, h3, h4, h5, h6 {
 .dashboard-nav {
   margin-bottom: 50px;
 
-
   @media all and (max-width: 767px) {
     margin-bottom: 30px;
   }
+}
+
+.alert {
+  position: fixed;
+  top: 71px;
+  left: 0;
+  right: 0;
+  z-index: 1;
 }
 
 @media all and (max-width: 991px) {

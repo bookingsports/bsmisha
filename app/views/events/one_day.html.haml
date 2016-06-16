@@ -4,8 +4,8 @@
     = simple_form_for "schedule_form", url: one_day_events_path, method: :get, wrapper: 'horizontal_form' do |f|
       .col-xs-12
         .row
-          .col-sm-6.col-xs-12
-            = f.input :day, label: 'День', as: :datetime, default: @day, discard_hour: true
+          -#.col-sm-6.col-xs-12
+          -#  = f.input :day, label: 'День', as: :datetime, default: @day, discard_hour: true
           .col-sm-6.col-xs-12
             = f.input :stadium, label: 'Стадион', as: :select, collection: Stadium.active.map {|s|[s.name, s.id]}, selected: @stadium.id
           .col-xs-12

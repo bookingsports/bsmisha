@@ -2,13 +2,17 @@
   %h1= @page.title
   .page-content
     = raw @page.text
+  %hr
   %div.row
     %div.col-lg-4.col-lg-offset-4.col-md-6.col-md-offset-3.col-xs-12
-      %h3 Напишите нам
-      .form
-        = simple_form_for :feedback, url: feedback_path, method: :post, remote: true do |f|
-          = f.input :name, label: 'Имя'
-          = f.input :email, label: 'Почта'
-          = f.input :phone, label: 'Телефон'
-          = f.input :message, as: :text, label: 'Сообщение'
-          = f.button :submit, 'Отправить', class: 'btn btn-success'
+      %div.panel.panel-default
+        %div.panel-heading
+          %h3.panel-title Напишите нам
+        %div.panel-body
+          .form
+            = simple_form_for :feedback, url: feedback_path, method: :post, remote: true do |f|
+              = f.input :name, label: 'Имя'
+              = f.input :email, label: 'Почта'
+              = f.input :phone, label: 'Телефон'
+              = f.input :message, as: :text, label: 'Сообщение'
+              = f.button :submit, 'Отправить', class: 'btn btn-success'
