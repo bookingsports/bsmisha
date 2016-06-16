@@ -38,7 +38,7 @@
             = t "enums.deposit_request.payment_method.#{request.payment_method}"
           - if request.pending?
             %td.site-table__item-option
-              = link_to "Оплатить", pay_deposit_request_path(request)
+              = link_to "Оплатить", pay_deposit_request_path(request), class: 'btn btn-sm btn-success'
           - else
             %td.site-table__item-option_hide
 

@@ -2,7 +2,7 @@
   %td.site-table__item-option
     %span.site-table__item-title
       Название:
-    = coach_area.area.stadium.name
+    = link_to coach_area.area.stadium.name, coach_area.area.stadium
   %td.site-table__item-option
     %span.site-table__item-title
       Площадка:
@@ -20,4 +20,4 @@
       Статус:
     = I18n.t "enums.coaches_area.status.#{coach_area.status}"
   %td.site-table__item-option
-    = link_to fa_icon('times') + ' Отвязаться', dashboard_employment_path(id: coach_area.id), method: :delete, data_confirm: 'Вы уверены?'
+    = link_to fa_icon('times') + ' Отвязаться', dashboard_employment_path(id: coach_area.id), method: :delete, data_confirm: 'Вы уверены?', class: 'btn btn-sm btn-danger'

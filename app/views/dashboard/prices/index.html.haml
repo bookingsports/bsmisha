@@ -1,6 +1,6 @@
 %h1 Настройка цен
 = link_to 'Создать период', new_dashboard_area_price_path, class: 'btn btn-primary'
-%table.table.site-table
+%table.table.table-hover.site-table
   %thead.site-table__head
     %tr
       %th Стадион/площадка
@@ -24,9 +24,9 @@
             Имя:
           = dashboard_price.stop
         %td.site-table__item-option
-          = link_to 'Редактировать', edit_dashboard_area_price_path(dashboard_price.area, dashboard_price)
+          = link_to 'Редактировать', edit_dashboard_area_price_path(dashboard_price.area, dashboard_price), class: 'btn btn-sm btn-primary'
         %td.site-table__item-option
-          = link_to 'Удалить', dashboard_area_price_path(dashboard_price.area, dashboard_price), method: :delete, data: { confirm: 'Вы уверены?' }
+          = link_to 'Удалить', dashboard_area_price_path(dashboard_price.area, dashboard_price), method: :delete, data: { confirm: 'Вы уверены?' }, class: 'btn btn-danger'
     - if @prices.empty?
       %tr.site-table__item
         %td.site-table__item-option.text-center{colspan: 7} Пока не создано

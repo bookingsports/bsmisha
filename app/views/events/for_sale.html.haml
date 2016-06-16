@@ -24,7 +24,7 @@
               %td.site-table__item-option
                 %span.site-table__item-title
                   Стадион:
-                = event.area.stadium.name
+                = link_to event.area.stadium.name, event.area.stadium
               %td.site-table__item-option
                 %span.site-table__item-title
                   Площадка:
@@ -42,7 +42,7 @@
                   Стоимость:
                 = number_to_integer_currency event.price
               %td.site-table__item-option
-                = link_to "Продать", sell_my_event_path(event), method: :post, data: {confirm: "Вы действительно хотите продать данный заказ?"}
+                = link_to "Продать", sell_my_event_path(event), method: :post, data: {confirm: "Вы действительно хотите продать данный заказ?"}, class: 'btn btn-sm btn-info'
 
       %hr
 
@@ -55,7 +55,7 @@
             %th Период занятий
             %th Время тренировок
             %th Стоимость
-            %th Покупатель
+            %th Владелец
             %th
         %tbody.site-table__body
           - @events.each do |event|
@@ -63,7 +63,7 @@
               %td.site-table__item-option
                 %span.site-table__item-title
                   Стадион:
-                = event.area.stadium.name
+                = link_to event.area.stadium.name, event.area.stadium
               %td.site-table__item-option
                 %span.site-table__item-title
                   Площадка:
@@ -82,11 +82,11 @@
                 = number_to_integer_currency event.price
               %td.site-table__item-option
                 %span.site-table__item-title
-                  Покупатель:
+                  Владелец:
                 = event.user.name
               - if current_user.wallet.can_spend? event.price
                 %td.site-table__item-option
-                  = link_to "Купить", buy_event_path(event), method: :post, data: {confirm: "Вы действительно хотите купить данный заказ?"}
+                  = link_to "Купить", buy_event_path(event), method: :post, data: {confirm: "Вы действительно хотите купить данный заказ?"}, class: 'btn btn-sm btn-success'
               - else
                 %td.site-table__item-option
                   Недостаточно средств

@@ -47,13 +47,13 @@
                       = ca.stadium_percent.to_s
                     - if ca.pending?
                       %td.site-table__item-option
-                        = link_to 'Подтвердить', confirm_dashboard_coach_user_path(ca.id)
+                        = link_to 'Подтвердить', confirm_dashboard_coach_user_path(ca.id), class: 'btn btn-sm btn-success'
                     - elsif ca.active?
                       %td.site-table__item-option
-                        = link_to 'Заблокировать', confirm_dashboard_coach_user_path(ca.id)
+                        = link_to 'Заблокировать', confirm_dashboard_coach_user_path(ca.id), class: 'btn btn-sm btn-warning'
                     - else
                       %td.site-table__item-option
-                        = link_to 'Разблокировать', confirm_dashboard_coach_user_path(ca.id)
+                        = link_to 'Разблокировать', confirm_dashboard_coach_user_path(ca.id), class: 'btn btn-sm btn-warning'
 
 - else
   Пока нет тренеров

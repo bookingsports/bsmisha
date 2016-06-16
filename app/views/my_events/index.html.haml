@@ -22,7 +22,7 @@
             %td.site-table__item-option
               %span.site-table__item-title
                 Стадион:
-              = event.area.stadium.name
+              = link_to event.area.stadium.name, event.area.stadium
             %td.site-table__item-option
               %span.site-table__item-title
                 Площадка:
@@ -64,7 +64,7 @@
             %td.site-table__item-option
               %span.site-table__item-title
                 Стадион:
-              = event.area.stadium.name
+              = link_to event.area.stadium.name, event.area.stadium
             %td.site-table__item-option
               %span.site-table__item-title
                 Площадка:
@@ -105,7 +105,7 @@
             %td.site-table__item-option
               %span.site-table__item-title
                 Стадион:
-              = event_change.event.area.stadium.name
+              = link_to event_change.event.area.stadium.name, event_change.event.area.stadium
             %td.site-table__item-option
               %span.site-table__item-title
                 Площадка:
@@ -142,7 +142,7 @@
           %td.site-table__item-option
             %span.site-table__item-title
               Стадион:
-            = recoupment.area.stadium.name
+            = link_to recoupment.area.stadium.name, recoupment.area.stadium
           %td.site-table__item-option
             %span.site-table__item-title
               Площадка:
@@ -178,7 +178,7 @@
         %td.site-table__item-option
           %span.site-table__item-title
             Стадион:
-          = event.area.stadium.name
+          = link_to event.area.stadium.name, event.area.stadium
         %td.site-table__item-option
           %span.site-table__item-title
             Площадка:
@@ -200,18 +200,18 @@
             Перенос:
           - if event.has_unpaid_changes?
             - if event.event_change.total == 0
-              = link_to "Подтвердить перенос", pay_change_my_event_path(event.event_change.id), method: :post, data: { confirm: "Вы действительно хотите подтвердить перенос? Впоследствии вы не сможете его поменять" }
+              = link_to "Подтвердить перенос", pay_change_my_event_path(event.event_change.id), method: :post, data: { confirm: "Вы действительно хотите подтвердить перенос? Впоследствии вы не сможете его поменять" }, class: 'brn btn-sm btm-success'
             - else
-              = link_to "Оплатить перенос", orders_path('event_change_ids[]' => event.event_change.id), method: :post
+              = link_to "Оплатить перенос", orders_path('event_change_ids[]' => event.event_change.id), method: :post, class: 'btn btn-sm btn-success'
           - elsif event.has_paid_changes?
             Оплачен
           - else
             &mdash;
         %td.site-table__item-option
-          = link_to "Чек", ticket_event_path(event)
+          = link_to "Чек", ticket_event_path(event), class: 'btn btn-sm btn-info'
         - if event.for_sale?
           %td.site-table__item-option
             Заказ выставлен на продажу
         - else
           %td.site-table__item-option
-            = link_to "Продать", sell_my_event_path(event), method: :post, data: {confirm: "Вы действительно хотите продать данный заказ?"}
+            = link_to "Продать", sell_my_event_path(event), method: :post, data: {confirm: "Вы действительно хотите продать данный заказ?"}, class: 'btn btn-sm btn-warning'

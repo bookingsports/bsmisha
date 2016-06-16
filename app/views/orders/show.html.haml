@@ -50,8 +50,8 @@
               Цена:
             = rec.price
 - if @order.total == 0
-  = link_to "Подтвердить заказ", pay_order_path(@order), method: :patch, class: 'btn btn-primary'
+  = link_to "Подтвердить заказ", pay_order_path(@order), method: :patch, class: 'btn btn-success'
 - elsif @order.user.wallet.can_spend? @order.total
-  = link_to "Заплатить #{number_to_integer_currency @order.total} из кошелька", pay_order_path(@order), method: :patch, class: 'btn btn-primary'
+  = link_to "Заплатить #{number_to_integer_currency @order.total} из кошелька", pay_order_path(@order), method: :patch, class: 'btn btn-success'
 - else
   %div.btn.btn-primary.disabled Недостаточно средств
