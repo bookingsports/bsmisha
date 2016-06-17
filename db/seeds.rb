@@ -11,6 +11,7 @@ def create_user(model, name, email, password)
      u.name = name
      u.password = password
      u.password_confirmation = password
+     u.phone = "+78000000000"
   end
 
   puts "CREATED #{model.to_s} USER: " << user.email
