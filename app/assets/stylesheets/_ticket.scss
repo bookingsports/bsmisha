@@ -1,0 +1,84 @@
+.ticket {
+  display: none;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+@media print {
+  .ticket {
+    display: block;
+  }
+}
+
+
+.ticket_header {
+  @include display-block;
+  width: 100%;
+  padding: 0 7px;
+
+  img {
+    margin: 0 auto;
+  }
+}
+
+.ticket_body {
+  @include display-block;
+  width: 100%;
+  padding: 20px;
+}
+
+.ticket_title {
+  @include display-block;
+  text-align: center;
+  margin: 0 0 20px;
+  font-size: 22px;
+}
+
+.ticket_text {
+  @include display-block;
+  margin: 0 0 20px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.ticket_table {
+  @include display-block;
+  border: 2px solid #000;
+}
+
+.ticket_table_box {
+  float: left;
+  @include display-block;
+  width: 100%;
+  border-bottom: 2px solid #000;
+}
+
+.ticket_table_box--half {
+  float: left;
+  width: 50%;
+
+  border-bottom: 0;
+  &:first-child {
+    border-right: 2px solid #000;
+  }
+}
+
+.ticket_table_box_line {
+  @include display-block;
+  width: 100%;
+  padding: 8px;
+  border-bottom: 1px solid #000;
+
+  &:last-child {
+    border-bottom:0;
+  }
+
+  strong,
+  span {
+    @include display-inline;
+  }
+  span {
+    float: right;
+  }
+}

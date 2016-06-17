@@ -1,0 +1,60 @@
+<div class="ticket" id="ticket_<%= event.id %>">
+  <div class="ticket_header">
+    <%= image_tag 'logo_bg.png', width: 212, height: 71 %>
+  </div>
+  <div class="ticket_body">
+    <h2 class="ticket_title">Спасибо за ваш заказ, <%= event.user.name %>!</h2>
+    <p class="ticket_text">Пожалуйста, распечатайте этот талон как подтверждение вашего заказа.</p>
+    <div class="ticket_table">
+      <div class="ticket_table_box">
+        <div class="ticket_table_box_line">
+          <strong>Стадион</strong>
+          <span><%= event.area.stadium.name %></span>
+        </div>
+        <div class="ticket_table_box_line">
+          <strong>Имя</strong>
+          <span><%= event.user.name %></span>
+        </div>
+        <div class="ticket_table_box_line">
+          <strong>Площадка</strong>
+          <span><%= event.area.name %></span>
+        </div>
+        <div class="ticket_table_box_line">
+          <strong>Категория</strong>
+          <span><%= event.area.stadium.category.present? ? event.area.stadium.category.name : "-" %></span>
+        </div>
+        <div class="ticket_table_box_line">
+          <strong>Начало</strong>
+          <span><%= event.schedule.first.to_date %> <%= event.start.strftime("%H:%M") %></span>
+        </div>
+        <div class="ticket_table_box_line">
+          <strong>Конец</strong>
+          <span><%= event.schedule.last.to_date %> <%= event.stop.strftime("%H:%M") %></span>
+        </div>
+      </div>
+      <div>
+        <div class="ticket_table_box ticket_table_box--half">
+          <div class="ticket_table_box_line">
+            <strong>Стоимость площадки</strong>
+            <span><%= event.area_price.to_s %> руб.</span>
+          </div>
+          <div class="ticket_table_box_line">
+            <strong>Стоимость тренера</strong>
+            <span><%= event.coach_price.to_s %> руб.</span>
+          </div>
+          <div class="ticket_table_box_line">
+            <strong>Стоимость услуг</strong>
+            <span><%= event.stadium_services_price.to_s %> руб.</span>
+          </div>
+          <div class="ticket_table_box_line">
+            <strong>Общая стоимость</strong>
+            <span><%= event.price %> руб.</span>
+          </div>
+        </div>
+        <div class="ticket_table_box ticket_table_box--half">
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
