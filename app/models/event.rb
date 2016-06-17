@@ -230,6 +230,10 @@ class Event < ActiveRecord::Base
     start > Time.now
   end
 
+  def qrcode_content
+    "Заказ №#{id}, начало: #{start}, конец: #{stop}, повторений: #{occurrences}, стоимость: #{price.to_s} руб."
+  end
+
   private
     def create_event_change_if_not_present
       if unpaid?

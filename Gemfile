@@ -82,7 +82,7 @@ gem 'active_record_union'
 # PDF RENDERING
 gem 'prawn'
 gem 'prawn-table'
-gem 'prawn-qrcode'
+gem 'rqrcode'
 
 group :development do
   gem "better_errors"
