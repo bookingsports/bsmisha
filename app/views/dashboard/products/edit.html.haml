@@ -33,7 +33,7 @@
             %tr
               %th Название
               %th Стоимость часа
-              %th Стоимость переноса
+              %th Стоимость переноса, %
               %th
           %tbody.areas.site-table__body
             = f.simple_fields_for :areas, @product.areas.any? && @product.areas || @product.areas.new do |area|
