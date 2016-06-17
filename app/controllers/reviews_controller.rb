@@ -18,7 +18,7 @@ class ReviewsController < NestedResourcesController
   before_action :authenticate_user!, except: :index
 
   def index
-    @reviews = @product.reviews
+    @reviews = @product.reviews.where(verified: true)
     @review = Review.new
   end
 
