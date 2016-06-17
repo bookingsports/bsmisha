@@ -22,7 +22,7 @@ class WithdrawalRequest < ActiveRecord::Base
   validates :amount, presence: true, numericality: { greater_than: 0, less_than_or_equal_to: Rails.application.secrets.amount_limit }
   validate :amount_no_more_than_can_spend
 
-  before_create :set_payment
+  after_create :set_payment
 
   enum status: [:pending, :success, :failure]
 
@@ -32,7 +32,7 @@ class WithdrawalRequest < ActiveRecord::Base
 
   def set_payment
     account = self.wallet.user.type == "StadiumUser" ? self.wallet.user.stadium.account: self.wallet.user.coach.account
-    self.payment = <<-ENDLINE
+    self.update_attribute('payment',  <<-ENDLINE
 1CClientBankExchange
 ВерсияФормата=1.02
 Кодировка=Windows
@@ -66,12 +66,13 @@ class WithdrawalRequest < ActiveRecord::Base
 ПолучательКорсчет=
 ВидПлатежа=
 ВидОплаты=01
-НазначениеПлатежа=Оплата по счету № 00238 от 10.02.2016г. сумма - 2500р. за подключение к сети интернет и аванс за услуги. В том числе НДС (18%), 381.35 руб.
-НазначениеПлатежа1=Оплата по счету № 00238 от 10.02.2016г. сумма - 2500р. за подключение к сети интернет и аванс за услуги. В том числе НДС (18%), 381.35 руб.
+НазначениеПлатежа=Оплата по счету № #{self.id} от #{created_at.strftime("%d.%m.%Y")} сумма - #{amount}р. за подключение к сети интернет и аванс за услуги. В том числе НДС (18%), #{amount * 0.18} руб.
+НазначениеПлатежа1=Оплата по счету № #{self.id} от #{created_at.strftime("%d.%m.%Y")} сумма - #{amount}р. за подключение к сети интернет и аванс за услуги. В том числе НДС (18%), #{amount * 0.18} руб.
 Очередность=5
 КонецДокумента
 КонецФайла
 ENDLINE
+)
   end
 
   def amount_no_more_than_can_spend
