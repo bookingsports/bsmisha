@@ -39,6 +39,7 @@ gem 'cancancan'
 gem 'fog'
 gem 'carrierwave'
 gem 'rmagick'
+gem 'rqrcode'
 
 # AUTH
 gem 'devise'
@@ -78,11 +79,6 @@ gem 'paper_trail'
 
 # SCOPES UNION
 gem 'active_record_union'
-
-# PDF RENDERING
-gem 'prawn'
-gem 'prawn-table'
-gem 'rqrcode'
 
 group :development do
   gem "better_errors"
