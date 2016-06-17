@@ -9,7 +9,7 @@
     = link_to 'Настроить цены', dashboard_area_prices_path(area_id: f.object.id), class: 'btn btn-warning' if f.object.persisted?
   %td.site-table__item-option
     %span.site-table__item-title
-      Стоимость переноса:
+      Стоимость переноса, %:
     = f.input :change_price, label: false
   %td.site-table__item-option
     = link_to_remove_association 'Удалить площадку', f, class: 'btn btn-danger'
