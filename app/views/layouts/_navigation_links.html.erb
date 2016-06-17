@@ -11,7 +11,7 @@
 <% end %>
 </li>
 <li><%= link_to for_sale_events_path do %>
-  Покупка/продажа
+  Покупка/продажа (<%= Event.paid.future.for_sale.count %>)
 <% end %>
 </li>
 <li id="menu-item-120" class="menu-item menu-item-120 dropdown">
