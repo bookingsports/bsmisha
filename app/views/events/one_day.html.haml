@@ -1,34 +1,44 @@
+- content_for :scripts do
+  = javascript_include_tag 'one_day_schedule_view'
+
 .body-bg
   %div.one_day__base
     %h2.col-xs-12 Расписание
-    = simple_form_for "schedule_form", url: one_day_events_path, method: :get, wrapper: 'horizontal_form' do |f|
+    = form_tag one_day_events_path, method: :get, wrapper: 'horizontal_form', enforce_utf8: false do |f|
       .col-xs-12
         .row
           .col-sm-6.col-xs-12
-            = f.input :day, label: 'День', as: :datetime, default: @day, discard_hour: true
-          .col-sm-6.col-xs-12
-            -#= f.input :stadium, label: 'Стадион', as: :select, collection: Stadium.active.map {|s|[s.name, s.id]}, selected: @stadium.id
-            = f.input :stadiums, label: 'Стадион', as: :check_boxes, collection: Stadium.active.map {|s|[s.name, s.id]}, checked: @stadiums.map(&:id)
+            = label_tag 'stadium', "Стадион"
+            = select_tag :stadium, options_from_collection_for_select(Stadium.active, "slug", "name", @stadium.slug)
+            -#= f.input :stadiums, label: 'Стадион', as: :check_boxes, collection: Stadium.active.map {|s|[s.name, s.id]}, checked: @stadiums.map(&:id)
           .col-xs-12
-            = f.button :submit, 'Выбрать', class: 'btn btn-success'
+            = submit_tag 'Выбрать', class: 'btn btn-success', name: nil
+      .col-lg-12.col-md-6.col-xs-12
+        %h4 Площадки
+        %ul.nav.nav-pills.nav-stacked
+          = active_link_to 'Все площадки', one_day_events_path(stadium: @stadium.slug), active: /areas$/, wrap_tag: :li
+          - @stadium.areas.each do |cc|
+            = active_link_to [cc.name].compact.join(', '), one_day_events_path(stadium: @stadium.slug, id: cc.slug), active: /id=#{cc.slug}/, wrap_tag: :li
       .col-xs-12
         %hr
       .col-xs-12
-        - @stadiums.each do |stadium|
-          %h3= stadium.name
-          %table.table.table-hover.site-table
-            %tbody.site-table__head
-              - stadium.areas.each do |area|
-                %tr.site-table__item
-                  %td.site-table__item-option
-                    = area.name
-                  - if Event.paid_or_confirmed.where(area: area).where(start: @day.beginning_of_day..@day.end_of_day).present?
-                    - Event.paid_or_confirmed.where(area: area).where(start: @day.beginning_of_day..@day.end_of_day).sort_by(&:start).each do |e|
-                      %td.site-table__item-option
-                        = "#{e.start.strftime("%H:%M")} -#{e.stop.strftime("%H:%M")} #{e.user.name}"
-                  - else
-                    %td.site-table__item-option
-                      Нет заказов
+        -# @stadiums.each do |stadium|
+        -# %h3= stadium.name
+        -# %table.table.table-hover.site-table
+        -#   %tbody.site-table__head
+        -#     - stadium.areas.each do |area|
+        -#       %tr.site-table__item
+        -#         %td.site-table__item-option
+        -#           = area.name
+        -#         - if Event.paid_or_confirmed.where(area: area).where(start: @day.beginning_of_day..@day.end_of_day).present?
+        -#           - Event.paid_or_confirmed.where(area: area).where(start: @day.beginning_of_day..@day.end_of_day).sort_by(&:start)-#each do |e|
+        -#             %td.site-table__item-option
+        -#               = "#{e.start.strftime("%H:%M")} -#{e.stop.strftime("%H:%M")} #{e.user.name}"
+        -#         - else
+        -#           %td.site-table__item-option
+        -#             Нет заказов
+        = render "schedule_legend"
+        #scheduler
 
 
         -#%div.col-lg-4.col-xs-12

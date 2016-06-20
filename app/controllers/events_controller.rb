@@ -57,8 +57,16 @@ class EventsController < ApplicationController
   end
 
   def one_day
-    @stadiums = params[:schedule_form].present? ? Stadium.where(id: params[:schedule_form][:stadiums]) : [Stadium.active.first]
-    @day = params[:schedule_form].present? ? DateTime.new(params[:schedule_form]["day(1i)"].to_i, params[:schedule_form]["day(2i)"].to_i, params[:schedule_form]["day(3i)"].to_i) : DateTime.now
+    @stadium = params[:stadium].present? ? Stadium.friendly.find(params[:stadium]) : Stadium.active.first
+
+    gon.stadium_slug = @stadium.slug
+    gon.opens_at = @stadium.opens_at
+    gon.closes_at = @stadium.closes_at
+
+    if params[:id]
+      @area = Area.friendly.find(params[:id])
+      gon.area_id = @area.slug
+    end
   end
 
   def private
