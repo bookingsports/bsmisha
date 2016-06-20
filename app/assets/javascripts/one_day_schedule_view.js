@@ -163,7 +163,7 @@ $("#scheduler").kendoScheduler({
       read:
       {
         dataType: 'json',
-        url:  url + '.json'
+        url:  url + '.json?from=one_day'
       },
       update:
       {

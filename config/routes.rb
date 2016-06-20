@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     resources :events
     resources :my_events
     collection do
-      get 'events', to: 'events#parents_events'
+      get 'events', to: 'events#index'
     end
   end
   concern :totalable do
@@ -40,7 +40,6 @@ Rails.application.routes.draw do
       post 'bulk_process', constraints: ButtonParamRouting.new('destroy'), action: 'destroy'
       post 'bulk_process', constraints: ButtonParamRouting.new('confirm'), action: 'confirm'
       get 'one_day'
-      post 'one_day'
       get 'for_sale'
     end
     member do

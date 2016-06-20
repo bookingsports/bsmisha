@@ -21,7 +21,7 @@
         %ul.nav.nav-pills.nav-stacked
           = active_link_to 'Все площадки', one_day_events_path(stadium: @stadium.slug), active: /^(?!.*id).*$/, wrap_tag: :li
           - @stadium.areas.each do |cc|
-            = active_link_to [cc.name].compact.join(', '), one_day_events_path(stadium: @stadium.slug, id: cc.slug), active: /id=#{cc.slug}/, wrap_tag: :li
+            = active_link_to [cc.name].compact.join(', '), one_day_events_path(stadium: @stadium.slug, area_id: cc.slug), active: /id=#{cc.slug}/, wrap_tag: :li
       .col-md-8.col-xs-12
         = render "schedule_legend"
         #scheduler
