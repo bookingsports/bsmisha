@@ -60,8 +60,8 @@ class EventsController < ApplicationController
     @stadium = params[:stadium].present? ? Stadium.friendly.find(params[:stadium]) : Stadium.active.first
 
     gon.stadium_slug = @stadium.slug
-    gon.opens_at = @stadium.opens_at
-    gon.closes_at = @stadium.closes_at
+    gon.opens_at = Time.zone.parse(@stadium.opens_at.to_s)
+    gon.closes_at = Time.zone.parse(@stadium.closes_at.to_s)
 
     if params[:id]
       @area = Area.friendly.find(params[:id])
