@@ -57,7 +57,7 @@ class EventsController < ApplicationController
   end
 
   def one_day
-    @stadium = params[:schedule_form].present? ? Stadium.find(params[:schedule_form][:stadium]) : Stadium.active.first
+    @stadiums = params[:schedule_form].present? ? Stadium.where(id: params[:schedule_form][:stadiums]) : [Stadium.active.first]
     @day = params[:schedule_form].present? ? DateTime.new(params[:schedule_form]["day(1i)"].to_i, params[:schedule_form]["day(2i)"].to_i, params[:schedule_form]["day(3i)"].to_i) : DateTime.now
   end
 
