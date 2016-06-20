@@ -1,7 +1,5 @@
-$ =>
-  (new Tennis.Views.ScheduleView
-    el: '#scheduler'
-    area: gon.area_id
-    opens_at: gon.opens_at
-    closes_at: gon.closes_at
-  ).render()
+#= require kendo.all
+#= require kendo.timezones.min
+#= require cultures/kendo.culture.ru-RU.min
+#= require messages/kendo.messages.ru-RU.min
+#= require ./backbone/views/schedule_view
