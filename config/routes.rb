@@ -44,7 +44,6 @@ Rails.application.routes.draw do
       get 'for_sale'
     end
     member do
-      get 'ticket'
       post 'pay_change'
       post 'overpay'
       post 'sell'
