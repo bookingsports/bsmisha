@@ -1,5 +1,12 @@
+.check-wrap__cover {
+  margin-top: 18px;
+  font-size: 0;
+}
+
 .check-wrap {
+  float: none;
   position: relative;
+  display: inline-block;
   margin-top: 10px;
   min-height: 28px;
   font-size: 13px;
@@ -70,5 +77,11 @@
     @include square(8px);
     @include border-radius(4px);
     background-color: #00b0ff;
+  }
+}
+
+@media all and (max-width: 767px) {
+  .check-wrap__cover {
+    margin-top: 0;
   }
 }
