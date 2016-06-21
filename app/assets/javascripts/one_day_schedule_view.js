@@ -5,11 +5,11 @@
 #= require_self
 
 
-if (!gon.area_id)
-  url = "/stadiums/" + gon.stadium_slug + "/areas/events"
-else
-  url = "/stadiums/" + gon.stadium_slug + "/areas/" + gon.area_id + "/events"
-area_id = gon.area_id;
+if (!gon.areas_id)
+  gon.areas_id = []
+
+url = "/stadiums/" + gon.stadium_slug + "/areas/events"
+areas_id = gon.areas_id;
 opens_at = new Date(gon.opens_at);
 closes_at = new Date(gon.closes_at);
 
@@ -163,7 +163,7 @@ $("#scheduler").kendoScheduler({
       read:
       {
         dataType: 'json',
-        url:  url + '.json?from=one_day'
+        url:  (url + '.json?from=one_day' + areas_id.map(function(a) {return "&areas[]=" + a; }).join(""))
       },
       update:
       {
@@ -252,7 +252,7 @@ setInterval(function() {
     scheduler.dataSource.read();
 }, 30000)
 
-$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) 
+$('a[data-toggle="tab"]').on('shown.bs.tab', function (e)
 {
   scheduler.refresh()
 });

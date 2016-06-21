@@ -25,8 +25,8 @@ class EventsController < ApplicationController
   before_filter :authenticate_user!, except: [:index, :parents_events]
 
   def index
-    if params[:from] == "one_day" && params[:area_id].present?
-      @events = Event.paid_or_confirmed.where(area: Area.friendly.find(params[:area_id]).id)
+    if params[:from] == "one_day" && params[:areas].present?
+      @events = Event.paid_or_confirmed.where(area: Area.where(slug: params[:areas]))
     elsif params[:from] == "one_day"
       @events = Event.paid_or_confirmed.where(area: Stadium.friendly.find(params[:stadium_id]).area_ids)
     elsif params[:area_id].present? && current_user.present? && current_user.type == "CoachUser"
@@ -67,10 +67,12 @@ class EventsController < ApplicationController
     gon.opens_at = Time.zone.parse(@stadium.opens_at.to_s)
     gon.closes_at = Time.zone.parse(@stadium.closes_at.to_s)
 
-    if params[:area_id]
-      @area = Area.friendly.find(params[:area_id])
-      gon.area_id = @area.slug
+    if params[:areas]
+      @areas = Area.where(slug: params[:areas])
+    else
+      @areas = @stadium.areas
     end
+    gon.areas_id = @areas.map(&:slug)
   end
 
   def private

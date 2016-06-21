@@ -13,15 +13,19 @@
                 = label_tag 'stadium', "Стадион"
               .col-xs-12.form_event_select
                 = select_tag :stadium, options_from_collection_for_select(Stadium.active, "slug", "name", @stadium.slug), class: 'form-control'
+                - @stadium.areas.each do |area|
+                  = check_box_tag "areas[]", area.slug, @areas.where(slug: area.slug).present?
+                  = label_tag 'areas[]', area.name_with_stadium
+                  %br
                 = submit_tag 'Выбрать', class: 'btn btn-success form_event_select_btn', name: nil
       .col-xs-12
         %hr
-      .col-md-4.col-xs-12
-        %h4 Площадки
-        %ul.nav.nav-pills.nav-stacked
-          = active_link_to 'Все площадки', one_day_events_path(stadium: @stadium.slug), active: /^(?!.*id).*$/, wrap_tag: :li
-          - @stadium.areas.each do |cc|
-            = active_link_to [cc.name].compact.join(', '), one_day_events_path(stadium: @stadium.slug, area_id: cc.slug), active: /id=#{cc.slug}/, wrap_tag: :li
+      -#.col-md-4.col-xs-12
+      -#  %h4 Площадки
+      -#  %ul.nav.nav-pills.nav-stacked
+      -#    = active_link_to 'Все площадки', one_day_events_path(stadium: @stadium.slug), active: /^(?!.*id).*$/, wrap_tag: :li
+      -#    - @stadium.areas.each do |cc|
+      -#      = active_link_to [cc.name].compact.join(', '), one_day_events_path(stadium: @stadium.slug, area_id: cc.slug), active: /id=#{cc.slug}/, wrap_tag: :li
       .col-md-8.col-xs-12
         = render "schedule_legend"
         #scheduler
