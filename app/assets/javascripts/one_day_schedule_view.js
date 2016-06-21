@@ -270,3 +270,19 @@ function timeIsOccupied (start, stop, event)
     occurences.splice(idx, 1);
   return occurences.length > 0;
 }
+
+$("select#stadium").change(function() {
+  var value = $("select#stadium").val();
+  $.ajax({
+    type: "GET",
+    url: "/stadiums/" + value + ".json",
+    success: function(msg){
+      $("#checkboxes_placeholder").empty();
+      msg.forEach(function(area) {
+        $("#checkboxes_placeholder").append('<input type="checkbox" name="areas[]" id="areas" value="' + area.slug + '" checked="checked" />');
+        $("#checkboxes_placeholder").append('<label for="areas_">' + area.name + '</label>')
+        $("#checkboxes_placeholder").append("<br/>")
+      });
+    }
+  });
+});
