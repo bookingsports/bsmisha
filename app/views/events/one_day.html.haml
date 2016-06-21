@@ -3,7 +3,9 @@
 
 .body-bg
   %div.one_day__base
-    %h2.col-xs-12 Расписание
+    %h1.col-xs-12 Расписание
+    .col-xs-12
+      %hr
     = form_tag one_day_events_path, method: :get, wrapper: 'horizontal_form', enforce_utf8: false do |f|
       .col-xs-12
         .row

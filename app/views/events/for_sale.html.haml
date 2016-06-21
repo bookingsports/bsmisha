@@ -2,91 +2,94 @@
   %h2 Чтобы продавать или покупать заказы, нужно авторизоваться или зарегистрироваться
 - else
   .body-bg
-    .row
-      %h4 Ваши оплаченные заказы:
-      %table.table.table-striped.table-hover.site-table#paid-events
-        %thead.site-table__head
-          %tr
-            %th #
-            %th Стадион
-            %th Площадка
-            %th Период занятий
-            %th Время тренировок
-            %th Стоимость
-            %th
-        %tbody.site-table__body
-          - @my_events.each do |event|
-            %tr.site-table__item
-              %td.site-table__item-option
-                %span.site-table__item-title
-                  №:
-                = event.id
-              %td.site-table__item-option
-                %span.site-table__item-title
-                  Стадион:
-                = link_to event.area.stadium.name, event.area.stadium
-              %td.site-table__item-option
-                %span.site-table__item-title
-                  Площадка:
-                = event.area.name
-              %td.site-table__item-option
-                %span.site-table__item-title
-                  Период занятий:
-                = l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
-              %td.site-table__item-option
-                %span.site-table__item-title
-                  Время тренировок:
-                = event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
-              %td.site-table__item-option
-                %span.site-table__item-title
-                  Стоимость:
-                = number_to_integer_currency event.price
-              %td.site-table__item-option
-                = link_to "Продать", sell_my_event_path(event), method: :post, data: {confirm: "Вы действительно хотите продать данный заказ?"}, class: 'btn btn-sm btn-info'
+    %h1.col-xs-12 Покупка/продажа
+    .col-xs-12
+      .row
+        %hr
+    %h4 Ваши оплаченные заказы
+    %table.table.table-striped.table-hover.site-table#paid-events
+      %thead.site-table__head
+        %tr
+          %th #
+          %th Стадион
+          %th Площадка
+          %th Период занятий
+          %th Время тренировок
+          %th Стоимость
+          %th
+      %tbody.site-table__body
+        - @my_events.each do |event|
+          %tr.site-table__item
+            %td.site-table__item-option
+              %span.site-table__item-title
+                №:
+              = event.id
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Стадион:
+              = link_to event.area.stadium.name, event.area.stadium
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Площадка:
+              = event.area.name
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Период занятий:
+              = l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Время тренировок:
+              = event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Стоимость:
+              = number_to_integer_currency event.price
+            %td.site-table__item-option
+              = link_to "Продать", sell_my_event_path(event), method: :post, data: {confirm: "Вы действительно хотите продать данный заказ?"}, class: 'btn btn-sm btn-info'
 
-      %hr
+    %hr
 
-      %h4 Занятия, выставленные на продажу
-      %table.table.table-striped.table-hover.site-table#paid-events
-        %thead.site-table__head
-          %tr
-            %th Стадион
-            %th Площадка
-            %th Период занятий
-            %th Время тренировок
-            %th Стоимость
-            %th Владелец
-            %th
-        %tbody.site-table__body
-          - @events.each do |event|
-            %tr.site-table__item
+    %h4 Занятия, выставленные на продажу
+    %table.table.table-striped.table-hover.site-table#paid-events
+      %thead.site-table__head
+        %tr
+          %th Стадион
+          %th Площадка
+          %th Период занятий
+          %th Время тренировок
+          %th Стоимость
+          %th Владелец
+          %th
+      %tbody.site-table__body
+        - @events.each do |event|
+          %tr.site-table__item
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Стадион:
+              = link_to event.area.stadium.name, event.area.stadium
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Площадка:
+              = event.area.name
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Период занятий:
+              = l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Время тренировок:
+              = event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Стоимость:
+              = number_to_integer_currency event.price
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Владелец:
+              = event.user.name
+            - if current_user.wallet.can_spend? event.price
               %td.site-table__item-option
-                %span.site-table__item-title
-                  Стадион:
-                = link_to event.area.stadium.name, event.area.stadium
+                = link_to "Купить", buy_event_path(event), method: :post, data: {confirm: "Вы действительно хотите купить данный заказ?"}, class: 'btn btn-sm btn-success'
+            - else
               %td.site-table__item-option
-                %span.site-table__item-title
-                  Площадка:
-                = event.area.name
-              %td.site-table__item-option
-                %span.site-table__item-title
-                  Период занятий:
-                = l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
-              %td.site-table__item-option
-                %span.site-table__item-title
-                  Время тренировок:
-                = event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
-              %td.site-table__item-option
-                %span.site-table__item-title
-                  Стоимость:
-                = number_to_integer_currency event.price
-              %td.site-table__item-option
-                %span.site-table__item-title
-                  Владелец:
-                = event.user.name
-              - if current_user.wallet.can_spend? event.price
-                %td.site-table__item-option
-                  = link_to "Купить", buy_event_path(event), method: :post, data: {confirm: "Вы действительно хотите купить данный заказ?"}, class: 'btn btn-sm btn-success'
-              - else
-                %td.site-table__item-option
-                  Недостаточно средств
+                Недостаточно средств
