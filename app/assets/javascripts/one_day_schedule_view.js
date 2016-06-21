@@ -138,9 +138,14 @@ $("#scheduler").kendoScheduler({
         transport: {
             read: {
                 dataType: 'json',
-                url: (url + '.json?from=one_day' + areas_id.map(function (a) {
+                url: function()
+                {
+                  return url + '.json?from=one_day'
+                  + areas_id.map(function (a)
+                  {
                     return "&areas[]=" + a;
-                }).join(""))
+                  }).join("")
+                }
             },
             update: {
                 dataType: 'json',
@@ -244,10 +249,19 @@ $("select#stadium").change(function () {
             msg.forEach(function (area) {
                 $("#checkboxes_placeholder").append('' +
                     '<div class="check-wrap">' +
-                    '<input type="checkbox" name="areas[]" id="areas_' + area.id + '" value="' + area.slug + '" checked="checked" />' +
+                    '<input type="checkbox" name="areas[]" class="check-box" id="areas_' + area.id + '" value="' + area.slug + '" checked="checked" />' +
                     '<label for="areas_' + area.id + '" class="check-label">' + area.name + '</label>' +
                     '</div>');
+                updateSchedule();
+                $(".check-box").change(updateSchedule);
             });
         }
     });
 });
+
+$(".check-box").change(updateSchedule);
+
+function updateSchedule() {
+  areas_id = $(".check-box:checkbox:checked").map(function(elt) { return this.value }).get()
+  scheduler.dataSource.read();
+}

@@ -28,7 +28,7 @@ class EventsController < ApplicationController
     if params[:from] == "one_day" && params[:areas].present?
       @events = Event.paid_or_confirmed.where(area: Area.where(slug: params[:areas]))
     elsif params[:from] == "one_day"
-      @events = Event.paid_or_confirmed.where(area: Stadium.friendly.find(params[:stadium_id]).area_ids)
+      @events = []
     elsif params[:area_id].present? && current_user.present? && current_user.type == "CoachUser"
       @events = Event.paid_or_confirmed.where(area: current_product).where(coach: current_user.coach).union(current_user.events.where(area: current_product))
     elsif params[:area_id].present? && current_user.present?

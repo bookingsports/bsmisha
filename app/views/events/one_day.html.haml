@@ -18,7 +18,6 @@
                     %div.check-wrap
                       = check_box_tag "areas[#{area.id}]", area.slug, @areas.where(slug: area.slug).present?, class: 'check-box'
                       = label_tag "areas[#{area.id}]", area.name_with_stadium, class: 'check-label'
-                = submit_tag 'Выбрать', class: 'btn btn-success form_event_select_btn', name: nil
       .col-xs-12
         %hr
       -#.col-md-4.col-xs-12
