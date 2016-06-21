@@ -246,15 +246,21 @@ $("select#stadium").change(function () {
         url: "/stadiums/" + value + ".json",
         success: function (msg) {
             $("#checkboxes_placeholder").empty();
+            $(".schedule-legend-nav").empty();
             msg.forEach(function (area) {
                 $("#checkboxes_placeholder").append('' +
                     '<div class="col-sm-6 check-wrap">' +
                     '<input type="checkbox" name="areas[]" class="check-box" id="areas_' + area.id + '" value="' + area.slug + '" checked="checked" />' +
-                    '<label for="areas_' + area.id + '" class="check-label">' + area.name + '</label>' +
+                    '<label for="areas_' + area.id + '" class="check-label">' + area.name_with_stadium + '</label>' +
                     '</div>');
-                updateSchedule();
-                $(".check-box").change(updateSchedule);
+                $(".schedule-legend-nav").append(
+                  '<div class="col-lg-4 col-sm-6 col-xs-12">'
+                  + '<div class="legend-label legend-kendo-area-' + area.kendo_id
+                  + '"></div> ' + area.name + '</div>')
             });
+
+            updateSchedule();
+            $(".check-box").change(updateSchedule);
         }
     });
 });
