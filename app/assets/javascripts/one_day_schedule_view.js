@@ -248,7 +248,7 @@ $("select#stadium").change(function () {
             $("#checkboxes_placeholder").empty();
             msg.forEach(function (area) {
                 $("#checkboxes_placeholder").append('' +
-                    '<div class="check-wrap">' +
+                    '<div class="col-sm-6 check-wrap">' +
                     '<input type="checkbox" name="areas[]" class="check-box" id="areas_' + area.id + '" value="' + area.slug + '" checked="checked" />' +
                     '<label for="areas_' + area.id + '" class="check-label">' + area.name + '</label>' +
                     '</div>');

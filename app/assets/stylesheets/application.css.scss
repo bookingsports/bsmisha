@@ -723,3 +723,10 @@ h1, h2, h3, h4, h5, h6 {
     margin-left: -15px;
   }
 }
+
+@media all and (max-width: 767px) {
+  .body-bg {
+    padding-left: 15px;
+    padding-right: 0;
+  }
+}
