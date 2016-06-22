@@ -24,12 +24,10 @@
 class StadiumUser < User
   include StadiumUserConcern
 
-  has_one :stadium, foreign_key: "user_id", dependent: :destroy
+  has_one :stadium, foreign_key: "user_id", dependent: :destroy, required: true
   accepts_nested_attributes_for :stadium
 
   has_many :areas, through: :stadium
-
-  after_create :create_stadium
 
   def stadium_events
     Event.where area_id: area_ids

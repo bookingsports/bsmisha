@@ -52,9 +52,8 @@ class Stadium < ActiveRecord::Base
 
   enum status: [:pending, :active, :locked]
 
-  validates :user, presence: true
   validates_associated :stadium_services, :areas
-  validates :opens_at, :closes_at, presence: true
+  validates :opens_at, :closes_at, :address, :category, presence: true
   #validates :closes_at, greater_by_30_min: {than: :opens_at}, allow_blank: true
 
   def events
