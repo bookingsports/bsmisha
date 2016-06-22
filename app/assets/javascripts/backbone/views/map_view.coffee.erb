@@ -1,5 +1,6 @@
 class Tennis.Views.MapView extends Backbone.View
   initialize: ->
+    MarkerClusterer.IMAGE_PATH = '/assets/m';
     @handler = Gmaps.build('Google', builders: { Marker: CustomMarkerBuilder })
     @geocoder = new google.maps.Geocoder()
     @listenTo(@collection, 'change', @renderMarkers) if @collection
