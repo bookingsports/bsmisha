@@ -26,10 +26,14 @@ class MyEventsController < EventsController
 
   def confirm
     if params[:event_ids].present?
-      current_user.events.where(id: params[:event_ids]).update_all status: Event.statuses[:confirmed]
-      redirect_to my_events_path, notice: "Заказы успешно забронированы."
+      begin
+        current_user.events.where(id: params[:event_ids]).each {|e| e.update! status: Event.statuses[:confirmed]}
+      rescue
+        return redirect_to my_events_url, alert: "Произошла ошибка. Скорее всего, данное время уже занято."
+      end
+      redirect_to my_events_url, notice: "Заказы успешно забронированы."
     else
-      redirect_to my_events_path, alert: "Не выбрано ни одного заказа!"
+      redirect_to my_events_url, alert: "Не выбрано ни одного заказа!"
     end
   end
 
@@ -37,9 +41,9 @@ class MyEventsController < EventsController
     @change = EventChange.find(params[:id])
 
     if @change.update order: Order.create(status: :paid)
-      redirect_to my_events_path, notice: "Перенос успешно подтвержден."
+      redirect_to my_events_url, notice: "Перенос успешно подтвержден."
     else
-      redirect_to my_events_path, notice: "Ошибка сервера."
+      redirect_to my_events_url, notice: "Ошибка сервера."
     end
   end
 

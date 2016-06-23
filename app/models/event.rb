@@ -215,7 +215,7 @@ class Event < ActiveRecord::Base
   end
 
   def overlaps? start, stop
-    Event.where(Event.between(start, stop))
+    Event.paid_or_confirmed.where(Event.between(start, stop))
           .where.not(id: id)
           .where(area_id: area_id)
           .present?
