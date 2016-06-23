@@ -9,7 +9,7 @@ Rails.application.config.assets.version = '1.0'
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 # Rails.application.config.assets.precompile += %w( search.js )
-Rails.application.config.assets.precompile += %w( ie-spacer.gif gritter.png gritter-close.png success.png )
+Rails.application.config.assets.precompile += %w( ie-spacer.gif gritter.png gritter-close.png success.png m*.png)
 Rails.application.config.assets.precompile += %w( map.js draggable_map.js )
 Rails.application.config.assets.precompile += %w( all_areas_schedule_view.js schedule_view.js one_day_schedule_view.js )
 Rails.application.config.assets.precompile += %w( markerclusterer.js )
