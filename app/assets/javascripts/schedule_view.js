@@ -9,6 +9,8 @@ area_id = gon.area_id;
 opens_at = new Date(gon.opens_at);
 closes_at = new Date(gon.closes_at);
 
+kendo.culture('ru-RU');
+
 $("#scheduler").kendoScheduler({
   culture: 'ru-RU',
   date: new Date(),
