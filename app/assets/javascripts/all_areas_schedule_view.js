@@ -4,7 +4,8 @@
 //= require messages/kendo.messages.ru-RU.min
 //= require_self
 
-url = window.location.pathname + '/events'
+url = window.location.pathname + '/events';
+kendo.culture('ru-RU');
 
 $("#scheduler").kendoScheduler({
   date: new Date(),

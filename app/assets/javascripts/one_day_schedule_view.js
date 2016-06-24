@@ -6,12 +6,14 @@
 
 
 if (!gon.areas_id)
-    gon.areas_id = []
+    gon.areas_id = [];
 
 url = "/stadiums/" + gon.stadium_slug + "/areas/events"
 areas_id = gon.areas_id;
 opens_at = new Date(gon.opens_at);
 closes_at = new Date(gon.closes_at);
+
+kendo.culture('ru-RU');
 
 $("#scheduler").kendoScheduler({
     date: new Date(),
