@@ -5,7 +5,7 @@
   .col-lg-4.col-xs-12
     .row
       .col-lg-12.col-md-6.col-xs-12
-        - if (current_user.nil?) || (current_user.present? && current_user.type == "Customer")
+        - if (current_user.nil?) || (current_user.present? && (current_user.type == "Customer" || current_user.type == "CoachUser"))
           = render 'total'
       .col-lg-12.col-md-6.col-xs-12
         h4 Площадки
