@@ -144,7 +144,9 @@ $("#scheduler").kendoScheduler({
   },
   add: function (e)
   {
-    if (gon.current_user && (gon.current_user.type == "CoachUser" || gon.current_user.type == "Admin"))
+    if (gon.current_user && gon.current_user.type == "Admin")
+      e.preventDefault();
+    else if (gon.current_user && gon.current_user.type == "StadiumUser" && gon.area_id && gon.current_user.areas.indexOf(gon.area_id) == -1)
       e.preventDefault();
     else
     {
