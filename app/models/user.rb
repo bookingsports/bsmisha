@@ -41,7 +41,8 @@ class User < ActiveRecord::Base
 
   validates :name, presence: true
   validates_format_of :name, :with => /[\p{L} ]/
-  validates :phone, presence: true, numericality: true, length: { minimum: 10, maximum: 15 }
+  validates :phone, presence: true
+  validates_format_of :phone, with: /\+[0-9] \([0-9]{3}\) [0-9]{3}-[0-9]{2}-[0-9]{2}/
 
   after_create :create_wallet
 
