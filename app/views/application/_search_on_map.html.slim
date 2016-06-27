@@ -3,13 +3,22 @@
 
 = search_form_for q, remote: true, format: :json, wrapper: :inline_form, html: { id: 'searcher', class: 'form' } do |f|
   .form_box
-    = f.input :name_cont, placeholder: 'Название', label: false
+    = f.label :name
+    = f.input :name_cont, placeholder: 'Олимпийский Комплекс Лужники', label: false
   .form_box.form_box_location
+    = f.label :place, 'Место'
+    = text_field_tag :place, nil, placeholder: 'Москва, ул. Лужники 24', class: 'form-control'
     .location-detector.btn
-    = text_field_tag :place, nil, placeholder: 'Место', class: 'form-control'
   - if include_stadiums
     = hidden_field_tag :include_stadiums, true
-  .form_box
-    = f.input :category_id_eq, selected: category_id, collection: Category.all, prompt: 'Все категории', label: false
+  .form_box.form_box_category
+    = f.label :category, 'Категория'
+    .check-wrap__cover
+      .row
+        - Category.all.each do |category|
+          .col-lg-2.col-md-3.col-sm-4.col-xs-6.check-wrap
+            = check_box_tag "categories[#{category.id}]", category.slug, class: 'check-box'
+            = label_tag "categories[#{category.id}]", category.name, class: 'check-label'
+
   .form_box.form_box_small
-    = f.button :submit, 'Поиск', data: {search_on_map: true}, class: 'btn btn-info'
+    = f.button :submit, 'Найти', data: {search_on_map: true}, class: 'btn btn-info'

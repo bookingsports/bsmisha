@@ -24,6 +24,16 @@ select,
 .form {
   width: 100%;
   padding: 0;
+  margin: 0 !important;
+  font-size: 0;
+  label {
+    font-size: 14px;
+  }
+}
+
+.form-group {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 .new_deposit_request {
@@ -39,11 +49,12 @@ select,
 }
 
 .form_box {
-  float: left;
   position: relative;
   display: inline-block;
-  width: 150px;
+  vertical-align: top;
+  width: 50%;
   padding: 0 5px;
+  margin-bottom: 20px;
 
   input, select {
     width: 100% !important;
@@ -54,12 +65,15 @@ select,
 }
 
 .form_box_location {
-  padding-left: 30px;
-  width: 175px;
+  padding-right: 30px;
 }
 
 .form_box_small {
   width: 100px;
+}
+
+.form_box_category {
+  width: 100%;
 }
 
 @media all and (max-width: 767px) {
