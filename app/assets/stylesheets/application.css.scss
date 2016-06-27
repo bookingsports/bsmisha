@@ -56,6 +56,10 @@ main {
   min-height: inherit;
 }
 
+.navbar-fixed-top {
+  z-index: 10001;
+}
+
 .delimiter {
   float: right;
   padding-left: 32px;
@@ -728,5 +732,12 @@ h1, h2, h3, h4, h5, h6 {
   .body-bg {
     padding-left: 15px;
     padding-right: 15px;
+  }
+
+  table.k-scheduler-table {
+    font-size: 11px;
+  }
+  span.k-link.k-nav-day {
+    font-size: 11px;
   }
 }
