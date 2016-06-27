@@ -17,7 +17,6 @@ module DepositRequestConcern
         field :wallet
         field :status
         field :amount
-        field :data
       end
     end
   end

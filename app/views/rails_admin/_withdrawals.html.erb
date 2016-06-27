@@ -1,0 +1,14 @@
+<table class="table">
+<tbody>
+<% object.withdrawals.map do |d| %>
+  <tr>
+    <td>
+    <%= link_to "#{d.amount.to_i} руб.", rails_admin.show_path(model_name: 'withdrawal', id: d.id) %>
+    </td>
+    <td>
+    <%= d.created_at %>
+    </td>
+  </tr>
+<% end %>
+</tbody>
+</table>

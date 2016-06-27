@@ -1,0 +1,17 @@
+<table class="table">
+<tbody>
+<% object.deposit_requests.each do |d| %>
+  <tr>
+    <td>
+    <%= t("enums.deposit_request.status.#{d.status}") %>
+    </td>
+    <td>
+    <%= link_to "#{d.amount.to_i} руб.", rails_admin.show_path(model_name: 'deposit_request', id: d.id) %>
+    </td>
+    <td>
+    <%= d.created_at %>
+    </td>
+  </tr>
+<% end %>
+</tbody>
+</table>

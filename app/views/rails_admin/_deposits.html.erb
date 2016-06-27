@@ -1,0 +1,14 @@
+<table class="table">
+<tbody>
+<% object.deposits.map do |d| %>
+  <tr>
+    <td>
+    <%= link_to "#{d.amount.to_i} руб.", rails_admin.show_path(model_name: 'deposit', id: d.id) %>
+    </td>
+    <td>
+    <%= d.created_at %>
+    </td>
+  </tr>
+<% end %>
+</tbody>
+</table>

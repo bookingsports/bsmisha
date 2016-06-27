@@ -6,7 +6,6 @@ module DepositConcern
       parent Wallet
       list do
         field :wallet
-        field :status
         field :amount
         field :created_at
         field :updated_at
@@ -14,7 +13,6 @@ module DepositConcern
 
       edit do
         field :wallet
-        field :status
         field :amount
       end
     end

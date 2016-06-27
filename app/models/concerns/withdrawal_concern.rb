@@ -7,7 +7,6 @@ module WithdrawalConcern
       visible false
       list do
         field :wallet
-        field :status
         field :amount
         field :created_at
         field :updated_at
@@ -15,7 +14,6 @@ module WithdrawalConcern
 
       edit do
         field :wallet
-        field :status
         field :amount
       end
     end
