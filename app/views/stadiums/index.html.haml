@@ -11,7 +11,7 @@
       %hr
       = render 'map'
       %hr
-      = render 'search_on_map', category_id: @category_id, include_stadiums: true, q: @q
+      = render 'search_on_map', categories: [@category_id], include_stadiums: true, q: @q
       %hr
       %div.list-unstyled.stadiums
         .row
