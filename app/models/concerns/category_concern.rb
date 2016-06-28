@@ -23,6 +23,7 @@ module CategoryConcern
         end
         field :slug
         field :icon
+        field :main_image
         field :created_at
         field :updated_at
       end
@@ -40,6 +41,7 @@ module CategoryConcern
         end
         field :slug
         field :icon
+        field :main_image
         field :created_at
         field :updated_at
       end
@@ -48,6 +50,7 @@ module CategoryConcern
         field :name
         field :slug
         field :icon
+        field :main_image
       end
     end
   end

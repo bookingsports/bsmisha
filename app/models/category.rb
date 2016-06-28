@@ -22,6 +22,7 @@ class Category < ActiveRecord::Base
 
   friendly_id :name, use: [:slugged]
   mount_uploader :icon, MapIconUploader
+  mount_uploader :main_image, CategoryPictureUploader
   has_ancestry
 
   default_scope ->{ order(:position) }
