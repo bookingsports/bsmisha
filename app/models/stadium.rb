@@ -84,4 +84,5 @@ class Stadium < ActiveRecord::Base
     def parse_address
       AddressParser.new(self).perform
     end
+
 end

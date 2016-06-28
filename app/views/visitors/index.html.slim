@@ -1,46 +1,73 @@
 - content_for :main_cache_key do
   = [cache_key_for_categories, cache_key_for_stadiums]
 
+
+
 = render 'map', search_on_map: true, q: @q
 
 .body-bg
   .container-fluid.homepage-container
-    h1 Спортивные объекты для бронирования
+    h2.text-center Популярные стадионы
+    hr
+    .row.homepage_category_popular
+      = render @stadiums_popular
+  .container-fluid.homepage-container
+    h2.text-center Популярные тренеры
+    hr
+    .row.homepage_category_popular
+      = render @coaches_popular
+  .container-fluid.homepage-container
+    h2.text-center Спортивные объекты для бронирования
     nav.col-xs-12.homepage_category_wrap
       .row
-        = link_to category_path('tennis'), class: 'homepage_category_link' do
+        - @tennis = Stadium.active.where(category: Category.friendly.find('tennis')).count
+        = link_to category_path('tennis'), class: (@tennis == 0 ? 'homepage_category_link homepage_category--hide' : 'homepage_category_link') do
           .col-md-8.col-xs-12.homepage_category.homepage-categories-first
             .homepage-txt-block
               h2.hpt-border
                 | Теннис
-                /span.hpt-col
-                /  | (10)
-        = link_to category_path('futbol'), class: 'homepage_category_link' do
+                span.hpt-col
+                  | (
+                  = @tennis
+                  | )
+        - @football = Stadium.active.where(category: Category.friendly.find('football')).count
+        = link_to category_path('football'), class: (@football == 0 ? 'homepage_category_link homepage_category--hide' : 'homepage_category_link') do
           .col-md-4.col-xs-12.homepage_category.homepage-categories-second
             .homepage-txt-block
               h2.hpt-border
                 | Футбол
-                /span.hpt-col
-                /  | (20)
+                span.hpt-col
+                  | (
+                  = @football
+                  | )
       .row
-        = link_to category_path('gruppovye-zanyatiya'), class: 'homepage_category_link' do
+        - @group = Stadium.active.where(category: Category.friendly.find('gruppovye-zanyatiya')).count
+        = link_to category_path('gruppovye-zanyatiya'), class: (@group == 0 ? 'homepage_category_link homepage_category--hide' : 'homepage_category_link') do
           .col-md-6.col-xs-12.homepage_category.image-grid-item.homepage-categories-third
             .homepage-txt-block
               h2.hpt-border
                 | Групповые занятия
-                /span.hpt-col
-                /  | (1)
-        = link_to category_path('fitness'), class: 'homepage_category_link' do
+                span.hpt-col
+                  | (
+                  = @group
+                  | )
+        - @fitness = Stadium.active.where(category: Category.friendly.find('fitness')).count
+        = link_to category_path('fitness'), class: (@fitness == 0 ? 'homepage_category_link homepage_category--hide' : 'homepage_category_link') do
           .col-xs-12.col-sm-6.col-md-3.homepage_category.image-grid-item.homepage-categories-fourth
             .homepage-txt-block
               h2.hpt-border
                 | Фитнес
-                /span.hpt-col
-                /  | (5)
-        = link_to category_path('yoga'), class: 'homepage_category_link' do
+                span.hpt-col
+                  | (
+                  = @fitness
+                  | )
+        - @yoga = Stadium.active.where(category: Category.friendly.find('yoga')).count
+        = link_to category_path('yoga'), class: (@yoga == 0 ? 'homepage_category_link homepage_category--hide' : 'homepage_category_link') do
           .col-xs-12.col-sm-6.col-md-3.homepage_category.image-grid-item.homepage-categories-fifth
             .homepage-txt-block
               h2.hpt-border
                 | Йога
-                /span.hpt-col
-                /  | (1000)
+                span.hpt-col
+                  | (
+                  = @yoga
+                  | )

@@ -74,6 +74,14 @@ select,
 
 .form_box_category {
   width: 100%;
+  margin-bottom: 5px;
+
+  .check-wrap__cover {
+    margin: 0;
+  }
+  .check-wrap {
+    margin: 0 0 15px;
+  }
 }
 
 @media all and (max-width: 767px) {
