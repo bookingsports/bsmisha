@@ -7,7 +7,7 @@
   @media all and (min-width: 1200px) {
     &:hover {
       .hpt-border {
-        //height: 74px;
+        height: 74px;
         border-color: #4070B6;
         background-color: #4070B6;
       }
@@ -21,6 +21,8 @@
     }
   }
 }
+
+.homepage_category_popular {}
 
 .homepage_category_wrap {
   margin: 20px 0;
@@ -40,6 +42,11 @@
     right: 0;
     @include transition(all .15s linear);
   }
+}
+
+.homepage_category--hide {
+  pointer-events: none;
+  @include opacity(70);
 }
 
 .homepage-categories-first:before {
@@ -115,6 +122,14 @@
     width: auto;
     @include translate(0, 0);
     @include opacity(100);
+  }
+}
+
+@media all and (max-width: 991px) and (min-width: 768px) {
+  .homepage_category_popular {
+    .coach__item.col-sm-6:last-child {
+      margin-left: 25%;
+    }
   }
 }
 

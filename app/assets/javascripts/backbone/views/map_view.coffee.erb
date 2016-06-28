@@ -30,6 +30,7 @@ class Tennis.Views.MapView extends Backbone.View
   putMeToMap: (pos) =>
     latLng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude)
     @handler.getMap().panTo(latLng)
+    @handler.getMap().setZoom(14)
     @geolocationMarker = new google.maps.Marker
       position: latLng
       map: @handler.getMap()
@@ -72,6 +73,7 @@ class Tennis.Views.MapView extends Backbone.View
 
     if $('#searcher #place').val() && @autocomplete.getPlace()
       map.handler.getMap().panTo(map.autocomplete.getPlace().geometry.location)
+      map.handler.getMap().setZoom(14)
     else
       if @markers.length == 0
         @handler.getMap().setCenter(@moscowCoords())

@@ -1,4 +1,7 @@
 #map-container {
+  position: relative;
+  display: block;
+  overflow: hidden;
   width: 100%;
 }
 
@@ -16,35 +19,21 @@
   width: 100%;
 }
 
-#map-container {
-  position: relative;
-}
-
 .searchonmap {
-  position: absolute;
-  width: 585px;
-  bottom: 20px;
-  left: 50%;
-  margin-left: -292px;
-  padding: 10px 5px;
-  border-radius: 7px;
-  background-color: #F5F5F5;
-  box-shadow: 0 5px 14px 0 rgba(50, 50, 50, .2);
-  text-align: center;
+  @include display-block;
+  width: 100%;
+  padding: 20px 35px;
+  background-color: #f5f5f5;
 
-  .form {
-    margin: 0 !important;
-  }
-  .form-group {
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
+  .form_box:last-child {
+    margin-bottom: 0;
   }
 }
 
 .location-detector {
   position: absolute;
-  left: 0;
-  top: 0;
+  right: 0;
+  bottom: 0;
   width: 25px;
   height: 34px;
   border: none;
