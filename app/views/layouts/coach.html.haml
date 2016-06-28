@@ -4,17 +4,12 @@
       .entry
         %h1
           Тренер
-        .row
-          .col-sm-3.col-xs-12.coach__item_image
-            = image_tag @coach.avatar.small_square.presence || 'placeholder.png', class: 'avatar photo pull-left'
-          .col-sm-9.col-xs-12
-            %h3= @coach.name
-            - if @coach.phone.present?
-              %h5= fa_icon('phone') + ' ' + @coach.phone
-            - if @coach.email.present?
-              %h5= fa_icon('envelope') + ' ' + @coach.email
-            %p= @coach.description
-        %hr/
+        %hr
+        %ul.nav.nav-pills.nav-justified.dashboard-nav
+          - with_options wrap_tag: :li, active: :inclusive do |nav|
+            = nav.active_link_to 'Описание', coach_path(@coach), active: false
+            - if @coach.coaches_areas.active.any?
+              = nav.active_link_to 'Расписание', coach_area_path(@coach, @coach.coaches_areas.active.first.area), active: /areas\/#{@coach.coaches_areas.active.first.area.slug}/
         .row
           .col-xs-12.col-sm-12.col-md-12.col-lg-12
             = content_for?(:super_sub_layout) ? yield(:super_sub_layout) : yield
