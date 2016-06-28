@@ -1,6 +1,6 @@
 class CategoryPictureUploader < BaseImageUploader
   def default_url
-    'placeholder.png'
+    'placeholder_category.jpg'
   end
 
   def store_dir
@@ -8,6 +8,6 @@ class CategoryPictureUploader < BaseImageUploader
   end
 
   version :medium do
-    process resize_to_fill: [1000, 250]
+    process resize_to_fit: [480, 220]
   end
 end
