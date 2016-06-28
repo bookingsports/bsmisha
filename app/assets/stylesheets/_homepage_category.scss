@@ -49,27 +49,27 @@
   @include opacity(70);
 }
 
-.homepage-categories-first:before {
+.homepage-categories-1:before {
   @include background-asset('tennis.jpg', no-repeat center center);
   -webkit-background-size: cover;
   background-size: cover;
 }
-.homepage-categories-second:before {
+.homepage-categories-5:before {
   @include background-asset('football.jpg', no-repeat center center);
   -webkit-background-size: cover;
   background-size: cover;
 }
-.homepage-categories-third:before {
+.homepage-categories-2:before {
   @include background-asset('group.jpg', no-repeat center center);
   -webkit-background-size: cover;
   background-size: cover;
 }
-.homepage-categories-fourth:before {
+.homepage-categories-4:before {
   @include background-asset('fitness.jpg', no-repeat center center);
   -webkit-background-size: cover;
   background-size: cover;
 }
-.homepage-categories-fifth:before {
+.homepage-categories-3:before {
   @include background-asset('joga.jpg', no-repeat center center);
   -webkit-background-size: cover;
   background-size: cover;
