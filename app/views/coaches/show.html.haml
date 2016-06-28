@@ -1,24 +1,26 @@
-.body-bg
-  .row
-    .entry
-      %h1
-        Тренер
-      .row
-        .col-xs-12
-          = image_tag coach.avatar.small_square.presence || coach.gravatar_url, class: 'avatar photo pull-left', size: '200x200'
-          %h3= @coach.name
-          %h5= @coach.phone
-          %p= @coach.description
-      %hr/
-      .row
-      .col-xs-12.col-sm-12
-        = label_tag "Выберите стадион"
-        = select_tag :area, options_for_select(@coach.areas.map {|c| ["#{c.stadium.name} - площадка: #{c.name}", c.id ] }), class: 'form-control'
-        %div{"data-grid" => true, "data-source" => coach_area_events_path(area_id: @coach.areas.first)}
-:javascript
-  kendo.culture("ru-RU");
-  var grid = new Tennis.Views.ScheduleView({el: '[data-grid]'});
-  var changes = new Tennis.Collections.Changes();
-  var checkout = new Tennis.Views.CheckoutView({el: '[data-checkout]'});
-  var changesView = new Tennis.Views.ChangesView({el: '[data-event-move]', collection: changes});
-  grid.render();
+- content_for :sub_layout do
+  .body-bg
+    .row
+      .entry
+        %h1
+          Тренер
+        %hr
+        %ul.nav.nav-pills.nav-justified.dashboard-nav
+          - with_options wrap_tag: :li, active: :inclusive do |nav|
+            = nav.active_link_to 'Описание', coach_path(@coach), active: true
+            - if @coach.coaches_areas.active.any?
+              = nav.active_link_to 'Расписание', coach_area_path(@coach, @coach.coaches_areas.active.first.area), active: /areas\/#{@coach.coaches_areas.active.first.area.slug}/
+        .row
+          .col-sm-3.col-xs-12.coach__item_image
+            = image_tag @coach.avatar.small_square.presence || 'placeholder.png', class: 'avatar photo pull-left'
+          .col-sm-9.col-xs-12
+            %h3= @coach.name
+            - if @coach.phone.present?
+              %h5= fa_icon('phone') + ' ' + @coach.phone
+            - if @coach.email.present?
+              %h5= fa_icon('envelope') + ' ' + @coach.email
+            %p= @coach.description
+        .row
+          .col-xs-12.col-sm-12.col-md-12.col-lg-12
+            = content_for?(:super_sub_layout) ? yield(:super_sub_layout) : yield
+= render template: 'layouts/application'
