@@ -35,7 +35,7 @@ class EventsController < ApplicationController
               .where(coach: Coach.friendly.find(params[:coach_id]))
               .where(area: current_product)
               .union(current_user.events.where(coach: Coach.friendly.find(params[:coach_id])))
-    elsif params[:scope].present?
+    elsif params[:scope] == "coach"
       @events = Event
               .paid_or_confirmed
               .where(coach: Coach.friendly.find(params[:coach_id]))
