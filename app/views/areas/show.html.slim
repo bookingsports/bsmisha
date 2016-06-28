@@ -39,8 +39,8 @@
             - @area.coaches_areas.active.each do |p|
               li.list-group-item
                 = p.name_and_price
-        - elsif @product.kind_of?(Coach)
-          h4 Стоимость данного траненра
+        - elsif @product.kind_of?(Coach) && @area.coaches_areas.active.where(coach: @product).count > 0
+          h4 Стоимость данного тренера
           ul.list-group
             li.list-group-item
               = number_to_currency( @area.coaches_areas.active.where(coach: @product).first.price)
