@@ -15,7 +15,7 @@
         bottom: 10px;
         @include opacity(100);
       }
-      .homepage_category:before {
+      .homepage_category_image {
         @include scale(1.03);
       }
     }
@@ -32,47 +32,24 @@
   @include display-block;
   height: 200px;
   padding: 20px;
+}
 
-  &:before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    @include transition(all .15s linear);
-  }
+.homepage_category_image {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  @include transition(all .15s linear);
+  background-color: #4d9e0c;
+  background-position: center center !important;
+  -webkit-background-size: cover !important;
+  background-size: cover !important;
 }
 
 .homepage_category--hide {
   pointer-events: none;
   @include opacity(70);
-}
-
-.homepage-categories-1:before {
-  @include background-asset('tennis.jpg', no-repeat center center);
-  -webkit-background-size: cover;
-  background-size: cover;
-}
-.homepage-categories-5:before {
-  @include background-asset('football.jpg', no-repeat center center);
-  -webkit-background-size: cover;
-  background-size: cover;
-}
-.homepage-categories-2:before {
-  @include background-asset('group.jpg', no-repeat center center);
-  -webkit-background-size: cover;
-  background-size: cover;
-}
-.homepage-categories-4:before {
-  @include background-asset('fitness.jpg', no-repeat center center);
-  -webkit-background-size: cover;
-  background-size: cover;
-}
-.homepage-categories-3:before {
-  @include background-asset('joga.jpg', no-repeat center center);
-  -webkit-background-size: cover;
-  background-size: cover;
 }
 
 .homepage-txt-block {

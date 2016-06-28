@@ -23,7 +23,8 @@
         - Category.all.sort_by {|c| Stadium.where(category: c.id).count }.reverse.each do |category|
           - @stadiums_count = Stadium.active.where(category: category).count
           = link_to category_path(category.slug), class: (@stadiums_count == 0 ? 'homepage_category_link homepage_category--hide' : 'homepage_category_link') do
-            div[class="col-md-4 col-sm-6 col-xs-12 homepage_category", style="background-image: url(#{image_url(category.main_image_url)})"]
+            div[class="col-md-4 col-sm-6 col-xs-12 homepage_category"]
+              div[class="homepage_category_image" style="background-image: url(#{image_url(category.main_image_url)})"]
               .homepage-txt-block
                 h2.hpt-border
                   = category.name
