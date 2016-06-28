@@ -23,10 +23,24 @@ class AreasController < ApplicationController
   def show
     @area = Area.friendly.find params[:id]
     set_gon_area
+    gon.scope = params[:scope]
+    if params[:scope] == "coach"
+      gon.coach_id = @product.id
+    end
   end
 
   def total
     @area = Area.friendly.find(params[:id])
+    if params[:scope] == "stadium"
+      @events = current_user.events.unpaid.future.where(area: @area).sort_by(&:start)
+      @eventChanges = current_user.event_changes.future.unpaid
+      @totalHours = current_user.total_hours(area: @area)
+      @total = current_user.total(area: @area)
+    elsif params[:scope] == "coach"
+      @events = current_user.events.unpaid.future.where(area: @area).where(coach_id: @product.id).sort_by(&:start)
+      @totalHours = current_user.total_hours(area: @area, coach_id: @product.id)
+      @total = current_user.total(area: @area, coach_id: @product.id)
+    end
     respond_to do |format|
       format.js {}
     end

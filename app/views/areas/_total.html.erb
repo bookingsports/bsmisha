@@ -5,10 +5,10 @@
   <% elsif current_user.type == "Customer" || current_user.type == "CoachUser" %>
     <h4>В корзине:</h4>
     <p data-total>
-      <% if current_user.total_hours(area: @area) %>
-        <%= t('hours', count: number_with_precision(current_user.total_hours(area: @area), precision: 2)) %> на сумму <%= number_to_currency current_user.total(area: @area), precision: 0 %>:</p>
+      <% if @totalHours %>
+        <%= t('hours', count: number_with_precision(@totalHours, precision: 2)) %> на сумму <%= number_to_currency @total, precision: 0 %>:</p>
         <ul>
-        <% current_user.events.unpaid.future.where(area: @area).sort_by(&:start).each do |event| %>
+        <% @events.each do |event| %>
           <li><%= event.start.strftime("%d.%m.%Y %H:%M") + " - " + event.stop.strftime("%H:%M") + " " + number_to_currency(event.price) %>
           <ul>
             <li>Стоимость площадки: <%= number_to_currency event.area_price %> </li>
@@ -22,8 +22,8 @@
         <% end %>
         </ul>
       <% end %>
-    <% if current_user.event_changes.future.unpaid.present? %>
-      <%= t('changes', count: current_user.event_changes.future.unpaid.count) %> на сумму <%= number_to_currency current_user.changes_total(area: @area), precision: 0 %></p>
+    <% if @eventChanges.present? %>
+      <%= t('changes', count: @eventChanges.count) %> на сумму <%= number_to_currency current_user.changes_total(area: @area, coach: @product.id), precision: 0 %></p>
     <% end %>
     <% if current_user.recoupments.where(area: @area).present? &&  current_user.recoupments.where(area: @area).first.price > 0 %>
       Отыгрышей на сумму <%= number_to_currency current_user.total_recoupments(area: @area), precision: 0 %>

@@ -29,10 +29,28 @@ class EventsController < ApplicationController
       @events = Event.paid_or_confirmed.where(area: Area.where(slug: params[:areas]))
     elsif params[:from] == "one_day"
       @events = []
+    elsif params[:scope] == "coach" && current_user.present?
+      @events = Event
+              .paid_or_confirmed
+              .where(coach: Coach.friendly.find(params[:coach_id]))
+              .where(area: current_product)
+              .union(current_user.events.where(coach: Coach.friendly.find(params[:coach_id])))
+    elsif params[:scope].present?
+      @events = Event
+              .paid_or_confirmed
+              .where(coach: Coach.friendly.find(params[:coach_id]))
+              .where(area: current_product)
     elsif params[:area_id].present? && current_user.present? && current_user.type == "CoachUser"
-      @events = Event.paid_or_confirmed.where(area: current_product).where(coach: current_user.coach).union(current_user.events.where(area: current_product))
+      @events = Event
+              .paid_or_confirmed
+              .where(area: current_product)
+              .where(coach: current_user.coach)
+              .union(current_user.events.where(area: current_product))
     elsif params[:area_id].present? && current_user.present?
-      @events = Event.paid_or_confirmed.where(area: current_product).union(current_user.events.where(area: current_product))
+      @events = Event
+              .paid_or_confirmed
+              .where(area: current_product)
+              .union(current_user.events.where(area: current_product))
     elsif current_user.present? && current_user.type == "CoachUser"
       @events = Event.paid_or_confirmed.where(coach: current_user.coach).union(current_user.events)
     elsif current_user.present? && current_user.type == "StadiumUser"

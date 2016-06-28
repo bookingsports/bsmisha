@@ -55,7 +55,7 @@ $("#scheduler").kendoScheduler({
         },
         requestEnd: function (ee)
         {
-          if (ee.response.length == 0)
+          if (ee.response.length == 0 || gon.scope == "coach")
             e.container.find("#coach-wrapper").hide();
         }
       }
@@ -155,6 +155,11 @@ $("#scheduler").kendoScheduler({
       {
         alert(validation);
         e.preventDefault();
+      }
+      else
+      {
+        if (gon.scope == "coach")
+          e.event.coach_id = gon.coach_id;
       }
     }
   },

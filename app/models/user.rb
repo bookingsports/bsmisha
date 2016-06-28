@@ -65,7 +65,9 @@ class User < ActiveRecord::Base
   end
 
   def events_maybe_scoped_by options
-    if options[:area].present?
+    if options[:area].present? && options[:coach_id].present?
+      events.where(area: options[:area]).where(coach_id: options[:coach_id])
+    elsif options[:area].present?
       events.where(area: options[:area])
     else
       events

@@ -15,7 +15,7 @@
           - @product.areas.each do |cc|
             = active_link_to [cc.name].compact.join(', '), url_for([@product, cc]), active: /areas\/#{cc.to_param}/, wrap_tag: :li
       .col-lg-12.col-md-6.col-xs-12
-        - if @area.prices.current.present?
+        - if @product.kind_of?(Stadium) && @area.prices.current.present?
           h4 Стоимость занятий
           ul.list-group
             - @area.prices.current.daily_price_rules.sort_by{ |x| [x.working_days, x.start] }.each do |rule|
@@ -26,14 +26,14 @@
                 - if rule.is_discount
                   = " (Акция)"
       .col-lg-12.col-md-6.col-xs-12
-        - if @area.stadium.stadium_services.any?
+        - if @product.kind_of?(Stadium) && @area.stadium.stadium_services.any?
           h4 Дополнительные услуги
           ul.list-group
             - @area.stadium.stadium_services.each do |p|
               li.list-group-item
                 = p.service_name_and_price
       .col-lg-12.col-md-6.col-xs-12
-        - if @area.coaches_areas.any?
+        - if @product.kind_of?(Stadium) && @area.coaches_areas.any?
           h4 Тренеры
           ul.list-group
             - @area.coaches_areas.active.each do |p|
