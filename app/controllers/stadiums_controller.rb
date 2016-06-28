@@ -35,6 +35,9 @@ class StadiumsController < ApplicationController
     if params[:categories].present?
       @categories = Category.all.where(slug: params[:categories].values).map(&:id)
       @stadiums = @stadiums.where(category_id: @categories)
+    elsif params[:category_id].present?
+      @category = Category.friendly.find(params[:category_id])
+      @stadiums = @stadiums.where(category: @category)
     end
 
     set_markers @stadiums
