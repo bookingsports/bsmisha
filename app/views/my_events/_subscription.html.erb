@@ -17,6 +17,7 @@
     <div class="ticket_table">
       <table class="table">
         <tr>
+          <th>Номер заказа</th>
           <th>Площадка</th>
           <th>Дата</th>
           <th>Время</th>
@@ -24,6 +25,7 @@
         </tr>
         <% events.sort_by(&:start).each do |event| %>
             <tr>
+              <td><%= event.id %></td>
               <td><%= event.area.name %></td>
               <td><%= l(event.schedule.first.to_date) %></td>
               <td><%= event.start.strftime("%H:%M") %>&nbsp;&mdash; <%= event.stop.strftime("%H:%M") %></td>
