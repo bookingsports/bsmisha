@@ -107,7 +107,11 @@ class EventsController < ApplicationController
     if current_user.type == "StadiumUser" && current_user.stadium.areas.include?(@event.area)
       @event.status = :locked
     end
-    @event.save!
+    if @event.save
+      respond_with @event
+    else
+      render json: { error: @event.errors.messages.values.join(" ") }
+    end
   end
 
   def update
@@ -117,11 +121,11 @@ class EventsController < ApplicationController
       @event = current_user.events.find(params[:id])
     end
     @event.update event_params
-    #if @event.update event_params
+    if @event.update event_params
       respond_with @event
-    #else
-    #  render json: { error: 'Transfer error' }
-    #end
+    else
+      render json: { error: @event.errors.messages.values.join(" ") }
+    end
   end
 
   def edit
