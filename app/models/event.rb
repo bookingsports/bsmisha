@@ -86,8 +86,9 @@ class Event < ActiveRecord::Base
   before_update :create_event_change_if_not_present, if: "start_changed? && stop_changed?"
   after_save do
     update_columns("price" =>  area_price + stadium_services_price + coach_price)
-    if area_price <= 0
-      errors.add(:price, "не может быть меньше 0")
+    # if area_price <= 0
+    if daily_price_rules.map{|p| p.time_for_event(self)}.sum < duration_in_hours
+      errors.add(:price, "Нельзя создать/перенести событие на это время.")
       raise ActiveRecord::Rollback
     end
   end
