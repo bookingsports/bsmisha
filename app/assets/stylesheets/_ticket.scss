@@ -11,17 +11,6 @@
   }
 }
 
-
-.ticket_header {
-  @include display-block;
-  width: 100%;
-  padding: 0 7px;
-
-  img {
-    margin: 0 auto;
-  }
-}
-
 .ticket_body {
   @include display-block;
   width: 100%;
@@ -52,38 +41,23 @@
   @include display-block;
   width: 100%;
   border-bottom: 2px solid #000;
-}
-
-.ticket_table_box--half {
-  float: left;
-  width: 50%;
-
-  border-bottom: 0;
-  &:last-child {
-    border-left: 2px solid #000;
-    padding: 5px;
-  }
-
-  img {
-    margin: 0 auto;
-  }
+  padding: 15px 15px 0;
 }
 
 .ticket_table_box_line {
   @include display-block;
   width: 100%;
-  padding: 8px;
-  border-bottom: 1px solid #000;
+  margin-bottom: 15px;
 
-  &:last-child {
-    border-bottom:0;
-  }
+  span {
+    @include display-block;
 
-  strong,
-  span {
-    @include display-inline;
-  }
-  span {
-    float: right;
+    &:first-child {
+      //font-style: italic;
+      font-size: 11px;
+    }
+    &:last-child {
+      font-size: 15px;
+    }
   }
 }
