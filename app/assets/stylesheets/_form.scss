@@ -33,7 +33,6 @@ select,
 
 .form-group {
   margin-top: 0 !important;
-  margin-bottom: 0 !important;
 }
 
 .new_deposit_request {
@@ -61,6 +60,10 @@ select,
     height: 34px !important;
     margin: 0 !important;
     &:focus {outline: none;}
+  }
+
+  .form-group {
+    margin-bottom: 0;
   }
 }
 
