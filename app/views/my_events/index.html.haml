@@ -155,42 +155,38 @@
 %hr
 %h4 Оплаченные занятия
 - @events.paid.future.group_by{|e| e.area.stadium }.map do |stadium, by_stadium|
+  %hr
   %h4= "Стадион #{stadium.name}"
   = render "my_events/subscription", events: by_stadium, stadium: stadium
   %table.table.table-striped.site-table#paid-events
     %thead.site-table__head
       %tr
         %th #
-        /%th Стадион
         %th Площадка
-        %th Период занятий
-        %th Время тренировок
+        %th Дата занятия
+        %th Время тренировки
         %th Стоимость
         %th Перенос
         %th
         %th
     %tbody.site-table__body
-      - by_stadium.each do |event|
+      - by_stadium.sort_by(&:start).each do |event|
         %tr.site-table__item
           %td.site-table__item-option
             %span.site-table__item-title
               №:
             = event.id
-          /%td.site-table__item-option
-          /  %span.site-table__item-title
-          /    Стадион:
-          /  = link_to event.area.stadium.name, event.area.stadium
           %td.site-table__item-option
             %span.site-table__item-title
               Площадка:
             = link_to event.area.name, stadium_area_path(event.area.stadium, event.area)
           %td.site-table__item-option
             %span.site-table__item-title
-              Период занятий:
-            = l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
+              Дата занятия:
+            = l(event.start.to_date)
           %td.site-table__item-option
             %span.site-table__item-title
-              Время тренировок:
+              Время тренировки:
             = event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
           %td.site-table__item-option
             %span.site-table__item-title
@@ -219,3 +215,5 @@
           - else
             %td.site-table__item-option
               = link_to "Продать", sell_my_event_path(event), method: :post, data: {confirm: "Вы действительно хотите продать данный заказ?"}, class: 'btn btn-sm btn-warning'
+  %button{class: 'btn btn-info', onclick: "jQuery('#ticket_#{stadium.id}').print()"}
+    Абонемент

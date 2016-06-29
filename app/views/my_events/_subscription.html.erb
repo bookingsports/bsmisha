@@ -1,24 +1,48 @@
-<div class="ticket" style="display: block;" id="ticket_1">
-  <div class="ticket_header">
-    <%= image_tag 'logo_bg.png', width: 212, height: 71 %>
-  </div>
+<div class="ticket" id="ticket_<%= stadium.id %>">
   <div class="ticket_body">
-    <h2 class="ticket_title">Спасибо за ваш заказ, <%= current_user.name %>!</h2>
-    <p class="ticket_text">Пожалуйста, распечатайте этот талон как подтверждение вашего заказа.</p>
+    <div class="ticket_header">
+      <%= image_tag 'logo_bg.png', width: 212, height: 71, alt: 'Booking Sports - бронирйте спорт надёжно', class: 'ticket_header_logo' %>
+      <p class="ticket_header_text">Распечатайте и предъявите данный абонемент для допуска к корту.</p>
+    </div>
+    <div class="ticket_table_box">
+      <div class="ticket_table_box_line">
+        <span>стадион</span>
+        <span><%= stadium.name %></span>
+      </div>
+      <div class="ticket_table_box_line">
+        <span>имя</span>
+        <span><%= current_user.name %></span>
+      </div>
+    </div>
     <div class="ticket_table">
-    <table class="table">
-      <tr>
-        <th>Площадка</th>
-        <th>Дата</th>
-        <th>Время</th>
-      </tr>
-      <% events.each do |event| %>
-      <tr>
-        <td><%= event.area.name %></td>
-        <td><%= l(event.schedule.first.to_date) %></td>
-        <td><%= event.start.strftime("%H:%M") %> <%= event.stop.strftime("%H:%M") %></td>
-      </tr>
-      <% end %>
+      <table class="table">
+        <tr>
+          <th>Площадка</th>
+          <th>Дата</th>
+          <th>Время</th>
+          <th>Цена занятия</th>
+        </tr>
+        <% events.sort_by(&:start).each do |event| %>
+            <tr>
+              <td><%= event.area.name %></td>
+              <td><%= l(event.schedule.first.to_date) %></td>
+              <td><%= event.start.strftime("%H:%M") %>&nbsp;&mdash; <%= event.stop.strftime("%H:%M") %></td>
+              <td>
+                <div class="ticket_table_line">
+                  Общая&nbsp;&mdash;<strong><%= number_to_currency(event.price) %></strong>
+                </div>
+                <div class="ticket_table_line">
+                  Площадка&nbsp;&mdash; <%= number_to_currency(event.area_price) %>
+                </div>
+                <div class="ticket_table_line">
+                  Тренер&nbsp;&mdash; <%= number_to_currency(event.coach_price) %>
+                </div>
+                <div class="ticket_table_line">
+                  Доп. услуги&nbsp;&mdash; <%= number_to_currency(event.stadium_services_price) %>
+                </div>
+              </td>
+            </tr>
+        <% end %>
       </table>
     </div>
   </div>

@@ -235,7 +235,7 @@ class Event < ActiveRecord::Base
   end
 
   def qrcode_content
-    "Заказ №#{id}, начало: #{start}, конец: #{stop}, повторений: #{occurrences}, стоимость: #{price.to_s} руб."
+    "№#{id}, Date: #{start}, Sum: #{price.to_s} rub."
   end
 
   private
