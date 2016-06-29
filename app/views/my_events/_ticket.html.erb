@@ -1,12 +1,16 @@
 <div class="ticket" id="ticket_<%= event.id %>">
   <div class="ticket_body">
+    <div class="ticket_header">
+      <%= image_tag 'logo_bg.png', width: 212, height: 71, alt: 'Booking Sports - бронирйте спорт надёжно', class: 'ticket_header_logo' %>
+      <p class="ticket_header_text">Распечатайте и предъявите данный чек для допуска к корту.</p>
+    </div>
     <div class="ticket_table">
       <div class="ticket_table_box">
-        <div class="ticket_table_box_line">
+        <div class="ticket_table_box_line ticket_table_box_line--cover">
           <span>стадион</span>
           <span><%= event.area.stadium.name %></span>
         </div>
-        <div class="ticket_table_box_line">
+        <div class="ticket_table_box_line ticket_table_box_line--cover">
           <span>имя</span>
           <span><%= event.user.name %></span>
         </div>
@@ -29,7 +33,7 @@
           </div>
         </div>
       </div>
-      <div class="ticket_table_box">
+      <div class="ticket_qr">
         <%= image_tag RQRCode::QRCode.new(event.qrcode_content, :size => 12, :level => :h).as_png(border_modules: 0, size: 200).to_data_url %>
       </div>
     </div>
