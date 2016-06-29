@@ -31,6 +31,7 @@ class Event < ActiveRecord::Base
   validates :start, :stop, step_by_30_min: true, allow_blank: true
   validate :start_is_not_in_the_past
   validate :not_overlaps_other_events
+  validate :has_at_least_one_occurrence
 
   belongs_to :user
   belongs_to :order
@@ -268,6 +269,13 @@ class Event < ActiveRecord::Base
     def start_is_not_in_the_past
       if start.present? && start < Time.now
         errors.add(:start, "can't be in the past")
+      end
+    end
+
+    def has_at_least_one_occurrence
+      build_schedule
+      if @schedule.all_occurrences.count <= 0
+        errors.add(:recurrence_rule, "doesn't have any occurrences")
       end
     end
 
