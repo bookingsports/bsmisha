@@ -34,12 +34,16 @@
                 <div class="ticket_table_line">
                   Площадка&nbsp;&mdash; <%= number_to_currency(event.area_price) %>
                 </div>
-                <div class="ticket_table_line">
-                  Тренер&nbsp;&mdash; <%= number_to_currency(event.coach_price) %>
-                </div>
-                <div class="ticket_table_line">
-                  Доп. услуги&nbsp;&mdash; <%= number_to_currency(event.stadium_services_price) %>
-                </div>
+                <% if event.coach_price.to_i > 0 %>
+                    <div class="ticket_table_line">
+                      Тренер&nbsp;&mdash; <%= number_to_currency(event.coach_price) %>
+                    </div>
+                <% end %>
+                <% if event.stadium_services_price.to_i > 0 %>
+                    <div class="ticket_table_line">
+                      Доп. услуги&nbsp;&mdash; <%= number_to_currency(event.stadium_services_price) %>
+                    </div>
+                <% end %>
               </td>
             </tr>
         <% end %>
