@@ -21,20 +21,28 @@
         <div class="row">
           <div class="col-xs-4">
             <div class="ticket_table_box_line">
-              <span>цена площадки</span>
+              <span>Площадка</span>
               <span><%= number_to_currency(event.area_price) %></span>
             </div>
           </div>
           <div class="col-xs-4">
             <div class="ticket_table_box_line">
-              <span>цена тренера</span>
-              <span><%= number_to_currency(event.coach_price) %></span>
+              <span>Тренер</span>
+              <% if event.coach_price.to_i > 0 %>
+                  <span><%= number_to_currency(event.coach_price) %></span>
+              <% else %>
+                  <span>&mdash;</span>
+              <% end %>
             </div>
           </div>
           <div class="col-xs-4">
             <div class="ticket_table_box_line">
-              <span>цена доп. услуг</span>
-              <span><%= number_to_currency(event.stadium_services_price) %></span>
+              <span>Доп. услуги</span>
+              <% if event.stadium_services_price.to_i > 0 %>
+                  <span><%= number_to_currency(event.stadium_services_price) %></span>
+              <% else %>
+                  <span>&mdash;</span>
+              <% end %>
             </div>
           </div>
         </div>
