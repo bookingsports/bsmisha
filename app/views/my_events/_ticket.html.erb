@@ -46,13 +46,13 @@
           <div class="col-xs-6">
             <div class="ticket_table_box_line">
               <span>дата заказа</span>
-              <span><%= l(event.schedule.first.to_date) %></span>
+              <span class="big"><%= l(event.schedule.first.to_date) %></span>
             </div>
           </div>
           <div class="col-xs-6">
             <div class="ticket_table_box_line">
               <span>время заказа</span>
-              <span><%= event.start.strftime("%H:%M") %>&nbsp;&mdash; <%= event.stop.strftime("%H:%M") %></span>
+              <span class="big"><%= event.start.strftime("%H:%M") %>&nbsp;&mdash; <%= event.stop.strftime("%H:%M") %></span>
             </div>
           </div>
         </div>
