@@ -6,7 +6,7 @@
     <h4>В корзине:</h4>
     <p data-total>
       <% if @totalHours %>
-        <%= t('hours', count: number_with_precision(@totalHours, precision: 2)) %> на сумму <%= number_to_currency @total, precision: 0 %>:</p>
+        <%= t('hours', count: number_with_precision(@totalHours, precision: 1)) %> на сумму <%= number_to_currency @total, precision: 0 %>:</p>
         <ul>
         <% @events.each do |event| %>
           <li><%= event.start.strftime("%d.%m.%Y %H:%M") + " - " + event.stop.strftime("%H:%M") + " " + number_to_currency(event.price) %>
