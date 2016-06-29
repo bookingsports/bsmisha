@@ -152,69 +152,70 @@
               Цена:
             = number_to_integer_currency(recoupment.price)
 
-
-
 %hr
 %h4 Оплаченные занятия
-%table.table.table-striped.site-table#paid-events
-  %thead.site-table__head
-    %tr
-      %th #
-      %th Стадион
-      %th Площадка
-      %th Период занятий
-      %th Время тренировок
-      %th Стоимость
-      %th Перенос
-      %th
-      %th
-  %tbody.site-table__body
-    - @events.paid.future.each do |event|
-      %tr.site-table__item
-        %td.site-table__item-option
-          %span.site-table__item-title
-            №:
-          = event.id
-        %td.site-table__item-option
-          %span.site-table__item-title
-            Стадион:
-          = link_to event.area.stadium.name, event.area.stadium
-        %td.site-table__item-option
-          %span.site-table__item-title
-            Площадка:
-          = link_to event.area.name, stadium_area_path(event.area.stadium, event.area)
-        %td.site-table__item-option
-          %span.site-table__item-title
-            Период занятий:
-          = l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
-        %td.site-table__item-option
-          %span.site-table__item-title
-            Время тренировок:
-          = event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
-        %td.site-table__item-option
-          %span.site-table__item-title
-            Стоимость:
-          = number_to_integer_currency event.price
-        %td.site-table__item-option
-          %span.site-table__item-title
-            Перенос:
-          - if event.has_unpaid_changes?
-            - if event.event_change.total == 0
-              = link_to "Подтвердить перенос", pay_change_my_event_path(event.event_change.id), method: :post, data: { confirm: "Вы действительно хотите подтвердить перенос? Впоследствии вы не сможете его поменять" }, class: 'brn btn-sm btm-success'
+- @events.paid.future.group_by{|e| e.area.stadium }.map do |stadium, by_stadium|
+  %h4= "Стадион #{stadium.name}"
+  = render "my_events/subscription", events: by_stadium, stadium: stadium
+  %table.table.table-striped.site-table#paid-events
+    %thead.site-table__head
+      %tr
+        %th #
+        /%th Стадион
+        %th Площадка
+        %th Период занятий
+        %th Время тренировок
+        %th Стоимость
+        %th Перенос
+        %th
+        %th
+    %tbody.site-table__body
+      - by_stadium.each do |event|
+        %tr.site-table__item
+          %td.site-table__item-option
+            %span.site-table__item-title
+              №:
+            = event.id
+          /%td.site-table__item-option
+          /  %span.site-table__item-title
+          /    Стадион:
+          /  = link_to event.area.stadium.name, event.area.stadium
+          %td.site-table__item-option
+            %span.site-table__item-title
+              Площадка:
+            = link_to event.area.name, stadium_area_path(event.area.stadium, event.area)
+          %td.site-table__item-option
+            %span.site-table__item-title
+              Период занятий:
+            = l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
+          %td.site-table__item-option
+            %span.site-table__item-title
+              Время тренировок:
+            = event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
+          %td.site-table__item-option
+            %span.site-table__item-title
+              Стоимость:
+            = number_to_integer_currency event.price
+          %td.site-table__item-option
+            %span.site-table__item-title
+              Перенос:
+            - if event.has_unpaid_changes?
+              - if event.event_change.total == 0
+                = link_to "Подтвердить перенос", pay_change_my_event_path(event.event_change.id), method: :post, data: { confirm: "Вы действительно хотите подтвердить перенос? Впоследствии вы не сможете его поменять" }, class: 'brn btn-sm btm-success'
+              - else
+                = link_to "Оплатить перенос", orders_path('event_change_ids[]' => event.event_change.id), method: :post, class: 'btn btn-sm btn-success'
+            - elsif event.has_paid_changes?
+              Оплачен
             - else
-              = link_to "Оплатить перенос", orders_path('event_change_ids[]' => event.event_change.id), method: :post, class: 'btn btn-sm btn-success'
-          - elsif event.has_paid_changes?
-            Оплачен
+              &mdash;
+          %td.site-table__item-option
+            -#= link_to "Чек", ticket_event_path(event), class: 'btn btn-sm btn-info'
+            %button{class: 'btn btn-sm btn-info', onclick: "jQuery('#ticket_#{event.id}').print()"}
+              Чек
+            = render 'my_events/ticket', event: event
+          - if event.for_sale?
+            %td.site-table__item-option
+              Заказ выставлен на продажу
           - else
-            &mdash;
-        %td.site-table__item-option
-          -#= link_to "Чек", ticket_event_path(event), class: 'btn btn-sm btn-info'
-          %button{class: 'btn btn-sm btn-info', onclick: "jQuery('#ticket_#{event.id}').print()"}
-            Чек
-          = render 'my_events/ticket', event: event
-        - if event.for_sale?
-          %td.site-table__item-option
-            Заказ выставлен на продажу
-        - else
-          %td.site-table__item-option
-            = link_to "Продать", sell_my_event_path(event), method: :post, data: {confirm: "Вы действительно хотите продать данный заказ?"}, class: 'btn btn-sm btn-warning'
+            %td.site-table__item-option
+              = link_to "Продать", sell_my_event_path(event), method: :post, data: {confirm: "Вы действительно хотите продать данный заказ?"}, class: 'btn btn-sm btn-warning'

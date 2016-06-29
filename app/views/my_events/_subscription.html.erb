@@ -1,0 +1,25 @@
+<div class="ticket" style="display: block;" id="ticket_1">
+  <div class="ticket_header">
+    <%= image_tag 'logo_bg.png', width: 212, height: 71 %>
+  </div>
+  <div class="ticket_body">
+    <h2 class="ticket_title">Спасибо за ваш заказ, <%= current_user.name %>!</h2>
+    <p class="ticket_text">Пожалуйста, распечатайте этот талон как подтверждение вашего заказа.</p>
+    <div class="ticket_table">
+    <table class="table">
+      <tr>
+        <th>Площадка</th>
+        <th>Дата</th>
+        <th>Время</th>
+      </tr>
+      <% events.each do |event| %>
+      <tr>
+        <td><%= event.area.name %></td>
+        <td><%= l(event.schedule.first.to_date) %></td>
+        <td><%= event.start.strftime("%H:%M") %> <%= event.stop.strftime("%H:%M") %></td>
+      </tr>
+      <% end %>
+      </table>
+    </div>
+  </div>
+</div>
