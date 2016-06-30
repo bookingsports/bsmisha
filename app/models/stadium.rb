@@ -41,7 +41,7 @@ class Stadium < ActiveRecord::Base
 
   after_create :make_area
   after_create :create_account
-  after_save :parse_address
+  #after_save :parse_address
 
   accepts_nested_attributes_for :pictures, allow_destroy: true
 
