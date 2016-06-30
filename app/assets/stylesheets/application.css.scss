@@ -714,7 +714,7 @@ h1, h2, h3, h4, h5, h6 {
   top: 71px;
   left: 0;
   right: 0;
-  z-index: 1;
+  z-index: 10001;
 }
 
 @media all and (max-width: 991px) {
@@ -739,5 +739,27 @@ h1, h2, h3, h4, h5, h6 {
   }
   span.k-link.k-nav-day {
     font-size: 11px;
+  }
+
+  .k-popup-edit-form {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+  }
+  .km-pane-wrapper .k-edit-field>:not([type=checkbox]):not([type=radio]):not(.k-button), .km-pane-wrapper .k-mobile-list .k-widget {
+    width: 60%;
+  }
+  .k-icon:not(.k-loading) {
+    position: relative;
+    top: 6px;
+  }
+  .km-pane-wrapper .k-header .k-button {
+    font-size: 11px;
+  }
+  .k-multiselect-wrap li {
+    padding-right: 25px;
   }
 }
