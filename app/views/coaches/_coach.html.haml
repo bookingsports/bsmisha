@@ -1,7 +1,7 @@
 .col-md-4.col-sm-6.col-xs-12.coach__item
   .row
     .col-sm-6.col-xs-12.coach__item_image
-      = link_to coach_area_path(coach, coach.areas.first) do
+      = link_to coach_path(coach) do
         = image_tag coach.avatar.small_square.presence || 'placeholder.png', class: 'avatar photo pull-left'
     .col-sm-6.col-xs-12.coach__item_info
       = link_to coach.name, coach_path(coach), class: 'coach__item_name'
