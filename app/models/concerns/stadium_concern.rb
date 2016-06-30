@@ -16,6 +16,8 @@ module StadiumConcern
         field :slug
         field :account
         field :address
+        field :latitude
+        field :longitude
         field :email
         field :description
         field :pictures
@@ -33,7 +35,6 @@ module StadiumConcern
             value.present? ? value.utc.strftime("%H:%M") : ""
           end
         end
-        field :closes_at
       end
 
       edit do
@@ -43,6 +44,8 @@ module StadiumConcern
         field :slug
         field :account
         field :address
+        field :latitude
+        field :longitude
         field :email
         field :description, :ck_editor
         field :pictures
@@ -69,6 +72,8 @@ module StadiumConcern
         field :slug
         field :account
         field :address
+        field :latitude
+        field :longitude
         field :email
         field :description
         field :pictures

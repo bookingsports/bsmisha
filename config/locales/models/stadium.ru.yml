@@ -24,6 +24,8 @@ ru:
         description: Описание
         pictures: Изображения
         main_image: Главное изображение
+        latitude: Широта
+        longitude: Долгота
         status: Статус
         services: Услуги
         account: Реквизиты
