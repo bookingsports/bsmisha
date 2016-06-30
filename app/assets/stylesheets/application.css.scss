@@ -751,10 +751,16 @@ h1, h2, h3, h4, h5, h6 {
   }
   .km-pane-wrapper .k-edit-field>:not([type=checkbox]):not([type=radio]):not(.k-button), .km-pane-wrapper .k-mobile-list .k-widget {
     width: 60%;
+    padding: 0;
+  }
+  .km-pane-wrapper .km-pane .k-mobile-list input:not([type=checkbox]):not([type=radio]) {
+    padding-top: 8px;
   }
   .k-icon:not(.k-loading) {
     position: relative;
-    top: 6px;
+  }
+  .k-webkit .k-scheduler-toolbar>ul.k-scheduler-views {
+    width: 45%;
   }
   .km-pane-wrapper .k-header .k-button {
     font-size: 11px;
