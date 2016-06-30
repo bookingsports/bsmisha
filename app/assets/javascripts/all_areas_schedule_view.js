@@ -244,7 +244,7 @@ setInterval(function() {
     scheduler.dataSource.read();
 }, 30000)
 
-$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) 
+$('a[data-toggle="tab"]').on('shown.bs.tab', function (e)
 {
   scheduler.refresh()
 });

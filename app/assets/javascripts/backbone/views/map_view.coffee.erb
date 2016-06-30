@@ -77,6 +77,7 @@ class Tennis.Views.MapView extends Backbone.View
     else
       if @markers.length == 0
         @handler.getMap().setCenter(@moscowCoords())
+        alert("Стадионов не найдено")
       else if @markers.length == 1
         @handler.getMap().panTo(@markers[0].serviceObject.position)
         @handler.getMap().setZoom(14)
