@@ -33,6 +33,10 @@ class StadiumUser < User
     Event.where area_id: area_ids
   end
 
+  def product_areas
+    stadium.areas
+  end
+
   def prices
     (stadium.prices.to_a + stadium.areas.map { |area| area.prices.to_a }.flatten).uniq
   end

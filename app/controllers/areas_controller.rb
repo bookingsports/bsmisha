@@ -18,6 +18,7 @@ class AreasController < ApplicationController
 
   def index
     @stadium = Stadium.friendly.find(params[:stadium_id])
+    @areas = @stadium.areas
   end
 
   def show

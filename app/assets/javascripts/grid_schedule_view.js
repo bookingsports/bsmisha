@@ -14,8 +14,8 @@ $("#scheduler").kendoScheduler({
   height: 700,
   mobile: true,
   views: [
-    {type: 'day', selected: true},
-    'week',
+    'day',
+    {type: 'week', selected: true},
     'month'
   ],
   editable:

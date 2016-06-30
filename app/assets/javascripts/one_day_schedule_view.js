@@ -258,7 +258,7 @@ $("select#stadium").change(function () {
                 $(".schedule-legend-nav").append(
                   '<div class="col-lg-4 col-sm-6 col-xs-12">'
                   + '<div class="legend-label legend-kendo-area-' + area.kendo_id
-                  + '"></div> ' + area.name + '</div>')
+                  + '"></div> ' + area.name_with_stadium + '</div>')
             });
 
             updateSchedule();
