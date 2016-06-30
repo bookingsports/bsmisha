@@ -29,6 +29,7 @@
   cursor: pointer;
   margin: 0;
   @include transition(all 0.1s linear);
+  user-select: none;
 
   &:before {
     content: "";
