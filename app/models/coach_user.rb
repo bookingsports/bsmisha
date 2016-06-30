@@ -29,6 +29,10 @@ class CoachUser < User
 
   accepts_nested_attributes_for :coach
 
+  def product_areas
+    coach.coaches_areas.active.map(&:area).uniq
+  end
+
   def name
     attributes["name"] || "Тренер ##{id}"
   end

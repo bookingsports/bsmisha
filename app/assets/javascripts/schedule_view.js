@@ -450,12 +450,15 @@ setInterval(function() {
 
 scheduler.dataSource.bind("error", function(e)
 {
-  alert(e.errors);
-  scheduler.one("dataBinding", function (e)
+  if (e.errors)
   {
-    //prevent saving if server error is thrown
-    e.preventDefault();
-  });
+    alert(e.errors);
+    scheduler.one("dataBinding", function (e)
+    {
+      //prevent saving if server error is thrown
+      e.preventDefault();
+    });
+  }
 });
 
 $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {

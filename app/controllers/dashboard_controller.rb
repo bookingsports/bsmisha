@@ -7,7 +7,13 @@ class DashboardController < ApplicationController
   end
 
   def grid
-    @area = Area.friendly.find(params[:area_id]) rescue current_user.areas.first
+    if current_user.type == "Customer"
+      @areas = current_user.events.map(&:area).uniq
+    elsif params[:area_id].present?
+      @area = Area.friendly.find(params[:area_id]) rescue current_user.product_areas.first
+    else
+      @areas = current_user.product_areas
+    end
     set_gon_area
   end
 

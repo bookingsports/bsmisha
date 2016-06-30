@@ -1,4 +1,4 @@
-- if params[:id].present? || @stadium.nil?
+- if params[:id].present? || @areas.nil?
   .row.schedule-legend-nav
     .col-lg-4.col-sm-6.col-xs-12.legend-label__wrap
       .legend-label.legend-owned
@@ -26,7 +26,7 @@
       = raw " &mdash; выставлено на продажу"
 - else
   .row.schedule-legend-nav
-    - @stadium.areas.each do |area|
+    - @areas.each do |area|
       .col-lg-4.col-sm-6.col-xs-12
         %div{ class: "legend-label legend-kendo-area-#{area.kendo_area_id}" }
-        = raw area.name
+        = raw area.name_with_stadium
