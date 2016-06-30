@@ -8,6 +8,6 @@ class MapIconUploader < BaseImageUploader
   end
 
   version :thumb do
-    process resize_to_fit: [30, 30]
+    process resize_to_fit: [30, 40]
   end
 end
