@@ -12,7 +12,7 @@ module EventChangeConcern
         field :old_stop
         field :new_start
         field :new_stop
-        field :old_price
+        field :new_price
         field :created_at
         field :updated_at
       end
@@ -24,7 +24,7 @@ module EventChangeConcern
         field :old_stop
         field :new_start
         field :new_stop
-        field :old_price
+        field :new_price
       end
     end
   end

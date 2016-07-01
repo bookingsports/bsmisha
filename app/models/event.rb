@@ -83,10 +83,13 @@ class Event < ActiveRecord::Base
 
   after_initialize :build_schedule
   before_destroy :create_recoupment_if_cancelled
-  before_update :create_event_change_if_not_present, if: "start_changed? && stop_changed?"
+  after_save :create_event_change_if_not_present
   after_save do
-    update_columns("price" =>  area_price + stadium_services_price + coach_price)
-    # if area_price <= 0
+    if event_change.nil? || event_change.paid?
+      update_columns("price" =>  area_price + stadium_services_price + coach_price)
+    else
+      update_columns("start" => start_was, "stop" => stop_was)
+    end
     if daily_price_rules.map{|p| p.time_for_event(self)}.sum < duration_in_hours
       errors.add(:price, "Нельзя создать/перенести событие на это время.")
       raise ActiveRecord::Rollback
@@ -159,18 +162,18 @@ class Event < ActiveRecord::Base
   end
 
   def start_for(user)
-    if self.user == user
+    if self.user != user
       self.start
     else
-      start_before_change
+      has_unpaid_changes? ? event_change.new_start : start
     end
   end
 
   def stop_for(user)
-    if self.user == user
-      stop
+    if self.user != user
+      self.stop
     else
-      end_before_change
+      has_unpaid_changes? ? event_change.new_stop : stop
     end
   end
 
@@ -248,11 +251,11 @@ class Event < ActiveRecord::Base
       if unpaid?
         return true
       elsif event_change.present? && event_change.unpaid?
-        event_change.update new_start: start, new_stop: stop
+        event_change.update new_start: start, new_stop: stop, new_price: area_price + coach_price + stadium_services_price
       elsif event_change.present? && event_change.paid?
         return false
       elsif event_change.blank?
-        create_event_change old_start: start_was, old_stop: stop_was, new_start: start, new_stop: stop, old_price: price
+        create_event_change old_start: start_was, old_stop: stop_was, new_start: start, new_stop: stop, new_price: area_price + coach_price + stadium_services_price
       end
     end
 
