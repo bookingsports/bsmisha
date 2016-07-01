@@ -8,11 +8,11 @@
     .entry
       %h1
         Стадионы
-      %hr
+      %hr.col-xs-12
       = render 'map'
-      %hr
+      %hr.col-xs-12
       = render 'search_on_map', categories: [@category], include_stadiums: true, q: @q
-      %hr
-      %div.list-unstyled.stadiums
-        .row
+      %hr.col-xs-12
+      .row
+        %div.list-unstyled.stadiums
           = render @stadiums
