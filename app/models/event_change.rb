@@ -30,6 +30,8 @@ class EventChange < ActiveRecord::Base
     where(events_areas: {area_id: areas}).uniq
   end
 
+  after_save :update_event
+
   def paid?
     order.present? && order.paid?
   end
@@ -43,11 +45,11 @@ class EventChange < ActiveRecord::Base
   end
 
   def total
-    fee_after_nine + new_price
+    fee_after_nine + calculate_new_price
   end
 
-  def new_price
-    event.price < old_price ? 0 : event.price - old_price
+  def calculate_new_price
+    event.price > new_price ? 0 : new_price - event.price
   end
 
   def fee_after_nine
@@ -55,5 +57,11 @@ class EventChange < ActiveRecord::Base
     t = Time.zone.parse("21:00")
     pay_time = DateTime.new(d.year, d.month, d.day, t.hour, t.min, t.sec, t.zone)
     created_at.to_date > pay_time ? event.price * event.area.change_price.to_i / 100 : 0
+  end
+
+  def update_event
+    if paid?
+      event.update start: new_start, stop: new_stop
+    end
   end
 end

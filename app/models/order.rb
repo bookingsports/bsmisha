@@ -110,6 +110,7 @@ class Order < ActiveRecord::Base
 
       if transaction
         self.paid!
+        self.event_changes.each {|e| e.update_event }
       end
     end
   end
