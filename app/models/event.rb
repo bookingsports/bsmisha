@@ -90,6 +90,7 @@ class Event < ActiveRecord::Base
     else
       update_columns("start" => start_was, "stop" => stop_was)
     end
+    reload
     if daily_price_rules.map{|p| p.time_for_event(self)}.sum < duration_in_hours
       errors.add(:price, "Нельзя создать/перенести событие на это время.")
       raise ActiveRecord::Rollback

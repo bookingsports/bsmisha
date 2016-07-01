@@ -120,7 +120,6 @@ class EventsController < ApplicationController
     else
       @event = current_user.events.find(params[:id])
     end
-    @event.update event_params
     if @event.update event_params
       respond_with @event
     else
