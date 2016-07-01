@@ -73,8 +73,9 @@ class MyEventsController < EventsController
   end
 
   def destroy
-    if params[:event_ids].present?
-      current_user.events.unpaid.where(id: params[:event_ids]).destroy_all
+    if params[:event_ids].present? || params[:event_change_ids].present?
+      params[:event_ids].present? && current_user.events.unpaid.where(id: params[:event_ids]).destroy_all
+      params[:event_change_ids].present? && current_user.event_changes.unpaid.where(id: params[:event_change_ids]).destroy_all
       redirect_to my_events_path, notice: "Успешно удалены."
     else
       redirect_to my_events_path, alert: "Не выбрано ни одного заказа!"
