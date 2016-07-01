@@ -733,39 +733,4 @@ h1, h2, h3, h4, h5, h6 {
     padding-left: 15px;
     padding-right: 15px;
   }
-
-  table.k-scheduler-table {
-    font-size: 11px;
-  }
-  span.k-link.k-nav-day {
-    font-size: 11px;
-  }
-
-  .k-popup-edit-form {
-    position: fixed;
-    top: 70px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 10000;
-  }
-  .km-pane-wrapper .k-edit-field>:not([type=checkbox]):not([type=radio]):not(.k-button), .km-pane-wrapper .k-mobile-list .k-widget {
-    width: 60%;
-    padding: 0;
-  }
-  .km-pane-wrapper .km-pane .k-mobile-list input:not([type=checkbox]):not([type=radio]) {
-    padding-top: 8px;
-  }
-  .k-icon:not(.k-loading) {
-    position: relative;
-  }
-  .k-webkit .k-scheduler-toolbar>ul.k-scheduler-views {
-    width: 45%;
-  }
-  .km-pane-wrapper .k-header .k-button {
-    font-size: 11px;
-  }
-  .k-multiselect-wrap li {
-    padding-right: 25px;
-  }
 }
