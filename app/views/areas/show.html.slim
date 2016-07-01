@@ -37,8 +37,9 @@
           h4 Тренеры
           ul.list-group
             - @area.coaches_areas.active.each do |p|
-              li.list-group-item
-                = p.name_and_price
+              li.list-group-item.stadium_coach
+                = image_tag p.coach.user.avatar.thumb.url, class: 'stadium_coach_img'
+                = link_to p.name_and_price, coach_path(p.coach), class: 'stadium_coach_text'
         - elsif @product.kind_of?(Coach) && @area.coaches_areas.active.where(coach: @product).count > 0
           h4 Стоимость данного тренера
           ul.list-group
