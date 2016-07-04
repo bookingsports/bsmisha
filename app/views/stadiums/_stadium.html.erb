@@ -5,6 +5,7 @@
         <%= link_to stadium do %>
           <%= image_tag stadium.main_image.small_square.url, class: 'avatar photo pull-left' %>
         <% end %>
+        <%= link_to stadium.reviews.where(verified: true).count, stadium_reviews_path(stadium), class: 'coach__item_reviews' %>
       </div>
       <div class="col-sm-6 col-xs-12 coach__item_info">
         <h3 class="coach__item_name"><%= link_to stadium.name, stadium %></h3>

@@ -11,11 +11,11 @@
           %th
           %th Стадион
           %th Площадка
-          %th Период занятий
+          %th Дата занятия
           %th Время тренировок
           %th Стоимость
       %tbody.site-table__body
-        - @events.unpaid.future.unconfirmed.each do |event|
+        - @events.unpaid.future.unconfirmed.order(start: :asc).each do |event|
           %tr.site-table__item
             %td.site-table__item-option
               = check_box_tag "event_ids[]", event.id
@@ -30,7 +30,7 @@
             %td.site-table__item-option
               %span.site-table__item-title
                 Период занятий:
-              = l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
+              = l(event.schedule.first.to_date)
             %td.site-table__item-option
               %span.site-table__item-title
                 Время тренировок:
