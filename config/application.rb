@@ -40,7 +40,6 @@ module TennisRails
     config.time_zone = 'Moscow'
 
     config.autoload_paths << Rails.root.join('lib')
-    config.autoload_paths << "#{Rails.root}/app/pdfs"
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
@@ -50,7 +49,7 @@ module TennisRails
     config.active_record.raise_in_transactional_callbacks = true
 
     config.active_record.observers = [
-      :order_observer, :event_observer
+      :order_observer, :event_observer, :user_observer
     ]
 
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
