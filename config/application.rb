@@ -49,7 +49,7 @@ module TennisRails
     config.active_record.raise_in_transactional_callbacks = true
 
     config.active_record.observers = [
-      :order_observer, :event_observer, :user_observer
+      :order_observer, :event_observer, :user_observer, :coaches_area_observer
     ]
 
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]

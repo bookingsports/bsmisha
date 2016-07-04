@@ -14,7 +14,7 @@ class Dashboard::EmploymentsController < DashboardController
   end
 
   def destroy
-    current_user.coach.coaches_areas.find(params[:id]).delete
+    current_user.coach.coaches_areas.find(params[:id]).destroy
 
     redirect_to dashboard_employments_path
   end
