@@ -4,8 +4,6 @@ class OrderObserver < ActiveRecord::Observer
       case order.status
       when "paid"
         send_emails_about_payed_order order
-      else
-        OrderMailer.order_change(order).deliver_now
       end
     end
   end
