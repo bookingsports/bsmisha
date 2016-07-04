@@ -24,6 +24,29 @@
   }
 }
 
+.coach__item_reviews {
+  position: absolute;
+  bottom: 0;
+  right: 15px;
+  background-color: rgba(0, 0, 0, .8);
+  padding: 5px 5px 5px 31px;
+  font-size: 12px;
+  line-height: 24px;
+  color: #fff;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 21px;
+    height: 24px;
+    @include background-asset('reviews.png', no-repeat center center);
+    -webkit-background-size: 21px 24px;
+    background-size: 21px 24px;
+  }
+}
+
 .coach__item_info {
   @include display-block;
   padding-right: 25px;
