@@ -19,6 +19,7 @@
 class Account < ActiveRecord::Base
   include AccountConcern
   belongs_to :accountable, polymorphic: true
+  has_paper_trail
 
   def name
     "Реквизиты #{accountable.name}"
