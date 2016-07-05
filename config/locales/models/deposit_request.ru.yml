@@ -11,10 +11,10 @@ ru:
   activerecord:
     models:
       deposit_request:
-        one: запрос депозита
-        parent: запроса депозита
-        accusative: запрос депозита
-        other: запросы депозитов
+        one: запрос на пополнение счета
+        parent: запроса на пополнение счета
+        accusative: запрос на пополнение счета
+        other: запросы на пополнение счета
     attributes:
       deposit_request:
         wallet: Кошелек
