@@ -8,12 +8,12 @@ class Tennis.Views.DraggableMapView extends Tennis.Views.MapView
     super
 
   afterMap: ->
-    google.maps.event.addListener @markers[0].serviceObject, 'dragend', (event) =>
-      @submitPos(`this.getPosition()`)
+    #google.maps.event.addListener @markers[0].serviceObject, 'dragend', (event) =>
+    #  @submitPos(`this.getPosition()`)
 
-    google.maps.event.addListener @handler.getMap(), 'click', (event) =>
-      @markers[0].serviceObject.setPosition(event.latLng)
-      @submitPos(event.latLng)
+    #google.maps.event.addListener @handler.getMap(), 'click', (event) =>
+    #  @markers[0].serviceObject.setPosition(event.latLng)
+    #  @submitPos(event.latLng)
 
   submitPos: (pos) ->
     $('#product_latitude').val(pos.lat())
