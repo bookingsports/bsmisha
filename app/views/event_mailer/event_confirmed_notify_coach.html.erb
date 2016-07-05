@@ -36,7 +36,7 @@
                 <td width="20"></td>
                 <td width="520" align="center"
                     style="color:#000000;font-family:Arial, Helvetica, sans-serif;line-height:28px;font-size:22px;font-weight:bold;"
-                    class="cell">Тренер хочет привязаться к вашему стадиону
+                    class="cell">Забронирован заказ #<%= @event.id %> с вашим участем
                 </td>
                 <td width="20"></td>
               </tr>
@@ -47,7 +47,7 @@
               </tr>
               </tbody>
             </table>
-            <table width="560" border="0" cellspacing="0" cellpadding="0" class="table" style="">
+            <table width="560" border="0" cellspacing="0" cellpadding="0" class="table">
               <tbody>
               <tr>
                 <td width="20"></td>
@@ -58,10 +58,8 @@
                 <td width="20">&nbsp;</td>
                 <td width="520" align="left" valign="top"
                     style="color:#000000;font-family:Arial, Helvetica, sans-serif;line-height:19px;font-size:13px;"
-                    class="cell">
-                  <p>
-                    Тренер <b><%= @ca.coach.name %></b> хочет привязаться к вашеиу стадиону.
-                  </p>
+                    class="cell"><p style=" margin-bottom: 10px;">
+                  Заказ #<%= @event.id %> забронирован с вашим участем в <%= l(@event.updated_at, format: '%A, %d.%m.%Y, в %H:%M') %></p>
                 </td>
                 <td width="20">&nbsp;</td>
               </tr>
@@ -80,26 +78,20 @@
                     <thead>
                     <tr>
                       <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 1px; border-style: solid; border-color: #000;">
-                        Плошадка
+                        Стадион и&nbsp;площадка
                       </th>
                       <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 0; border-style: solid; border-color: #000;">
-                        Цена тренера
-                      </th>
-                      <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 0; border-style: solid; border-color: #000;">
-                        Процент стадиона
+                        Дата проведения
                       </th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                       <td style="padding: 5px; border-width: 0 1px 1px 1px; border-style: solid; border-color: #000;">
-                        <%= @ca.area.name %>
+                        <%= @event.area.stadium.name %>&nbsp;&mdash; <%= @event.area.name %>
                       </td>
                       <td style="padding: 5px; border-width: 0 1px 1px 0; border-style: solid; border-color: #000;">
-                        <%= @ca.price.to_i %>
-                      </td>
-                      <td style="padding: 5px; border-width: 0 1px 1px 0; border-style: solid; border-color: #000;">
-                        <%= @ca.stadium_percent %>%
+                        <%= l @event.start, format: :short %>&nbsp;&mdash; <%= l @event.stop, format: :short %>
                       </td>
                     </tr>
                     </tbody>
@@ -107,41 +99,6 @@
 
                 </td>
                 <td width="15">&nbsp;</td>
-              </tr>
-              <tr>
-                <td width="20"></td>
-                <td width="520" height="15" class="spacer"></td>
-                <td width="20"></td>
-              </tr>
-              <tr>
-                <td width="20"></td>
-                <td width="520" class="spacer">
-                  <p style="margin-bottom: 10px;color:#000000;font-family:Arial, Helvetica, sans-serif;line-height:19px;font-size:13px;">
-                    Вы модите перейти по ссылке и подтвердить данного тренера:
-                  </p>
-                  <table border="0" cellspacing="0" cellpadding="0" style="margin: 0; height: 25px;">
-                    <tbody>
-                    <tr>
-                      <td>
-                        <table border="0" cellspacing="0" cellpadding="0" bgcolor="#2873b1" style="border-width:0px;border-color:#2873b1;border-style:solid; border-radius: 5px; box-shadow: 0 0 4px #666666; -moz-box-shadow: 0 0 4px #666666; -webkit-box-shadow: 0 0 4px #666666; display:block;height: 25px;;">
-                          <tbody>
-                          <tr>
-                            <td width="13"></td>
-                            <td valign="middle" align="center" style="padding: 3px 0;font-weight:bold;color:#ffffff;font-family:Arial, Helvetica, sans-serif;line-height:19px;font-size:13px;">
-                              <a href="<%= dashboard_coach_users_url %>" style="text-decoration:none;font-weight:bold;color:#ffffff;font-family:Arial, Helvetica, sans-serif;line-height:19px;font-size:13px;height:25px;">
-                                Подтвердить
-                              </a>
-                            </td>
-                            <td width="13"></td>
-                          </tr>
-                          </tbody>
-                        </table>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </td>
-                <td width="20"></td>
               </tr>
               <tr>
                 <td width="20"></td>
@@ -169,8 +126,8 @@
         <tr>
           <td class="pfooter"
               style="font-family:Arial;font-size: 11px;color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;"
-              width="560" align="center">Это сообщение было отправлено на <b><%= @ca.area.stadium.user.email %></b> потому, что: <br>
-            <span id="reason">Вы зарегистрированы на нашем сайте www.bookingsports.ru как администратор стадиона.</span>
+              width="560" align="center">Это сообщение было отправлено на <b><%= @event.coach.user.email %></b> потому, что: <br>
+            <span id="reason">Вы зарегистрированы на нашем сайте www.bookingsports.ru как тренер.</span>
           </td>
         </tr>
         <tr>

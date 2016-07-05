@@ -1,8 +1,6 @@
 class EventObserver < ActiveRecord::Observer
   def after_update event
-    if event.for_sale?
-      EventMailer.event_selling_mail(event).deliver_now
-    elsif event.status_was ==  "for_sale" && event.unconfirmed?
+    if event.status_was ==  "for_sale" && event.unconfirmed?
       EventMailer.event_buying_mail(event).deliver_now
       EventMailer.event_sold_notify_old_owner(event).deliver_now
       event.coach.present? && EventMailer.event_sold_notify_coach(event).deliver_now
