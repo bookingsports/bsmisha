@@ -23,4 +23,9 @@ class CoachesAreaMailer < ApplicationMailer
     @ca = ca
     mail(to: @ca.coach.user.email, subject: "⚽️ Привязка тренера к стадиону разблокирована")
   end
+
+  def area_destroyed_notify_coach ca
+    @ca = ca
+    mail(to: @ca.coach.user.email, subject: "⚽️ Площадка, к которой вы привязаны, была удалена")
+  end
 end
