@@ -1,1 +1,151 @@
-Баланс успешно пополнен
+<table cellpadding="0" cellspacing="0" width="100%" border="0" bgcolor="#e6e6e6"
+       style="min-width:600px;">
+  <tbody>
+  <tr>
+    <td valign="top" align="center">
+      <table width="560" border="0" cellspacing="0" cellpadding="0" class="campaign">
+        <tbody>
+        <tr>
+          <td width="560" height="60" class="campaign"></td>
+        </tr>
+        </tbody>
+      </table>
+      <table cellspacing="0" cellpadding="0" width="560" border="0"
+             style="border-width:0px;border-color:#ffffff;border-style:solid;" class="campaign">
+        <tbody>
+        <tr bgcolor="#ffffff">
+          <td align="center" width="560">
+            <table border="0" cellspacing="0" cellpadding="0" width="560" style="background-color:#7cbc48">
+              <tbody>
+              <tr>
+                <td align="center" width="560" class="headerimage">
+                  <img style="display:block; height: 70px; width: 560px;" height="70"
+                       src="http://147931.selcdn.com/images/5673431/2463.png" width="560" border="0">
+                </td>
+              </tr>
+              </tbody>
+            </table>
+            <table width="560" border="0" cellspacing="0" cellpadding="0" class="table" style="">
+              <tbody>
+              <tr>
+                <td width="20"></td>
+                <td width="520" height="30" class="cell"></td>
+                <td width="20"></td>
+              </tr>
+              <tr>
+                <td width="20"></td>
+                <td width="520" align="center"
+                    style="color:#000000;font-family:Arial, Helvetica, sans-serif;line-height:28px;font-size:22px;font-weight:bold;"
+                    class="cell">Баланс успешно пополнен
+                </td>
+                <td width="20"></td>
+              </tr>
+              <tr>
+                <td width="20"></td>
+                <td width="520" height="7" class="cell"></td>
+                <td width="20"></td>
+              </tr>
+              </tbody>
+            </table>
+            <table width="560" border="0" cellspacing="0" cellpadding="0" class="table" style="">
+              <tbody>
+              <tr>
+                <td width="20"></td>
+                <td width="520" height="7" class="spacer"></td>
+                <td width="20"></td>
+              </tr>
+              <tr>
+                <td width="20">&nbsp;</td>
+                <td width="520" align="left" valign="top"
+                    style="color:#000000;font-family:Arial, Helvetica, sans-serif;line-height:19px;font-size:13px;"
+                    class="cell">
+                  <p style="margin-bottom: 10px;">
+                    Вы успешно пополнили баланс на нашем сайте.
+                  </p>
+                </td>
+                <td width="20">&nbsp;</td>
+              </tr>
+              <tr>
+                <td width="20"></td>
+                <td width="520" height="10" class="spacer"></td>
+                <td width="20"></td>
+              </tr>
+              <tr>
+                <td width="20">&nbsp;</td>
+                <td width="520" align="left" valign="top"
+                    style="color:#000000;font-family:Arial, Helvetica, sans-serif;line-height:19px;font-size:13px;"
+                    class="cell">
+                  <p style="margin-bottom: 10px;">
+                    Сумма пополнения:
+                  </p>
+                  <p style="margin-bottom: 10px;line-height:20px;font-size:16px;">
+                    <b><%= number_to_currency @request.amount.to_i %></b>
+                  </p>
+                  <p style="margin-bottom: 10px;">
+                    Текущий баланс:
+                  </p>
+                  <p style="margin-bottom: 10px;line-height:20px;font-size:16px;">
+                    <b><%= number_to_currency(@request.wallet.total, precision: 0) %></b>
+                  </p>
+                </td>
+                <td width="20">&nbsp;</td>
+              </tr>
+              <tr>
+                <td width="20"></td>
+                <td width="520" height="30" class="spacer"></td>
+                <td width="20"></td>
+              </tr>
+              <tr>
+                <td width="20" height="10" style="background: #2873b1;"></td>
+                <td width="520" height="10" style="background: #2873b1;"></td>
+                <td width="20" height="10" style="background: #2873b1;"></td>
+              </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <table width="560" border="0" cellspacing="0" cellpadding="0" class="pfooter">
+        <tbody>
+        <tr>
+          <td height="15" width="560" class="pfooter"></td>
+        </tr>
+
+
+        <tr>
+          <td class="pfooter"
+              style="font-family:Arial;font-size: 11px;color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;"
+              width="560" align="center">Это сообщение было отправлено на <b><%= @request.wallet.user.email %></b> потому, что: <br>
+            <span id="reason">Вы зарегистрированы на нашем сайте www.bookingsports.ru.</span>
+          </td>
+        </tr>
+        <tr>
+          <td class="pfooter" height="5" width="560"></td>
+        </tr>
+        <tr>
+          <td width="560" align="center"
+              style="font-family:Arial;font-size: 11px;color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;">
+            2016 © Bookingsports
+          </td>
+        </tr>
+        <tr>
+          <td class="pfooter" height="5" width="560"></td>
+        </tr>
+        <tr>
+          <td class="pfooter"
+              style="font-family:Arial;font-size: 11px;color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;"
+              width="560" align="center">
+            <span id="address">141400, обл. Московская, г. Химки, мкр. Сходная, ул. Фрунзе 38, 18</span>
+          </td>
+        </tr>
+        <tr>
+          <td height="50" class="pfooter" width="560"></td>
+        </tr>
+
+        </tbody>
+      </table>
+    </td>
+  </tr>
+  </tbody>
+</table>
