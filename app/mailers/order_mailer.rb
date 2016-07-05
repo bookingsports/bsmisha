@@ -2,7 +2,7 @@ class OrderMailer < ApplicationMailer
   helper :application
 
   def order_created order
-    @events, @order = order.events, order
+    @events, @event_changes, @order = order.events, order.event_changes, order
     mail(to: order.user.email, subject: "⚽️ Bookingsports: Заказ оплачен!")
   end
 

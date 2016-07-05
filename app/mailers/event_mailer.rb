@@ -39,11 +39,6 @@ class EventMailer < ApplicationMailer
     mail(to: @event.area.stadium.user.email, subject: "⚽️ Bookingsports: Занятие перенесено")
   end
 
-  def event_selling_mail event
-    @event = event
-    mail(to: @event.user.email, subject: "⚽️ Bookingsports: Заказ выставлен на продажу")
-  end
-
   def event_buying_mail event
     @event = event
     mail(to: @event.user.email, subject: "⚽️ Bookingsports: Заказ куплен")

@@ -99,7 +99,7 @@ class Order < ActiveRecord::Base
             rec.update price: (rec.price - event_change.total)
           elsif rec.present? && rec.price <= event_change.total && rec.price > 0
             user.wallet.withdraw! event_change.total - rec.price
-            event_change.event.area.stadium.user.wallet.deposit_with_tax_deduction! (event_change.total  * (event_change.price - rec.price) / event_change.price)
+            event_change.event.area.stadium.user.wallet.deposit_with_tax_deduction! (event_change.total  * (event_change.total - rec.price) / event_change.total)
             rec.destroy
           else
             user.wallet.withdraw! event_change.total

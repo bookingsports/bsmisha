@@ -34,9 +34,9 @@
               </tr>
               <tr>
                 <td width="20"></td>
-                <td width="520" align="left"
+                <td width="520" align="center"
                     style="color:#000000;font-family:Arial, Helvetica, sans-serif;line-height:28px;font-size:22px;font-weight:bold;"
-                    class="cell">Заказ <%= @order.guid %>.
+                    class="cell">Заказ <%= @order.guid %>
                 </td>
                 <td width="20"></td>
               </tr>
@@ -75,36 +75,71 @@
                     style="color:#000000;font-family:Arial, Helvetica, sans-serif;line-height:19px;font-size:13px;"
                     class="cell">
 
-                  <table width="530" border="0" cellspacing="0" cellpadding="0" class="table">
-                    <thead>
-                    <tr>
-                      <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 1px; border-style: solid; border-color: #000;">
-                        Стадион и&nbsp;площадка
-                      </th>
-                      <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 0; border-style: solid; border-color: #000;">
-                        Дата проведения
-                      </th>
-                      <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 0; border-style: solid; border-color: #000;">
-                        Цена
-                      </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <% @events.each do |event| %>
-                        <tr>
-                          <td style="padding: 5px; border-width: 0 1px 1px 1px; border-style: solid; border-color: #000;">
-                            <%= event.area.stadium.name %>&nbsp;&mdash; <%= event.area.name %>
-                          </td>
-                          <td style="padding: 5px; border-width: 0 1px 1px 0; border-style: solid; border-color: #000;">
-                            <%= l event.start, format: :short %>
-                          </td>
-                          <td style="padding: 5px; border-width: 0 1px 1px 0; border-style: solid; border-color: #000;">
-                            <%= number_to_integer_currency event.price %>
-                          </td>
-                        </tr>
-                    <% end %>
-                    </tbody>
-                  </table>
+                  <% if @events.present? %>
+                    <table width="530" border="0" cellspacing="0" cellpadding="0" class="table">
+                      <thead>
+                      <tr>
+                        <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 1px; border-style: solid; border-color: #000;">
+                          Стадион и&nbsp;площадка
+                        </th>
+                        <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 0; border-style: solid; border-color: #000;">
+                          Дата проведения
+                        </th>
+                        <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 0; border-style: solid; border-color: #000;">
+                          Цена
+                        </th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <% @events.each do |event| %>
+                          <tr>
+                            <td style="padding: 5px; border-width: 0 1px 1px 1px; border-style: solid; border-color: #000;">
+                              <%= event.area.stadium.name %>&nbsp;&mdash; <%= event.area.name %>
+                            </td>
+                            <td style="padding: 5px; border-width: 0 1px 1px 0; border-style: solid; border-color: #000;">
+                              <%= l event.start, format: :short %>&nbsp;&mdash; <%= l event.stop, format: :short %>
+                            </td>
+                            <td style="padding: 5px; border-width: 0 1px 1px 0; border-style: solid; border-color: #000;">
+                              <%= number_to_currency event.price.to_i %>
+                            </td>
+                          </tr>
+                      <% end %>
+                      </tbody>
+                    </table>
+                  <% end %>
+
+                  <% if @event_changes.present? %>
+                    <table width="530" border="0" cellspacing="0" cellpadding="0" class="table">
+                      <thead>
+                      <tr>
+                        <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 1px; border-style: solid; border-color: #000;">
+                          Стадион и&nbsp;площадка
+                        </th>
+                        <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 0; border-style: solid; border-color: #000;">
+                          Новая дата проведения
+                        </th>
+                        <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 0; border-style: solid; border-color: #000;">
+                          Цена
+                        </th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <% @event_changes.each do |event_change| %>
+                          <tr>
+                            <td style="padding: 5px; border-width: 0 1px 1px 1px; border-style: solid; border-color: #000;">
+                              <%= event_change.event.area.stadium.name %>&nbsp;&mdash; <%= event_change.event.area.name %>
+                            </td>
+                            <td style="padding: 5px; border-width: 0 1px 1px 0; border-style: solid; border-color: #000;">
+                              <%= l event_change.new_start, format: :short %>&nbsp;&mdash; <%= l event_change.new_stop, format: :short %>
+                            </td>
+                            <td style="padding: 5px; border-width: 0 1px 1px 0; border-style: solid; border-color: #000;">
+                              <%= number_to_currency event_change.event.price.to_i %>
+                            </td>
+                          </tr>
+                      <% end %>
+                      </tbody>
+                    </table>
+                  <% end %>
 
                 </td>
                 <td width="15">&nbsp;</td>
