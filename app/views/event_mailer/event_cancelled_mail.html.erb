@@ -62,7 +62,7 @@
                   <p>
                     Администратор стадиона <b><%= @event.area.stadium.name %></b> отменил ваше оплаченное занятие
                     на площадке <b><%= @event.area.name %></b>.
-                    На ваш профиль зачислено {количество} отыгрышей на данной площадке.
+                    На ваш профиль зачислено <b><%= @event.price.to_i %></b> отыгрышей на данной площадке.
                     Просим прощения за причиненные неудобства.
                   </p>
                 </td>
@@ -96,7 +96,7 @@
                         <%= l @event.start, format: :short %>
                       </td>
                       <td style="padding: 5px; border-width: 0 1px 1px 0; border-style: solid; border-color: #000;">
-                        <%= number_to_integer_currency @event.price %>
+                        <%= number_to_currency @event.price.to_i %>
                       </td>
                     </tr>
                     </tbody>
