@@ -8,7 +8,7 @@ class EventObserver < ActiveRecord::Observer
       EventMailer.date_change_mail(event).deliver_now
       EventMailer.event_changed_notify_stadium(event).deliver_now
       event.coach.present? && EventMailer.event_changed_notify_coach(event).deliver_now
-    elsif event.unpaid? && event.confirmed?
+    elsif event.unpaid? && event.confirmed? && event.status_changed?
       EventMailer.event_confirmed(event).deliver_now
       EventMailer.event_confirmed_notify_stadium(event).deliver_now
       event.coach.present? && EventMailer.event_confirmed_notify_coach(event).deliver_now

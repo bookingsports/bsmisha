@@ -7,10 +7,10 @@ $('.terms_agree_checkbox').change(function() {
     $('.terms-required').removeAttr('disabled');
   else
     $('.terms-required').attr('disabled', 'disabled');
-})
+});
 
 $('#user_type_selector').change(function() {
-  $('.form_container').css('display', 'none')
+  $('.form_container').css('display', 'none');
   switch($('#user_type_selector').val())
   {
     case 'Customer':
@@ -23,5 +23,30 @@ $('#user_type_selector').change(function() {
     $('#stadium_form').css('display', 'block');
     break;
   }
-})
-$('#user_type_selector').change()
+});
+$('#user_type_selector').change();
+
+
+// выбор всех елементов таблицы по общему чекбоксу
+
+$(".check_all").change(function () {
+
+    var checkBoxes = $(this).parents('table').find('.check-box');
+
+    checkBoxes.prop('checked', $(this).prop("checked"));
+
+});
+
+// сброс общего чекбокса, если чекнул хоть один из элементов
+
+$(".check-box").change(function(){
+
+    if ($(this).parents('table').length) {
+        var checkAll = $(this).parents('table').find('.check_all');
+
+        if (!$(this).prop('checked')) {
+            checkAll.prop('checked', false);
+        }
+    }
+
+});

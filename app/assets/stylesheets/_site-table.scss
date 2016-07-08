@@ -8,7 +8,9 @@
   .site-table__item {margin-bottom: 0;}
 }
 
-.site-table__item-option {}
+.site-table__item-option {
+  vertical-align: middle !important;
+}
 
 .site-table__item-title {
   display: none;
@@ -21,6 +23,10 @@
   .site-table__body,
   .site-table__item-option {
     @include display-block;
+  }
+
+  .site-table__item-option {
+    vertical-align: top !important;
   }
 
   .site-table__head {

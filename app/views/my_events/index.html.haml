@@ -9,6 +9,9 @@
       %thead.site-table__head
         %tr
           %th
+            .check-wrap.check-wrap--table
+              = check_box_tag "check_all_unpaid", 'check_all', false, class: 'check_all'
+              = label_tag "check_all_unpaid", '', class: 'check-label'
           %th Стадион
           %th Площадка
           %th Дата занятия
@@ -18,7 +21,9 @@
         - @events.unpaid.future.unconfirmed.order(start: :asc).each do |event|
           %tr.site-table__item
             %td.site-table__item-option
-              = check_box_tag "event_ids[]", event.id
+              .check-wrap.check-wrap--table
+                = check_box_tag "event_ids[]", event.id, false, { class: 'check-box', id: "event_ids_#{event.id}" }
+                = label_tag "event_ids[#{event.id}]", '', class: 'check-label'
             %td.site-table__item-option
               %span.site-table__item-title
                 Стадион:
@@ -51,6 +56,9 @@
       %thead.site-table__head
         %tr
           %th
+            .check-wrap.check-wrap--table
+              = check_box_tag "check_all_reserved", 'check_all', false, class: 'check_all'
+              = label_tag "check_all_reserved", '', class: 'check-label'
           %th Стадион
           %th Площадка
           %th Период занятий
@@ -60,7 +68,9 @@
         - @events.unpaid.future.confirmed.each do |event|
           %tr.site-table__item
             %td.site-table__item-option
-              = check_box_tag "event_ids[]", event.id
+              .check-wrap.check-wrap--table
+                = check_box_tag "event_ids[]", event.id, false, { class: 'check-box', id: "event_ids_#{event.id}" }
+                = label_tag "event_ids[#{event.id}]", '', class: 'check-label'
             %td.site-table__item-option
               %span.site-table__item-title
                 Стадион:
@@ -92,6 +102,9 @@
       %thead.site-table__head
         %tr
           %th
+            .check-wrap.check-wrap--table
+              = check_box_tag "check_all_reserved", 'check_all', false, class: 'check_all'
+              = label_tag "check_all_reserved", '', class: 'check-label'
           %th Стадион
           %th Площадка
           %th Начало
@@ -101,7 +114,9 @@
         - @event_changes.unpaid.future.each do |event_change|
           %tr.site-table__item
             %td.site-table__item-option
-              = check_box_tag "event_change_ids[]", event_change.id
+              .check-wrap.check-wrap--table
+                = check_box_tag "event_change_ids[]", event_change.id, false, { class: 'check-box', id: "event_change_ids_#{event_change.id}" }
+                = label_tag "event_change_ids[#{event_change.id}]", '', class: 'check-label'
             %td.site-table__item-option
               %span.site-table__item-title
                 Стадион:

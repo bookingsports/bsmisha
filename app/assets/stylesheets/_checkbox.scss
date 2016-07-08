@@ -17,6 +17,10 @@
   input[type=radio] {display: none}
 }
 
+.check-wrap--table {
+  margin-top: 0;
+}
+
 .check-box {}
 
 .check-label, .radio-label {
@@ -24,7 +28,8 @@
   display: -moz-inline-stack;
   display: inline-block;
   vertical-align: top;
-  min-height: 28px;
+  min-height: 25px;
+  min-width: 25px;
   padding: 6px 0 6px 35px;
   cursor: pointer;
   margin: 0;
