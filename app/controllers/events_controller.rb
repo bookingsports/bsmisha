@@ -169,7 +169,7 @@ class EventsController < ApplicationController
 
     def event_params
       params.require(:event).permit(
-        :id, :start, :stop, :area_id, :user_id, :coach_id, :is_all_day, :owned, :status,
+        :id, :start, :stop, :area_id, :user_id, :coach_id, :is_all_day, :owned, :status, :reason,
         :recurrence_rule, :recurrence_id, :recurrence_exception,
         stadium_service_ids: []
       )

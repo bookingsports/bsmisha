@@ -109,6 +109,14 @@ $("#scheduler").kendoScheduler({
       alert('Пожалуйста, сначала авторизуйтесь.');
       e.preventDefault();
     }
+
+    if (!gon.current_user
+      || gon.current_user.type != "StadiumUser"
+      || !gon.area_id
+      || gon.current_user.areas.indexOf(gon.area_id) == -1)
+    {
+      e.container.find("#reason-wrapper").hide();
+    }
   },
   resize: function (e)
   {
@@ -238,6 +246,11 @@ $("#scheduler").kendoScheduler({
         {
           type: 'boolean',
           from: 'is_all_day'
+        },
+        reason:
+        {
+          type: 'string',
+          from: 'reason'
         }
       }
     }
@@ -360,6 +373,11 @@ $("#scheduler").kendoScheduler({
           {
             type: 'boolean',
             from: 'paid_transfer'
+          },
+          reason:
+          {
+            type: 'string',
+            from: 'reason'
           }
         }
       }

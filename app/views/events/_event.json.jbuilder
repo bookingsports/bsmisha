@@ -1,7 +1,7 @@
 json.extract! event, :id, :recurrence_rule, :recurrence_exception, :recurrence_id
 json.start event.start_for(current_user)
 json.stop event.stop_for(current_user)
-json.title event.user.name
+json.title event.reason.present? ? event.reason : event.user.name
 json.visual_type event.visual_type_for(current_user)
 json.area_name event.area.try(:name)
 json.area_name_with_stadium event.area.try(:name_with_stadium)
