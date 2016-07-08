@@ -87,7 +87,7 @@ $("#scheduler").kendoScheduler({
     dropdown.bind("change", hide_never)
     $(".k-recur-end-never").closest("li").hide()
 
-    if (e.event.paid)
+    if (e.event.paid || !gon.current_user || gon.current_user.type == "StadiumUser")
     {
       e.container.find("#coach-wrapper").hide()
       e.container.find("#services-wrapper").hide()
@@ -176,6 +176,7 @@ $("#scheduler").kendoScheduler({
     validation = validate(e.event.start, e.event.end, e.event)
     if (validation === true)
     {
+      setTimeout(function() { e.sender.dataSource.read();}, 500);
       e.sender.dataSource.one('requestEnd', function () { $.get(window.location.pathname + '/total.js'); });
       if (e.event.visual_type == 'paid')
         e.event.visual_type = 'has_unpaid_changes'
@@ -249,7 +250,6 @@ $("#scheduler").kendoScheduler({
         },
         reason:
         {
-          type: 'string',
           from: 'reason'
         }
       }
@@ -376,7 +376,6 @@ $("#scheduler").kendoScheduler({
           },
           reason:
           {
-            type: 'string',
             from: 'reason'
           }
         }
@@ -484,7 +483,7 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 });
 
 $('#area').on('change', function() {
-  scheduler.dataSource.read()
+  scheduler.dataSource.read();
 });
 
 scheduler.dataSource.read()
