@@ -21,9 +21,8 @@
         - @events.unpaid.future.unconfirmed.order(start: :asc).each do |event|
           %tr.site-table__item
             %td.site-table__item-option
-              -#= check_box_tag "event_ids[]", event.id
               .check-wrap.check-wrap--table
-                = check_box_tag "event_ids[]#{event.id}", event.id, false, class: 'check-box'
+                = check_box_tag "event_ids[]", event.id, false, { class: 'check-box', id: "event_ids_#{event.id}" }
                 = label_tag "event_ids[#{event.id}]", '', class: 'check-label'
             %td.site-table__item-option
               %span.site-table__item-title
@@ -69,9 +68,8 @@
         - @events.unpaid.future.confirmed.each do |event|
           %tr.site-table__item
             %td.site-table__item-option
-              -#= check_box_tag "event_ids[]", event.id
               .check-wrap.check-wrap--table
-                = check_box_tag "event_ids[]#{event.id}", event.id, false, class: 'check-box'
+                = check_box_tag "event_ids[]", event.id, false, { class: 'check-box', id: "event_ids_#{event.id}" }
                 = label_tag "event_ids[#{event.id}]", '', class: 'check-label'
             %td.site-table__item-option
               %span.site-table__item-title
@@ -116,9 +114,8 @@
         - @event_changes.unpaid.future.each do |event_change|
           %tr.site-table__item
             %td.site-table__item-option
-              -#= check_box_tag "event_change_ids[]", event_change.id
               .check-wrap.check-wrap--table
-                = check_box_tag "event_change_ids[]#{event_change.id}", class: 'check-box'
+                = check_box_tag "event_change_ids[]", event_change.id, false, { class: 'check-box', id: "event_change_ids_#{event_change.id}" }
                 = label_tag "event_change_ids[#{event_change.id}]", '', class: 'check-label'
             %td.site-table__item-option
               %span.site-table__item-title
