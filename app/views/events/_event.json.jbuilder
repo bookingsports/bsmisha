@@ -10,3 +10,4 @@ json.stadium_service_ids event.stadium_service_ids
 json.coach_id event.coach_id
 json.paid event.paid?
 json.paid_transfer event.event_change.present? && event.event_change.paid?
+json.reason event.reason.present? ? event.reason : ""

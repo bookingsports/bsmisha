@@ -14,6 +14,26 @@ class EventMailer < ApplicationMailer
     mail(to: @event.coach.user.email, subject: "⚽️ Bookingsports: Занятие отменено администратором стадиона")
   end
 
+  def event_cancelled_notify_stadium event
+    @event = event
+    mail(to: @event.area.stadium.user.email, subject: "⚽️ Bookingsports: Занятие отменено администратором стадиона")
+  end
+
+  def confirmed_event_cancelled_mail event
+    @event = event
+    mail(to: @event.user.email, subject: "⚽️ Bookingsports: Забронированное занятие отменено покупателем")
+  end
+
+  def confirmed_event_cancelled_notify_coach event
+    @event = event
+    mail(to: @event.coach.user.email, subject: "⚽️ Bookingsports: Забронированное занятие отменено покупателем")
+  end
+
+  def confirmed_event_cancelled_notify_stadium event
+    @event = event
+    mail(to: @event.area.stadium.user.email, subject: "⚽️ Bookingsports: Забронированное занятие отменено покупателем")
+  end
+
   def event_confirmed event
     @event = event
     mail(to: @event.user.email, subject: "⚽️ Bookingsports: Занятие забронировано")
