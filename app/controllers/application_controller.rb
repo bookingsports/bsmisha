@@ -7,6 +7,13 @@ class ApplicationController < ActionController::Base
 
   layout :set_layout
 
+  rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
+  rescue_from ActionController::RoutingError, :with => :record_not_found
+  def record_not_found
+    render :template => "errors/not_found", :status => 404
+    true
+  end
+
   protected
 
     def configure_permitted_params
