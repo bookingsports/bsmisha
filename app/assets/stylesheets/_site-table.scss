@@ -26,7 +26,7 @@
   }
 
   .site-table__item-option {
-    vertical-align: top !important;
+
   }
 
   .site-table__head {
@@ -46,10 +46,12 @@
   }
 
   .site-table__item-option {
+    vertical-align: top !important;
     padding: 0 !important;
     margin-top: 15px;
     &:first-child {margin-top: 0;}
     border: none !important;
+    font-size: 12px;
 
     .site-table {
       margin-top: 10px;

@@ -138,6 +138,6 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {registrations: "users/registrations"}
 
   # unless Rails.application.config.consider_all_requests_local
-  get '*not_found', to: 'errors#not_found'
+  # get '*not_found', to: 'errors#not_found'
   # end
 end

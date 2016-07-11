@@ -401,24 +401,6 @@ label {
   outline: 0;
 }
 
-.balance a {
-  color: #fff;
-  margin-top: 20px;
-  margin-left: 15px;
-  font-size: 12px;
-  font-weight: 300;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 2px;
-  padding: 7px;
-  float: right;
-  text-align: center;
-}
-
-.balance .amount {
-  color: #0C60BE;
-  font-size: 10px;
-}
-
 .ul-general {
   list-style: none;
   padding: 0px;
@@ -737,5 +719,23 @@ h1, h2, h3, h4, h5, h6 {
 
   h2, .h2 {
     font-size: 22px;
+  }
+
+  .schedule-legend-nav {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+
+  .legend-label__wrap {
+    font-size: 12px;
+  }
+
+  .legend-label {
+    width: 1.5em;
+  }
+
+  .nav > li > a {
+    font-size: 12px;
   }
 }
