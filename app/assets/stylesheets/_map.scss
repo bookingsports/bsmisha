@@ -47,8 +47,8 @@
     width: 100%;
     left: 0;
     margin-left: 0;
-    padding-top: 30px;
     @include border-radius(0);
+    padding: 30px 15px;
   }
 
   .location-detector {

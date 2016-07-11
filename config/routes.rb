@@ -12,11 +12,6 @@ Rails.application.routes.draw do
   get 'products/show'
   get 'grid/(:area_id)', to: 'dashboard#grid', as: 'dashboard_grid'
 
-
-  # unless Rails.application.config.consider_all_requests_local
-  get '*not_found', to: 'errors#not_found'
-  # end
-
   concern :bookable do
     resources :events
     resources :my_events
@@ -141,4 +136,8 @@ Rails.application.routes.draw do
 
   root to: 'visitors#index'
   devise_for :users, controllers: {registrations: "users/registrations"}
+
+  # unless Rails.application.config.consider_all_requests_local
+  get '*not_found', to: 'errors#not_found'
+  # end
 end
