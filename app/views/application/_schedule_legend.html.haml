@@ -27,6 +27,6 @@
 - else
   .row.schedule-legend-nav
     - @areas.each do |area|
-      .col-lg-4.col-sm-6.col-xs-12
+      .col-lg-4.col-sm-6.col-xs-12.legend-label__wrap
         %div{ class: "legend-label legend-kendo-area-#{area.kendo_area_id}" }
         = raw area.name_with_stadium

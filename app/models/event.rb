@@ -249,7 +249,9 @@ class Event < ActiveRecord::Base
 
   private
     def create_event_change_if_not_present
-      if unpaid?
+      if !start_changed? && !stop_changed?
+        return true
+      elsif unpaid?
         return true
       elsif event_change.present? && event_change.unpaid?
         event_change.update new_start: start, new_stop: stop, new_price: area_price + coach_price + stadium_services_price

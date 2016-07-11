@@ -583,7 +583,8 @@ body.stadium_user, body.coach {
 }
 
 .legend-label__wrap {
-  margin-bottom: 5px;
+  font-size: 13px;
+  margin-bottom: 10px;
 }
 
 .legend-paid {
@@ -724,11 +725,6 @@ h1, h2, h3, h4, h5, h6 {
   .schedule-legend-nav {
     margin-top: 20px;
     margin-bottom: 20px;
-  }
-
-
-  .legend-label__wrap {
-    font-size: 12px;
   }
 
   .legend-label {
