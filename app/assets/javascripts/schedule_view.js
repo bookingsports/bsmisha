@@ -23,7 +23,7 @@ $("#scheduler").kendoScheduler({
   editable:
   {
     template: $("#eventFormTemplate").html(),
-    create: url.indexOf('grid') == -1,
+    create: true,
     move: url.indexOf('grid') == -1,
     resize: url.indexOf('grid') == -1,
     update: url.indexOf('grid') == -1,
@@ -154,7 +154,12 @@ $("#scheduler").kendoScheduler({
   {
     if (gon.current_user && gon.current_user.type == "Admin")
       e.preventDefault();
-    else if (gon.current_user && gon.current_user.type == "StadiumUser" && gon.area_id && gon.current_user.areas.indexOf(gon.area_id) == -1)
+    else if (gon.current_user
+      && gon.current_user.type == "StadiumUser"
+      && gon.area_id
+      && gon.current_user.areas.indexOf(gon.area_id) == -1)
+      e.preventDefault();
+    else if (gon.current_user && url.indexOf("grid") != -1 && gon.current_user.type != "StadiumUser")
       e.preventDefault();
     else
     {
@@ -495,9 +500,7 @@ $("#scheduler").on("click", ".k-scheduler-table td, .k-event", function(e)
 {
   e.stopPropagation();
   target = $(e.currentTarget);
-  if (url.indexOf('grid') != -1)
-    return
-  else if (target.hasClass("k-event"))
+  if (target.hasClass("k-event"))
   {
     event = scheduler.occurrenceByUid(target.data("uid"));
     scheduler.editEvent(event);
