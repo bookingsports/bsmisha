@@ -12,6 +12,26 @@ Rails.application.routes.draw do
   get 'products/show'
   get 'grid/(:area_id)', to: 'dashboard#grid', as: 'dashboard_grid'
 
+  get 'mail/user_registration/(:id)', to: "mail#user_registration", as: "user_registration_mail"
+  get 'mail/coaches_area_confirmed/(:id)', to: "mail#coaches_area_confirmed", as: "coaches_area_confirmed_mail"
+  get 'mail/coaches_area_created/(:id)', to: "mail#coaches_area_created", as: "coaches_area_created_mail"
+  get 'mail/coaches_area_locked/(:id)', to: "mail#coaches_area_locked", as: "coaches_area_locked_mail"
+  get 'mail/coaches_area_unlocked/(:id)', to: "mail#coaches_area_unlocked", as: "coaches_area_unlocked_mail"
+  get 'mail/event_changed/(:id)', to: "mail#event_changed", as: "event_changed_mail"
+  get 'mail/event_changed_notify_coach/(:id)', to: "mail#event_changed_notify_coach", as: "event_changed_notify_coach_mail"
+  get 'mail/event_changed_notify_stadium/(:id)', to: "mail#event_changed_notify_stadium", as: "event_changed_notify_stadium_mail"
+  get 'mail/event_confirmed/(:id)', to: "mail#event_confirmed", as: "event_confirmed_mail"
+  get 'mail/event_confirmed_notify_coach/(:id)', to: "mail#event_confirmed_notify_coach", as: "event_confirmed_notify_coach_mail"
+  get 'mail/event_confirmed_notify_stadium/(:id)', to: "mail#event_confirmed_notify_stadium", as: "event_confirmed_notify_stadium_mail"
+  get 'mail/event_buying/(:id)', to: "mail#event_buying", as: "event_buying_mail"
+  get 'mail/event_sold_notify_coach/(:id)', to: "mail#event_sold_notify_coach", as: "event_sold_notify_coach_mail"
+  get 'mail/order_created/(:id)', to: "mail#order_created", as: "order_created_mail"
+  get 'mail/order_created_notify_coach/(:id)', to: "mail#order_created_notify_coach", as: "order_created_notify_coach_mail"
+  get 'mail/order_created_notify_stadium/(:id)', to: "mail#order_created_notify_stadium", as: "order_created_notify_stadium_mail"
+  get 'mail/deposit_payment_succeeded/(:id)', to: "mail#deposit_payment_succeeded", as: "deposit_payment_succeeded_mail"
+  get 'mail/withdrawal_succeeded/(:id)', to: "mail#withdrawal_succeeded", as: "withdrawal_succeeded_mail"
+  get 'mail/withdrawal_failed/(:id)', to: "mail#withdrawal_failed", as: "withdrawal_failed_mail"
+
   concern :bookable do
     resources :events
     resources :my_events
@@ -136,6 +156,8 @@ Rails.application.routes.draw do
 
   root to: 'visitors#index'
   devise_for :users, controllers: {registrations: "users/registrations"}
+
+  get 'switch_user' => 'switch_user#set_current_user'
 
   # unless Rails.application.config.consider_all_requests_local
   get '*not_found', to: 'errors#not_found'
