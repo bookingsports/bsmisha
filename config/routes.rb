@@ -160,6 +160,6 @@ Rails.application.routes.draw do
   get 'switch_user' => 'switch_user#set_current_user'
 
   # unless Rails.application.config.consider_all_requests_local
-  # get '*not_found', to: 'errors#not_found'
+  get '*not_found', to: 'errors#not_found'
   # end
 end
