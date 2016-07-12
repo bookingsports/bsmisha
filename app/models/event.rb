@@ -82,7 +82,6 @@ class Event < ActiveRecord::Base
   #}
 
   after_initialize :build_schedule
-  before_destroy :create_recoupment_if_cancelled
   after_save :create_event_change_if_not_present
   after_save do
     if event_change.nil? || event_change.paid?
@@ -247,6 +246,18 @@ class Event < ActiveRecord::Base
     "№#{id}, Date: #{start}, Sum: #{price.to_s} rub."
   end
 
+  def create_recoupment_if_cancelled reason
+    if paid?
+      all_recoupments = user.recoupments.where(area: self.area)
+      if all_recoupments.any?
+        rec = all_recoupments.first
+        rec.update price: rec.price + self.price, reason: reason
+      else
+        Recoupment.create user: self.user, price: self.price, area: self.area, reason: reason
+      end
+    end
+  end
+
   private
     def create_event_change_if_not_present
       if !start_changed? && !stop_changed?
@@ -259,17 +270,6 @@ class Event < ActiveRecord::Base
         return false
       elsif event_change.blank?
         create_event_change old_start: start_was, old_stop: stop_was, new_start: start, new_stop: stop, new_price: area_price + coach_price + stadium_services_price
-      end
-    end
-
-    def create_recoupment_if_cancelled
-      if paid?
-        if user.recoupments.where(area: self.area).any?
-          rec = user.recoupments.where(area: self.area).first
-          rec.update price: rec.price + self.price
-        else
-          Recoupment.create user: self.user, price: self.price, area: self.area
-        end
       end
     end
 

@@ -13,6 +13,8 @@
 
 class Recoupment < ActiveRecord::Base
   include RecoupmentConcern
+  include ActiveModel::Dirty
+  has_paper_trail
 
   belongs_to :user
   belongs_to :area
