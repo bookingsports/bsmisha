@@ -8,10 +8,6 @@
 #map {
   width: 100%;
   height: 450px;
-
-  @media all and (max-width: 767px) {
-    height: 300px;
-  }
 }
 
 #map.filter-map {
@@ -42,6 +38,10 @@
 }
 
 @media all and (max-width: 767px) {
+  #map {
+    height: 300px !important;
+  }
+
   .searchonmap {
     @include display-block;
     width: 100%;
