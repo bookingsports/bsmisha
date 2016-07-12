@@ -81,7 +81,7 @@
                     <thead>
                     <tr>
                       <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 1px; border-style: solid; border-color: #000;">
-                        Дата проведения
+                        Дата и&nbsp;время проведения
                       </th>
                       <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 0; border-style: solid; border-color: #000;">
                         Цена
@@ -91,7 +91,7 @@
                     <tbody>
                     <tr>
                       <td style="padding: 5px; border-width: 0 1px 1px 1px; border-style: solid; border-color: #000;">
-                        <%= l @event.start, format: :short %>
+                        <%= l @event.start, format: :short %>&nbsp;&mdash; <%= l @event.stop, format: :short %>
                       </td>
                       <td style="padding: 5px; border-width: 0 1px 1px 0; border-style: solid; border-color: #000;">
                         <%= number_to_currency @event.price.to_i %>

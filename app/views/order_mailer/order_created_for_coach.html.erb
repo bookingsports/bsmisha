@@ -92,7 +92,7 @@
                         Стадион и&nbsp;площадка
                       </th>
                       <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 0; border-style: solid; border-color: #000;">
-                        Дата проведения
+                        Дата и&nbsp;время проведения
                       </th>
                     </tr>
                     </thead>
@@ -102,7 +102,7 @@
                         <%= @event.area.stadium.name %>&nbsp;&mdash; <%= @event.area.name %>
                       </td>
                       <td style="padding: 5px; border-width: 0 1px 1px 0; border-style: solid; border-color: #000;">
-                        <%= l @event.start, format: :short %>
+                        <%= l @event.start, format: :short %>&nbsp;&mdash; <%= l @event.stop, format: :short %>
                       </td>
                     </tr>
                     </tbody>
