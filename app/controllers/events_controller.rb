@@ -153,6 +153,7 @@ class EventsController < ApplicationController
 
   def destroy
     event = Event.find(params[:id])
+    event.create_recoupment_if_cancelled params[:event][:reason]
     event.destroy
 
     respond_to do |format|

@@ -50,7 +50,7 @@ module TennisRails
 
     config.active_record.observers = [
       :order_observer, :event_observer, :user_observer, :coaches_area_observer,
-      :deposit_request_observer, :withdrawal_request_observer
+      :deposit_request_observer, :withdrawal_request_observer, :recoupment_observer
     ]
 
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]

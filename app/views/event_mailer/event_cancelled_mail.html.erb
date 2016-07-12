@@ -60,9 +60,11 @@
                     style="color:#000000;font-family:Arial, Helvetica, sans-serif;line-height:19px;font-size:13px;"
                     class="cell">
                   <p>
-                    Администратор стадиона <b><%= @event.area.stadium.name %></b> отменил ваше оплаченное занятие
-                    на площадке <b><%= @event.area.name %></b>.
-                    На ваш профиль зачислено <b><%= @event.price.to_i %></b> отыгрышей на данной площадке.
+                    Администратор отменил ваше оплаченное занятие на площадке <b><%= @event.area.name %></b>.
+                    <!-- <%# if @recoupment.present? %>
+                    Причина: "<%# @recoupment.reason %>".
+                    На ваш профиль зачислено <b><%# @event.price.to_i %></b> отыгрышей на данной площадке.
+                    <%# end %> -->
                     Просим прощения за причиненные неудобства.
                   </p>
                 </td>
