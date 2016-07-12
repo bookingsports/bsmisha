@@ -16,6 +16,8 @@
           %th Площадка
           %th Дата занятия
           %th Время тренировок
+          %th Тренер
+          %th Доп. услуги
           %th Стоимость
       %tbody.site-table__body
         - @events.unpaid.future.unconfirmed.order(start: :asc).each do |event|
@@ -36,6 +38,20 @@
               %span.site-table__item-title
                 Период занятий:
               = l(event.schedule.first.to_date)
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Тренер:
+              - if event.coach.present?
+                = link_to event.coach.name, event.coach
+              - else
+                &mdash;
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Доп. услуги:
+              - if event.stadium_services.any?
+                = event.stadium_services.map{|ss| ss.service.name}.join(', ')
+              - else
+                &mdash;
             %td.site-table__item-option
               %span.site-table__item-title
                 Время тренировок:
@@ -63,6 +79,8 @@
           %th Площадка
           %th Дата занятия
           %th Время тренировок
+          %th Тренер
+          %th Доп. услуги
           %th Стоимость
       %tbody.site-table__body
         - @events.unpaid.future.confirmed.each do |event|
@@ -89,6 +107,20 @@
               = event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
             %td.site-table__item-option
               %span.site-table__item-title
+                Тренер:
+              - if event.coach.present?
+                = link_to event.coach.name, event.coach
+              - else
+                &mdash;
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Доп. услуги:
+              - if event.stadium_services.any?
+                = event.stadium_services.map{|ss| ss.service.name}.join(', ')
+              - else
+                &mdash;
+            %td.site-table__item-option
+              %span.site-table__item-title
                 Стоимость:
               = number_to_integer_currency event.price
     = f.button 'Перейти к оплате', value: :pay, class: 'btn btn-success'
@@ -109,6 +141,8 @@
           %th Площадка
           %th Начало
           %th Конец
+          %th Тренер
+          %th Доп. услуги
           %th Стоимость
       %tbody.site-table__body
         - @event_changes.unpaid.future.each do |event_change|
@@ -133,6 +167,20 @@
               %span.site-table__item-title
                 Конец:
               = event_change.old_stop.strftime("%d.%m.%Y %H:%M") + ' -> ' + event_change.new_stop.strftime("%d.%m.%Y %H:%M")
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Тренер:
+              - if event_change.event.coach.present?
+                = link_to event_change.event.coach.name, event_change.event.coach
+              - else
+                &mdash;
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Доп. услуги:
+              - if event_change.event.stadium_services.any?
+                = event_change.event.stadium_services.map{|ss| ss.service.name}.join(', ')
+              - else
+                &mdash;
             %td.site-table__item-option
               %span.site-table__item-title
                 Стоимость:
@@ -180,6 +228,8 @@
         %th Площадка
         %th Дата занятия
         %th Время тренировки
+        %th Тренер
+        %th Доп. услуги
         %th Стоимость
         %th Перенос
         %th
@@ -203,6 +253,20 @@
             %span.site-table__item-title
               Время тренировки:
             = event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
+          %td.site-table__item-option
+            %span.site-table__item-title
+              Тренер:
+            - if event.coach.present?
+              = link_to event.coach.name, event.coach
+            - else
+              &mdash;
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Доп. услуги:
+              - if event.stadium_services.any?
+                = event.stadium_services.map{|ss| ss.service.name}.join(', ')
+              - else
+                &mdash;
           %td.site-table__item-option
             %span.site-table__item-title
               Стоимость:
