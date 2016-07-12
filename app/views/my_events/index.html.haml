@@ -1,7 +1,7 @@
 - content_for :scripts do
   = javascript_include_tag 'jQuery.print'
 
-- if @events.unpaid.future.unconfirmed.present?
+- if @events_unconfirmed.present?
 
   = form_for :events, url: bulk_process_my_events_path do |f|
     %h4 Неоплаченные занятия
@@ -20,7 +20,7 @@
           %th Доп. услуги
           %th Стоимость
       %tbody.site-table__body
-        - @events.unpaid.future.unconfirmed.order(start: :asc).each do |event|
+        - @events_unconfirmed.each do |event|
           %tr.site-table__item
             %td.site-table__item-option
               .check-wrap.check-wrap--table
@@ -64,7 +64,7 @@
     = f.button 'Перейти к оплате', value: :pay, class: 'btn btn-success'
     = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}, class: 'btn btn-danger'
 
-- if @events.unpaid.future.confirmed.present?
+- if @events_confirmed.present?
   %hr
   = form_for :events, url: bulk_process_my_events_path do |f|
     %h4 Забронированные занятия
@@ -83,7 +83,7 @@
           %th Доп. услуги
           %th Стоимость
       %tbody.site-table__body
-        - @events.unpaid.future.confirmed.each do |event|
+        - @events_confirmed.each do |event|
           %tr.site-table__item
             %td.site-table__item-option
               .check-wrap.check-wrap--table
@@ -126,7 +126,7 @@
     = f.button 'Перейти к оплате', value: :pay, class: 'btn btn-success'
     = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}, class: 'btn btn-danger'
 
-- if @event_changes.unpaid.future.present?
+- if @event_changes.present?
   %hr
   = form_for :events, url: bulk_process_my_events_path do |f|
     %h4 Переносы
@@ -145,7 +145,7 @@
           %th Доп. услуги
           %th Стоимость
       %tbody.site-table__body
-        - @event_changes.unpaid.future.each do |event_change|
+        - @event_changes.each do |event_change|
           %tr.site-table__item
             %td.site-table__item-option
               .check-wrap.check-wrap--table
@@ -217,7 +217,7 @@
 
 %hr
 %h4 Оплаченные занятия
-- @events.paid.future.group_by{|e| e.area.stadium }.map do |stadium, by_stadium|
+- @events_paid.group_by{|e| e.area.stadium }.map do |stadium, by_stadium|
   %hr
   %h4= "Стадион #{stadium.name}"
   = render "my_events/subscription", events: by_stadium, stadium: stadium
