@@ -61,7 +61,7 @@
               = label_tag "check_all_reserved", '', class: 'check-label'
           %th Стадион
           %th Площадка
-          %th Период занятий
+          %th Дата занятия
           %th Время тренировок
           %th Стоимость
       %tbody.site-table__body
@@ -81,8 +81,8 @@
               = link_to event.area.name, stadium_area_path(event.area.stadium, event.area)
             %td.site-table__item-option
               %span.site-table__item-title
-                Период занятий:
-              = l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
+                Дата занятия:
+              = l(event.schedule.first.to_date)
             %td.site-table__item-option
               %span.site-table__item-title
                 Время тренировок:

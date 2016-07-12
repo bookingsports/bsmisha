@@ -68,8 +68,10 @@
                 <td width="20">&nbsp;</td>
                 <td width="520" align="left" valign="top"
                     style="color:#000000;font-family:Arial, Helvetica, sans-serif;line-height:19px;font-size:13px;"
-                    class="cell"><p style=" margin-bottom: 10px;">
-                  Был вами оплачен в <%= l(@order.created_at, format: '%A, %d.%m.%Y, в %H:%M') %></p>
+                    class="cell">
+                  <p style=" margin-bottom: 10px;">
+                    Был вами оплачен заказ <b><%= @order.guid %></b> в <%= l(@order.created_at, format: '%A, %d.%m.%Y, в %H:%M') %>
+                  </p>
                   <p style=" margin-bottom: 10px;">Благодарим за использование нашей системы!</p>
                 </td>
                 <td width="20">&nbsp;</td>
