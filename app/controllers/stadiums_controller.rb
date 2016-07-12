@@ -29,7 +29,7 @@ class StadiumsController < ApplicationController
     @q = Stadium.ransack(params[:q])
 
     @stadiums = @q.result(distinct: true)
-                  .includes(:areas, :pictures)
+                  .includes(:areas, :category)
                   .active
 
     if params[:categories].present?

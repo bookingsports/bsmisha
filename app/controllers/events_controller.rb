@@ -131,8 +131,10 @@ class EventsController < ApplicationController
   end
 
   def for_sale
-    @my_events = current_user.present? ? current_user.events.paid.future.where.not(status: Event.statuses[:for_sale]) : []
-    @events = Event.paid.future.for_sale
+    @my_events = current_user.present? \
+        ? current_user.events.includes(:area, :coach, :stadium_services).paid.future.where.not(status: Event.statuses[:for_sale]) \
+        : []
+    @events = Event.includes(:area, :coach, :stadium_services).paid.future.for_sale
   end
 
   def show

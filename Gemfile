@@ -95,6 +95,7 @@ group :development do
   gem "letter_opener"
   gem "traceroute"
   gem "annotate"
+  gem "bullet"
 end
 
 group :test do
