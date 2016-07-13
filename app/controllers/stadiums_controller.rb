@@ -30,6 +30,7 @@ class StadiumsController < ApplicationController
 
     @stadiums = @q.result(distinct: true)
                   .includes(:areas, :category)
+                  .where('areas_count > 0')
                   .active
 
     if params[:categories].present?
