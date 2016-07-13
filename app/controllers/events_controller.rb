@@ -26,7 +26,10 @@ class EventsController < ApplicationController
 
   def index
     if params[:from] == "one_day" && params[:areas].present?
-      @events = Event.paid_or_confirmed.where(area: Area.where(slug: params[:areas]))
+      @events = Event
+                .paid_or_confirmed
+                .where(area: Area.where(slug: params[:areas]))
+                .includes(:area, :coach, :stadium_services, :event_change, :order, :user)
     elsif params[:from] == "one_day"
       @events = []
     elsif params[:scope] == "coach" && current_user.present?
@@ -35,30 +38,44 @@ class EventsController < ApplicationController
               .where(coach: Coach.friendly.find(params[:coach_id]))
               .where(area: current_product)
               .union(current_user.events.where(coach: Coach.friendly.find(params[:coach_id])))
+              .includes(:area, :coach, :stadium_services, :event_change, :order, :user)
     elsif params[:scope] == "coach"
       @events = Event
               .paid_or_confirmed
               .where(coach: Coach.friendly.find(params[:coach_id]))
               .where(area: current_product)
+              .includes(:area, :coach, :stadium_services, :event_change, :order, :user)
     elsif params[:area_id].present? && current_user.present? && current_user.type == "CoachUser"
       @events = Event
               .paid_or_confirmed
               .where(area: current_product)
               .where(coach: current_user.coach)
               .union(current_user.events.where(area: current_product))
+              .includes(:area, :coach, :stadium_services, :event_change, :order, :user)
     elsif params[:area_id].present? && current_user.present?
       @events = Event
               .paid_or_confirmed
               .where(area: current_product)
               .union(current_user.events.where(area: current_product))
+              .includes(:area, :coach, :stadium_services, :event_change, :order, :user)
     elsif current_user.present? && current_user.type == "CoachUser"
-      @events = Event.paid_or_confirmed.where(coach: current_user.coach).union(current_user.events)
+      @events = Event
+              .paid_or_confirmed
+              .where(coach: current_user.coach)
+              .union(current_user.events)
+              .includes(:area, :coach, :stadium_services, :event_change, :order, :user)
     elsif current_user.present? && current_user.type == "StadiumUser"
-      @events = current_user.stadium_events.union(current_user.events)
+      @events = current_user
+                .stadium_events
+                .union(current_user.events)
+                .includes(:area, :coach, :stadium_services, :event_change, :order, :user)
     elsif current_user.present?
-      @events = current_user.events
+      @events = current_user.events.includes(:area, :coach, :stadium_services, :event_change, :order, :user)
     elsif params[:area_id].present?
-      @events = Event.paid_or_confirmed.where(area: current_product)
+      @events = Event
+                .paid_or_confirmed
+                .where(area: current_product)
+                .includes(:area, :coach, :stadium_services, :event_change, :order, :user)
     else
       @events = Event.paid_or_confirmed
     end
