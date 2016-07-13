@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160708084440) do
+ActiveRecord::Schema.define(version: 20160713090432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,9 +60,10 @@ ActiveRecord::Schema.define(version: 20160708084440) do
     t.string   "slug"
     t.string   "icon"
     t.integer  "position"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.string   "main_image"
+    t.integer  "active_stadiums_counter", default: 0
   end
 
   add_index "categories", ["ancestry"], name: "index_categories_on_ancestry", using: :btree
@@ -262,20 +263,22 @@ ActiveRecord::Schema.define(version: 20160708084440) do
   create_table "stadiums", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "category_id"
-    t.string   "name",        default: "Без названия",        null: false
+    t.string   "name",                     default: "Без названия",        null: false
     t.string   "phone"
     t.string   "description"
     t.string   "address"
     t.float    "latitude"
     t.float    "longitude"
     t.string   "slug"
-    t.integer  "status",      default: 0
+    t.integer  "status",                   default: 0
     t.string   "email"
     t.string   "main_image"
-    t.time     "opens_at",    default: '2000-01-01 07:00:00'
-    t.time     "closes_at",   default: '2000-01-01 23:00:00'
+    t.time     "opens_at",                 default: '2000-01-01 07:00:00'
+    t.time     "closes_at",                default: '2000-01-01 23:00:00'
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "areas_count",              default: 0
+    t.integer  "verified_reviews_counter", default: 0
   end
 
   add_index "stadiums", ["category_id"], name: "index_stadiums_on_category_id", using: :btree
