@@ -42,6 +42,8 @@ class Stadium < ActiveRecord::Base
   after_create :make_area
   after_create :create_account
   after_create :parse_address
+  after_save :update_counter_cache
+  after_destroy :update_counter_cache
 
   accepts_nested_attributes_for :pictures, allow_destroy: true
 
@@ -77,6 +79,13 @@ class Stadium < ActiveRecord::Base
       },
       name: name
     }
+  end
+
+  def update_counter_cache
+    if self.category.present?
+      self.category.active_stadiums_counter = self.category.stadiums.active.count
+      self.category.save
+    end
   end
 
   private

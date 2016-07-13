@@ -3,8 +3,12 @@ class MyEventsController < EventsController
   before_action :authenticate_user!
 
   def index
-    @events = current_user.events.order(created_at: :desc)
-    @event_changes = current_user.event_changes.order(created_at: :desc)
+    @events = current_user.events
+    @events_unconfirmed = @events.unpaid.future.unconfirmed.order(start: :asc).includes(:area, :coach, :event_change)
+    @events_confirmed = @events.unpaid.future.confirmed.includes(:area, :coach, :event_change)
+    @events_paid = @events.paid.future.includes(:area, :coach, :event_change)
+
+    @event_changes = current_user.event_changes.order(created_at: :desc).unpaid.future
     @recoupments = current_user.recoupments.where.not(price: 0)
 
     respond_to do |format|

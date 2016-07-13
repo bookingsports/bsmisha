@@ -16,14 +16,18 @@
     .check-wrap__cover
       .row
         - Category.all.each do |category|
-          - if category.stadiums.count > 0
+          - if category.active_stadiums_counter > 0
             .col-lg-2.col-md-3.col-sm-4.col-xs-6.check-wrap
               = check_box_tag "categories[#{category.id}]", category.slug, defined?(categories) ? categories.include?(category) : true, class: 'check-box'
               = label_tag "categories[#{category.id}]", category.name, class: 'check-label'
 
   - if params[:controller] == 'stadiums'
     .form_box
-      = f.select :s, options_for_select([["Без сортировки", ""],["По названию (АБВ)", "name asc"],["По названию (ВБА)", "name desc"]]), {}, {class: 'form-control'}
+      = f.select :s, options_for_select([["Без сортировки", ""],
+                                        ["По названию (АБВ)", "name asc"],
+                                        ["По названию (ВБА)", "name desc"],
+                                        ["По количеству отзывов (сначала больше)", "verified_reviews_counter desc"],
+                                        ["По количеству отзывов (сначала меньше)", "verified_reviews_counter asc"],]), {}, {class: 'form-control'}
 
   .form_box.form_box_small
     = f.button :submit, 'Найти', data: {search_on_map: true}, class: 'btn btn-info'

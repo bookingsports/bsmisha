@@ -16,7 +16,7 @@ class Area < ActiveRecord::Base
   include AreaConcern
   include FriendlyId
 
-  belongs_to :stadium
+  belongs_to :stadium, counter_cache: true
   has_many :coaches_areas, dependent: :destroy
   has_many :coaches, through: :coaches_areas
   has_many :events, dependent: :restrict_with_error

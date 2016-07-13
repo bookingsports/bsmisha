@@ -17,6 +17,9 @@ class Review < ActiveRecord::Base
   include ReviewConcern
   has_paper_trail
 
+  after_save :update_counter_cache
+  after_destroy :update_counter_cache
+
   belongs_to :reviewable, polymorphic: true
   belongs_to :user
 
@@ -27,5 +30,10 @@ class Review < ActiveRecord::Base
 
   def name
     "Обзор #{user_id.present? ? "пользователя " + user.name : ""} #{reviewable_id.present? ? "на продукт " + reviewable.name.to_s : ""}"
+  end
+
+  def update_counter_cache
+    self.reviewable.verified_reviews_counter = self.reviewable.reviews.where(verified: true).count
+    self.reviewable.save
   end
 end
