@@ -619,9 +619,40 @@ body.stadium_user, body.coach {
   background-color: #ffe135;
 }
 
-$colors: ("#1ABC9C", "#3498DB", "#34495E", "#E67E22", "#8ED869", "#ECF0F1", "#2ECC71", "#9B59B6", "#F1C40F", "#E74C3C", "#95A5A6");
+$colors: (
+        "#3499DB",
+        "#467FA4",
+        "#115D8E",
+        "#65B8ED",
+        "#8AC6ED",
+        "#454CE1",
+        "#5155A8",
+        "#161C92",
+        "#7379F0",
+        "9499F0",
+        "#42A977",
+        "#0E9252",
+        "#5E4BD8",
+        "#3A2E85",
+        "#4380D3",
+        "#FF0000",
+        "#BF3030",
+        "#A60000",
+        "#FF4040",
+        "#FF7400",
+        "#A64B00",
+        "#009999",
+        "#006363",
+        "#269926",
+        "#008500",
+        "#B90091",
+        "#79005E",
+        "#799E00",
+        "#033E6B",
+        "#9C1754"
+);
 
-@for $i from 0 to 10 {
+@for $i from 0 to 30 {
   .legend-kendo-area-#{$i} {
     background-color: unquote(nth($colors, $i+1));
   }
