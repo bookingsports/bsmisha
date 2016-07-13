@@ -37,6 +37,6 @@ class Area < ActiveRecord::Base
   end
 
   def kendo_area_id
-    stadium.areas.to_a.index(self) % 10
+    id % 30
   end
 end
