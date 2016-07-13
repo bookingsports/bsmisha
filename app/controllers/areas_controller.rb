@@ -34,7 +34,7 @@ class AreasController < ApplicationController
     @area = Area.friendly.find(params[:id])
     if params[:scope] == "stadium" && current_user.present?
       @events = current_user.events.unpaid.future.where(area: @area).sort_by(&:start)
-      @eventChanges = current_user.event_changes.future.unpaid
+      @eventChanges = current_user.event_changes.future.unpaid.includes(:event)
       @totalHours = current_user.total_hours(area: @area)
       @total = current_user.total(area: @area)
     elsif params[:scope] == "coach" && current_user.present?

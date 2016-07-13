@@ -27,7 +27,9 @@
                                         ["По названию (АБВ)", "name asc"],
                                         ["По названию (ВБА)", "name desc"],
                                         ["По количеству отзывов (сначала больше)", "verified_reviews_counter desc"],
-                                        ["По количеству отзывов (сначала меньше)", "verified_reviews_counter asc"],]), {}, {class: 'form-control'}
+                                        ["По количеству отзывов (сначала меньше)", "verified_reviews_counter asc"],
+                                        ["По количеству заказов (сначала больше)", "paid_events_counter desc"],
+                                        ["По количеству заказов (сначала меньше)", "paid_events_counter asc"],]), {}, {class: 'form-control'}
 
   .form_box.form_box_small
     = f.button :submit, 'Найти', data: {search_on_map: true}, class: 'btn btn-info'
