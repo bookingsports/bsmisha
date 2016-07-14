@@ -5,7 +5,7 @@ class VisitorsController < ApplicationController
     @stadiums = @q.result(distinct: true)
                   .includes(:areas, :category).active
 
-    @stadiums_popular = Stadium.active.sort_by {|s| Event.where(area: s.area_ids).count }.reverse[0..2]
+    @stadiums_popular = Stadium.active.order(:paid_events_counter).reverse[0..2]
     @coaches_popular = Coach.all.sort_by {|c| Event.where(coach_id: c.id).count }.reverse[0..2]
 
     set_markers @stadiums

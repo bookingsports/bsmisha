@@ -96,6 +96,9 @@ class Event < ActiveRecord::Base
     end
   end
 
+  after_save :update_counter_cache
+  after_destroy :update_counter_cache
+
   def name
     "Событие с #{start} по #{stop}"
   end
@@ -211,11 +214,11 @@ class Event < ActiveRecord::Base
   end
 
   def coach_stadium_price
-    coach_price * coach.coaches_areas.where(area: area).first.stadium_percent / 100
+    coach.present? ? coach_price * coach.coaches_areas.where(area: area).first.stadium_percent / 100 : 0
   end
 
   def coach_percent_price
-    coach_price * (100 - coach.coaches_areas.where(area: area).first.stadium_percent) / 100
+    coach.present? ? coach_price * (100 - coach.coaches_areas.where(area: area).first.stadium_percent) / 100 : 0
   end
 
   def prices_for_time start, stop
@@ -256,6 +259,11 @@ class Event < ActiveRecord::Base
         Recoupment.create user: self.user, price: self.price, area: self.area, reason: reason
       end
     end
+  end
+
+  def update_counter_cache
+    self.area.stadium.paid_events_counter = Event.paid.union(Event.confirmed).uniq.where(area: self.area.stadium.area_ids).count
+    self.area.stadium.save
   end
 
   private
