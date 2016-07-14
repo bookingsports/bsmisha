@@ -105,6 +105,17 @@ select,
   }
 }
 
+.review_text textarea {
+  width: 100% !important;
+}
+
+.form__image {
+  padding: 9px;
+  border: 1px solid #ccc;
+  @include border-radius(4px);
+  background-color: #fff;
+}
+
 @media all and (max-width: 767px) {
   .form_box {
     position: relative;

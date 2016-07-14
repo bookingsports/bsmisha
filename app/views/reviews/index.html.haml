@@ -1,15 +1,17 @@
-- if current_user.nil?
-  %h4 Сперва авторизуйтесь, пожалуйста:
-  = link_to 'Вход / Регистрация', new_user_session_path, class: 'button add_to_cart_button product_type_simple'
+- if @reviews.any?
+  = render @reviews
 - else
+  %h5.text-center Пока нет ни одного отзыва
 
-  - if @reviews.any?
-    = render @reviews
-  - else
-    %h5.text-center Пока ни одного отзыва
+%hr
 
-  %hr
-
+- if current_user.nil?
+  .panel.panel-danger
+    .panel-heading
+      %h4.panel-title Авторизуйтесь, что бы оставить отзыв
+    .panel-body
+      = link_to 'Вход / Регистрация', new_user_session_path, class: 'btn btn-success product_type_simple'
+- else
   .panel.panel-info
     .panel-heading
       %i Оставьте свой отзыв:
