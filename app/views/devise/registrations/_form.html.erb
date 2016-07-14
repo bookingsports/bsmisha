@@ -36,7 +36,7 @@
         <%= f.label :password_confirmation %>
         <%= f.password_field :password_confirmation, class: 'form-control' %>
       </div>
-      <div class="checkbox" style="width:350px">
+      <div class="checkbox" style="max-width:350px">
         <label>
           <%= f.check_box :terms_agree, class: 'terms_agree_checkbox' %> Согласен с <%= link_to 'пользовательским соглашением', ('/agreement.pdf'), class: "terms_agree_checkbox" %>
         </label>
@@ -74,7 +74,7 @@
         <%= f.label :password_confirmation %>
         <%= f.password_field :password_confirmation, class: 'form-control' %>
       </div>
-      <div class="checkbox" style="width:350px">
+      <div class="checkbox" style="max-width:350px">
         <label>
           <%= f.check_box :terms_agree, class: 'terms_agree_checkbox' %> Согласен с <%= link_to 'пользовательским соглашением', ('/agreement.pdf') %>
         </label>
@@ -134,7 +134,7 @@
           <%= s.time_select :closes_at, class: 'form-control' %>
         </div>
       <% end %>
-      <div class="checkbox" style="width:350px">
+      <div class="checkbox" style="max-width:350px">
         <label>
           <%= f.check_box :terms_agree, class: 'terms_agree_checkbox' %> Согласен с <%= link_to 'пользовательским соглашением', ('/agreement.pdf') %>
         </label>

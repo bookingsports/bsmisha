@@ -17,7 +17,9 @@
         <div>Почта ждет подтверждения: <%= resource.unconfirmed_email %></div>
       <% end %>
     </div>
-    <%= image_tag current_user.avatar_url%>
+    <div class="form-group">
+      <%= image_tag current_user.avatar_url, class: 'form__image' %>
+    </div>
     <div class="form-group">
       <%= f.label :avatar, "Аватар (400x400px)" %>
       <%= f.file_field :avatar, class: 'form-control' %>
