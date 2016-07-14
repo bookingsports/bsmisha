@@ -261,6 +261,11 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def update_counter_cache
+    self.area.stadium.paid_events_counter = Event.paid.union(Event.confirmed).uniq.where(area: self.area.stadium.area_ids).count
+    self.area.stadium.save
+  end
+
   private
     def create_event_change_if_not_present
       if !start_changed? && !stop_changed?
@@ -274,11 +279,6 @@ class Event < ActiveRecord::Base
       elsif event_change.blank?
         create_event_change old_start: start_was, old_stop: stop_was, new_start: start, new_stop: stop, new_price: area_price + coach_price + stadium_services_price
       end
-    end
-
-    def update_counter_cache
-      self.area.stadium.paid_events_counter = Event.paid.union(Event.confirmed).uniq.where(area: self.area.stadium.area_ids).count
-      self.area.stadium.save
     end
 
     def self.order_is(status)
