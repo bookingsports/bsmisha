@@ -18,7 +18,7 @@ class Price < ActiveRecord::Base
   belongs_to :area
   has_many :daily_price_rules, dependent: :destroy
 
-  validates :area_id, :start, :stop, presence: true
+  validates :area_id, :start, :stop, :daily_price_rules, presence: true
   validates :stop, greater_by_30_min: {than: :start}, allow_blank: true
   validates :start, :stop, step_by_30_min: true, allow_blank: true
 
