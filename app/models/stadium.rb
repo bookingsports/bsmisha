@@ -28,7 +28,7 @@ class Stadium < ActiveRecord::Base
   belongs_to :user
   belongs_to :category, inverse_of: :stadiums
   has_many :areas, dependent: :destroy
-  has_many :prices, through: :areas
+  has_many :prices, -> { where('prices.stop > ?', Time.now) },  through: :areas
   has_many :daily_price_rules, through: :prices
   has_many :pictures, as: :imageable
   has_many :reviews, as: :reviewable
