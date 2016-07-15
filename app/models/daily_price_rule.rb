@@ -22,6 +22,9 @@ class DailyPriceRule < ActiveRecord::Base
   validate :start_and_stop_stadium_hours
   before_save :fix_working_days
 
+  after_save :update_counter_cache
+  after_destroy :update_counter_cache
+
   default_scope ->{ order(created_at: :desc) }
 
   scope :overlaps, -> (event) do
@@ -82,6 +85,14 @@ class DailyPriceRule < ActiveRecord::Base
       price = event_stop - event_start
     end
     price / 1.hour
+  end
+
+  def update_counter_cache
+    if self.price.area.stadium.daily_price_rules.any?
+      self.price.area.stadium.lowest_price = self.price.area.stadium.daily_price_rules.reorder('value asc').first.value
+      self.price.area.stadium.highest_price = self.price.area.stadium.daily_price_rules.reorder('value desc').first.value
+      self.price.area.stadium.save
+    end
   end
 
   private
