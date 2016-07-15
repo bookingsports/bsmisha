@@ -3,6 +3,7 @@
   font-size: 0;
 }
 
+.checkbox,
 .check-wrap {
   float: none;
   position: relative;
@@ -17,13 +18,21 @@
   input[type=radio] {display: none}
 }
 
+.checkbox {
+  min-width: 25px;
+  width: 50%;
+  margin: 0;
+}
+
 .check-wrap--table {
   margin-top: 0;
 }
 
 .check-box {}
 
-.check-label, .radio-label {
+.checkbox label,
+.check-label,
+.radio-label {
   position: relative;
   display: -moz-inline-stack;
   display: inline-block;
@@ -56,10 +65,15 @@
   }
 }
 
+.checkbox_label {
+  font-size: 0;
+}
+
 .radio-label:before {
   @include border-radius(8px);
 }
 
+.checkbox input[type=checkbox]:checked + label,
 .check-wrap input[type=checkbox]:checked + .check-label {
   color: #000;
   &:before {
