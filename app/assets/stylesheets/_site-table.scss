@@ -10,6 +10,13 @@
 
 .site-table__item-option {
   vertical-align: middle !important;
+
+  .form-group {
+    margin-bottom: 0;
+  }
+  .table {
+    margin: 0;
+  }
 }
 
 .site-table__item-title {

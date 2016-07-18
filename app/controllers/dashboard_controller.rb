@@ -8,7 +8,7 @@ class DashboardController < ApplicationController
 
   def grid
     if current_user.type == "Customer"
-      @areas = current_user.events.map(&:area).uniq
+      @areas = current_user.events.past.map(&:area).uniq
     elsif params[:area_id].present?
       @area = Area.friendly.find(params[:area_id]) rescue current_user.product_areas.first
     else
