@@ -20,6 +20,7 @@ $("#scheduler").kendoScheduler({
   min: new Date(),
   showWorkHours: true,
   mobile: true,
+  footer: false,
   editable:
   {
     template: $("#eventFormTemplate").html(),
@@ -31,8 +32,8 @@ $("#scheduler").kendoScheduler({
   },
   height: 700,
   views: [
-    "day",
-    { type: "week", selected: true },
+    { type: "day", showWorkHours: true},
+    { type: "week", selected: true, showWorkHours: true },
     "month"
   ],
 

@@ -19,10 +19,11 @@ $("#scheduler").kendoScheduler({
   workDayStart: opens_at,
   workDayEnd: closes_at,
   views: [
-    'day',
-    {type: 'week', selected: true},
-    'month'
+    { type: "day", showWorkHours: true},
+    { type: "week", selected: true, showWorkHours: true },
+    "month"
   ],
+  footer: false,
   editable:
   {
     create: false,
