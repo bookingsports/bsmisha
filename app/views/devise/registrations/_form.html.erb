@@ -36,19 +36,13 @@
           <%= f.label :password_confirmation %>
           <%= f.password_field :password_confirmation, class: 'form-control' %>
         </div>
-        <div class="checkbox" style="max-width:350px">
-          <label>
-            <%= f.check_box :terms_agree, class: 'terms_agree_checkbox' %> Согласен
-            с <%= link_to 'пользовательским соглашением', ('/agreement.pdf'), class: "terms_agree_checkbox" %>
+        <div class="form-group check-wrap" style="max-width:350px">
+          <%= f.check_box :terms_agree, class: 'terms_agree_checkbox', id: 'user_agree' %>
+          <label class="check-label" for="user_agree">
+            Согласен с
+            <%= link_to 'пользовательским соглашением', ('/agreement.pdf'), class: "terms_agree_checkbox" %>
           </label>
         </div>
-        <!--<div class="form-group check-wrap" style="max-width:350px">-->
-          <!--<%#= f.check_box :terms_agree, class: 'terms_agree_checkbox' %>-->
-          <!--<label class="check-label" for="user_terms_agree">-->
-            <!--Согласен с -->
-            <!--<%#= link_to 'пользовательским соглашением', ('/agreement.pdf'), class: "terms_agree_checkbox" %>-->
-          <!--</label>-->
-        <!--</div>-->
         <%= f.submit 'Зарегистрироваться', disabled: true, :class => 'btn btn-primary terms-required' %>
     <% end %>
   </div>
@@ -82,10 +76,11 @@
           <%= f.label :password_confirmation %>
           <%= f.password_field :password_confirmation, class: 'form-control' %>
         </div>
-        <div class="checkbox" style="max-width:350px">
-          <label>
-            <%= f.check_box :terms_agree, class: 'terms_agree_checkbox' %> Согласен
-            с <%= link_to 'пользовательским соглашением', ('/agreement.pdf') %>
+        <div class="form-group check-wrap" style="max-width:350px">
+          <%= f.check_box :terms_agree, class: 'terms_agree_checkbox', id: 'coach_agree' %>
+          <label class="check-label" for="coach_agree">
+            Согласен с
+            <%= link_to 'пользовательским соглашением', ('/agreement.pdf'), class: "terms_agree_checkbox" %>
           </label>
         </div>
         <%= f.submit 'Зарегистрироваться', disabled: true, :class => 'btn btn-primary terms-required' %>
@@ -143,10 +138,11 @@
               <%= s.time_select :closes_at, class: 'form-control' %>
             </div>
         <% end %>
-        <div class="checkbox" style="max-width:350px">
-          <label>
-            <%= f.check_box :terms_agree, class: 'terms_agree_checkbox' %> Согласен
-            с <%= link_to 'пользовательским соглашением', ('/agreement.pdf') %>
+        <div class="form-group check-wrap" style="max-width:350px">
+          <%= f.check_box :terms_agree, class: 'terms_agree_checkbox', id: 'stadium_agree' %>
+          <label class="check-label" for="stadium_agree">
+            Согласен с
+            <%= link_to 'пользовательским соглашением', ('/agreement.pdf'), class: "terms_agree_checkbox" %>
           </label>
         </div>
         <%= f.submit 'Зарегистрироваться', disabled: true, :class => 'btn btn-primary terms-required' %>

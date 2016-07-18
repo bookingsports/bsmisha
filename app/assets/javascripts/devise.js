@@ -4,9 +4,9 @@ $(".form-phone").mask("+7 (999) 999-99-99");
 
 $('.terms_agree_checkbox').change(function() {
   if ($(this).is(':checked'))
-    $('.terms-required').removeAttr('disabled');
+      $(this).parents('form').find('.terms-required').removeAttr('disabled');
   else
-    $('.terms-required').attr('disabled', 'disabled');
+      $(this).parents('form').find('.terms-required').attr('disabled', 'disabled');
 });
 
 $('#user_type_selector').change(function() {
