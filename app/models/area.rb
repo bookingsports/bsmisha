@@ -21,6 +21,7 @@ class Area < ActiveRecord::Base
   has_many :coaches, through: :coaches_areas
   has_many :events, dependent: :restrict_with_error
   has_many :prices, dependent: :destroy
+  has_many :daily_price_rules, through: :prices
   has_many :recoupments, dependent: :destroy
 
   validates :name, :stadium_id, presence: true

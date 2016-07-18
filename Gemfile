@@ -96,6 +96,9 @@ group :development do
   gem "traceroute"
   gem "annotate"
   gem "bullet"
+  gem 'flamegraph'
+  gem 'rack-mini-profiler'
+  gem "stackprof"
 end
 
 group :test do

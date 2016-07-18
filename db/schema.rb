@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160713113243) do
+ActiveRecord::Schema.define(version: 20160715075025) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -280,6 +280,8 @@ ActiveRecord::Schema.define(version: 20160713113243) do
     t.integer  "areas_count",              default: 0
     t.integer  "verified_reviews_counter", default: 0
     t.integer  "paid_events_counter",      default: 0
+    t.integer  "lowest_price"
+    t.integer  "highest_price"
   end
 
   add_index "stadiums", ["category_id"], name: "index_stadiums_on_category_id", using: :btree
