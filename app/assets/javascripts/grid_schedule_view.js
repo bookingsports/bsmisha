@@ -7,12 +7,17 @@
 url = window.location.pathname + '/events';
 kendo.culture('ru-RU');
 
+opens_at = new Date(gon.opens_at);
+closes_at = new Date(gon.closes_at);
+
 $("#scheduler").kendoScheduler({
   date: new Date(),
   allDaySlot: false,
   startTime: new Date('2013/6/13 07:00 AM'),
   height: 700,
   mobile: true,
+  workDayStart: opens_at,
+  workDayEnd: closes_at,
   views: [
     'day',
     {type: 'week', selected: true},
