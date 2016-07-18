@@ -116,6 +116,10 @@ select,
   background-color: #fff;
 }
 
+textarea.form-control {
+  width: 100% !important;
+}
+
 @media all and (max-width: 767px) {
   .form_box {
     position: relative;
