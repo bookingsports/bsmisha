@@ -59,19 +59,21 @@ class MyEventsController < EventsController
   end
 
   def overpay
-    if params[:value].blank? || (params[:value].to_i > 0 && params[:value].to_i <= 10)
+    if params[:value].blank? || (params[:value].to_i > 0 && params[:value].to_i < 10)
       @overpayed = 0
-    elsif (params[:value].to_i > 10 && params[:value].to_i <= 30)
+    elsif (params[:value].to_i >= 10 && params[:value].to_i <= 30)
       @overpayed = 30.minutes
     else
       @overpayed = params[:value].to_i.minutes
     end
 
-    @event = Event.find(params[:id])
-    old_price = @event.price
-    @event.update_attribute('stop', @event.stop + @overpayed)
-    @event.user.wallet.withdrawals.create amount: @event.price - old_price
-    @event.area.stadium.user.wallet.deposits.create amount: @event.price - old_price
+    if @overpayed != 0
+      @event = Event.find(params[:id])
+      old_price = @event.price
+      @event.update_attribute('stop', @event.stop + @overpayed)
+      @event.user.wallet.withdrawals.create amount: @event.price - old_price
+      @event.area.stadium.user.wallet.deposits.create amount: @event.price - old_price
+    end
 
     redirect_to paid_my_events_path
   end
