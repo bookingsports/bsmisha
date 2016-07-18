@@ -14,7 +14,7 @@
               .col-xs-12
                 = label_tag 'stadium', "Стадион"
               .col-xs-12
-                = select_tag :stadium, options_from_collection_for_select(Stadium.active, "slug", "name", @stadium.slug), class: 'form-control'
+                = select_tag :stadium, options_from_collection_for_select(Stadium.active.select(&:has_areas?), "slug", "name", @stadium.slug), class: 'form-control'
           .col-lg-8.col-xs-12
             .row
               %div#checkboxes_placeholder.check-wrap__cover

@@ -85,9 +85,13 @@ class Stadium < ActiveRecord::Base
 
   def update_counter_cache
     if self.category.present?
-      self.category.active_stadiums_counter = self.category.stadiums.active.count
+      self.category.active_stadiums_counter = self.category.stadiums.active.select(&:has_areas?).count
       self.category.save
     end
+  end
+
+  def has_areas?
+    areas_count > 0
   end
 
   private
