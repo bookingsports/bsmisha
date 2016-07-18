@@ -3,7 +3,7 @@ module DepositConcern
 
   included do
     rails_admin do
-      visible false
+      parent Wallet
       list do
         field :wallet
         field :amount
