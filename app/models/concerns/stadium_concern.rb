@@ -47,7 +47,11 @@ module StadiumConcern
         field :latitude
         field :longitude
         field :email
-        field :description, :ck_editor
+        field :description, :text do
+          html_attributes do
+            {rows: 15, cols: 60}
+          end
+        end
         field :pictures
         field :main_image
         field :status
