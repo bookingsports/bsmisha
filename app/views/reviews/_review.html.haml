@@ -7,5 +7,5 @@
         Оценка:
         = review.rating
     %hr
-    = review.user.name
-    = l review.created_at
+    %i= review.user.name
+    = review.created_at.strftime("%d.%m.%Y")

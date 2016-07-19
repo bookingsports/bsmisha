@@ -26,6 +26,7 @@ class CoachUser < User
 
   has_one :coach, foreign_key: 'user_id', dependent: :destroy
   has_many :areas, through: :coach
+  after_create :create_coach
 
   accepts_nested_attributes_for :coach
 

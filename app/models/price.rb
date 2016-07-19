@@ -44,6 +44,12 @@ class Price < ActiveRecord::Base
     .or(table_start.lt(start).and(table_stop.gt(stop)))
   end
 
+  def overlaps?(event)
+    (start >= event.start && start < stop) \
+    || (stop > event.start && stop <= event.stop) \
+    || (start < event.start && stop > event.stop)
+  end
+
   # return value for current time
   scope :current, -> do
     where('LOCALTIMESTAMP BETWEEN "start" AND "stop"').last || new

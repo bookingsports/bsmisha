@@ -42,8 +42,16 @@ class Event < ActiveRecord::Base
   has_one :event_change, dependent: :destroy
   has_many :additional_event_items, dependent: :destroy
 
-  has_many :prices, -> (event) { where Price.overlaps event }, through: :area
-  has_many :daily_price_rules, -> (event) { where DailyPriceRule.overlaps event }, through: :prices
+  #has_many :prices, -> (event) { where Price.overlaps event }, through: :area
+  #has_many :daily_price_rules, -> (event) { where DailyPriceRule.overlaps event }, through: :prices
+
+  def prices
+    area.prices.includes(:daily_price_rules).select{|p| p.overlaps? self }
+  end
+
+  def daily_price_rules
+    self.prices.map(&:daily_price_rules).flatten.select{|d| d.overlaps? self }
+  end
 
   has_and_belongs_to_many :stadium_services
   accepts_nested_attributes_for :stadium_services
@@ -82,14 +90,8 @@ class Event < ActiveRecord::Base
   #}
 
   after_initialize :build_schedule
-  after_save :create_event_change_if_not_present
+  before_save :create_event_change_if_not_present
   after_save do
-    if event_change.nil? || event_change.paid?
-      update_columns("price" =>  area_price + stadium_services_price + coach_price)
-    else
-      update_columns("start" => start_was, "stop" => stop_was)
-    end
-    reload
     if daily_price_rules.map{|p| p.time_for_event(self)}.sum < duration_in_hours
       errors.add(:price, "Нельзя создать/перенести событие на это время.")
       raise ActiveRecord::Rollback
@@ -226,6 +228,10 @@ class Event < ActiveRecord::Base
     daily_price_rules = prices.first.daily_price_rules.where(DailyPriceRule.between start, stop)
   end
 
+  def price
+    area_price + stadium_services_price + coach_price
+  end
+
   def overlaps? start, stop
     Event.where(Event.between(start, stop))
           .where(user_id: user.id)
@@ -268,16 +274,16 @@ class Event < ActiveRecord::Base
 
   private
     def create_event_change_if_not_present
-      if !start_changed? && !stop_changed?
+      if (!start_changed? && !stop_changed?) || unpaid?
         return true
-      elsif unpaid?
-        return true
-      elsif event_change.present? && event_change.unpaid?
-        event_change.update new_start: start, new_stop: stop, new_price: area_price + coach_price + stadium_services_price
-      elsif event_change.present? && event_change.paid?
-        return false
-      elsif event_change.blank?
-        create_event_change old_start: start_was, old_stop: stop_was, new_start: start, new_stop: stop, new_price: area_price + coach_price + stadium_services_price
+      elsif event_change.present? && event_change.unpaid? # updating event change, rolling back original event
+        event_change.update new_start: self.start, new_stop:self.stop, new_price: price
+        self.start = start_was
+        self.stop = stop_was
+      elsif event_change.blank? # no event change, creating one and rolling back the event
+        create_event_change old_start: start_was, old_stop: stop_was, new_start: self.start, new_stop: self.stop, new_price: price
+        self.start = start_was
+        self.stop = stop_was
       end
     end
 
