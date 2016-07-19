@@ -1,8 +1,8 @@
 %h3= @customer.name
 %dl
   %dt Баланс
-  %dd= number_to_integer_currency @events.map(&:price).inject(&:+).to_i
-%h3 Грядущие
+  %dd= number_to_integer_currency @events.paid.map(&:coach_price).inject(&:+).to_i
+%h3 Грядущие оплаченные
 %table.table.table-hover.site-table
   %thead.site-table__head
     %tr
@@ -12,7 +12,7 @@
       %th Конец
       %th Сумма
   %tbody.site-table__body
-    - @future_events.order(created_at: :desc).each do |e|
+    - @future_paid_events.order(created_at: :desc).each do |e|
       %tr.site-table__item
         %td.site-table__item-option
           %span.site-table__item-title
@@ -35,7 +35,7 @@
             Сумма:
           = number_to_integer_currency e.coach_price
 
-%h3 Прошедшие
+%h3 Прошедшие оплаченные
 %table.table.table-hover.site-table
   %thead.site-table__head
     %tr
@@ -45,7 +45,73 @@
       %th Конец
       %th Сумма
   %tbody.site-table__body
-    - @past_events.order(created_at: :desc).each do |e|
+    - @past_paid_events.order(created_at: :desc).each do |e|
+      %tr.site-table__item
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Стадион:
+          = link_to e.area.stadium.name, e.area.stadium
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Площадка:
+          = link_to e.area.name, stadium_area_path(e.area.stadium, e.area)
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Начало:
+          = l e.start, format: :short
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Конец:
+          = l e.stop, format: :short
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Сумма:
+          = number_to_integer_currency e.coach_price
+
+%h3 Грядущие забронированные
+%table.table.table-hover.site-table
+  %thead.site-table__head
+    %tr
+      %th Стадион
+      %th Площадка
+      %th Начало
+      %th Конец
+      %th Сумма
+  %tbody.site-table__body
+    - @future_confirmed_events.order(created_at: :desc).each do |e|
+      %tr.site-table__item
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Стадион:
+          = link_to e.area.stadium.name, e.area.stadium
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Площадка:
+          = link_to e.area.name, stadium_area_path(e.area.stadium, e.area)
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Начало:
+          = l e.start, format: :short
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Конец:
+          = l e.stop, format: :short
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Сумма:
+          = number_to_integer_currency e.coach_price
+
+%h3 Прошедшие забронированные
+%table.table.table-hover.site-table
+  %thead.site-table__head
+    %tr
+      %th Стадион
+      %th Площадка
+      %th Начало
+      %th Конец
+      %th Сумма
+  %tbody.site-table__body
+    - @past_confirmed_events.order(created_at: :desc).each do |e|
       %tr.site-table__item
         %td.site-table__item-option
           %span.site-table__item-title

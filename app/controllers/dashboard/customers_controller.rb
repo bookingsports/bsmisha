@@ -6,9 +6,11 @@ class Dashboard::CustomersController < DashboardController
   end
 
   def show
-    @events = @customer.events.includes(:area, :coach).where(coach: current_user.coach).paid
-    @future_events = @events.future
-    @past_events = @events.past
+    @events = @customer.events.includes(:area, :coach).where(coach: current_user.coach)
+    @future_paid_events = @events.paid.future
+    @past_paid_events = @events.paid.past
+    @future_confirmed_events = @events.confirmed.future
+    @past_confirmed_events = @events.confirmed.past
   end
 
   private
