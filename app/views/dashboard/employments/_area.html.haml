@@ -6,7 +6,7 @@
   %td.site-table__item-option
     %span.site-table__item-title
       Площадка:
-    = coach_area.area.name
+    = link_to coach_area.area.name, stadium_area_path(coach_area.area.stadium, coach_area.area)
   %td.site-table__item-option
     %span.site-table__item-title
       Стоимость часа:

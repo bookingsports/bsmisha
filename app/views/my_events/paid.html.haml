@@ -3,10 +3,10 @@
   %thead.site-table__head
     %tr
       %th #
-      -#%th Стадион
+      %th Имя покупателя
       %th Площадка
       %th Дата занятия
-      %th Время тренировок
+      %th Время тренировки
       %th Стоимость
       %th Доплатить минут
       %th
@@ -17,10 +17,10 @@
           %span.site-table__item-title
             №:
           = event.id
-        -#%td.site-table__item-option
-        -#  %span.site-table__item-title
-        -#    Стадион:
-        -#  = event.area.stadium.name
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Имя покупателя:
+          = event.user.name
         %td.site-table__item-option
           %span.site-table__item-title
             Площадка:
@@ -31,7 +31,7 @@
           = l(event.start.to_date)
         %td.site-table__item-option
           %span.site-table__item-title
-            Время тренировок:
+            Время тренировки:
           = event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
         %td.site-table__item-option
           %span.site-table__item-title
