@@ -15,7 +15,7 @@
           %th Стадион
           %th Площадка
           %th Дата занятия
-          %th Время тренировок
+          %th Время тренировки
           %th Тренер
           %th Доп. услуги
           %th Стоимость
@@ -40,7 +40,7 @@
               = l(event.schedule.first.to_date)
             %td.site-table__item-option
               %span.site-table__item-title
-                Время тренировок:
+                Время тренировки:
               = event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
             %td.site-table__item-option
               %span.site-table__item-title
@@ -78,7 +78,7 @@
           %th Стадион
           %th Площадка
           %th Дата занятия
-          %th Время тренировок
+          %th Время тренировки
           %th Тренер
           %th Доп. услуги
           %th Стоимость
@@ -103,7 +103,7 @@
               = l(event.schedule.first.to_date)
             %td.site-table__item-option
               %span.site-table__item-title
-                Время тренировок:
+                Время тренировки:
               = event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
             %td.site-table__item-option
               %span.site-table__item-title
@@ -198,7 +198,7 @@
       %tr
         %th Стадион
         %th Площадка
-        %th Цена
+        %th Сумма
     %tbody.site-table__body
       - @recoupments.each do |recoupment|
         %tr.site-table__item
@@ -212,7 +212,7 @@
             = link_to recoupment.area.name, stadium_area_path(recoupment.area.stadium, recoupment.area)
           %td.site-table__item-option
             %span.site-table__item-title
-              Цена:
+              Сумма:
             = number_to_integer_currency(recoupment.price)
 
 %hr
