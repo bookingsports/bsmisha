@@ -3,8 +3,9 @@
   %thead.site-table__head
     %tr
       %th #
+      %th Имя покупателя
       %th Площадка
-      %th Период занятий
+      %th Дата занятия
       %th Время тренировки
       %th Стоимость
       %th Доплатить минут
@@ -16,6 +17,10 @@
           %span.site-table__item-title
             №:
           = event.id
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Имя покупателя:
+          = event.user.name
         %td.site-table__item-option
           %span.site-table__item-title
             Площадка:
