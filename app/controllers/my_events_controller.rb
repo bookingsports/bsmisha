@@ -4,9 +4,9 @@ class MyEventsController < EventsController
 
   def index
     @events = current_user.events
-    @events_unconfirmed = @events.unpaid.future.unconfirmed.order(start: :asc).includes(:area, :coach, :event_change)
-    @events_confirmed = @events.unpaid.future.confirmed.includes(:area, :coach, :event_change)
-    @events_paid = @events.paid.future.includes(:area, :coach, :event_change)
+    @events_unconfirmed = @events.unpaid.future.unconfirmed.order(start: :asc).includes(:area, :coach, :event_change, :stadium_services)
+    @events_confirmed = @events.unpaid.future.confirmed.includes(:area, :coach, :event_change, :stadium_services)
+    @events_paid = @events.paid.future.includes(:area, :coach, :event_change, :stadium_services)
 
     @event_changes = current_user.event_changes.order(created_at: :desc).unpaid.future
     @recoupments = current_user.recoupments.where.not(price: 0)
@@ -18,7 +18,12 @@ class MyEventsController < EventsController
   end
 
   def paid
-    @events = (current_user.kind_of? StadiumUser) ? current_user.stadium.events.order(created_at: :desc) : current_user.coach.events.order(created_at: :desc)
+    if current_user.kind_of? StadiumUser
+      @events = current_user.stadium.events
+    else
+      @events = current_user.coach.events
+    end
+    @events = @events.order(created_at: :desc).includes(:area, :stadium_services, :coach)
   end
 
   def grid
@@ -67,13 +72,16 @@ class MyEventsController < EventsController
       @overpayed = params[:value].to_i.minutes
     end
 
-    if @overpayed != 0
-      @event = Event.find(params[:id])
+    @event = Event.find(params[:id])
+
+    if @overpayed > 0 && (@event.stop + @overpayed).to_date == @event.stop.to_date
       old_price = @event.price
-      @event.update_attribute('stop', @event.stop + @overpayed)
+      @event.update_column('stop', @event.stop + @overpayed)
       @event.user.wallet.withdrawals.create amount: @event.price - old_price
       @event.area.stadium.user.wallet.deposits.create amount: @event.price - old_price
     end
+
+
 
     redirect_to paid_my_events_path
   end

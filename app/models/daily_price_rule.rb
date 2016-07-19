@@ -40,6 +40,18 @@ class DailyPriceRule < ActiveRecord::Base
     .or(start.lt(event_start).and(stop.gt(event_stop))))
   end
 
+  def overlaps? event
+    self_start = start.strftime("%H%M%S%N")
+    self_stop = stop.strftime("%H%M%S%N")
+    event_start = event.start.localtime.strftime("%H%M%S%N")
+    event_stop = event.stop.localtime.strftime("%H%M%S%N")
+
+    working_days.include?(event.wday) \
+    && ((self_start >= event_start && self_start < event_stop) \
+      || (self_stop > event_start && self_stop <= event_stop) \
+      || (self_start < event_start && self_stop > event_stop))
+  end
+
   scope :between, -> (start, stop) do
     table_start = arel_table['start']
     table_stop = arel_table['stop']

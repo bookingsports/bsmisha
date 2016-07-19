@@ -5,7 +5,7 @@
       %th #
       -#%th Стадион
       %th Площадка
-      %th Период занятий
+      %th Дата занятия
       %th Время тренировок
       %th Стоимость
       %th Доплатить минут
@@ -27,8 +27,8 @@
           = event.area.name
         %td.site-table__item-option
           %span.site-table__item-title
-            Период занятий:
-          = l(event.schedule.first.to_date) + ' - ' + l(event.schedule.last.to_date)
+            Дата занятия:
+          = l(event.start.to_date)
         %td.site-table__item-option
           %span.site-table__item-title
             Время тренировок:
