@@ -12,7 +12,7 @@
     %thead.site-table__head
       %tr
         %th Дата
-        %th Количество
+        %th Сумма
         %th Результат
         %th Метод оплаты
         %th
@@ -25,7 +25,7 @@
             = l request.created_at, format: :short
           %td.site-table__item-option
             %span.site-table__item-title
-              Количество:
+              Сумма:
             = number_to_currency request.amount, precision: 0
           %td.site-table__item-option
             %span.site-table__item-title
