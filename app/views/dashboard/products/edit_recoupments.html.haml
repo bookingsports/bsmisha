@@ -1,0 +1,19 @@
+%h1 Отыгрыши
+
+= simple_form_for @product, as: :product, url: dashboard_product_path do |f|
+  = f.simple_fields_for :areas, @product.areas.includes(:recoupments) do |area|
+    %h2= area.object.name
+    = link_to_add_association 'Добавить отыгрыш', area, :recoupments, class: 'btn btn-primary', 'data-association-insertion-node' => ".recoupments_#{area.object.id}", 'data-association-insertion-method' => 'append'
+    %table
+      %thead
+        %tr
+          %th Пользователь
+          %th Причина
+          %th Количество
+      %tbody{class: "recoupments_#{area.object.id}"}
+        = area.simple_fields_for :recoupments, area.object.recoupments.any? && area.object.recoupments do |rec|
+          = render "recoupment_fields", f: rec
+
+  = f.submit "Сохранить изменения"
+
+%br

@@ -1,0 +1,15 @@
+%tr.nested-fields.site-table__item
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Название:
+    = f.association :user, label: false, collection: Customer.reorder('name'), label_method: :name, include_blank: false
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Причина:
+    = f.input :reason, label: false
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Количество:
+    = f.input :price, label: false
+  %td.site-table__item-option
+    = link_to_remove_association 'Удалить отыгрыш', f, class: 'btn btn-danger'

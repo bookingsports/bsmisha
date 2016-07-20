@@ -101,6 +101,7 @@ Rails.application.routes.draw do
     post 'product', to: "products#update"
     resource :product, concerns: [:has_pictures], except: [:create] do
       get 'edit_account', on: :member
+      get 'edit_recoupments'
     end
     resources :area do
       resources :prices

@@ -8,7 +8,14 @@ class Dashboard::ProductsController < DashboardController
   def update
     begin
       if @product.update product_params
-        redirect_to (product_params[:account_attributes].present? ? edit_account_dashboard_product_url : edit_dashboard_product_url), notice: "Успешно сохранено"
+        #if product_params[:account_attributes].present?
+        #  redirect_to edit_account_dashboard_product_url, notice: "Успешно сохранено"
+        #elsif product_params[:areas_attributes].present? && product_params[:areas_attributes][:recoupments_attributes].present?
+        #  redirect_to edit_recoupments_dashboard_product_url, notice: "Успешно сохранено"
+        #else
+        #  redirect_to edit_dashboard_product_url, notice: "Успешно сохранено"
+        #end
+        redirect_to :back, notice: "Успешно сохранено"
       else
         render :edit
       end
@@ -44,8 +51,8 @@ class Dashboard::ProductsController < DashboardController
         profile_attributes: [:description],
         user_attributes: [:id, :phone, :name, :avatar],
         account_attributes: [:id, :number, :company, :inn, :kpp, :agreement_number, :date, :bik],
-        areas_attributes: [:id, :name, :price, :change_price, :category_id, :_destroy],
-        stadium_services_attributes: [:id, :periodic, :price, :_destroy, service_attributes: [:id, :name, :_destroy]]
+        areas_attributes: [:id, :name, :price, :change_price, :category_id, :_destroy, recoupments_attributes: [:id, :user_id, :_destroy, :area_id, :price, :reason]],
+        stadium_services_attributes: [:id, :periodic, :price, :_destroy, service_attributes: [:id, :name, :_destroy]],
       )
     end
 end

@@ -27,6 +27,8 @@ class Area < ActiveRecord::Base
   validates :name, :stadium_id, presence: true
   validates :change_price, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
 
+  accepts_nested_attributes_for :recoupments, reject_if: :all_blank, allow_destroy: true
+
   friendly_id :name, use: [:slugged]
 
   def display_name
