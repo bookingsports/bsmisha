@@ -1,4 +1,6 @@
 %h4 Заказы
+
+%h2 Забронированные
 %table.table.table-hover.site-table
   %thead.site-table__head
     %tr
@@ -11,9 +13,9 @@
       %th Доплатить минут
       %th
       %th Причина
-      %th Удалить заказ
+      %th
   %tbody.site-table__body
-    - @events.paid.each do |event|
+    - @confirmed_events.each do |event|
       %tr.site-table__item
         %td.site-table__item-option
           %span.site-table__item-title
@@ -38,7 +40,68 @@
         %td.site-table__item-option
           %span.site-table__item-title
             Стоимость:
-          = number_to_integer_currency event.price
+          = number_to_integer_currency (event.price - event.coach_percent_price) * (100 - Rails.application.secrets.tax) / 100
+        - if event.past?
+          = form_for :events, url: overpay_my_event_path(event) do |f|
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Доплатить минут:
+              = text_field_tag :value, '', class: 'form-control'
+            %td.site-table__item-option
+              = f.submit 'Выставить счет', class: 'btn btn-success'
+        - else
+          %td.site-table__item-option{colspan: 2}
+            Заказ еще не завершился
+        - if event.future?
+          = form_for :events, url: event_path(event), method: :delete do |f|
+            %td.site-table__item-option
+              = text_field_tag "event[reason]", '', class: 'form-control'
+            %td.site-table__item-option
+              = submit_tag 'Удалить заказ', data: {confirm: "Вы действительно хотите удалить заказ?" }, class: "btn btn-danger"
+        - else
+          %td.site-table__item-option{colspan: 2}
+
+%h2 Оплаченные
+%table.table.table-hover.site-table
+  %thead.site-table__head
+    %tr
+      %th #
+      %th Имя покупателя
+      %th Площадка
+      %th Дата занятия
+      %th Время тренировки
+      %th Стоимость
+      %th Доплатить минут
+      %th
+      %th Причина
+      %th
+  %tbody.site-table__body
+    - @paid_events.each do |event|
+      %tr.site-table__item
+        %td.site-table__item-option
+          %span.site-table__item-title
+            №:
+          = event.id
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Имя покупателя:
+          = event.user.name
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Площадка:
+          = link_to event.area.name, stadium_area_path(event.area.stadium, event.area)
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Дата занятия:
+          = l(event.start.to_date)
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Время тренировки:
+          = event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
+        %td.site-table__item-option
+          %span.site-table__item-title
+            Стоимость:
+          = number_to_integer_currency (event.price - event.coach_percent_price) * (100 - Rails.application.secrets.tax) / 100
         - if event.past?
           = form_for :events, url: overpay_my_event_path(event) do |f|
             %td.site-table__item-option

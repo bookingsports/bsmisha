@@ -23,7 +23,8 @@ class MyEventsController < EventsController
     else
       @events = current_user.coach.events
     end
-    @events = @events.order(created_at: :desc).includes(:area, :stadium_services, :coach)
+    @paid_events = @events.order(start: :desc).paid.includes(:area, :stadium_services, :coach)
+    @confirmed_events = @events.order(start: :desc).unpaid.confirmed.includes(:area, :stadium_services, :coach, :order)
   end
 
   def grid
