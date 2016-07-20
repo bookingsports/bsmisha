@@ -4,7 +4,6 @@
       %tr
         %th Имя
         %th Почта
-        %th Дата создания
         %th Площадки
     %tbody.site-table__body
       - @coaches.sort_by(&:id).each do |coach|
@@ -17,10 +16,6 @@
             %span.site-table__item-title
               Почта:
             = coach.email
-          %td.site-table__item-option
-            %span.site-table__item-title
-              Дата создания:
-            = coach.created_at
           %td.site-table__item-option
             %span.site-table__item-title
               Площадки:
