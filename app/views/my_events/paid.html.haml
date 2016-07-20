@@ -26,7 +26,7 @@
         %td.site-table__item-option
           %span.site-table__item-title
             Площадка:
-          = event.area.name
+          = link_to event.area.name, stadium_area_path(event.area.stadium, event.area)
         %td.site-table__item-option
           %span.site-table__item-title
             Дата занятия:
