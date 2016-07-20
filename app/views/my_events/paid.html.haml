@@ -10,6 +10,8 @@
       %th Стоимость
       %th Доплатить минут
       %th
+      %th Причина
+      %th Удалить заказ
   %tbody.site-table__body
     - @events.paid.each do |event|
       %tr.site-table__item
@@ -46,6 +48,13 @@
             %td.site-table__item-option
               = f.submit 'Выставить счет', class: 'btn btn-success'
         - else
-          %td.site-table__item-option
+          %td.site-table__item-option{colspan: 2}
             Заказ еще не завершился
-          %td.site-table__item-option_hide
+        - if event.future?
+          = form_for :events, url: event_path(event), method: :delete do |f|
+            %td.site-table__item-option
+              = text_field_tag "event[reason]", '', class: 'form-control'
+            %td.site-table__item-option
+              = submit_tag 'Удалить заказ', data: {confirm: "Вы действительно хотите удалить заказ?" }, class: "btn btn-danger"
+        - else
+          %td.site-table__item-option{colspan: 2}

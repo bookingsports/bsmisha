@@ -176,7 +176,7 @@ class EventsController < ApplicationController
     event.destroy
 
     respond_to do |format|
-      format.html {redirect_to my_events_path, notice: "Успешно удален." }
+      format.html {redirect_to :back, notice: "Успешно удален." }
       format.json {respond_with event}
     end
   end
