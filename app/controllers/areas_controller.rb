@@ -33,12 +33,12 @@ class AreasController < ApplicationController
   def total
     @area = Area.friendly.find(params[:id])
     if params[:scope] == "stadium" && current_user.present?
-      @events = current_user.events.unpaid.future.where(area: @area).sort_by(&:start)
+      @events = current_user.events.unpaid.unconfirmed.future.where(area: @area).sort_by(&:start)
       @eventChanges = current_user.event_changes.future.unpaid.includes(:event)
       @totalHours = current_user.total_hours(area: @area)
       @total = current_user.total(area: @area)
     elsif params[:scope] == "coach" && current_user.present?
-      @events = current_user.events.unpaid.future.where(area: @area).where(coach_id: @product.id).sort_by(&:start)
+      @events = current_user.events.unpaid.unconfirmed.future.where(area: @area).where(coach_id: @product.id).sort_by(&:start)
       @totalHours = current_user.total_hours(area: @area, coach_id: @product.id)
       @total = current_user.total(area: @area, coach_id: @product.id)
     end

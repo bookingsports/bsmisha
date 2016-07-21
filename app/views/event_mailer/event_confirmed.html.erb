@@ -70,6 +70,7 @@
                   style="color:#000000;font-family:Arial, Helvetica, sans-serif;line-height:19px;font-size:13px;"
                   class="cell"><p style=" margin-bottom: 10px;">
                   Заказ #<%= @event.id %> был вами забронирован в <%= l(@event.updated_at, format: '%A, %d.%m.%Y, в %H:%M') %></p>
+                  Напоминанаем о том, что данный будет автоматически удален в 21:00 <%= l (@event.start.to_date - 1.day) %>, в случае его неоплаты.
                   <p style=" margin-bottom: 10px;">Благодарим за использование нашей системы!</p>
                 </td>
                 <td width="20">&nbsp;</td>

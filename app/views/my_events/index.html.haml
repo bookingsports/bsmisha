@@ -68,6 +68,11 @@
   %hr
   = form_for :events, url: bulk_process_my_events_path do |f|
     %h4 Забронированные занятия
+
+    .col-sm-6.col-xs-12.panel.panel-info
+      .panel-body
+        Забронироваанные занятия автоматически удаляются за сутки до начала в 21:00 в случае неоплаты
+
     %table.table.table-hover.site-table#confirmed-events
       %thead.site-table__head
         %tr
@@ -235,7 +240,7 @@
         %th
         %th
     %tbody.site-table__body
-      - by_stadium.sort_by(&:start).each do |event|
+      - by_stadium.each do |event|
         %tr.site-table__item
           %td.site-table__item-option
             %span.site-table__item-title
