@@ -10,7 +10,6 @@ class Dashboard::CustomersController < DashboardController
     @future_paid_events = @events.paid.future
     @past_paid_events = @events.paid.past
     @future_confirmed_events = @events.confirmed.future
-    @past_confirmed_events = @events.confirmed.past
   end
 
   private
