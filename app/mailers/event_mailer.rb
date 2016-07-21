@@ -74,4 +74,9 @@ class EventMailer < ApplicationMailer
     @event = event
     mail(to: @event.coach.user.email, subject: "⚽️ Bookingsports: Заказ продан")
   end
+
+  def confirming_event_reminder event
+    @event = event
+    mail(to: @event.user.email, subject: "⚽️ Bookingsports: Напоминание о бронировании заказа")
+  end
 end

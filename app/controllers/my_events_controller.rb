@@ -38,8 +38,8 @@ class MyEventsController < EventsController
     if params[:event_ids].present?
       begin
         current_user.events.where(id: params[:event_ids]).each {|e| e.update! status: Event.statuses[:confirmed]}
-      rescue
-        return redirect_to my_events_url, alert: "Произошла ошибка. Скорее всего, данное время уже занято."
+      rescue => e
+        return redirect_to my_events_url, alert: e.message
       end
       redirect_to my_events_url, notice: "Заказы успешно забронированы."
     else
@@ -81,8 +81,6 @@ class MyEventsController < EventsController
       @event.user.wallet.withdrawals.create amount: @event.price - old_price
       @event.area.stadium.user.wallet.deposits.create amount: @event.price - old_price
     end
-
-
 
     redirect_to paid_my_events_path
   end

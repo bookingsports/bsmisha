@@ -32,6 +32,7 @@ class Event < ActiveRecord::Base
   validate :start_is_not_in_the_past
   validate :not_overlaps_other_events
   validate :has_at_least_one_occurrence
+  validate :not_booking_too_late
 
   belongs_to :user
   belongs_to :order
@@ -287,6 +288,15 @@ class Event < ActiveRecord::Base
       end
     end
 
+    def not_booking_too_late
+      if self.status_changed? \
+        && self.status_was == "unconfirmed" \
+        && self.status == "confirmed" \
+        && self.start.to_date == Date.today
+        errors.add(:base, "Нельзя забронировать заказ, начинающийся сегодня")
+      end
+    end
+
     def self.order_is(status)
       Order.arel_table['status'].eq(Order.statuses[status])
     end
@@ -306,12 +316,12 @@ class Event < ActiveRecord::Base
 
     def not_overlaps_other_events
       if start.present? && stop.present? && !recurring? && overlaps?(start, stop)
-        errors.add(:event, 'overlaps other event')
+        errors.add(:base, 'Данное занятие накладывается на другое оплаченное или забронированное занятие')
       elsif start.present? && stop.present?
         build_schedule
         @schedule.all_occurrences.each do |e|
           if overlaps?(e, e + duration)
-            errors.add(:event, 'overlaps other event')
+            errors.add(:base, 'Данное занятие накладывается на другое оплаченное или забронированное занятие')
           end
         end
       end
