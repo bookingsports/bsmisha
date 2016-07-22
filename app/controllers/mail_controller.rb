@@ -2,15 +2,6 @@ class MailController < ApplicationController
   before_filter :authenticate_user!
   layout false
 
-  def user_registration
-    @user = User.find(params[:id])
-    if current_user == @user
-      render 'user_mailer/registration_mail'
-    else
-      redirect_to root_url, alert: "Вы не можете просмотреть данное письмо."
-    end
-  end
-
   def coaches_area_confirmed
     @ca = CoachesArea.find(params[:id])
     if current_user == @ca.coach.user

@@ -3,15 +3,17 @@
   <head>
     <title>Booking Sports - Бронируйте спорт надежно</title>
     <%= stylesheet_link_tag 'application', media: 'all' %>
-    <%= include_gon %>
     <%= csrf_meta_tags %>
   </head>
   <body>
-    <main role="main">
-      <%= breadcrumbs style: :bootstrap %>
-      <%= render 'layouts/messages' %>
-      <%= gflash %>
-      <%= yield %>
-    </main>
+  <main role="main" class="ticket_show">
+    <%= yield %>
+  </main>
+  <%= javascript_include_tag 'application' %>
+  <%= javascript_include_tag 'jQuery.print' %>
+  <%= yield :scripts %>
+  <script type="application/javascript">
+    jQuery('.ticket').print();
+  </script>
   </body>
 </html>

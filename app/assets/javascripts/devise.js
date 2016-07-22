@@ -50,3 +50,9 @@ $(".check-box").change(function(){
     }
 
 });
+
+if (!(/android|iphone|ipod|ipad|series60|symbian|windows ce|blackberry/i.test(navigator.userAgent))) {
+    $('.j-site-table__item-option_mobile').hide();
+} else {
+    $('.j-site-table__item-option_desctop').hide();
+}
