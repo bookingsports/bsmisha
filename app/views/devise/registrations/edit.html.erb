@@ -14,7 +14,11 @@
       <%= f.label :email %>
       <%= f.email_field :email, class: 'form-control' %>
       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-        <div>Почта ждет подтверждения: <%= resource.unconfirmed_email %></div>
+          <div class="panel panel-danger" style="margin-top: 10px;">
+            <div class="panel-heading">
+              <p class="panel-title">Почта ждет подтверждения: <%= resource.unconfirmed_email %></p>
+            </div>
+          </div>
       <% end %>
     </div>
     <div class="form-group">
