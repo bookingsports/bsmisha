@@ -225,7 +225,6 @@
 - @events_paid.group_by{|e| e.area.stadium }.map do |stadium, by_stadium|
   %hr
   %h4= "Стадион #{stadium.name}"
-  = render "my_events/subscription", events: by_stadium, stadium: stadium
   %table.table.table-striped.site-table#paid-events
     %thead.site-table__head
       %tr
@@ -288,17 +287,15 @@
               Оплачен
             - else
               &mdash;
-          %td.site-table__item-option
+          %td.site-table__item-option.j-site-table__item-option_desctop
             %button{class: 'btn btn-sm btn-info', onclick: "jQuery('#ticket_#{event.id}').print()"}
               Чек
             = render 'my_events/ticket', event: event
-          %td.site-table__item-option
-            = link_to "Чек", ticket_my_event_path(event), class: 'btn btn-sm btn-info'
+          %td.site-table__item-option.j-site-table__item-option_mobile
+            = link_to "Чек", ticket_my_event_path(event), class: 'btn btn-sm btn-info', target: '_blank'
           - if event.for_sale?
             %td.site-table__item-option
               Заказ выставлен на продажу
           - else
             %td.site-table__item-option
               = link_to "Продать", sell_my_event_path(event), method: :post, data: {confirm: "Вы действительно хотите продать данный заказ?"}, class: 'btn btn-sm btn-warning'
-  -#%button{class: 'btn btn-info', onclick: "jQuery('#ticket_#{stadium.id}').print()"}
-  -#  Абонемент
