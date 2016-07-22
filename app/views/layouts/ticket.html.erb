@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Booking Sports - Бронируйте спорт надежно</title>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= include_gon %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <main role="main">
+      <%= breadcrumbs style: :bootstrap %>
+      <%= render 'layouts/messages' %>
+      <%= gflash %>
+      <%= yield %>
+    </main>
+  </body>
+</html>

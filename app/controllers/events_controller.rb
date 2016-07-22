@@ -160,6 +160,11 @@ class EventsController < ApplicationController
     respond_with @event
   end
 
+  def ticket
+    @event = Event.find(params[:id])
+    render layout: "ticket"
+  end
+
   def buy
     @event = Event.find(params[:id])
     transaction = ActiveRecord::Base.transaction do
