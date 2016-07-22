@@ -289,10 +289,11 @@
             - else
               &mdash;
           %td.site-table__item-option
-            -#= link_to "Чек", ticket_event_path(event), class: 'btn btn-sm btn-info'
             %button{class: 'btn btn-sm btn-info', onclick: "jQuery('#ticket_#{event.id}').print()"}
               Чек
             = render 'my_events/ticket', event: event
+          %td.site-table__item-option
+            = link_to "Чек", ticket_my_event_path(event), class: 'btn btn-sm btn-info'
           - if event.for_sale?
             %td.site-table__item-option
               Заказ выставлен на продажу
