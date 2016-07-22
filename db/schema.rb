@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160715075025) do
+ActiveRecord::Schema.define(version: 20160722071636) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -158,7 +158,6 @@ ActiveRecord::Schema.define(version: 20160715075025) do
     t.integer  "area_id"
     t.integer  "order_id"
     t.integer  "user_id"
-    t.float    "price"
     t.string   "recurrence_rule"
     t.string   "recurrence_exception"
     t.integer  "recurrence_id"
@@ -168,6 +167,7 @@ ActiveRecord::Schema.define(version: 20160715075025) do
     t.datetime "updated_at",                           null: false
     t.boolean  "confirmed",            default: false
     t.string   "reason"
+    t.float    "price"
   end
 
   add_index "events", ["area_id"], name: "index_events_on_area_id", using: :btree
@@ -312,8 +312,13 @@ ActiveRecord::Schema.define(version: 20160715075025) do
     t.string   "phone"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
   end
 
+  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
