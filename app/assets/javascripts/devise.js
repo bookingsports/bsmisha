@@ -56,3 +56,9 @@ if (!(/android|iphone|ipod|ipad|series60|symbian|windows ce|blackberry/i.test(na
 } else {
     $('.j-site-table__item-option_desctop').hide();
 }
+
+$('.schedule-legend-nav__dop-button').click(function(e){
+    e.preventDefault();
+
+    $('.schedule-legend-nav__dop-wrap').toggleClass('open');
+});

@@ -23,6 +23,7 @@
 @import "site-table";
 @import "footer";
 @import "form";
+@import "legend";
 @import "page-content";
 @import "ticket";
 @import "checkbox";
@@ -574,90 +575,6 @@ body.stadium_user, body.coach {
   line-height: 24px;
 }
 
-.legend-label {
-  display: inline-block;
-  width: 5em;
-  border-radius: 4px;
-  vertical-align: middle;
-  height: 20px;
-}
-
-.legend-label__wrap {
-  font-size: 13px;
-  margin-bottom: 10px;
-}
-
-.legend-paid {
-  background-color: #8ED869;
-}
-
-.legend-owned {
-  background-color: cadetblue;
-}
-
-.legend-disowned {
-  background-color: #ccc;
-}
-
-.legend-unpaid-change {
-  background-color: #69D8D8;
-}
-
-.legend-paid-change {
-  background-color: #3234C2;
-}
-
-.legend-confirmed {
-  background-color: #2f4f4f;
-}
-
-.legend-locked {
-  background-color: #000;
-}
-
-.legend-for-sale {
-  background-color: #ffe135;
-}
-
-$colors: (
-        "#3499DB",
-        "#467FA4",
-        "#115D8E",
-        "#65B8ED",
-        "#8AC6ED",
-        "#454CE1",
-        "#5155A8",
-        "#161C92",
-        "#7379F0",
-        "9499F0",
-        "#42A977",
-        "#0E9252",
-        "#5E4BD8",
-        "#3A2E85",
-        "#4380D3",
-        "#FF0000",
-        "#BF3030",
-        "#A60000",
-        "#FF4040",
-        "#FF7400",
-        "#A64B00",
-        "#009999",
-        "#006363",
-        "#269926",
-        "#008500",
-        "#B90091",
-        "#79005E",
-        "#799E00",
-        "#033E6B",
-        "#9C1754"
-);
-
-@for $i from 0 to 30 {
-  .legend-kendo-area-#{$i} {
-    background-color: unquote(nth($colors, $i+1));
-  }
-}
-
 #switch_user_identifier {
   float: left;
   margin-top: 14px;
@@ -679,10 +596,6 @@ select.hhmm {
   @media all and (max-width: 767px) {
     margin-bottom: 30px;
   }
-}
-
-.schedule-legend-nav {
-  margin-bottom: 18px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -759,15 +672,6 @@ h1, h2, h3, h4, h5, h6 {
 
   h2, .h2 {
     font-size: 22px;
-  }
-
-  .schedule-legend-nav {
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
-
-  .legend-label {
-    width: 1.5em;
   }
 
   .nav > li > a {

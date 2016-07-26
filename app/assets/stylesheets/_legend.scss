@@ -1,0 +1,161 @@
+.schedule-legend-nav {
+  margin-bottom: 18px;
+}
+
+.legend-label {
+  display: inline-block;
+  width: 3.5em;
+  border-radius: 4px;
+  vertical-align: middle;
+  height: 20px;
+}
+
+.legend-label__wrap {
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.legend-paid {
+  background-color: #8ED869;
+}
+
+.legend-owned {
+  background-color: cadetblue;
+}
+
+.legend-disowned {
+  background-color: #ccc;
+}
+
+.legend-unpaid-change {
+  background-color: #69D8D8;
+}
+
+.legend-paid-change {
+  background-color: #3234C2;
+}
+
+.legend-confirmed {
+  background-color: #2f4f4f;
+}
+
+.legend-locked {
+  background-color: #000;
+}
+
+.legend-for-sale {
+  background-color: #ffe135;
+}
+
+$colors: (
+        "#3499DB",
+        "#467FA4",
+        "#115D8E",
+        "#65B8ED",
+        "#8AC6ED",
+        "#454CE1",
+        "#5155A8",
+        "#161C92",
+        "#7379F0",
+        "9499F0",
+        "#42A977",
+        "#0E9252",
+        "#5E4BD8",
+        "#3A2E85",
+        "#4380D3",
+        "#FF0000",
+        "#BF3030",
+        "#A60000",
+        "#FF4040",
+        "#FF7400",
+        "#A64B00",
+        "#009999",
+        "#006363",
+        "#269926",
+        "#008500",
+        "#B90091",
+        "#79005E",
+        "#799E00",
+        "#033E6B",
+        "#9C1754"
+);
+
+@for $i from 0 to 30 {
+  .legend-kendo-area-#{$i} {
+    background-color: unquote(nth($colors, $i+1));
+  }
+}
+
+.schedule-legend-nav__dop-wrap {
+  @include display-block;
+  padding-bottom: 20px;
+
+  &.open {
+    .schedule-legend-nav__dop {
+      max-height: 300px;
+    }
+    .schedule-legend-nav__dop-button i:before {
+      border-width: 0 4px 6px 4px;
+      border-color: transparent transparent #3379b7 transparent;
+    }
+    .schedule-legend-nav__dop-button_open {  display: none  }
+    .schedule-legend-nav__dop-button_close { display: inline-block  }
+  }
+}
+
+.schedule-legend-nav__dop {
+  @include display-block;
+  max-height: 0;
+  min-height: 0;
+  @include transition(all .3s linear);
+}
+
+.schedule-legend-nav__dop-button {
+  @include transition(all .15s linear);
+  &:focus {outline:none}
+  i {
+    @include display-inline;
+    width: 18px;
+    height: 18px;
+    margin-right: 2px;
+    @include border-radius(10px);
+    background-color: #e6e6e6;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-left: -4px;
+      margin-top: -3px;
+      border-style: solid;
+      border-width: 6px 4px 0 4px;
+      border-color: #3379b7 transparent transparent transparent;
+      @include transition(all .3s linear);
+    }
+  }
+}
+
+.schedule-legend-nav__dop-button_open,
+.schedule-legend-nav__dop-button_close {
+  position: relative;
+  overflow: hidden;
+  vertical-align: top;
+}
+.schedule-legend-nav__dop-button_open {  display: inline-block  }
+.schedule-legend-nav__dop-button_close { display: none  }
+
+
+@media all and (max-width: 767px) {
+
+  .schedule-legend-nav {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .legend-label {
+    width: 1.5em;
+  }
+
+}
+
