@@ -60,7 +60,7 @@
                     style="color:#000000;font-family:Arial, Helvetica, sans-serif;line-height:19px;font-size:13px;"
                     class="cell">
                   <p>
-                    Забронированное занятие на вашем стадионе <b><%= @event.area.stadium.name %></b> на площадке <b><%= @event.area.name %></b> было отменено.
+                    Забронированное занятие на вашем стадионе <b><%= @event.area.stadium.name %></b> на площадке <b><%= @event.area.name %></b> было отменено по причине "<%= @reason %>".
                     Просим прощения за причиненные неудобства.
                   </p>
                 </td>
@@ -94,7 +94,7 @@
                         <%= l @event.start, format: :short %>&nbsp;&mdash; <%= l @event.stop, format: :short %>
                       </td>
                       <td style="padding: 5px; border-width: 0 1px 1px 0; border-style: solid; border-color: #000;">
-                        <%= number_to_currency @event.coach_price.to_i %>
+                        <%= number_to_currency @event.price.to_i - @event.coach_percent_price.to_i %>
                       </td>
                     </tr>
                     </tbody>
