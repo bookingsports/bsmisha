@@ -10,6 +10,8 @@
       %th Дата занятия
       %th Время тренировки
       %th Стоимость
+      %th Причина
+      %th
   %tbody.site-table__body
     - @confirmed_events.each do |event|
       %tr.site-table__item
@@ -37,6 +39,11 @@
           %span.site-table__item-title
             Стоимость:
           = number_to_integer_currency (event.price - event.coach_percent_price) * (100 - Rails.application.secrets.tax) / 100
+        = form_for :events, url: event_path(event), method: :delete do |f|
+          %td.site-table__item-option
+            = text_field_tag "event[reason]", '', class: 'form-control'
+          %td.site-table__item-option
+            = submit_tag 'Удалить заказ', data: {confirm: "Вы действительно хотите удалить заказ?" }, class: "btn btn-danger"
 
 %h2 Прошедшие оплаченные
 %table.table.table-hover.site-table
