@@ -1,6 +1,6 @@
 module VisitorsHelper
   def stadium_infowindow(stadium)
-    result = "#{stadium.name}<br>#{stadium.phone}"
+    result = "#{stadium.name}<br/>#{stadium.phone}<br/>#{stadium.address}<br/>"
     if stadium.active?
       result += " #{link_to 'Перейти на страницу', Rails.application.routes.url_helpers.stadium_path(stadium)}"
     end
