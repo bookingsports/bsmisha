@@ -43,8 +43,8 @@ class DailyPriceRule < ActiveRecord::Base
   def overlaps? event
     self_start = start.strftime("%H%M%S%N")
     self_stop = stop.strftime("%H%M%S%N")
-    event_start = event.start.localtime.strftime("%H%M%S%N")
-    event_stop = event.stop.localtime.strftime("%H%M%S%N")
+    event_start = event.start.strftime("%H%M%S%N")
+    event_stop = event.stop.strftime("%H%M%S%N")
 
     working_days.include?(event.wday) \
     && ((self_start >= event_start && self_start < event_stop) \
