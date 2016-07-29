@@ -1,6 +1,6 @@
 class Dashboard::WithdrawalRequestsController < DashboardController
   def index
-    @requests = current_user.wallet.withdrawal_requests.all
+    @requests = current_user.wallet.withdrawal_requests.all.order("created_at desc");
     @request = current_user.wallet.withdrawal_requests.new
   end
 
@@ -10,7 +10,7 @@ class Dashboard::WithdrawalRequestsController < DashboardController
         redirect_to edit_account_dashboard_product_url, alert: "Укажите реквизиты для вывода!"
       else
         a = current_user.coach.account
-        if a.number.blank? || a.company.blank? || a.inn.blank? || a.kpp.blank? || a.bik.blank? || a.agreement_number.blank? || a.date.blank?
+        if !a.filled?
           redirect_to edit_account_dashboard_product_url, alert: "Не все реквизиты заполнены!"
         else
           @request = current_user.wallet.withdrawal_requests.new request_params
@@ -23,7 +23,7 @@ class Dashboard::WithdrawalRequestsController < DashboardController
       end
     else
       a = current_user.stadium.account
-      if a.number.blank? || a.company.blank? || a.inn.blank? || a.kpp.blank? || a.bik.blank? || a.agreement_number.blank? || a.date.blank?
+      if !a.filled?
         redirect_to edit_account_dashboard_product_url, alert: "Не все реквизиты заполнены!"
       else
         @request = current_user.wallet.withdrawal_requests.new request_params

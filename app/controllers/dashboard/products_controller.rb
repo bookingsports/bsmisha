@@ -6,6 +6,7 @@ class Dashboard::ProductsController < DashboardController
   end
 
   def update
+    session[:return_to] ||= request.referer
     begin
       if @product.update product_params
         #if product_params[:account_attributes].present?
@@ -15,12 +16,12 @@ class Dashboard::ProductsController < DashboardController
         #else
         #  redirect_to edit_dashboard_product_url, notice: "Успешно сохранено"
         #end
-        redirect_to :back, notice: "Успешно сохранено"
+        redirect_to session.delete(:return_to), notice: "Успешно сохранено"
       else
-        render :edit
+        render Rails.application.routes.recognize_path(request.referer)[:action]
       end
     rescue ActiveRecord::RecordNotDestroyed => invalid
-      redirect_to (product_params[:account_attributes].present? ? edit_account_dashboard_product_url : edit_dashboard_product_url), alert: "Нельзя удалить площадку, у которой еще есть заказы!"
+      redirect_to :back, alert: "Нельзя удалить площадку, у которой еще есть заказы!"
     end
   end
 

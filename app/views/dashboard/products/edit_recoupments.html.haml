@@ -1,6 +1,7 @@
 %h1 Отыгрыши
 
 = simple_form_for @product, as: :product, url: dashboard_product_path do |f|
+  = f.error_notification
   = f.simple_fields_for :areas, @product.areas.includes(:recoupments) do |area|
     %h2= area.object.name
     = link_to_add_association 'Добавить отыгрыш', area, :recoupments, class: 'btn btn-primary', 'data-association-insertion-node' => ".recoupments_#{area.object.id}", 'data-association-insertion-method' => 'append'
