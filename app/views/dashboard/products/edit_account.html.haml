@@ -17,5 +17,5 @@
           .col-lg-4.col-sm-6.col-xs-12
             = acc.input :agreement_number
           .col-xs-12
-            = acc.input :date
+            = acc.input :date, discard_hour: true, discard_minute: true
   = f.button :submit, 'Сохранить', class: 'btn btn-success'
