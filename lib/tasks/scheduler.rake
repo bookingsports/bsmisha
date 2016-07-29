@@ -8,5 +8,10 @@ end
 
 desc "Deleting events for tomorrow which are not paid"
 task :delete_unpaid_and_confirmed_events => :environment do
-  Event.unpaid.confirmed.future.where(start: (Date.today.beginning_of_day + 1.days)...(Date.today.end_of_day + 1.days)).destroy_all
+  Event.unpaid.confirmed.future.where(start: (Date.today.beginning_of_day + 1.days)...(Date.today.end_of_day + 1.days)).each do |event|
+    puts "sending email to #{event.user.name}"
+    EventMailer.confirmed_event_cancelled_mail(event, nil).deliver_now
+    event.coach.present? && EventMailer.confirmed_event_cancelled_notify_coach(event, nil).deliver_now
+    event.destroy
+  end
 end
