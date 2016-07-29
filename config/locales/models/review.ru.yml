@@ -2,10 +2,10 @@ ru:
   activerecord:
     models:
       review:
-        one: обзор
-        parent: обзора
-        accusative: обзор
-        other: обзоры
+        one: отзыв
+        parent: отзыва
+        accusative: отзыв
+        other: отзывы
     attributes:
       review:
         reviewable_id: ID обозреваемого

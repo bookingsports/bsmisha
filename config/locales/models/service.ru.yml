@@ -10,6 +10,7 @@ ru:
       service:
         name: Имя
         icon: Иконка
-        products: Продукты
         created_at: Дата создания
         updated_at: Дата изменения
+        stadiums: Стадионы
+        stadium_services: Привязки услуги к стадионам

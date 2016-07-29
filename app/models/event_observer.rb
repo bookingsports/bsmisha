@@ -14,16 +14,4 @@ class EventObserver < ActiveRecord::Observer
       event.coach.present? && EventMailer.event_confirmed_notify_coach(event).deliver_now
     end
   end
-
-  def after_destroy event
-    if event.paid?
-      EventMailer.event_cancelled_mail(event).deliver_now
-      EventMailer.event_cancelled_notify_stadium(event).deliver_now
-      event.coach.present? && EventMailer.event_cancelled_notify_coach(event).deliver_now
-    elsif event.confirmed?
-      EventMailer.confirmed_event_cancelled_mail(event).deliver_now
-      EventMailer.confirmed_event_cancelled_notify_stadium(event).deliver_now
-      event.coach.present? && EventMailer.confirmed_event_cancelled_notify_coach(event).deliver_now
-    end
-  end
 end

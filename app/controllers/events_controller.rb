@@ -177,8 +177,19 @@ class EventsController < ApplicationController
 
   def destroy
     event = Event.find(params[:id])
-    event.create_recoupment_if_cancelled params[:event][:reason]
+    reason = params[:event][:reason]
+    event.create_recoupment_if_cancelled reason
     event.destroy
+
+    if event.paid?
+      EventMailer.event_cancelled_mail(event, reason).deliver_now
+      EventMailer.event_cancelled_notify_stadium(event, reason).deliver_now
+      event.coach.present? && EventMailer.event_cancelled_notify_coach(event, reason).deliver_now
+    elsif event.confirmed?
+      EventMailer.confirmed_event_cancelled_mail(event, reason).deliver_now
+      EventMailer.confirmed_event_cancelled_notify_stadium(event, reason).deliver_now
+      event.coach.present? && EventMailer.confirmed_event_cancelled_notify_coach(event, reason).deliver_now
+    end
 
     respond_to do |format|
       format.html {redirect_to :back, notice: "Успешно удален." }
