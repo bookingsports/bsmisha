@@ -21,6 +21,10 @@ class Account < ActiveRecord::Base
   belongs_to :accountable, polymorphic: true
   has_paper_trail
 
+  def filled?
+    number.present? && company.present? && inn.present? && kpp.present? && bik.present? && agreement_number.present? && date.present?
+  end
+
   def name
     "Реквизиты #{accountable.name}"
   end
