@@ -1,5 +1,3 @@
--# таблицы нужно доделать программисту
-
 - if @product.kind_of? Stadium
   = simple_form_for @product, as: :product, url: dashboard_product_path do |f|
     = f.error_notification
@@ -13,7 +11,7 @@
         = f.input :address
         = f.input :latitude, as: :hidden
         = f.input :longitude, as: :hidden
-        = f.input :phone
+        = f.input :phone, input_html: { class: 'form-phone' }
         = f.input :description, as: :text
         = f.input :main_image
 
@@ -60,7 +58,7 @@
     = f.simple_fields_for :user, @product.user do |user|
       = user.input :avatar, as: :image_file, version: :small_square
       = user.input :name
-      = user.input :phone
+      = user.input :phone, input_html: { class: 'form-phone' }
     = f.input :description, as: :text
 
     .form-group

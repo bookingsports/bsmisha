@@ -13,6 +13,6 @@
             = simple_form_for :feedback, url: feedback_path, method: :post, remote: true do |f|
               = f.input :name, label: 'Имя'
               = f.input :email, label: 'Почта'
-              = f.input :phone, label: 'Телефон'
+              = f.input :phone, label: 'Телефон', input_html: { class: 'form-phone' }
               = f.input :message, as: :text, label: 'Сообщение'
               = f.button :submit, 'Отправить', class: 'btn btn-success'
