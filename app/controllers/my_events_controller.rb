@@ -88,7 +88,13 @@ class MyEventsController < EventsController
 
   def destroy
     if params[:event_ids].present? || params[:event_change_ids].present?
-      params[:event_ids].present? && current_user.events.unpaid.where(id: params[:event_ids]).destroy_all
+      params[:event_ids].present? && current_user.events.unpaid.where(id: params[:event_ids]).each do |event|
+        if event.confirmed?
+          EventMailer.confirmed_event_cancelled_notify_stadium(event, "Заказ удален пользователем").deliver_now
+          event.coach.present? && EventMailer.confirmed_event_cancelled_notify_coach(event, "Заказ удален пользователем").deliver_now
+        end
+        event.destroy
+      end
       params[:event_change_ids].present? && current_user.event_changes.unpaid.where(id: params[:event_change_ids]).destroy_all
       redirect_to my_events_path, notice: "Успешно удалены."
     else
