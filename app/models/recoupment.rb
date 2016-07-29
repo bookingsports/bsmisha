@@ -20,4 +20,5 @@ class Recoupment < ActiveRecord::Base
   belongs_to :area
 
   validates :user, :price, :area, presence: true
+  validates :area_id, uniqueness: { scope: :user_id }
 end
