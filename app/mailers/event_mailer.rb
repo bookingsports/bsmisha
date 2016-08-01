@@ -85,4 +85,11 @@ class EventMailer < ApplicationMailer
     @event = event
     mail(to: @event.user.email, subject: "⚽️ Bookingsports: Напоминание о бронировании заказа")
   end
+
+  def event_overpayed event, overpayed, price_diff
+    @event = event
+    @overpayed = overpayed
+    @price_diff = price_diff
+    mail(to: @event.user.email, subject: "⚽️ Bookingsports: Доплата за занятие")
+  end
 end

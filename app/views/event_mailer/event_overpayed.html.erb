@@ -9,13 +9,6 @@
             <td width="560" height="20" class="campaign"></td>
           </tr>
           <tr>
-            <td width="560" class="campaign">
-              <p style="text-align: center;margin: 0;font-family:Arial, Helvetica, sans-serif;">
-                Если письмо отображается некорректно&nbsp;&mdash; нажмите <%= link_to "сюда", event_confirmed_mail_url(@event), target: '_blank' %>.
-              </p>
-            </td>
-          </tr>
-          <tr>
             <td width="560" height="20" class="campaign"></td>
           </tr>
         </tbody>
@@ -68,8 +61,7 @@
                 <td width="520" align="left" valign="top"
                   style="color:#000000;font-family:Arial, Helvetica, sans-serif;line-height:19px;font-size:13px;"
                   class="cell"><p style=" margin-bottom: 10px;">
-                  Заказ #<%= @event.id %> был вами забронирован в <%= l(@event.updated_at, format: '%A, %d.%m.%Y, в %H:%M') %></p>
-                  Напоминаем о том, что данный будет автоматически удален в 21:00 <%= l (@event.start.to_date - 1.day) %>, в случае его неоплаты.
+                  Вы переиграли <%= @overpayed / 60 %> минут на площадке <%= @event.area.name %>, и администратор стадиона списал <%= number_to_currency @price_diff %> за переигранное время.
                   <p style=" margin-bottom: 10px;">Благодарим за использование нашей системы!</p>
                 </td>
                 <td width="20">&nbsp;</td>
@@ -95,7 +87,7 @@
                         Дата и&nbsp;время проведения
                       </th>
                       <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 0; border-style: solid; border-color: #000;">
-                        Цена
+                        Сколько пришлось доплатить
                       </th>
                     </tr>
                     </thead>
@@ -105,10 +97,10 @@
                         <%= @event.area.stadium.name %>&nbsp;&mdash; <%= @event.area.name %>
                       </td>
                       <td style="padding: 5px; border-width: 0 1px 1px 0; border-style: solid; border-color: #000;">
-                        <%= l @event.start, format: :short %>&nbsp;&mdash; <%= l @event.stop, format: :short %>
+                        <%= l @event.start, format: :short %>&nbsp;&mdash; <%= l @event.stop_was, format: :short %>
                       </td>
                       <td style="padding: 5px; border-width: 0 1px 1px 0; border-style: solid; border-color: #000;">
-                        <%= number_to_currency @event.price.to_i %>
+                        <%= number_to_currency @price_diff.to_i %>
                       </td>
                     </tr>
                     </tbody>

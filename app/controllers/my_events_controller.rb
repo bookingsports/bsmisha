@@ -83,6 +83,8 @@ class MyEventsController < EventsController
       @event.area.stadium.user.wallet.deposits.create amount: @event.price - old_price
     end
 
+    EventMailer.event_overpayed(@event, @overpayed, @event.price - old_price).deliver_now
+
     redirect_to paid_my_events_path
   end
 
