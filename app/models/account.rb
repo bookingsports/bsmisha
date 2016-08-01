@@ -26,6 +26,6 @@ class Account < ActiveRecord::Base
   end
 
   def name
-    "Реквизиты #{accountable.name}"
+    accountable.present? ? "Реквизиты #{accountable.name}" : "Реквизиты удаленного стадиона или тренера"
   end
 end
