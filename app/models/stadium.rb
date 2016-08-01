@@ -33,7 +33,7 @@ class Stadium < ActiveRecord::Base
   has_many :pictures, as: :imageable
   has_many :reviews, as: :reviewable
 
-  has_one :account, as: :accountable
+  has_one :account, as: :accountable, dependent: :destroy
   has_many :stadium_services, dependent: :destroy
   has_many :services, through: :stadium_services
 

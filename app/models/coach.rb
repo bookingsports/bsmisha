@@ -19,7 +19,7 @@ class Coach < ActiveRecord::Base
   has_many :coaches_areas, dependent: :destroy
   has_many :areas, through: :coaches_areas
 
-  has_one :account, as: :accountable
+  has_one :account, as: :accountable, dependent: :destroy
 
   friendly_id :name, use: [:slugged]
 
@@ -29,6 +29,8 @@ class Coach < ActiveRecord::Base
   delegate :email, to: :user
   delegate :avatar, to: :user
   delegate :phone, to: :user
+
+  after_create :create_account
 
   def customers
     Customer.joins(:events).where(events: {coach_id: id}).uniq
