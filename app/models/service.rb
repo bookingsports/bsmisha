@@ -11,7 +11,7 @@
 
 class Service < ActiveRecord::Base
   include ServiceConcern
-	has_paper_trail
+  has_paper_trail
 
   has_many :stadium_services, dependent: :destroy
   has_many :stadiums, through: :stadium_services

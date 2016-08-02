@@ -15,6 +15,7 @@
 class Area < ActiveRecord::Base
   include AreaConcern
   include FriendlyId
+  has_paper_trail
 
   belongs_to :stadium, counter_cache: true
   has_many :coaches_areas, dependent: :destroy
