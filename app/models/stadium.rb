@@ -24,6 +24,7 @@
 class Stadium < ActiveRecord::Base
   include StadiumConcern
   include FriendlyId
+  has_paper_trail
 
   belongs_to :user
   belongs_to :category, inverse_of: :stadiums
