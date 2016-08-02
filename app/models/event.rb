@@ -39,7 +39,6 @@ class Event < ActiveRecord::Base
   belongs_to :area
 
   has_one :event_change, dependent: :destroy
-  has_many :additional_event_items, dependent: :destroy
 
   #has_many :prices, -> (event) { where Price.overlaps event }, through: :area
   #has_many :daily_price_rules, -> (event) { where DailyPriceRule.overlaps event }, through: :prices
