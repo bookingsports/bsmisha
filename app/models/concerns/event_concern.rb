@@ -9,7 +9,6 @@ module EventConcern
         field :stop
         field :description
         field :user
-        field :order
         field :coach
         field :area
         field :created_at
@@ -17,7 +16,6 @@ module EventConcern
         field :recurrence_rule
         field :recurrence_exception
         field :recurrence_id
-        field :additional_event_items
         field :event_change
         field :is_all_day
         field :user
@@ -28,7 +26,6 @@ module EventConcern
         field :stop
         field :description
         field :user
-        field :order
         field :coach
         field :area
         field :created_at
@@ -36,7 +33,6 @@ module EventConcern
         field :recurrence_rule
         field :recurrence_exception
         field :recurrence_id
-        field :additional_event_items
         field :event_change
         field :is_all_day
         field :user
@@ -47,10 +43,8 @@ module EventConcern
         field :stop
         field :description
         field :user
-        field :order
         field :coach
         field :area
-        field :additional_event_items
         field :event_change
         field :is_all_day
         field :user

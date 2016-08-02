@@ -35,13 +35,10 @@ class Event < ActiveRecord::Base
   validate :not_booking_too_late
 
   belongs_to :user
-  belongs_to :order
-
   belongs_to :coach
   belongs_to :area
 
   has_one :event_change, dependent: :destroy
-  has_many :additional_event_items, dependent: :destroy
 
   #has_many :prices, -> (event) { where Price.overlaps event }, through: :area
   #has_many :daily_price_rules, -> (event) { where DailyPriceRule.overlaps event }, through: :prices
@@ -57,20 +54,17 @@ class Event < ActiveRecord::Base
   has_and_belongs_to_many :stadium_services
   accepts_nested_attributes_for :stadium_services
 
-  enum status: [:unconfirmed, :confirmed, :locked, :for_sale]
+  enum status: [:unconfirmed, :confirmed, :locked, :for_sale, :paid]
 
   attr_reader :schedule
 
   scope :paid_or_owned_by, -> (user) do
-    joins(:order).where order_is(:paid).or arel_table['user_id'].eq user.id
+    Event.paid.union(Event.where(user: user.id))
   end
 
-  scope :paid, -> { joins(:order).where order_is :paid }
   scope :past, -> { where arel_table['stop'].lt Time.now }
   scope :future, -> { where arel_table['start'].gt Time.now }
-  scope :unpaid, -> {
-    Event.where(order_id: nil).union(Event.joins(:order).where(orders: {status: Order.statuses[:unpaid]}))
-  }
+  scope :unpaid, -> { where.not(status: Event.statuses["paid"])}
   scope :paid_or_confirmed, -> {
     Event.paid.union(Event.confirmed).union(Event.locked).uniq
   }
@@ -82,13 +76,6 @@ class Event < ActiveRecord::Base
     .or(table_stop.gt(start).and(table_stop.lteq(stop)))
     .or(table_start.lt(start).and(table_stop.gt(stop)))
   end
-
-  #scope :unpaid, -> {
-  #  _events = find_by_sql(joins(:order).on(arel_table['order_id'].eq(nil).or(Order.arel_table['id'].eq(arel_table['order_id'])))
-  #  .where(Order.arel_table['status'].eq(Order.statuses[:unpaid]).or(arel_table['order_id'].eq(nil))).to_sql)
-
-  #  where(id: _events.map(&:id))
-  #}
 
   after_initialize :build_schedule
   before_save :create_event_change_if_not_present
@@ -156,7 +143,7 @@ class Event < ActiveRecord::Base
   end
 
   def paid?
-    order.present? && order.paid?
+    status == "paid"
   end
 
   def recurring?
@@ -273,6 +260,35 @@ class Event < ActiveRecord::Base
     self.area.stadium.save
   end
 
+  def pay!
+    if overlaps? start, stop
+      self.errors.add(:base, 'накладываются на другие события')
+      raise ActiveRecord::Rollback
+    end
+    rec = user.recoupments.where(area: area).first
+    if rec.present? && rec.price > price
+      rec.update price: (rec.price - price)
+    elsif rec.present? && rec.price <= price && rec.price > 0
+      user.wallet.withdraw! price - rec.price
+      area.stadium.user.wallet.deposit_with_tax_deduction!(area_price * (price - rec.price) / price)
+      if coach.present?
+        coach.user.wallet.deposit_with_tax_deduction!(coach_percent_price * (price - rec.price) / price)
+        area.stadium.user.wallet.deposit_with_tax_deduction!(coach_stadium_price * (price - rec.price) / price)
+      end
+      stadium_services.present? && area.stadium.user.wallet.deposit_with_tax_deduction!(stadium_services_price * (price - rec.price) / price)
+      rec.destroy
+    else
+      user.wallet.withdraw! price
+      area.stadium.user.wallet.deposit_with_tax_deduction! area_price
+      if coach.present?
+        coach.user.wallet.deposit_with_tax_deduction!(coach_percent_price)
+        area.stadium.user.wallet.deposit_with_tax_deduction!(coach_stadium_price)
+      end
+      stadium_services.present? && area.stadium.user.wallet.deposit_with_tax_deduction!(event.stadium_services_price)
+    end
+    self.update status: :paid
+  end
+
   private
     def create_event_change_if_not_present
       if (!start_changed? && !stop_changed?) || unpaid?
@@ -295,10 +311,6 @@ class Event < ActiveRecord::Base
         && self.start.to_date == Date.today
         errors.add(:base, "Нельзя забронировать заказ, начинающийся сегодня")
       end
-    end
-
-    def self.order_is(status)
-      Order.arel_table['status'].eq(Order.statuses[status])
     end
 
     def start_is_not_in_the_past

@@ -49,7 +49,7 @@ module TennisRails
     config.active_record.raise_in_transactional_callbacks = true
 
     config.active_record.observers = [
-      :order_observer, :event_observer, :coaches_area_observer,
+      :event_observer, :coaches_area_observer,
       :deposit_request_observer, :withdrawal_request_observer, :recoupment_observer
     ]
 

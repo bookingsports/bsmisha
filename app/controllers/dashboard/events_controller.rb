@@ -12,11 +12,9 @@ class Dashboard::EventsController < DashboardController
   end
 
   def create
-    @order = Order.order("created_at desc").find_or_create_by(user: current_user, status: "unpaid")
-    @event = @order.events.new event_params.delete_if {|k,v| v.empty? }
-    @event.products = current_products
+    @event = current_user.events.new event_params.delete_if {|k,v| v.empty? }
+    @event.area = current_product
 
-    @order.save
     respond_to do |format|
       format.json { render "events/_event", locals: { event: @event } }
     end
@@ -36,7 +34,7 @@ class Dashboard::EventsController < DashboardController
       params.require(:event).permit(Event.strong_params)
     end
 
-    def current_products
+    def current_product
       if params[:area_id]
         [Area.find(params[:area_id])]
       else

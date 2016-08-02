@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160722071636) do
+ActiveRecord::Schema.define(version: 20160801130737) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -143,8 +143,9 @@ ActiveRecord::Schema.define(version: 20160722071636) do
     t.datetime "new_start"
     t.datetime "new_stop"
     t.float    "new_price"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "status",     default: 0
   end
 
   add_index "event_changes", ["event_id"], name: "index_event_changes_on_event_id", using: :btree
@@ -158,7 +159,6 @@ ActiveRecord::Schema.define(version: 20160722071636) do
     t.integer  "area_id"
     t.integer  "order_id"
     t.integer  "user_id"
-    t.float    "price"
     t.string   "recurrence_rule"
     t.string   "recurrence_exception"
     t.integer  "recurrence_id"
@@ -168,6 +168,7 @@ ActiveRecord::Schema.define(version: 20160722071636) do
     t.datetime "updated_at",                           null: false
     t.boolean  "confirmed",            default: false
     t.string   "reason"
+    t.float    "price"
   end
 
   add_index "events", ["area_id"], name: "index_events_on_area_id", using: :btree

@@ -11,6 +11,8 @@ closes_at = new Date(gon.closes_at);
 
 kendo.culture('ru-RU');
 
+canUpdate = true
+
 $("#scheduler").kendoScheduler({
   culture: 'ru-RU',
   date: new Date(),
@@ -464,12 +466,17 @@ function hide_never ()
 scheduler = $("#scheduler").getKendoScheduler();
 
 setInterval(function() {
-  if (!scheduler._editor.container)
+  if (!scheduler._editor.container && canUpdate)
   {
     scheduler.dataSource.read()
     scheduler.dataSource.one('requestEnd', function() { $.get(window.location.pathname + '/total.js'); });
   }
-}, 30000)
+}, 3000)
+
+$("#scheduler").mousedown(function() {  canUpdate = false; });
+$("#scheduler").mouseup(function() { canUpdate = true; });
+$("#scheduler").mouseleave(function() { canUpdate = true; });
+
 
 scheduler.dataSource.bind("error", function(e)
 {

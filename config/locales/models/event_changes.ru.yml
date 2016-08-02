@@ -1,4 +1,9 @@
 ru:
+  enums:
+    event_change:
+      status:
+        unpaid: Неоплаченный
+        paid: Оплаченный
   activerecord:
     models:
       event_change:

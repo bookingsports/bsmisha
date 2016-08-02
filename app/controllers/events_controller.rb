@@ -29,7 +29,7 @@ class EventsController < ApplicationController
       @events = Event
                 .paid_or_confirmed
                 .where(area: Area.where(slug: params[:areas]))
-                .includes(:area, :coach, :stadium_services, :event_change, :order, :user)
+                .includes(:area, :coach, :stadium_services, :event_change, :user)
     elsif params[:from] == "one_day"
       @events = []
     elsif params[:scope] == "coach" && current_user.present?
@@ -38,44 +38,44 @@ class EventsController < ApplicationController
               .where(coach: Coach.friendly.find(params[:coach_id]))
               .where(area: current_product)
               .union(current_user.events.where(coach: Coach.friendly.find(params[:coach_id])))
-              .includes(:area, :coach, :stadium_services, :event_change, :order, :user)
+              .includes(:area, :coach, :stadium_services, :event_change, :user)
     elsif params[:scope] == "coach"
       @events = Event
               .paid_or_confirmed
               .where(coach: Coach.friendly.find(params[:coach_id]))
               .where(area: current_product)
-              .includes(:area, :coach, :stadium_services, :event_change, :order, :user)
+              .includes(:area, :coach, :stadium_services, :event_change, :user)
     elsif params[:area_id].present? && current_user.present? && current_user.type == "CoachUser"
       @events = Event
               .paid_or_confirmed
               .where(area: current_product)
               .where(coach: current_user.coach)
               .union(current_user.events.where(area: current_product))
-              .includes(:area, :coach, :stadium_services, :event_change, :order, :user)
+              .includes(:area, :coach, :stadium_services, :event_change, :user)
     elsif params[:area_id].present? && current_user.present?
       @events = Event
               .paid_or_confirmed
               .where(area: current_product)
               .union(current_user.events.where(area: current_product))
-              .includes(:area, :coach, :stadium_services, :event_change, :order, :user)
+              .includes(:area, :coach, :stadium_services, :event_change, :user)
     elsif current_user.present? && current_user.type == "CoachUser"
       @events = Event
               .paid_or_confirmed
               .where(coach: current_user.coach)
               .union(current_user.events)
-              .includes(:area, :coach, :stadium_services, :event_change, :order, :user)
+              .includes(:area, :coach, :stadium_services, :event_change, :user)
     elsif current_user.present? && current_user.type == "StadiumUser"
       @events = current_user
                 .stadium_events
                 .union(current_user.events)
-                .includes(:area, :coach, :stadium_services, :event_change, :order, :user)
+                .includes(:area, :coach, :stadium_services, :event_change, :user)
     elsif current_user.present?
-      @events = current_user.events.includes(:area, :coach, :stadium_services, :event_change, :order, :user)
+      @events = current_user.events.includes(:area, :coach, :stadium_services, :event_change, :user)
     elsif params[:area_id].present?
       @events = Event
                 .paid_or_confirmed
                 .where(area: current_product)
-                .includes(:area, :coach, :stadium_services, :event_change, :order, :user)
+                .includes(:area, :coach, :stadium_services, :event_change, :user)
     else
       @events = Event.paid_or_confirmed
     end
@@ -149,9 +149,9 @@ class EventsController < ApplicationController
 
   def for_sale
     @my_events = current_user.present? \
-        ? current_user.events.includes(:area, :coach, :stadium_services).paid.future.where.not(status: Event.statuses[:for_sale]) \
+        ? current_user.events.includes(:area, :coach, :stadium_services).paid.future
         : []
-    @events = Event.includes(:area, :coach, :stadium_services).paid.future.for_sale
+    @events = Event.includes(:area, :coach, :stadium_services).future.for_sale
   end
 
   def show
@@ -170,7 +170,7 @@ class EventsController < ApplicationController
     transaction = ActiveRecord::Base.transaction do
       current_user.wallet.withdraw! @event.price
       @event.user.wallet.deposit! @event.price
-      @event.update user: current_user, status: :unconfirmed
+      @event.update user: current_user, status: :paid
     end
     redirect_to for_sale_events_path, notice: "Заказ успешно куплен."
   end

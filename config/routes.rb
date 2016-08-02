@@ -25,9 +25,9 @@ Rails.application.routes.draw do
   get 'mail/event_confirmed_notify_stadium/(:id)', to: "mail#event_confirmed_notify_stadium", as: "event_confirmed_notify_stadium_mail"
   get 'mail/event_buying/(:id)', to: "mail#event_buying", as: "event_buying_mail"
   get 'mail/event_sold_notify_coach/(:id)', to: "mail#event_sold_notify_coach", as: "event_sold_notify_coach_mail"
-  get 'mail/order_created/(:id)', to: "mail#order_created", as: "order_created_mail"
-  get 'mail/order_created_notify_coach/(:id)', to: "mail#order_created_notify_coach", as: "order_created_notify_coach_mail"
-  get 'mail/order_created_notify_stadium/(:id)', to: "mail#order_created_notify_stadium", as: "order_created_notify_stadium_mail"
+  get 'mail/event_paid/(:id)', to: "mail#event_paid", as: "event_paid_mail"
+  get 'mail/event_paid_notify_coach/(:id)', to: "mail#event_paid_notify_coach", as: "event_paid_notify_coach_mail"
+  get 'mail/event_paid_notify_stadium/(:id)', to: "mail#event_paid_notify_stadium", as: "event_paid_notify_stadium_mail"
   get 'mail/deposit_payment_succeeded/(:id)', to: "mail#deposit_payment_succeeded", as: "deposit_payment_succeeded_mail"
   get 'mail/withdrawal_succeeded/(:id)', to: "mail#withdrawal_succeeded", as: "withdrawal_succeeded_mail"
   get 'mail/withdrawal_failed/(:id)', to: "mail#withdrawal_failed", as: "withdrawal_failed_mail"
@@ -57,11 +57,13 @@ Rails.application.routes.draw do
     collection do
       get 'paid'
       get 'grid'
-      post 'bulk_process', constraints: ButtonParamRouting.new('pay'), action: 'create', controller: 'orders'
+      post 'bulk_process', constraints: ButtonParamRouting.new('pay'), action: 'confirm_pay', controller: 'my_events'
       post 'bulk_process', constraints: ButtonParamRouting.new('destroy'), action: 'destroy'
       post 'bulk_process', constraints: ButtonParamRouting.new('confirm'), action: 'confirm'
+      post 'pay'
       get 'one_day'
       get 'for_sale'
+      post 'confirm_pay'
     end
     member do
       post 'pay_change'
@@ -91,12 +93,6 @@ Rails.application.routes.draw do
   post 'payments/check_order'
   post 'payments/success'
   post 'payments/failure'
-
-  resources :orders do
-    member do
-      patch 'pay'
-    end
-  end
 
   namespace :dashboard do
     post 'product', to: "products#update"

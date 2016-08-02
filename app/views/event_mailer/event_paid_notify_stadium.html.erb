@@ -11,7 +11,7 @@
           <tr>
             <td width="560" class="campaign">
               <p style="text-align: center;margin: 0;font-family:Arial, Helvetica, sans-serif;">
-                Если письмо отображается некорректно&nbsp;&mdash; нажмите <%= link_to "сюда", order_created_mail_url(@order), target: '_blank' %>.
+                Если письмо отображается некорректно&nbsp;&mdash; нажмите <%= link_to "сюда", event_paid_notify_stadium_mail_url(@event), target: '_blank' %>.
               </p>
             </td>
           </tr>
@@ -45,7 +45,7 @@
                 <td width="20"></td>
                 <td width="520" align="center"
                     style="color:#000000;font-family:Arial, Helvetica, sans-serif;line-height:28px;font-size:22px;font-weight:bold;"
-                    class="cell">Заказ <%= @order.guid %>
+                    class="cell">Занятие #<%= @event.id %>
                 </td>
                 <td width="20"></td>
               </tr>
@@ -67,11 +67,9 @@
                 <td width="20">&nbsp;</td>
                 <td width="520" align="left" valign="top"
                     style="color:#000000;font-family:Arial, Helvetica, sans-serif;line-height:19px;font-size:13px;"
-                    class="cell">
-                  <p style=" margin-bottom: 10px;">
-                    Был вами оплачен заказ <b><%= @order.guid %></b> в <%= l(@order.created_at, format: '%A, %d.%m.%Y, в %H:%M') %>
-                  </p>
-                  <p style=" margin-bottom: 10px;">Благодарим за использование нашей системы!</p>
+                    class="cell"><p style=" margin-bottom: 10px;">
+                  Пользователем <b><%= @event.user.name %></b> было оплачено событие <b>#<%= @event.id %></b> на вашем стадионе.
+                </p>
                 </td>
                 <td width="20">&nbsp;</td>
               </tr>
@@ -86,71 +84,34 @@
                     style="color:#000000;font-family:Arial, Helvetica, sans-serif;line-height:19px;font-size:13px;"
                     class="cell">
 
-                  <% if @events.present? %>
-                    <table width="530" border="0" cellspacing="0" cellpadding="0" class="table">
-                      <thead>
-                      <tr>
-                        <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 1px; border-style: solid; border-color: #000;">
-                          Стадион и&nbsp;площадка
-                        </th>
-                        <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 0; border-style: solid; border-color: #000;">
-                          Дата и&nbsp;время проведения
-                        </th>
-                        <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 0; border-style: solid; border-color: #000;">
-                          Цена
-                        </th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <% @events.each do |event| %>
-                          <tr>
-                            <td style="padding: 5px; border-width: 0 1px 1px 1px; border-style: solid; border-color: #000;">
-                              <%= event.area.stadium.name %>&nbsp;&mdash; <%= event.area.name %>
-                            </td>
-                            <td style="padding: 5px; border-width: 0 1px 1px 0; border-style: solid; border-color: #000;">
-                              <%= l event.start, format: :short %>&nbsp;&mdash; <%= l event.stop, format: :short %>
-                            </td>
-                            <td style="padding: 5px; border-width: 0 1px 1px 0; border-style: solid; border-color: #000;">
-                              <%= number_to_currency event.price.to_i %>
-                            </td>
-                          </tr>
-                      <% end %>
-                      </tbody>
-                    </table>
-                  <% end %>
-
-                  <% if @event_changes.present? %>
-                    <table width="530" border="0" cellspacing="0" cellpadding="0" class="table">
-                      <thead>
-                      <tr>
-                        <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 1px; border-style: solid; border-color: #000;">
-                          Стадион и&nbsp;площадка
-                        </th>
-                        <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 0; border-style: solid; border-color: #000;">
-                          Новая дата проведения
-                        </th>
-                        <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 0; border-style: solid; border-color: #000;">
-                          Цена
-                        </th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <% @event_changes.each do |event_change| %>
-                          <tr>
-                            <td style="padding: 5px; border-width: 0 1px 1px 1px; border-style: solid; border-color: #000;">
-                              <%= event_change.event.area.stadium.name %>&nbsp;&mdash; <%= event_change.event.area.name %>
-                            </td>
-                            <td style="padding: 5px; border-width: 0 1px 1px 0; border-style: solid; border-color: #000;">
-                              <%= l event_change.new_start, format: :short %>&nbsp;&mdash; <%= l event_change.new_stop, format: :short %>
-                            </td>
-                            <td style="padding: 5px; border-width: 0 1px 1px 0; border-style: solid; border-color: #000;">
-                              <%= number_to_currency event_change.event.price.to_i %>
-                            </td>
-                          </tr>
-                      <% end %>
-                      </tbody>
-                    </table>
-                  <% end %>
+                  <table width="530" border="0" cellspacing="0" cellpadding="0" class="table">
+                    <thead>
+                    <tr>
+                      <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 1px; border-style: solid; border-color: #000;">
+                        Площадка
+                      </th>
+                      <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 0; border-style: solid; border-color: #000;">
+                        Дата и&nbsp;время проведения
+                      </th>
+                      <th style="text-align: left; padding: 5px; border-width: 1px 1px 1px 0; border-style: solid; border-color: #000;">
+                        Цена
+                      </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <td style="padding: 5px; border-width: 0 1px 1px 1px; border-style: solid; border-color: #000;">
+                        <%= @event.area.name %>
+                      </td>
+                      <td style="padding: 5px; border-width: 0 1px 1px 0; border-style: solid; border-color: #000;">
+                        <%= l @event.start, format: :short %>&nbsp;&mdash; <%= l @event.stop, format: :short %>
+                      </td>
+                      <td style="padding: 5px; border-width: 0 1px 1px 0; border-style: solid; border-color: #000;">
+                        <%= number_to_currency @event.price.to_i %>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
 
                 </td>
                 <td width="15">&nbsp;</td>
@@ -179,8 +140,11 @@
         <tr>
           <td class="pfooter"
               style="font-family:Arial;font-size: 11px;color:#666666;font-family:Arial, Helvetica, sans-serif;font-size:11px;"
-              width="560" align="center">Это сообщение было отправлено на <b><%= @order.user.email %></b> потому, что: <br>
-            <span id="reason">Вы зарегистрированы на нашем сайте www.bookingsports.ru</span>
+              width="560" align="center">Это сообщение было отправлено на <b><%= @event.area.stadium.user.email %></b> потому, что: <br>
+            <span id="reason">
+              Вы зарегистрированы на нашем сайте www.bookingsports.ru как администратор стадиона
+              <b><%= @event.area.stadium.name %></b>.
+            </span>
           </td>
         </tr>
         <tr>

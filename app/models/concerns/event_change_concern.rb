@@ -7,7 +7,7 @@ module EventChangeConcern
       visible false
       list do
         field :event
-        field :order
+        field :status
         field :old_start
         field :old_stop
         field :new_start
@@ -19,7 +19,7 @@ module EventChangeConcern
 
       edit do
         field :event
-        field :order
+        field :status
         field :old_start
         field :old_stop
         field :new_start

@@ -4,7 +4,6 @@
 #
 #  id         :integer          not null, primary key
 #  event_id   :integer
-#  order_id   :integer
 #  old_start  :datetime
 #  old_stop   :datetime
 #  new_start  :datetime
@@ -19,10 +18,7 @@ class EventChange < ActiveRecord::Base
   has_paper_trail
 
   belongs_to :event
-  belongs_to :order
 
-  scope :paid, -> { includes(:order).joins("LEFT OUTER JOIN orders ON orders.id = event_changes.order_id").where("orders.status =  ?", Order.statuses[:paid]) }
-  scope :unpaid, -> { includes(:order).joins("LEFT OUTER JOIN orders ON orders.id = event_changes.order_id").where("orders.status =  ? or orders.status is null", Order.statuses[:unpaid]) }
   scope :past, -> { where arel_table['new_stop'].lt Time.now }
   scope :future, -> { where arel_table['new_start'].gt Time.now }
   scope :of_areas, ->(*areas) do
@@ -30,10 +26,12 @@ class EventChange < ActiveRecord::Base
     where(events_areas: {area_id: areas}).uniq
   end
 
+  enum status: [:unpaid, :paid]
+
   after_save :update_event
 
   def paid?
-    order.present? && order.paid?
+    status == "paid"
   end
 
   def unpaid?
@@ -63,5 +61,20 @@ class EventChange < ActiveRecord::Base
     if paid?
       event.update start: new_start, stop: new_stop
     end
+  end
+
+  def pay!
+    rec = event.user.recoupments.where(area: event.area).first
+    if rec.present? && rec.price > total
+      rec.update price: (rec.price - total)
+    elsif rec.present? && rec.price <= total && rec.price > 0
+      event.user.wallet.withdraw! total - rec.price
+      event.area.stadium.user.wallet.deposit_with_tax_deduction! (total  * (total - rec.price) / total)
+      rec.destroy
+    else
+      event.user.wallet.withdraw! total
+      event.area.stadium.user.wallet.deposit_with_tax_deduction! total
+    end
+    self.update status: :paid
   end
 end

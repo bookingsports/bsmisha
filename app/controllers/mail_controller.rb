@@ -110,29 +110,28 @@ class MailController < ApplicationController
     end
   end
 
-  def order_created
-    @order = Order.find(params[:id])
-    @events, @event_changes = @order.events, @order.event_changes
-    if current_user == @order.user
-      render 'order_mailer/order_created'
+  def event_paid
+    @event = Event.find(params[:id])
+    if current_user == @event.user
+      render 'event_mailer/event_paid'
     else
       redirect_to root_url, alert: "Вы не можете просмотреть данное письмо."
     end
   end
 
-  def order_created_notify_coach
+  def event_paid_notify_coach
     @event = Event.find(params[:id])
     if current_user == @event.coach.user
-      render 'order_mailer/order_created_for_coach'
+      render 'event_mailer/event_paid_notify_coach'
     else
       redirect_to root_url, alert: "Вы не можете просмотреть данное письмо."
     end
   end
 
-  def order_created_notify_stadium
+  def event_paid_notify_stadium
     @event = Event.find(params[:id])
     if current_user == @event.area.stadium.user
-      render 'order_mailer/order_created_for_stadium'
+      render 'event_mailer/event_paid_notify_stadium'
     else
       redirect_to root_url, alert: "Вы не можете просмотреть данное письмо."
     end
