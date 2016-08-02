@@ -14,11 +14,7 @@ module EventConcern
         field :area
         field :created_at
         field :updated_at
-        field :recurrence_rule
-        field :recurrence_exception
-        field :recurrence_id
         field :event_change
-        field :is_all_day
         field :user
       end
 
@@ -32,11 +28,7 @@ module EventConcern
         field :area
         field :created_at
         field :updated_at
-        field :recurrence_rule
-        field :recurrence_exception
-        field :recurrence_id
         field :event_change
-        field :is_all_day
         field :user
       end
 
@@ -49,7 +41,6 @@ module EventConcern
         field :coach
         field :area
         field :event_change
-        field :is_all_day
         field :user
       end
     end
