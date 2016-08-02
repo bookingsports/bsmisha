@@ -14,7 +14,6 @@ module CustomerConcern
         field :avatar
         field :phone
         field :events
-        field :orders
         field :wallet
       end
 
@@ -24,7 +23,6 @@ module CustomerConcern
         field :avatar
         field :phone
         field :events
-        field :orders
         field :wallet
       end
 
@@ -36,7 +34,6 @@ module CustomerConcern
         field :avatar
         field :phone
         field :events
-        field :orders
         field :wallet
       end
     end

@@ -1,4 +1,4 @@
-%h3= "Заказ #{@order.guid}"
+%h3=# "Заказ #{@order.guid}"
 %table.table.table-hover.site-table
   %thead.site-table__head
     %tr
@@ -7,13 +7,13 @@
       %th Конец
       %th Цена
   %tbody.site-table__body
-    = render @order.events
-- if @order.event_changes.present?
+    = render @events
+- if @event_changes.present?
   %h4 Переносы
   %h5 Перенос заказа осуществляется 1 раз. После оплаты вы уже не сможете его поменять.
   %table.table.table-hover.site-table
     %tbody.site-table__body
-      - @order.event_changes.each do |change|
+      - @event_changes.each do |change|
         %tr.site-table__item
           %td.site-table__item-option
             %span.site-table__item-title
@@ -49,9 +49,16 @@
             %span.site-table__item-title
               Цена:
             = rec.price
-- if @order.total == 0
-  = link_to "Подтвердить заказ", pay_order_path(@order), method: :patch, class: 'btn btn-success'
-- elsif @order.user.wallet.can_spend? @order.total
-  = link_to "Заплатить #{number_to_integer_currency @order.total} из кошелька", pay_order_path(@order), method: :patch, class: 'btn btn-success'
+
+- if current_user.wallet.can_spend? @total
+  = form_tag pay_my_events_path, method: :post do |f|
+    - @events.each do |e|
+      = hidden_field_tag "event_ids[]", e.id
+    - @event_changes.each do |e|
+      = hidden_field_tag "event_change_ids[]", e.id
+    - if @total <= 0
+      = submit_tag "Подтвердить заказ", class: 'btn btn-success'
+    - else
+      = submit_tag "Заплатить #{number_to_integer_currency @total} из кошелька", class: 'btn btn-success'
 - else
   %div.btn.btn-primary.disabled Недостаточно средств

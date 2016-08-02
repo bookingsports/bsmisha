@@ -282,7 +282,7 @@
               - if event.event_change.total == 0
                 = link_to "Подтвердить перенос", pay_change_my_event_path(event.event_change.id), method: :post, data: { confirm: "Вы действительно хотите подтвердить перенос? Впоследствии вы не сможете его поменять" }, class: 'btn btn-sm btn-success'
               - else
-                = link_to "Оплатить перенос", orders_path('event_change_ids[]' => event.event_change.id), method: :post, class: 'btn btn-sm btn-success'
+                = link_to "Оплатить перенос", confirm_pay_my_events_path('event_change_ids[]' => event.event_change.id), method: :post, class: 'btn btn-sm btn-success'
             - elsif event.has_paid_changes?
               Оплачен
             - else

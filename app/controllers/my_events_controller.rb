@@ -51,7 +51,7 @@ class MyEventsController < EventsController
   def pay_change
     @change = EventChange.find(params[:id])
 
-    if @change.update order: Order.create(status: :paid)
+    if @change.update status: :paid
       redirect_to my_events_url, notice: "Перенос успешно подтвержден."
     else
       redirect_to my_events_url, notice: "Ошибка сервера."
@@ -102,5 +102,33 @@ class MyEventsController < EventsController
     else
       redirect_to my_events_path, alert: "Не выбрано ни одного заказа!"
     end
+  end
+
+  def confirm_pay
+    if params[:event_ids].blank? && params[:event_change_ids].blank?
+      redirect_to my_events_url, alert: "Не выбрано ни одного заказа"
+      return
+    end
+
+    @events = Event.where(id: params[:event_ids])
+    @event_changes = EventChange.where(id: params[:event_change_ids])
+    @recoupments = current_user.recoupments.where(area: @events.map(&:area_id))
+    @area_ids = (@events.map(&:area_id) + @event_changes.map{|e| e.event.area_id}).uniq
+
+    @total = @events.map(&:price).inject(:+).to_i +
+              @event_changes.map(&:total).inject(:+).to_i -
+              current_user.recoupments.where(area: @area_ids).uniq.map(&:price).sum
+  end
+
+  def pay
+    @events = Event.where(id: params[:event_ids])
+    @event_changes = EventChange.where(id: params[:event_change_ids])
+
+    ActiveRecord::Base.transaction do
+      @events.each(&:pay!)
+      @event_changes.each(&:pay!)
+    end
+
+    #redirect_to my_events_path, notice: "Заказы успешно оплачены"
   end
 end

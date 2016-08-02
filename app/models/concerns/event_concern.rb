@@ -9,7 +9,6 @@ module EventConcern
         field :stop
         field :description
         field :user
-        field :order
         field :coach
         field :area
         field :created_at
@@ -28,7 +27,6 @@ module EventConcern
         field :stop
         field :description
         field :user
-        field :order
         field :coach
         field :area
         field :created_at
@@ -47,7 +45,6 @@ module EventConcern
         field :stop
         field :description
         field :user
-        field :order
         field :coach
         field :area
         field :additional_event_items
