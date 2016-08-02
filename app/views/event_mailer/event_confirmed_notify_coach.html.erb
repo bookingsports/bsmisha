@@ -68,7 +68,7 @@
                 <td width="520" align="left" valign="top"
                     style="color:#000000;font-family:Arial, Helvetica, sans-serif;line-height:19px;font-size:13px;"
                     class="cell"><p style=" margin-bottom: 10px;">
-                  Заказ #<%= @event.id %> забронирован с вашим участем в <%= l(@event.updated_at, format: '%A, %d.%m.%Y, в %H:%M') %></p>
+                  Пользователь <%= @event.user.name %> забронировал заказ с вашим участем в <%= l(@event.updated_at, format: '%A, %d.%m.%Y, в %H:%M') %></p>
                 </td>
                 <td width="20">&nbsp;</td>
               </tr>
