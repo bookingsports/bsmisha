@@ -17,7 +17,7 @@ class EventChange < ActiveRecord::Base
   include EventChangeConcern
   has_paper_trail
 
-  belongs_to :event
+  belongs_to :event, required: true
 
   scope :past, -> { where arel_table['new_stop'].lt Time.now }
   scope :future, -> { where arel_table['new_start'].gt Time.now }

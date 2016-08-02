@@ -7,6 +7,7 @@ module EventConcern
       list do
         field :start
         field :stop
+        field :status
         field :description
         field :user
         field :coach
@@ -24,6 +25,7 @@ module EventConcern
       show do
         field :start
         field :stop
+        field :status
         field :description
         field :user
         field :coach
@@ -41,6 +43,7 @@ module EventConcern
       edit do
         field :start
         field :stop
+        field :status
         field :description
         field :user
         field :coach

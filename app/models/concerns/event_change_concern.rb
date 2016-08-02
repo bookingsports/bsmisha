@@ -4,7 +4,6 @@ module EventChangeConcern
   included do
     rails_admin do
       parent Event
-      visible false
       list do
         field :event
         field :status

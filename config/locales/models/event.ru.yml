@@ -1,4 +1,12 @@
 ru:
+  enums:
+    event:
+      status:
+        unconfirmed: Неоплаченный
+        confirmed: Забронированный
+        for_sale: Выставлен на продажу
+        locked: Время, заблокированное стадионом
+        paid: Оплаченный
   activerecord:
     models:
       event:
@@ -24,3 +32,4 @@ ru:
         updated_at: Дата изменения
         is_all_day: На весь день?
         user: Пользователь
+        status: Статус
