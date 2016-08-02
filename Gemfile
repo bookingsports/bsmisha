@@ -80,6 +80,8 @@ gem 'paper_trail'
 # SCOPES UNION
 gem 'active_record_union'
 
+gem "oneapi-ruby"
+
 group :development do
   gem "better_errors"
   gem "guard-bundler"
