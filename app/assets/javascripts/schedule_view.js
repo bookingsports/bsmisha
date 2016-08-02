@@ -471,7 +471,7 @@ setInterval(function() {
     scheduler.dataSource.read()
     scheduler.dataSource.one('requestEnd', function() { $.get(window.location.pathname + '/total.js'); });
   }
-}, 3000)
+}, 30000)
 
 $("#scheduler").mousedown(function() {  canUpdate = false; });
 $("#scheduler").mouseup(function() { canUpdate = true; });

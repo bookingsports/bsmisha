@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160801130737) do
+ActiveRecord::Schema.define(version: 20160802103950) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,18 +29,6 @@ ActiveRecord::Schema.define(version: 20160801130737) do
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
   end
-
-  create_table "additional_event_items", force: :cascade do |t|
-    t.integer  "related_id"
-    t.string   "related_type"
-    t.integer  "event_id"
-    t.integer  "amount",       default: 1
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-  end
-
-  add_index "additional_event_items", ["event_id"], name: "index_additional_event_items_on_event_id", using: :btree
-  add_index "additional_event_items", ["related_type", "related_id"], name: "index_additional_event_items_on_related_type_and_related_id", using: :btree
 
   create_table "areas", force: :cascade do |t|
     t.integer  "stadium_id"
@@ -137,7 +125,6 @@ ActiveRecord::Schema.define(version: 20160801130737) do
 
   create_table "event_changes", force: :cascade do |t|
     t.integer  "event_id"
-    t.integer  "order_id"
     t.datetime "old_start"
     t.datetime "old_stop"
     t.datetime "new_start"
@@ -149,7 +136,6 @@ ActiveRecord::Schema.define(version: 20160801130737) do
   end
 
   add_index "event_changes", ["event_id"], name: "index_event_changes_on_event_id", using: :btree
-  add_index "event_changes", ["order_id"], name: "index_event_changes_on_order_id", using: :btree
 
   create_table "events", force: :cascade do |t|
     t.datetime "start"
@@ -157,7 +143,6 @@ ActiveRecord::Schema.define(version: 20160801130737) do
     t.string   "description"
     t.integer  "coach_id"
     t.integer  "area_id"
-    t.integer  "order_id"
     t.integer  "user_id"
     t.string   "recurrence_rule"
     t.string   "recurrence_exception"
@@ -173,7 +158,6 @@ ActiveRecord::Schema.define(version: 20160801130737) do
 
   add_index "events", ["area_id"], name: "index_events_on_area_id", using: :btree
   add_index "events", ["coach_id"], name: "index_events_on_coach_id", using: :btree
-  add_index "events", ["order_id"], name: "index_events_on_order_id", using: :btree
   add_index "events", ["user_id"], name: "index_events_on_user_id", using: :btree
 
   create_table "events_stadium_services", force: :cascade do |t|
@@ -183,17 +167,6 @@ ActiveRecord::Schema.define(version: 20160801130737) do
 
   add_index "events_stadium_services", ["event_id"], name: "index_events_stadium_services_on_event_id", using: :btree
   add_index "events_stadium_services", ["stadium_service_id"], name: "index_events_stadium_services_on_stadium_service_id", using: :btree
-
-  create_table "orders", force: :cascade do |t|
-    t.integer  "user_id"
-    t.decimal  "total",      precision: 8, scale: 2
-    t.integer  "status",                             default: 0
-    t.string   "comment"
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
-  end
-
-  add_index "orders", ["user_id"], name: "index_orders_on_user_id", using: :btree
 
   create_table "pictures", force: :cascade do |t|
     t.string   "name"
@@ -376,7 +349,6 @@ ActiveRecord::Schema.define(version: 20160801130737) do
 
   add_index "withdrawals", ["wallet_id"], name: "index_withdrawals_on_wallet_id", using: :btree
 
-  add_foreign_key "additional_event_items", "events"
   add_foreign_key "areas", "stadiums"
   add_foreign_key "coaches", "users"
   add_foreign_key "daily_price_rules", "prices"
@@ -384,14 +356,11 @@ ActiveRecord::Schema.define(version: 20160801130737) do
   add_foreign_key "deposit_responses", "deposit_requests"
   add_foreign_key "deposits", "wallets"
   add_foreign_key "event_changes", "events"
-  add_foreign_key "event_changes", "orders"
   add_foreign_key "events", "areas"
   add_foreign_key "events", "coaches"
-  add_foreign_key "events", "orders"
   add_foreign_key "events", "users"
   add_foreign_key "events_stadium_services", "events"
   add_foreign_key "events_stadium_services", "stadium_services"
-  add_foreign_key "orders", "users"
   add_foreign_key "prices", "areas"
   add_foreign_key "recoupments", "areas"
   add_foreign_key "recoupments", "users"
