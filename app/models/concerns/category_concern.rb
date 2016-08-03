@@ -24,6 +24,7 @@ module CategoryConcern
         field :slug
         field :icon
         field :main_image
+        field :stadiums
         field :created_at
         field :updated_at
       end
@@ -42,6 +43,7 @@ module CategoryConcern
         field :slug
         field :icon
         field :main_image
+        field :stadiums
         field :created_at
         field :updated_at
       end
@@ -51,6 +53,7 @@ module CategoryConcern
         field :slug
         field :icon
         field :main_image
+        field :stadiums
       end
     end
   end
