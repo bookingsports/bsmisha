@@ -15,6 +15,7 @@
 class Category < ActiveRecord::Base
   include CategoryConcern
   include FriendlyId
+  include ActiveModel::Dirty
 
   has_paper_trail
 
@@ -27,7 +28,13 @@ class Category < ActiveRecord::Base
 
   default_scope ->{ order(:position) }
 
+  validates_uniqueness_of :slug
+
   def parent_enum
     Category.where.not(id: id).map { |c| [ c.name, c.id ] }
+  end
+
+  def should_generate_new_friendly_id?
+    slug.blank? || name_changed?
   end
 end
