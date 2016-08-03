@@ -77,4 +77,4 @@ ru:
       stadium_user:
         <<: *user
         stadium: Стадион
-        product: Продукт
+        areas: Площадки

@@ -21,7 +21,7 @@ class Wallet < ActiveRecord::Base
   validates :user, presence: true
 
   def name
-    "Кошелек №#{id} #{user_id.present? ? "пользователя " + user.name.to_s : ""}"
+    "Кошелек #{user_id.present? ? "пользователя " + user.name.to_s : ""}"
   end
 
   def deposit_with_tax_deduction!(amount)

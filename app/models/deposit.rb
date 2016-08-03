@@ -15,9 +15,9 @@ class Deposit < ActiveRecord::Base
 
   has_paper_trail
 
-  belongs_to :wallet
+  belongs_to :wallet, required: true
 
   def name
-    "Депозит №#{id} #{wallet_id.present? ? "кошелька №" + wallet.id.to_s : ""}"
+    "Зачисление #{amount.to_i} рублей на кошелек пользователя #{wallet.user.name}"
   end
 end

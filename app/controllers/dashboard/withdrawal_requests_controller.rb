@@ -17,7 +17,7 @@ class Dashboard::WithdrawalRequestsController < DashboardController
           if @request.save
             redirect_to dashboard_withdrawal_requests_url, notice: "Запрос на вывод средств создан."
           else
-            redirect_to dashboard_withdrawal_requests_url, notice: "Возникла ошибка."
+            redirect_to dashboard_withdrawal_requests_url, alert: "Возникла ошибка."
           end
         end
       end

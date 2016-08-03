@@ -24,7 +24,7 @@ RailsAdmin.config do |config|
     index
     show
     new do
-      except [Coach, Wallet, Stadium, Account]
+      except [Coach, Wallet, Stadium, Account, EventChange]
     end
     nestable
     export

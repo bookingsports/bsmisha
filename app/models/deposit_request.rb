@@ -29,6 +29,6 @@ class DepositRequest < ActiveRecord::Base
   enum payment_method:  [:robokassa, :yandex_kassa]
 
   def name
-    "Запрос депозита №#{id} #{wallet_id.present? ? 'кошелька №' + wallet.id.to_s : ''}"
+    "Запрос на пополнение #{wallet_id.present? ? 'кошелька пользователя ' + wallet.user.name : ''} на сумму #{amount} руб."
   end
 end

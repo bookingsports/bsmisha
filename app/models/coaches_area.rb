@@ -31,4 +31,8 @@ class CoachesArea < ActiveRecord::Base
   def area_and_price
     "#{area.name} - #{price_formatted}"
   end
+
+  def name
+    "Привязка тренера #{coach.name} к площадке #{area.name}"
+  end
 end
