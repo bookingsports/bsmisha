@@ -13,7 +13,7 @@
 <% if current_user.present? && (current_user.type == "Customer" || current_user.type == "CoachUser") %>
   <li>
     <%= link_to for_sale_events_path do %>
-      Покупка/продажа (<%= Event.paid.future.for_sale.count %>)
+      Покупка/продажа (<%= Event.future.for_sale.count %>)
     <% end %>
   </li>
 <% end %>
