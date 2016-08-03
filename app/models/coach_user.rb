@@ -25,10 +25,13 @@ class CoachUser < User
   include CoachUserConcern
 
   has_one :coach, foreign_key: 'user_id', dependent: :destroy
-  has_many :areas, through: :coach
   after_create :create_coach
 
   accepts_nested_attributes_for :coach
+
+  def areas
+    coach.coaches_areas.where(status: CoachesArea.statuses[:active]).map(&:area).uniq
+  end
 
   def product_areas
     coach.coaches_areas.active.map(&:area).uniq

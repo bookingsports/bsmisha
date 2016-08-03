@@ -16,7 +16,7 @@
   - else
     -if current_user.areas.empty?
       .col-xs-12.text-center
-        h3 У вас пока не создано ни одной площадки. Перейдите в раздел #{ link_to 'и создайте для начала одну!', current_user_areas_creation_path }
+        h3 У вас пока нет ни одной подтвержденной площадки. Перейдите в раздел #{ link_to 'и создайте для начала одну', current_user_areas_creation_path }, или ждите подтверждения от администратора стадиона.
     - else
       .col-md-4.col-xs-12
         ul.nav.nav-pills.nav-stacked
