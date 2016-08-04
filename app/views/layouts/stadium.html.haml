@@ -2,16 +2,19 @@
   .body-bg
     .row
       .entry
-        %h1
-          = @stadium.name
-        %hr/
-        .row
-          .col-xs-12.col-sm-12.col-md-12.col-lg-12
-            %ul.nav.nav-pills.nav-justified.stadium-nav
-              = active_link_to "Описание", @stadium, wrap_tag: :li, active: :exclusive
-              = active_link_to "Расписание", stadium_area_path(@stadium, @stadium.areas.first), wrap_tag: :li, active: /stadiums\/[a-zA-Z0-9\-]*\/areas[\/a-zA-Z0-9\-]*/
-              = active_link_to "Галерея", stadium_pictures_path(@stadium), wrap_tag: :li, active: :exclusive
-              = active_link_to "Отзывы", stadium_reviews_path(@stadium), wrap_tag: :li, active: :exclusive
-            = yield
+        - if @stadium.present?
+          %h1
+            = @stadium.name
+          %hr/
+          .row
+            .col-xs-12.col-sm-12.col-md-12.col-lg-12
+              %ul.nav.nav-pills.nav-justified.stadium-nav
+                = active_link_to "Описание", @stadium, wrap_tag: :li, active: :exclusive
+                = active_link_to "Расписание", stadium_area_path(@stadium, @stadium.areas.first), wrap_tag: :li, active: /stadiums\/[a-zA-Z0-9\-]*\/areas[\/a-zA-Z0-9\-]*/
+                = active_link_to "Галерея", stadium_pictures_path(@stadium), wrap_tag: :li, active: :exclusive
+                = active_link_to "Отзывы", stadium_reviews_path(@stadium), wrap_tag: :li, active: :exclusive
+              = yield
+        - else
+          = yield
 
 = render template: 'layouts/application'
