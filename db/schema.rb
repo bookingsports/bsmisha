@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160803072539) do
+ActiveRecord::Schema.define(version: 20160804105415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -123,6 +123,17 @@ ActiveRecord::Schema.define(version: 20160803072539) do
   end
 
   add_index "deposits", ["wallet_id"], name: "index_deposits_on_wallet_id", using: :btree
+
+  create_table "discounts", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "area_id"
+    t.float    "value",      default: 0.0
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "discounts", ["area_id"], name: "index_discounts_on_area_id", using: :btree
+  add_index "discounts", ["user_id"], name: "index_discounts_on_user_id", using: :btree
 
   create_table "event_changes", force: :cascade do |t|
     t.integer  "event_id"
@@ -356,6 +367,8 @@ ActiveRecord::Schema.define(version: 20160803072539) do
   add_foreign_key "deposit_requests", "wallets"
   add_foreign_key "deposit_responses", "deposit_requests"
   add_foreign_key "deposits", "wallets"
+  add_foreign_key "discounts", "areas"
+  add_foreign_key "discounts", "users"
   add_foreign_key "event_changes", "events"
   add_foreign_key "events", "areas"
   add_foreign_key "events", "coaches"

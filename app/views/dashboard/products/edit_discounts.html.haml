@@ -1,0 +1,20 @@
+%h1 Скидки
+
+= simple_form_for @product, as: :product, url: dashboard_product_path do |f|
+  = f.error_notification
+  = f.simple_fields_for :areas, @product.areas.includes(:discounts) do |area|
+    %h2= area.object.name
+    = link_to_add_association 'Добавить скидку', area, :discounts, class: 'btn btn-primary', 'data-association-insertion-node' => ".discounts_#{area.object.id}", 'data-association-insertion-method' => 'append'
+    %table.table.site-table
+      %thead.site-table__head
+        %tr
+          %th Пользователь
+          %th Скидка, %
+          %th
+      %tbody{class: "site-table__body discounts_#{area.object.id}"}
+        = area.simple_fields_for :discounts, area.object.discounts.any? && area.object.discounts do |disc|
+          = render "discount_fields", f: disc
+
+  = f.submit "Сохранить изменения", class: 'btn btn-success'
+
+%br

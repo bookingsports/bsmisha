@@ -268,26 +268,23 @@ class Event < ActiveRecord::Base
       raise ActiveRecord::Rollback
     end
     rec = user.recoupments.where(area: area).first
+    discount = user.discounts.where(area: area).first
+    percent = 0
+
     if rec.present? && rec.price > calculate_price
-      rec.update price: (rec.price - calculate_price)
+      rec.update! price: (rec.price - calculate_price)
     elsif rec.present? && rec.price <= calculate_price && rec.price > 0
-      user.wallet.withdraw! calculate_price - rec.price
-      area.stadium.user.wallet.deposit_with_tax_deduction!(area_price * (calculate_price - rec.price) / calculate_price)
-      if coach.present?
-        coach.user.wallet.deposit_with_tax_deduction!(coach_percent_price * (calculate_price - rec.price) / calculate_price)
-        area.stadium.user.wallet.deposit_with_tax_deduction!(coach_stadium_price * (calculate_price - rec.price) / calculate_price)
-      end
-      stadium_services.present? && area.stadium.user.wallet.deposit_with_tax_deduction!(stadium_services_price * (calculate_price - rec.price) / calculate_price)
-      rec.destroy
+      rec.destroy!
+      percent = (calculate_price - rec.price) / calculate_price
     else
-      user.wallet.withdraw! calculate_price
-      area.stadium.user.wallet.deposit_with_tax_deduction! area_price
-      if coach.present?
-        coach.user.wallet.deposit_with_tax_deduction!(coach_percent_price)
-        area.stadium.user.wallet.deposit_with_tax_deduction!(coach_stadium_price)
-      end
-      stadium_services.present? && area.stadium.user.wallet.deposit_with_tax_deduction!(event.stadium_services_price)
+      percent = 1
     end
+
+    if discount
+      percent *= (100 - discount.value) / 100
+    end
+
+    pay_with_percent! percent
     self.update status: :paid
   end
 
@@ -321,6 +318,18 @@ class Event < ActiveRecord::Base
         create_event_change old_start: start_was, old_stop: stop_was, new_start: self.start, new_stop: self.stop, new_price: calculate_price
         self.start = start_was
         self.stop = stop_was
+      end
+    end
+
+    def pay_with_percent! percent
+      if percent > 0
+        user.wallet.withdraw! calculate_price * percent
+        area.stadium.user.wallet.deposit_with_tax_deduction!(area_price * percent)
+        if coach.present?
+          coach.user.wallet.deposit_with_tax_deduction!(coach_percent_price * percent)
+          area.stadium.user.wallet.deposit_with_tax_deduction!(coach_stadium_price * percent)
+        end
+        stadium_services.present? && area.stadium.user.wallet.deposit_with_tax_deduction!(stadium_services_price * percent)
       end
     end
 

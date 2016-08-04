@@ -32,7 +32,7 @@ class Stadium < ActiveRecord::Base
   has_many :prices, -> { where('prices.stop > ?', Time.now) },  through: :areas
   has_many :daily_price_rules, through: :prices
   has_many :pictures, as: :imageable
-  has_many :reviews, as: :reviewable
+  has_many :reviews, as: :reviewable, dependent: :destroy
 
   has_one :account, as: :accountable, dependent: :destroy
   has_many :stadium_services, dependent: :destroy
