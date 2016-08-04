@@ -121,13 +121,24 @@ class EventsController < ApplicationController
   def create
     @event = current_user.events.create event_params.delete_if {|k,v| v.empty? }
     @event.area = current_product
-    if current_user.type == "StadiumUser" && current_user.stadium.areas.include?(@event.area)
-      @event.status = :locked
-    end
-    if @event.save
-      respond_with @event
+    if @event.recurring?
+      @events = Event.split_recurring @event
+      t = ActiveRecord::Base.transaction { @events.each(&:save) }
+      errors = @events.map(&:errors).map(&:messages).select(&:present?)
+      if errors.blank?
+        respond_with @events
+      else
+        render json: { error: errors.map(&:values).join(", ") }
+      end
     else
-      render json: { error: @event.errors.messages.values.join(" ") }
+      if current_user.type == "StadiumUser" && current_user.stadium.areas.include?(@event.area)
+      @event.status = :locked
+      end
+      if @event.save
+        respond_with @event
+      else
+        render json: { error: @event.errors.messages.values.join(" ") }
+      end
     end
   end
 

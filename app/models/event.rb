@@ -86,6 +86,8 @@ class Event < ActiveRecord::Base
     end
   end
 
+  after_save :update_price_cache
+
   after_save :update_counter_cache
   after_destroy :update_counter_cache
 
@@ -108,11 +110,7 @@ class Event < ActiveRecord::Base
   def occurrences
     return 1 unless recurring?
     build_schedule
-    if @schedule.terminating?
-      @schedule.all_occurrences.length
-    else
-      @schedule.occurrences(Time.current + 1.month).length
-    end
+    @schedule.all_occurrences.length
   end
 
   def all_occurrences
@@ -216,7 +214,7 @@ class Event < ActiveRecord::Base
     daily_price_rules = prices.first.daily_price_rules.where(DailyPriceRule.between start, stop)
   end
 
-  def price
+  def calculate_price
     area_price + stadium_services_price + coach_price
   end
 
@@ -260,25 +258,29 @@ class Event < ActiveRecord::Base
     self.area.stadium.save
   end
 
+  def update_price_cache
+    update_column "price", calculate_price
+  end
+
   def pay!
     if overlaps? start, stop
       self.errors.add(:base, 'накладываются на другие события')
       raise ActiveRecord::Rollback
     end
     rec = user.recoupments.where(area: area).first
-    if rec.present? && rec.price > price
-      rec.update price: (rec.price - price)
-    elsif rec.present? && rec.price <= price && rec.price > 0
-      user.wallet.withdraw! price - rec.price
-      area.stadium.user.wallet.deposit_with_tax_deduction!(area_price * (price - rec.price) / price)
+    if rec.present? && rec.price > calculate_price
+      rec.update price: (rec.price - calculate_price)
+    elsif rec.present? && rec.price <= calculate_price && rec.price > 0
+      user.wallet.withdraw! calculate_price - rec.price
+      area.stadium.user.wallet.deposit_with_tax_deduction!(area_price * (calculate_price - rec.price) / calculate_price)
       if coach.present?
-        coach.user.wallet.deposit_with_tax_deduction!(coach_percent_price * (price - rec.price) / price)
-        area.stadium.user.wallet.deposit_with_tax_deduction!(coach_stadium_price * (price - rec.price) / price)
+        coach.user.wallet.deposit_with_tax_deduction!(coach_percent_price * (calculate_price - rec.price) / calculate_price)
+        area.stadium.user.wallet.deposit_with_tax_deduction!(coach_stadium_price * (calculate_price - rec.price) / calculate_price)
       end
-      stadium_services.present? && area.stadium.user.wallet.deposit_with_tax_deduction!(stadium_services_price * (price - rec.price) / price)
+      stadium_services.present? && area.stadium.user.wallet.deposit_with_tax_deduction!(stadium_services_price * (calculate_price - rec.price) / calculate_price)
       rec.destroy
     else
-      user.wallet.withdraw! price
+      user.wallet.withdraw! calculate_price
       area.stadium.user.wallet.deposit_with_tax_deduction! area_price
       if coach.present?
         coach.user.wallet.deposit_with_tax_deduction!(coach_percent_price)
@@ -289,16 +291,34 @@ class Event < ActiveRecord::Base
     self.update status: :paid
   end
 
+  def self.split_recurring event
+    if event.recurring?
+      schedule = IceCube::Schedule.new event.start do |s|
+        s.add_recurrence_rule(IceCube::Rule.from_ical(event.recurrence_rule))
+        if event.recurrence_exception.present? && event.recurrence_exception =~ /=/
+          s.add_exception_rule(IceCube::Rule.from_ical(event.recurrence_exception))
+        end
+      end
+      return schedule.all_occurrences.map do |o|
+        e = event.dup
+        e.assign_attributes(start: o, stop: o + event.duration, recurrence_rule: nil, recurrence_exception: nil)
+        e
+      end
+    else
+      [event]
+    end
+  end
+
   private
     def create_event_change_if_not_present
       if (!start_changed? && !stop_changed?) || unpaid?
         return true
       elsif event_change.present? && event_change.unpaid? # updating event change, rolling back original event
-        event_change.update new_start: self.start, new_stop:self.stop, new_price: price
+        event_change.update new_start: self.start, new_stop:self.stop, new_price: calculate_price
         self.start = start_was
         self.stop = stop_was
       elsif event_change.blank? # no event change, creating one and rolling back the event
-        create_event_change old_start: start_was, old_stop: stop_was, new_start: self.start, new_stop: self.stop, new_price: price
+        create_event_change old_start: start_was, old_stop: stop_was, new_start: self.start, new_stop: self.stop, new_price: calculate_price
         self.start = start_was
         self.stop = stop_was
       end

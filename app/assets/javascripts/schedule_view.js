@@ -96,6 +96,7 @@ $("#scheduler").kendoScheduler({
       e.container.find("#services-wrapper").hide()
     }
 
+    console.log(e.event.isNew())
     if (e.event.isNew && e.sender.viewName() == "month")
     {
       start = e.container.find("[name=start][data-role=datetimepicker]");
@@ -103,9 +104,14 @@ $("#scheduler").kendoScheduler({
       date_start = new Date(e.event.start.getFullYear(), e.event.start.getMonth(), e.event.start.getDate(), opens_at.getHours(), opens_at.getMinutes(), opens_at.getSeconds())
       date_end = new Date(e.event.start.getFullYear(), e.event.start.getMonth(), e.event.start.getDate(), closes_at.getHours(), closes_at.getMinutes(), closes_at.getSeconds())
 
+      console.log(date_start, date_end)
+
       $(start).data("kendoDateTimePicker").value(date_start);
       $(end).data("kendoDateTimePicker").value(date_end);
     }
+
+    if (!e.event.isNew())
+      e.container.find("#recurrence-wrapper").hide()
 
     if (!gon.current_user || (e.event.visual_type == 'disowned' && gon.current_user.type != "StadiumUser"))
     {
@@ -167,7 +173,7 @@ $("#scheduler").kendoScheduler({
     else
     {
       validation = validate(e.event.start, e.event.end, e.event)
-      if (validation !== true)
+      if (validation !== true && validation !== 'Заказ должен начинаться и заканчиваться в один день')
       {
         alert(validation);
         e.preventDefault();
