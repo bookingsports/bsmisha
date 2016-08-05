@@ -65,16 +65,33 @@ class EventChange < ActiveRecord::Base
 
   def pay!
     rec = event.user.recoupments.where(area: event.area).first
+    discount = event.user.discounts.where(area: event.area).first
+    percent = 0
+
     if rec.present? && rec.price > total
       rec.update price: (rec.price - total)
     elsif rec.present? && rec.price <= total && rec.price > 0
-      event.user.wallet.withdraw! total - rec.price
-      event.area.stadium.user.wallet.deposit_with_tax_deduction! (total  * (total - rec.price) / total)
+      percent = total - rec.price
       rec.destroy
     else
-      event.user.wallet.withdraw! total
-      event.area.stadium.user.wallet.deposit_with_tax_deduction! total
+      percent = 1
     end
+
+    if discount
+      percent *= (100 - discount.value) / 100
+    end
+
+    byebug
+
+    pay_with_percent! percent
     self.update status: :paid
   end
+
+  private
+    def pay_with_percent! percent
+      if percent > 0
+        event.user.wallet.withdraw! total * percent
+        event.area.stadium.user.wallet.deposit_with_tax_deduction! total * percent
+      end
+    end
 end

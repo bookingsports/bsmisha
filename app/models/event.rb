@@ -189,7 +189,7 @@ class Event < ActiveRecord::Base
   end
 
   def coach_price
-    coach.present? ? coach.coaches_areas.where(area: area).first.price * duration_in_hours * occurrences : 0
+    coach.present? ? coach.coaches_areas.where(area: area).first.price.to_f * duration_in_hours * occurrences : 0
   end
 
   def area_price
