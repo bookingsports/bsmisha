@@ -113,12 +113,12 @@ class MyEventsController < EventsController
 
     @events = Event.where(id: params[:event_ids])
     @event_changes = EventChange.where(id: params[:event_change_ids])
-    @recoupments = current_user.recoupments.where(area: @events.map(&:area_id))
-    @discounts = current_user.discounts.where(area: @events.map(&:area_id))
     @area_ids = (@events.map(&:area_id) + @event_changes.map{|e| e.event.area_id}).uniq
+    @recoupments = current_user.recoupments.where(area: @area_ids)
+    @discounts = current_user.discounts.where(area: @area_ids)
 
     @total = @events.map{|e| e.price * current_user.discounts.where(area: e.area).first.percent }.inject(:+).to_i +
-              @event_changes.map(&:total).inject(:+).to_i -
+              @event_changes.map{|e| e.total * current_user.discounts.where(area: e.event.area).first.percent }.inject(:+).to_i -
               current_user.recoupments.where(area: @area_ids).uniq.map(&:price).sum
   end
 

@@ -78,7 +78,7 @@ class EventChange < ActiveRecord::Base
     end
 
     if discount
-      percent *= (100 - discount.value) / 100
+      percent *= discount.percent
     end
 
     pay_with_percent! percent
