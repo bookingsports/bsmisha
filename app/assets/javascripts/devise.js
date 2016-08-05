@@ -62,3 +62,7 @@ $('.schedule-legend-nav__dop-button').click(function(e){
 
     $('.schedule-legend-nav__dop-wrap').toggleClass('open');
 });
+
+setTimeout(function () {
+  $('.alert').remove();
+}, 10000);
