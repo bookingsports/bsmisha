@@ -96,15 +96,12 @@ $("#scheduler").kendoScheduler({
       e.container.find("#services-wrapper").hide()
     }
 
-    console.log(e.event.isNew())
     if (e.event.isNew && e.sender.viewName() == "month")
     {
       start = e.container.find("[name=start][data-role=datetimepicker]");
       end = e.container.find("[name=stop][data-role=datetimepicker]");
       date_start = new Date(e.event.start.getFullYear(), e.event.start.getMonth(), e.event.start.getDate(), opens_at.getHours(), opens_at.getMinutes(), opens_at.getSeconds())
       date_end = new Date(e.event.start.getFullYear(), e.event.start.getMonth(), e.event.start.getDate(), closes_at.getHours(), closes_at.getMinutes(), closes_at.getSeconds())
-
-      console.log(date_start, date_end)
 
       $(start).data("kendoDateTimePicker").value(date_start);
       $(end).data("kendoDateTimePicker").value(date_end);

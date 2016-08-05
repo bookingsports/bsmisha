@@ -81,8 +81,6 @@ class EventChange < ActiveRecord::Base
       percent *= (100 - discount.value) / 100
     end
 
-    byebug
-
     pay_with_percent! percent
     self.update status: :paid
   end
