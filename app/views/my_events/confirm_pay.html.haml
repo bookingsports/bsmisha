@@ -50,6 +50,25 @@
               Цена:
             = rec.price
 
+- if @discounts.present?
+  %h4 Скидки
+  %table.table.table-hover.site-table
+    %thead.site-table__head
+      %tr
+        %th Стадион и площадка
+        %th Скидка, %
+    %tbody.site-table__body
+      - @discounts.each do |disc|
+        %tr.site-table__item
+          %td.site-table__item-option
+            %span.site-table__item-title
+              Стадион и площадка:
+            = disc.area.name_with_stadium
+          %td.site-table__item-option
+            %span.site-table__item-title
+              Скидка, %
+            = disc.value
+
 - if current_user.wallet.can_spend? @total
   = form_tag pay_my_events_path, method: :post do |f|
     - @events.each do |e|

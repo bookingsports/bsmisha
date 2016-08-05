@@ -220,6 +220,31 @@
               Сумма:
             = number_to_integer_currency(recoupment.price)
 
+- if @discounts.present?
+  %hr
+  %h4 Отыгрыши
+  %table.table.table-hover.site-table#discounts
+    %thead.site-table__head
+      %tr
+        %th Стадион
+        %th Площадка
+        %th Скидка, %
+    %tbody.site-table__body
+      - @discounts.each do |disc|
+        %tr.site-table__item
+          %td.site-table__item-option
+            %span.site-table__item-title
+              Стадион:
+            = link_to disc.area.stadium.name, disc.area.stadium
+          %td.site-table__item-option
+            %span.site-table__item-title
+              Площадка:
+            = link_to disc.area.name, stadium_area_path(disc.area.stadium, disc.area)
+          %td.site-table__item-option
+            %span.site-table__item-title
+              Скидка, %:
+            = disc.value
+
 %hr
 %h4 Оплаченные занятия
 - @events_paid.group_by{|e| e.area.stadium }.map do |stadium, by_stadium|

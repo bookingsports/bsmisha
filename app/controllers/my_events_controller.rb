@@ -10,6 +10,7 @@ class MyEventsController < EventsController
 
     @event_changes = current_user.event_changes.order(created_at: :desc).unpaid.future
     @recoupments = current_user.recoupments.where.not(price: 0)
+    @discounts = current_user.discounts
 
     respond_to do |format|
       format.json { @events = @events.of_products([current_product]) }
@@ -113,9 +114,10 @@ class MyEventsController < EventsController
     @events = Event.where(id: params[:event_ids])
     @event_changes = EventChange.where(id: params[:event_change_ids])
     @recoupments = current_user.recoupments.where(area: @events.map(&:area_id))
+    @discounts = current_user.discounts.where(area: @events.map(&:area_id))
     @area_ids = (@events.map(&:area_id) + @event_changes.map{|e| e.event.area_id}).uniq
 
-    @total = @events.map(&:price).inject(:+).to_i +
+    @total = @events.map{|e| e.price * current_user.discounts.where(area: e.area).first.percent }.inject(:+).to_i +
               @event_changes.map(&:total).inject(:+).to_i -
               current_user.recoupments.where(area: @area_ids).uniq.map(&:price).sum
   end
