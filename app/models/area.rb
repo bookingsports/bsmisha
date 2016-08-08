@@ -28,6 +28,7 @@ class Area < ActiveRecord::Base
 
   validates :name, :stadium_id, presence: true
   validates :change_price, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
+  validates_uniqueness_of :slug
 
   accepts_nested_attributes_for :recoupments, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :discounts, reject_if: :all_blank, allow_destroy: true
@@ -44,5 +45,9 @@ class Area < ActiveRecord::Base
 
   def kendo_area_id
     id % 30
+  end
+
+  def should_generate_new_friendly_id?
+    slug.blank? || name_changed?
   end
 end

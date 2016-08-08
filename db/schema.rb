@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160804105415) do
+ActiveRecord::Schema.define(version: 20160808100501) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20160804105415) do
     t.datetime "updated_at"
   end
 
+  add_index "areas", ["slug"], name: "index_areas_on_slug", unique: true, using: :btree
   add_index "areas", ["stadium_id"], name: "index_areas_on_stadium_id", using: :btree
 
   create_table "categories", force: :cascade do |t|
@@ -65,6 +66,7 @@ ActiveRecord::Schema.define(version: 20160804105415) do
     t.datetime "updated_at",  null: false
   end
 
+  add_index "coaches", ["slug"], name: "index_coaches_on_slug", unique: true, using: :btree
   add_index "coaches", ["user_id"], name: "index_coaches_on_user_id", using: :btree
 
   create_table "coaches_areas", force: :cascade do |t|
@@ -271,6 +273,7 @@ ActiveRecord::Schema.define(version: 20160804105415) do
   end
 
   add_index "stadiums", ["category_id"], name: "index_stadiums_on_category_id", using: :btree
+  add_index "stadiums", ["slug"], name: "index_stadiums_on_slug", unique: true, using: :btree
   add_index "stadiums", ["user_id"], name: "index_stadiums_on_user_id", using: :btree
 
   create_table "static_pages", force: :cascade do |t|
@@ -280,6 +283,8 @@ ActiveRecord::Schema.define(version: 20160804105415) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "static_pages", ["slug"], name: "index_static_pages_on_slug", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",         null: false

@@ -57,6 +57,7 @@ class Stadium < ActiveRecord::Base
 
   enum status: [:pending, :active, :locked]
 
+  validates_uniqueness_of :slug
   validates_associated :stadium_services, :areas
   validates :opens_at, :closes_at, :address, :category, presence: true
   #validates :closes_at, greater_by_30_min: {than: :opens_at}, allow_blank: true
@@ -99,6 +100,10 @@ class Stadium < ActiveRecord::Base
 
     def parse_address
       AddressParser.new(self).perform
+    end
+
+    def should_generate_new_friendly_id?
+      slug.blank? || name_changed?
     end
 
 end

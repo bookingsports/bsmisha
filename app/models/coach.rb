@@ -33,6 +33,8 @@ class Coach < ActiveRecord::Base
 
   after_create :create_account
 
+  validates_uniqueness_of :slug
+
   def customers
     Customer.joins(:events).where(events: {coach_id: id}).uniq
   end
@@ -43,5 +45,9 @@ class Coach < ActiveRecord::Base
 
   def name
     user.present? ? user.name : nil
+  end
+
+  def should_generate_new_friendly_id?
+    slug.blank? || name_changed?
   end
 end

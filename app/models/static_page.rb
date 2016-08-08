@@ -17,7 +17,13 @@ class StaticPage < ActiveRecord::Base
   include FriendlyId
   friendly_id :title, use: [:slugged]
 
+  validates_uniqueness_of :slug
+
   def name
     title
+  end
+
+  def should_generate_new_friendly_id?
+    slug.blank? || name_changed?
   end
 end
