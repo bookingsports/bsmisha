@@ -306,6 +306,22 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def self.scoped_by options
+    @events = Event.paid_or_confirmed
+    options[:area] && (@events = @events.where(area: options[:area]))
+    options[:coach] && (@events = @events.where(coach: options[:coach]))
+
+    if options[:user].present?
+      @user_events = options[:user].events
+      options[:area] && (@user_events = @user_events.where(area: options[:area]))
+      options[:coach] && (@user_events = @user_events.where(coach: options[:coach]))
+      @events = @events.union(@user_events)
+    end
+
+    @events = @events.includes(:area, :coach, :stadium_services, :event_change, :user)
+    @events
+  end
+
   private
     def create_event_change_if_not_present
       if (!start_changed? && !stop_changed?) || unpaid?
