@@ -2,21 +2,22 @@
   .body-bg
     .row
       .entry
-        %h1
-          Личный кабинет
-        %hr/
-        .row
-          .col-xs-12.col-sm-12.col-md-12.col-lg-12
-            %ul.nav.nav-pills.nav-justified.dashboard-nav
-              = render 'layouts/navigations/' + current_user.type.underscore
-              -#%li
-                = link_to  '#', class: 'dropdown-toggle', data: {toggle: 'dropdown'} do
-                  = nav[:name]
-                  %span.caret
-                %ul.dropdown-menu( role="menu" )
-                  - nav[:items].each do |item|
-                    = active_link_to item[:name], item[:link] == '#' && item[:link] || send(item[:link]), wrap_tag: :li, active: item[:active] || :exclusive
-                - else
-                  = active_link_to nav[:name], nav[:link] == '#' && nav[:link] || send(nav[:link]), wrap_tag: :li, active: nav[:active] || :exclusive
+        - if !current_user.admin?
+          %h1
+            Личный кабинет
+          %hr/
+          .row
+            .col-xs-12.col-sm-12.col-md-12.col-lg-12
+              %ul.nav.nav-pills.nav-justified.dashboard-nav
+                = render 'layouts/navigations/' + current_user.type.underscore
+                -#%li
+                  = link_to  '#', class: 'dropdown-toggle', data: {toggle: 'dropdown'} do
+                    = nav[:name]
+                    %span.caret
+                  %ul.dropdown-menu( role="menu" )
+                    - nav[:items].each do |item|
+                      = active_link_to item[:name], item[:link] == '#' && item[:link] || send(item[:link]), wrap_tag: :li, active: item[:active] || :exclusive
+                  - else
+                    = active_link_to nav[:name], nav[:link] == '#' && nav[:link] || send(nav[:link]), wrap_tag: :li, active: nav[:active] || :exclusive
             = yield
 = render template: 'layouts/application'
