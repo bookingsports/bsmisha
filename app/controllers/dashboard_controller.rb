@@ -1,5 +1,6 @@
 class DashboardController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :check_if_user_is_admin!
   layout "dashboard"
 
   def show
@@ -19,4 +20,11 @@ class DashboardController < ApplicationController
 
   def payment_settings
   end
+
+  private
+    def check_if_user_is_admin!
+      if current_user.type == "Admin"
+        redirect_to root_url
+      end
+    end
 end
