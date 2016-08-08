@@ -277,8 +277,8 @@ $("select#stadium").change(function () {
                 $(".schedule-legend-nav").append(
                   '<div class="col-lg-4 col-sm-6 col-xs-12">'
                   + '<div class="legend-label legend-kendo-area-' + area.kendo_id
-                  + '"></div>'
-                  + '<a href="/stadiums/' + area.stadium_slug + '/areas/' + area.slug + '"> '
+                  + '"></div> '
+                  + '<a href="/stadiums/' + area.stadium_slug + '/areas/' + area.slug + '">'
                   + area.name_with_stadium + '</a></div>')
             });
 

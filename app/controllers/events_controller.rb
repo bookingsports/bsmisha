@@ -40,12 +40,8 @@ class EventsController < ApplicationController
       @events = Event.scoped_by(coach: current_user.coach, user: current_user)
     elsif current_user.present? && current_user.type == "StadiumUser"
       @events = Event.scoped_by(area: Area.where(id: current_user.area_ids), user: current_user)
-    elsif current_user.present?
-      @events = Event.scoped_by(user: current_user)
-    elsif params[:area_id].present?
-      @events = Event.scoped_by(area: current_product)
-    else
-      @events = Event.paid_or_confirmed
+    else current_user.present?
+      @events = Event.scoped_by(user: current_user, area: current_product)
     end
     respond_with @events
   end
