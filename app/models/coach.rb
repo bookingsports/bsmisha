@@ -18,6 +18,7 @@ class Coach < ActiveRecord::Base
   belongs_to :user, class_name: "User"
   has_many :coaches_areas, dependent: :destroy
   has_many :areas, through: :coaches_areas
+  has_many :events
 
   has_one :account, as: :accountable, dependent: :destroy
 

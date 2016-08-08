@@ -1,4 +1,6 @@
 class Dashboard::ProductsController < DashboardController
+  before_filter :check_if_user_is_customer!
+  before_filter :check_if_user_is_stadium_user!, only: [:edit_recoupments, :edit_discounts]
   before_filter :find_product
 
   def edit
@@ -24,6 +26,7 @@ class Dashboard::ProductsController < DashboardController
       redirect_to :back, alert: "Нельзя удалить площадку, у которой еще есть заказы!"
     end
   end
+
 
   private
 
@@ -54,5 +57,17 @@ class Dashboard::ProductsController < DashboardController
                           discounts_attributes: [:id, :user_id, :_destroy, :area_id, :value]],
         stadium_services_attributes: [:id, :periodic, :price, :_destroy, service_attributes: [:id, :name, :_destroy]],
       )
+    end
+
+    def check_if_user_is_customer!
+      if current_user.type == "Customer"
+        redirect_to root_path
+      end
+    end
+
+    def check_if_user_is_stadium_user!
+      if current_user.type != "StadiumUser"
+        redirect_to root_path
+      end
     end
 end

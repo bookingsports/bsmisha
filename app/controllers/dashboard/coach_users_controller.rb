@@ -1,4 +1,5 @@
 class Dashboard::CoachUsersController < DashboardController
+  before_filter :check_if_user_is_stadium_user!
   before_filter :find_coach, except: [ :index, :new, :create, :confirm ]
 
   def index
@@ -62,5 +63,11 @@ class Dashboard::CoachUsersController < DashboardController
       params.require(:coach_user).permit(:name, :password, :password_confirmation, :email,
         coach_attributes: [:name, :price, :id, area_ids: [],
         coaches_areas_attributes: [:id, :area_id, :price, :_destroy]])
+    end
+
+    def check_if_user_is_stadium_user!
+      if current_user.type != "StadiumUser"
+        redirect_to root_url
+      end
     end
 end

@@ -19,5 +19,5 @@
                       = active_link_to item[:name], item[:link] == '#' && item[:link] || send(item[:link]), wrap_tag: :li, active: item[:active] || :exclusive
                   - else
                     = active_link_to nav[:name], nav[:link] == '#' && nav[:link] || send(nav[:link]), wrap_tag: :li, active: nav[:active] || :exclusive
-            = yield
+              = yield
 = render template: 'layouts/application'

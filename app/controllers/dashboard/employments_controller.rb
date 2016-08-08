@@ -1,4 +1,6 @@
 class Dashboard::EmploymentsController < DashboardController
+  before_filter :check_if_user_is_coach_user!
+
   def index
     @coach = current_user.coach.present? ? current_user.coach : current_user.build_coach
     @areas = @coach.coaches_areas
@@ -15,7 +17,14 @@ class Dashboard::EmploymentsController < DashboardController
 
   def destroy
     current_user.coach.coaches_areas.find(params[:id]).destroy
-
     redirect_to dashboard_employments_path
   end
+
+  private
+
+    def check_if_user_is_coach_user!
+      if current_user.type != "CoachUser"
+        redirect_to root_url
+      end
+    end
 end

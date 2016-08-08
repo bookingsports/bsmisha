@@ -21,9 +21,13 @@ class MyEventsController < EventsController
   def paid
     if current_user.kind_of? StadiumUser
       @events = current_user.stadium.events
-    else
+    elsif current_user.kind_of? CoachUser
       @events = current_user.coach.events
+    else
+      redirect_to root_url
+      return
     end
+
     @past_paid_events = @events.order(start: :desc).paid.includes(:area, :stadium_services, :coach).past
     @future_paid_events = @events.order(start: :desc).paid.includes(:area, :stadium_services, :coach).future
     @confirmed_events = @events.order(start: :desc).unpaid.confirmed.includes(:area, :stadium_services, :coach, :order).future
