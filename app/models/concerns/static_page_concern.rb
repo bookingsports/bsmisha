@@ -15,6 +15,18 @@ module StaticPageConcern
         field :updated_at
       end
 
+      show do
+        field :title
+        field :slug
+        field :text do
+          formatted_value do
+            bindings[:view].raw value
+          end
+        end
+        field :created_at
+        field :updated_at
+      end
+
       edit do
         field :title
         field :slug
