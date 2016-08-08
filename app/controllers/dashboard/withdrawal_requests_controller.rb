@@ -1,4 +1,6 @@
 class Dashboard::WithdrawalRequestsController < DashboardController
+  skip_before_filter :check_if_user_is_admin!, only: :print
+
   def index
     @requests = current_user.wallet.withdrawal_requests.all.order("created_at desc");
     @request = current_user.wallet.withdrawal_requests.new
