@@ -277,7 +277,9 @@ $("select#stadium").change(function () {
                 $(".schedule-legend-nav").append(
                   '<div class="col-lg-4 col-sm-6 col-xs-12">'
                   + '<div class="legend-label legend-kendo-area-' + area.kendo_id
-                  + '"></div> ' + area.name_with_stadium + '</div>')
+                  + '"></div>'
+                  + '<a href="/stadiums/' + area.stadium_slug + '/areas/' + area.slug + '"> '
+                  + area.name_with_stadium + '</a></div>')
             });
 
             updateSchedule();
@@ -287,6 +289,7 @@ $("select#stadium").change(function () {
 });
 
 $(".check-box").change(updateSchedule);
+$("select#stadium").change();
 
 function updateSchedule() {
   areas_id = $(".check-box:checkbox:checked").map(function(elt) { return this.value }).get()
