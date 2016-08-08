@@ -22,7 +22,7 @@
 
 class EventsController < ApplicationController
   respond_to :json, :html
-  before_filter :authenticate_user!, except: [:index, :parents_events]
+  before_filter :authenticate_user!, except: [:index, :parents_events, :one_day]
 
   def index
     if params[:from] == "one_day" && params[:areas].present?
