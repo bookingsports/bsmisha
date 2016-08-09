@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160809100937) do
+ActiveRecord::Schema.define(version: 20160809110249) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -163,12 +163,15 @@ ActiveRecord::Schema.define(version: 20160809100937) do
     t.string   "recurrence_exception"
     t.integer  "recurrence_id"
     t.boolean  "is_all_day"
-    t.integer  "status",               default: 0
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-    t.boolean  "confirmed",            default: false
+    t.integer  "status",                 default: 0
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.boolean  "confirmed",              default: false
     t.string   "reason"
     t.float    "price"
+    t.float    "area_price",             default: 0.0,   null: false
+    t.float    "coach_price",            default: 0.0,   null: false
+    t.float    "stadium_services_price", default: 0.0,   null: false
   end
 
   add_index "events", ["area_id"], name: "index_events_on_area_id", using: :btree

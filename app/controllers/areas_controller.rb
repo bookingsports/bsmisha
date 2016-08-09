@@ -39,10 +39,10 @@ class AreasController < ApplicationController
     @area = Area.friendly.find(params[:id])
 
     if params[:scope] == "stadium" && current_user.present?
-      @events = current_user.events.includes(:coach, :area, :stadium_services).unconfirmed.future.where(area: @area).sort_by(&:start)
+      @events = current_user.events.includes(:coach, :stadium_services).unconfirmed.future.where(area: @area).sort_by(&:start)
       @eventChanges = current_user.event_changes.future.unpaid.includes(:event)
     elsif params[:scope] == "coach" && current_user.present?
-      @events = current_user.events.includes(:coach, :area, :stadium_services).unconfirmed.future.where(area: @area).where(coach_id: @product.id).sort_by(&:start)
+      @events = current_user.events.includes(:coach, :stadium_services).unconfirmed.future.where(area: @area).where(coach_id: @product.id).sort_by(&:start)
     end
 
     @totalHours = @events.map{|e| e.duration_in_hours * e.occurrences}.inject(:+) || 0

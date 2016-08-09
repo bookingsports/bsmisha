@@ -184,15 +184,15 @@ class Event < ActiveRecord::Base
     has_unpaid_changes?  ? event_change.old_stop : attributes["stop"]
   end
 
-  def stadium_services_price
+  def calculate_stadium_services_price
     stadium_services.map{|ss| ss.price_for_event(self) * occurrences}.inject(:+) || 0
   end
 
-  def coach_price
+  def calculate_coach_price
     coach.present? ? coach.coaches_areas.where(area: area).first.price.to_f * duration_in_hours * occurrences : 0
   end
 
-  def area_price
+  def calculate_area_price
     if recurring?
       build_schedule
       @schedule.all_occurrences.map{|e| prices_for_time(e, e + duration).map{|p| p.time_for_event(self) * p.value}.sum}.sum
@@ -215,7 +215,7 @@ class Event < ActiveRecord::Base
   end
 
   def calculate_price
-    area_price + stadium_services_price + coach_price
+    calculate_area_price + calculate_stadium_services_price + calculate_coach_price
   end
 
   def overlaps? start, stop
@@ -264,6 +264,9 @@ class Event < ActiveRecord::Base
 
   def update_price_cache
     update_column "price", calculate_price
+    update_column "area_price", calculate_area_price
+    update_column "coach_price", calculate_coach_price
+    update_column "stadium_services_price", calculate_stadium_services_price
   end
 
   def pay!
@@ -344,12 +347,12 @@ class Event < ActiveRecord::Base
     def pay_with_percent! percent
       if percent > 0
         user.wallet.withdraw! calculate_price * percent
-        area.stadium.user.wallet.deposit_with_tax_deduction!(area_price * percent)
+        area.stadium.user.wallet.deposit_with_tax_deduction!(calculate_area_price * percent)
         if coach.present?
           coach.user.wallet.deposit_with_tax_deduction!(coach_percent_price * percent)
           area.stadium.user.wallet.deposit_with_tax_deduction!(coach_stadium_price * percent)
         end
-        stadium_services.present? && area.stadium.user.wallet.deposit_with_tax_deduction!(stadium_services_price * percent)
+        stadium_services.present? && area.stadium.user.wallet.deposit_with_tax_deduction!(calculate_stadium_services_price * percent)
       end
     end
 
