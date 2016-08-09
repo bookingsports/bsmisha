@@ -256,6 +256,10 @@ class Event < ActiveRecord::Base
   def update_counter_cache
     self.area.stadium.paid_events_counter = Event.paid.union(Event.confirmed).uniq.where(area: self.area.stadium.area_ids).count
     self.area.stadium.save
+    if self.coach.present?
+      self.coach.paid_events_counter = Event.paid.union(Event.confirmed).uniq.where(coach: self.coach.area_ids).count
+      self.coach.save
+    end
   end
 
   def update_price_cache
