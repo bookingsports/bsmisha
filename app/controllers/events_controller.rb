@@ -26,21 +26,16 @@ class EventsController < ApplicationController
 
   def index
     if params[:from] == "one_day" && params[:areas].present?
-      @events = Event
-                .paid_or_confirmed
-                .where(area: Area.where(slug: params[:areas]))
-                .includes(:area, :coach, :stadium_services, :event_change, :user)
+      @events = Event.scoped_by(area: Area.where(slug: params[:areas]), user: nil)
     elsif params[:from] == "one_day"
       @events = []
     elsif params[:scope] == "coach"
       @events = Event.scoped_by(coach: Coach.friendly.find(params[:coach_id]), area: current_product, user: current_user)
-    elsif params[:area_id].present? && current_user.present? && current_user.type == "CoachUser"
-      @events = Event.scoped_by(area: current_product, user: current_user, coach: current_user.coach)
     elsif current_user.present? && current_user.type == "CoachUser"
-      @events = Event.scoped_by(coach: current_user.coach, user: current_user)
+      @events = Event.scoped_by(area: current_product, user: current_user, coach: current_user.coach)
     elsif current_user.present? && current_user.type == "StadiumUser"
       @events = Event.scoped_by(area: Area.where(id: current_user.area_ids), user: current_user)
-    else current_user.present?
+    else
       @events = Event.scoped_by(user: current_user, area: current_product)
     end
     respond_with @events
@@ -96,7 +91,7 @@ class EventsController < ApplicationController
       end
     else
       if current_user.type == "StadiumUser" && current_user.stadium.areas.include?(@event.area)
-      @event.status = :locked
+        @event.status = :locked
       end
       if @event.save
         respond_with @event
