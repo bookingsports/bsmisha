@@ -14,6 +14,10 @@ class ApplicationController < ActionController::Base
     true
   end
 
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to "/", alert: "Вы не можете просматривать данную страницу."
+  end
+
   protected
 
     def configure_permitted_params
