@@ -182,6 +182,8 @@ class EventsController < ApplicationController
     end
 
     def current_product
-      Area.friendly.find params[:area_id]
+      params[:area_id].present? \
+          ? Area.friendly.find(params[:area_id]) \
+          : Stadium.friendly.find(params[:stadium_id]).areas.includes(:stadium)
     end
 end
