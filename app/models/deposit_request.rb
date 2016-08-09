@@ -28,6 +28,13 @@ class DepositRequest < ActiveRecord::Base
   enum status: [:pending, :success, :failure]
   enum payment_method:  [:robokassa, :yandex_kassa]
 
+  after_save :update_wallet_cache
+  after_destroy :update_wallet_cache
+
+  def update_wallet_cache
+    wallet.update_total_cache
+  end
+
   def name
     "Запрос на пополнение #{wallet_id.present? ? 'кошелька пользователя ' + wallet.user.name : ''} на сумму #{amount} руб."
   end

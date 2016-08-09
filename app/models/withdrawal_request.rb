@@ -26,6 +26,13 @@ class WithdrawalRequest < ActiveRecord::Base
 
   enum status: [:pending, :success, :failure]
 
+  after_save :update_wallet_cache
+  after_destroy :update_wallet_cache
+
+  def update_wallet_cache
+    wallet.update_total_cache
+  end
+
   def name
     "Запрос на снятие #{amount} рублей #{wallet_id.present? ? "с кошелька №" + wallet_id.to_s : ""}"
   end

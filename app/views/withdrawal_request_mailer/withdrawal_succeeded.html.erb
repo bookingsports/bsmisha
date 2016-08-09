@@ -94,7 +94,7 @@
                     Текущий баланс:
                   </p>
                   <p style="margin-bottom: 10px;line-height:20px;font-size:16px;">
-                    <b><%= number_to_currency(@request.wallet.total, precision: 0) %></b>
+                    <b><%= number_to_currency(@request.wallet.calculate_total, precision: 0) %></b>
                   </p>
                 </td>
                 <td width="20">&nbsp;</td>

@@ -40,7 +40,7 @@ class Wallet < ActiveRecord::Base
     end
   end
 
-  def total
+  def calculate_total
     deposits.sum(:amount) - withdrawals.sum(:amount) + deposit_requests.success.sum(:amount) - withdrawal_requests.success.sum(:amount)
   end
 
@@ -50,5 +50,9 @@ class Wallet < ActiveRecord::Base
 
   def tax_for(amount)
     amount.to_f * Rails.application.secrets.tax / 100
+  end
+
+  def update_total_cache
+    update_columns(total: calculate_total)
   end
 end

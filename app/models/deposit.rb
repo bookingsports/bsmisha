@@ -17,6 +17,13 @@ class Deposit < ActiveRecord::Base
 
   belongs_to :wallet, required: true
 
+  after_save :update_wallet_cache
+  after_destroy :update_wallet_cache
+
+  def update_wallet_cache
+    wallet.update_total_cache
+  end
+
   def name
     "Зачисление #{amount.to_i} рублей на кошелек пользователя #{wallet.user.name}"
   end
