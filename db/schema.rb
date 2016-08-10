@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160809110249) do
+ActiveRecord::Schema.define(version: 20160810080005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -163,28 +163,28 @@ ActiveRecord::Schema.define(version: 20160809110249) do
     t.string   "recurrence_exception"
     t.integer  "recurrence_id"
     t.boolean  "is_all_day"
-    t.integer  "status",                 default: 0
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
-    t.boolean  "confirmed",              default: false
+    t.integer  "status",               default: 0
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.boolean  "confirmed",            default: false
     t.string   "reason"
     t.float    "price"
-    t.float    "area_price",             default: 0.0,   null: false
-    t.float    "coach_price",            default: 0.0,   null: false
-    t.float    "stadium_services_price", default: 0.0,   null: false
+    t.float    "area_price",           default: 0.0,   null: false
+    t.float    "coach_price",          default: 0.0,   null: false
+    t.float    "services_price",       default: 0.0,   null: false
   end
 
   add_index "events", ["area_id"], name: "index_events_on_area_id", using: :btree
   add_index "events", ["coach_id"], name: "index_events_on_coach_id", using: :btree
   add_index "events", ["user_id"], name: "index_events_on_user_id", using: :btree
 
-  create_table "events_stadium_services", force: :cascade do |t|
+  create_table "events_services", force: :cascade do |t|
     t.integer "event_id"
-    t.integer "stadium_service_id"
+    t.integer "service_id"
   end
 
-  add_index "events_stadium_services", ["event_id"], name: "index_events_stadium_services_on_event_id", using: :btree
-  add_index "events_stadium_services", ["stadium_service_id"], name: "index_events_stadium_services_on_stadium_service_id", using: :btree
+  add_index "events_services", ["event_id"], name: "index_events_services_on_event_id", using: :btree
+  add_index "events_services", ["service_id"], name: "index_events_services_on_service_id", using: :btree
 
   create_table "pictures", force: :cascade do |t|
     t.string   "name"
@@ -236,21 +236,14 @@ ActiveRecord::Schema.define(version: 20160809110249) do
   create_table "services", force: :cascade do |t|
     t.string   "name"
     t.string   "icon"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "stadium_services", force: :cascade do |t|
-    t.integer  "stadium_id"
-    t.integer  "service_id"
-    t.float    "price"
-    t.boolean  "periodic",   default: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.float    "price",      default: 0.0,   null: false
+    t.boolean  "periodic",   default: false, null: false
+    t.integer  "stadium_id",                 null: false
   end
 
-  add_index "stadium_services", ["service_id"], name: "index_stadium_services_on_service_id", using: :btree
-  add_index "stadium_services", ["stadium_id"], name: "index_stadium_services_on_stadium_id", using: :btree
+  add_index "services", ["stadium_id"], name: "index_services_on_stadium_id", using: :btree
 
   create_table "stadiums", force: :cascade do |t|
     t.integer  "user_id"
@@ -383,14 +376,13 @@ ActiveRecord::Schema.define(version: 20160809110249) do
   add_foreign_key "events", "areas"
   add_foreign_key "events", "coaches"
   add_foreign_key "events", "users"
-  add_foreign_key "events_stadium_services", "events"
-  add_foreign_key "events_stadium_services", "stadium_services"
+  add_foreign_key "events_services", "events"
+  add_foreign_key "events_services", "services"
   add_foreign_key "prices", "areas"
   add_foreign_key "recoupments", "areas"
   add_foreign_key "recoupments", "users"
   add_foreign_key "reviews", "users"
-  add_foreign_key "stadium_services", "services"
-  add_foreign_key "stadium_services", "stadiums"
+  add_foreign_key "services", "stadiums"
   add_foreign_key "stadiums", "categories"
   add_foreign_key "stadiums", "users"
   add_foreign_key "wallets", "users"
