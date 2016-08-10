@@ -30,7 +30,7 @@ class MyEventsController < EventsController
 
     @past_paid_events = @events.order(start: :desc).paid.includes(:area, :services, :coach).past
     @future_paid_events = @events.order(start: :desc).paid.includes(:area, :services, :coach).future
-    @confirmed_events = @events.order(start: :desc).unpaid.confirmed.includes(:area, :services, :coach, :order).future
+    @confirmed_events = @events.order(start: :desc).unpaid.confirmed.includes(:area, :services, :coach).future
   end
 
   def grid
