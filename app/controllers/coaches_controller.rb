@@ -20,7 +20,7 @@ class CoachesController < ApplicationController
       respond_with @coaches_areas
     else
       @q = Coach.includes(:user).ransack(params[:q])
-      @coaches = @q.result
+      @coaches = @q.result.uniq
     end
   end
 
