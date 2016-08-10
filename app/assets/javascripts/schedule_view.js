@@ -12,6 +12,7 @@ closes_at = new Date(gon.closes_at);
 kendo.culture('ru-RU');
 
 canUpdate = true
+isGrid = location.href.indexOf("grid") != -1
 
 $("#scheduler").kendoScheduler({
   culture: 'ru-RU',
@@ -468,13 +469,7 @@ function hide_never ()
 
 scheduler = $("#scheduler").getKendoScheduler();
 
-setInterval(function() {
-  if (!scheduler._editor.container && canUpdate)
-  {
-    scheduler.dataSource.read()
-    scheduler.dataSource.one('requestEnd', function() { $.get(window.location.pathname + '/total.js'); });
-  }
-}, 30000)
+setInterval(updateData, 30000)
 
 $("#scheduler").mousedown(function() {  canUpdate = false; });
 $("#scheduler").mouseup(function() { canUpdate = true; });
@@ -502,10 +497,17 @@ $('#area').on('change', function() {
   scheduler.dataSource.read();
 });
 
-scheduler.dataSource.read()
-scheduler.dataSource.one('requestEnd', function() {
-  $.get(window.location.pathname + '/total.js');
-});
+function updateData()
+{
+  if (!scheduler._editor.container && canUpdate)
+  {
+    scheduler.dataSource.read()
+    if (!isGrid)
+      scheduler.dataSource.one('requestEnd', function() { $.get(window.location.pathname + '/total.js'); });
+  }
+}
+
+updateData();
 
 $("#scheduler").on("click", ".k-scheduler-table td, .k-event", function(e)
 {

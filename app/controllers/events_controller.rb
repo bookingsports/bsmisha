@@ -182,8 +182,12 @@ class EventsController < ApplicationController
     end
 
     def current_product
-      params[:area_id].present? \
-          ? Area.friendly.find(params[:area_id]) \
-          : Stadium.friendly.find(params[:stadium_id]).areas.includes(:stadium)
+      if params[:area_id].present?
+        Area.friendly.find(params[:area_id]) \
+      elsif params[:stadium_id].present?
+        Stadium.friendly.find(params[:stadium_id]).areas.includes(:stadium)
+      else
+        current_user.events.map(&:area).uniq
+      end
     end
 end
