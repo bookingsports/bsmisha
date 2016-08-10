@@ -19,8 +19,8 @@ class CoachesController < ApplicationController
       @coaches_areas = CoachesArea.active.where(area: Area.friendly.find(params[:area_id]))
       respond_with @coaches_areas
     else
-      @q = Coach.includes(:user).joins(:user).ransack(params[:q])
-      @coaches = @q.result(distinct: true)
+      @q = Coach.includes(:user).ransack(params[:q])
+      @coaches = @q.result
     end
   end
 
