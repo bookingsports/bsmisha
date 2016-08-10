@@ -38,7 +38,7 @@
               = render "area_fields", f: area
 
         %h4 Дополнительные услуги
-        = link_to_add_association 'Добавить услугу', f, :stadium_services, class: 'btn btn-primary', 'data-association-insertion-node' => '.services', 'data-association-insertion-method' => 'append'
+        = link_to_add_association 'Добавить услугу', f, :services, class: 'btn btn-primary', 'data-association-insertion-node' => '.services', 'data-association-insertion-method' => 'append'
 
         %table.table.table-hover.site-table
           %thead.site-table__head
@@ -48,8 +48,8 @@
               %th Периодичность
               %th
           %tbody.services.site-table__body
-            = f.simple_fields_for :stadium_services, @product.stadium_services.any? && @product.stadium_services do |stadium_service|
-              = render "stadium_service_fields", f: stadium_service
+            = f.simple_fields_for :services, @product.services.any? && @product.services do |service|
+              = render "service_fields", f: service
 
 
         = f.button :submit, class: 'btn btn-success'

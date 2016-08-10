@@ -12,5 +12,6 @@ ru:
         icon: Иконка
         created_at: Дата создания
         updated_at: Дата изменения
-        stadiums: Стадионы
-        stadium_services: Привязки услуги к стадионам
+        stadium: Стадион
+        price: Цена
+        periodic: Периодичная?

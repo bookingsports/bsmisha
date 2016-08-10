@@ -55,7 +55,7 @@ class Dashboard::ProductsController < DashboardController
         areas_attributes: [:id, :name, :price, :change_price, :category_id, :_destroy,
                           recoupments_attributes: [:id, :user_id, :_destroy, :area_id, :price, :reason],
                           discounts_attributes: [:id, :user_id, :_destroy, :area_id, :value]],
-        stadium_services_attributes: [:id, :periodic, :price, :_destroy, service_attributes: [:id, :name, :_destroy]],
+        services_attributes: [:id, :periodic, :price, :name, :_destroy],
       )
     end
 

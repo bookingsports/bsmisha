@@ -35,11 +35,10 @@ class Stadium < ActiveRecord::Base
   has_many :reviews, as: :reviewable, dependent: :destroy
 
   has_one :account, as: :accountable, dependent: :destroy
-  has_many :stadium_services, dependent: :destroy
-  has_many :services, through: :stadium_services
+  has_many :services, dependent: :destroy
 
   accepts_nested_attributes_for :areas, reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :stadium_services, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :services, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :user, :account
 
   after_create :make_area
@@ -58,7 +57,7 @@ class Stadium < ActiveRecord::Base
   enum status: [:pending, :active, :locked]
 
   validates_uniqueness_of :slug
-  validates_associated :stadium_services, :areas
+  validates_associated :services, :areas
   validates :opens_at, :closes_at, :address, :category, presence: true
   #validates :closes_at, greater_by_30_min: {than: :opens_at}, allow_blank: true
 

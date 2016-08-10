@@ -48,8 +48,8 @@
                 %td.site-table__item-option
                   %span.site-table__item-title
                     Доп. услуги:
-                  - if event.stadium_services.any?
-                    = event.stadium_services.map{|ss| ss.service.name}.join(', ')
+                  - if event.services.any?
+                    = event.services.map(&:name).join(', ')
                   - else
                     &mdash;
                 %td.site-table__item-option
@@ -118,8 +118,8 @@
                 %td.site-table__item-option
                   %span.site-table__item-title
                     Доп. услуги:
-                  - if event.stadium_services.any?
-                    = event.stadium_services.map{|ss| ss.service.name}.join(', ')
+                  - if event.services.any?
+                    = event.services.map(&:name).join(', ')
                   - else
                     &mdash;
                 %td.site-table__item-option

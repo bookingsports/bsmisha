@@ -35,9 +35,7 @@ stadium_addresses = ["ул. Большая Филевская, 20, Москва,
   stadium_user.stadium.areas.create! name: 'Первая'
   stadium_user.stadium.areas.create! name: 'Вторая'
   stadium_user.wallet.deposits.create amount: 100000, status: :active
-
-  service = Service.create name: "Инструктор"
-  stadium_service = stadium_user.stadium.stadium_services.create price: 500, service: service
+  stadium_user.stadium.services.create price: 500, name: "Инструктор", periodic: false
 
   stadium_user.stadium.account.update(number: "30101810200000000700", company: "АО “Райффайзенбанк”, 129090, Россия, г. Москва, ул. Троицкая, д.17/1", inn: "7744000302", kpp: "775001001", bik: "044525700", agreement_number: "1234567890", date: Time.now)
 

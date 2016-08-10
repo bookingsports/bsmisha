@@ -15,6 +15,7 @@ module StadiumConcern
         field :user
         field :slug
         field :areas
+        field :services
         field :account
         field :address
         field :latitude
@@ -44,6 +45,7 @@ module StadiumConcern
         field :category
         field :slug
         field :areas
+        field :services
         field :account
         field :address
         field :latitude
@@ -77,6 +79,7 @@ module StadiumConcern
         field :user
         field :slug
         field :areas
+        field :services
         field :account
         field :address
         field :latitude

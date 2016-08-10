@@ -38,8 +38,8 @@
           <div class="col-xs-4">
             <div class="ticket_table_box_line">
               <span>Доп. услуги</span>
-              <% if event.stadium_services_price.to_i > 0 %>
-                  <span><%= number_to_currency(event.stadium_services_price) %></span>
+              <% if event.services_price.to_i > 0 %>
+                  <span><%= number_to_currency(event.services_price) %></span>
               <% else %>
                   <span>&mdash;</span>
               <% end %>

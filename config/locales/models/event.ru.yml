@@ -25,9 +25,8 @@ ru:
         recurrence_rule: Правило повторения
         recurrence_exception: Исключение повторения
         recurrence_id: Повторение
-        stadium_services: Услуги стадионов
-        event_change: Изменение события
-        additional_event_items: Дополнительные элементы события
+        services: Услуги
+        event_change: Переносы события
         created_at: Дата создания
         updated_at: Дата изменения
         is_all_day: На весь день?

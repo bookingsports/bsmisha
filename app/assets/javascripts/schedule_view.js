@@ -65,7 +65,7 @@ $("#scheduler").kendoScheduler({
       }
     }).data('kendoDropDownList');
 
-    stadium_service_ids = e.container.find("#stadium_service_ids").kendoMultiSelect({
+    service_ids = e.container.find("#service_ids").kendoMultiSelect({
       dataTextField: 'name',
       dataValueField: 'id',
       valuePrimitive: true,
@@ -347,9 +347,9 @@ $("#scheduler").kendoScheduler({
             from: 'coach_id',
             defaultValue: ''
           },
-          stadium_service_ids:
+          service_ids:
           {
-            from: 'stadium_service_ids'
+            from: 'service_ids'
           },
           recurrenceId:
           {

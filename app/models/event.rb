@@ -51,8 +51,8 @@ class Event < ActiveRecord::Base
     self.prices.map(&:daily_price_rules).flatten.select{|d| d.overlaps? self }
   end
 
-  has_and_belongs_to_many :stadium_services
-  accepts_nested_attributes_for :stadium_services
+  has_and_belongs_to_many :services
+  accepts_nested_attributes_for :services
 
   enum status: [:unconfirmed, :confirmed, :locked, :for_sale, :paid]
 
@@ -184,8 +184,8 @@ class Event < ActiveRecord::Base
     has_unpaid_changes?  ? event_change.old_stop : attributes["stop"]
   end
 
-  def calculate_stadium_services_price
-    stadium_services.map{|ss| ss.price_for_event(self) * occurrences}.inject(:+) || 0
+  def calculate_services_price
+    services.map{|s| s.price_for_event(self) * occurrences}.inject(:+) || 0
   end
 
   def calculate_coach_price
@@ -215,7 +215,7 @@ class Event < ActiveRecord::Base
   end
 
   def calculate_price
-    calculate_area_price + calculate_stadium_services_price + calculate_coach_price
+    calculate_area_price + calculate_services_price + calculate_coach_price
   end
 
   def overlaps? start, stop
@@ -266,7 +266,7 @@ class Event < ActiveRecord::Base
     update_column "price", calculate_price
     update_column "area_price", calculate_area_price
     update_column "coach_price", calculate_coach_price
-    update_column "stadium_services_price", calculate_stadium_services_price
+    update_column "services_price", calculate_services_price
   end
 
   def pay!
@@ -325,7 +325,7 @@ class Event < ActiveRecord::Base
       @events = @events.union(@user_events)
     end
 
-    @events = @events.includes(:area, :coach, :stadium_services, :event_change, :user)
+    @events = @events.includes(:area, :coach, :services, :event_change, :user)
     @events
   end
 
@@ -352,7 +352,7 @@ class Event < ActiveRecord::Base
           coach.user.wallet.deposit_with_tax_deduction!(coach_percent_price * percent)
           area.stadium.user.wallet.deposit_with_tax_deduction!(coach_stadium_price * percent)
         end
-        stadium_services.present? && area.stadium.user.wallet.deposit_with_tax_deduction!(calculate_stadium_services_price * percent)
+        services.present? && area.stadium.user.wallet.deposit_with_tax_deduction!(calculate_services_price * percent)
       end
     end
 

@@ -41,9 +41,9 @@
                       Тренер&nbsp;&mdash; <%= number_to_currency(event.coach_price) %>
                     </div>
                 <% end %>
-                <% if event.stadium_services_price.to_i > 0 %>
+                <% if event.services_price.to_i > 0 %>
                     <div class="ticket_table_line">
-                      Доп. услуги&nbsp;&mdash; <%= number_to_currency(event.stadium_services_price) %>
+                      Доп. услуги&nbsp;&mdash; <%= number_to_currency(event.services_price) %>
                     </div>
                 <% end %>
               </td>

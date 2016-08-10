@@ -119,9 +119,9 @@ class EventsController < ApplicationController
 
   def for_sale
     @my_events = current_user.present? \
-        ? current_user.events.includes(:area, :coach, :stadium_services).paid.future
+        ? current_user.events.includes(:area, :coach, :services).paid.future
         : []
-    @events = Event.includes(:area, :coach, :stadium_services).future.for_sale
+    @events = Event.includes(:area, :coach, :services).future.for_sale
   end
 
   def show
@@ -177,7 +177,7 @@ class EventsController < ApplicationController
       params.require(:event).permit(
         :id, :start, :stop, :area_id, :user_id, :coach_id, :is_all_day, :owned, :status, :reason,
         :recurrence_rule, :recurrence_id, :recurrence_exception,
-        stadium_service_ids: []
+        service_ids: []
       )
     end
 

@@ -7,7 +7,9 @@ module ServiceConcern
       list do
         field :name
         field :icon
-        field :stadiums
+        field :price
+        field :periodic
+        field :stadium
         field :created_at
         field :updated_at
       end
@@ -15,13 +17,17 @@ module ServiceConcern
       edit do
         field :name
         field :icon
-        field :stadium_services
+        field :price
+        field :periodic
+        field :stadium
       end
 
       show do
         field :name
         field :icon
-        field :stadiums
+        field :price
+        field :periodic
+        field :stadium
         field :created_at
         field :updated_at
       end

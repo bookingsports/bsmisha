@@ -15,8 +15,8 @@
             <% if event.coach.present? %>
               <li>Стоимость тренера: <%= number_to_currency event.coach_price %> </li>
             <% end %>
-            <% if event.stadium_services.present? %>
-              <li>Стоимость услуг: <%= number_to_currency event.stadium_services_price %> </li>
+            <% if event.services.present? %>
+              <li>Стоимость услуг: <%= number_to_currency event.services_price %> </li>
             <% end %>
           </ul>
         <% end %>

@@ -4,9 +4,9 @@ class MyEventsController < EventsController
 
   def index
     @events = current_user.events
-    @events_unconfirmed = @events.unpaid.future.unconfirmed.order(start: :asc).includes(:area, :coach, :event_change, :stadium_services)
-    @events_confirmed = @events.unpaid.future.confirmed.order(start: :asc).includes(:area, :coach, :event_change, :stadium_services)
-    @events_paid = @events.paid.future.order(start: :asc).includes(:area, :coach, :event_change, :stadium_services)
+    @events_unconfirmed = @events.unpaid.future.unconfirmed.order(start: :asc).includes(:area, :coach, :event_change, :services)
+    @events_confirmed = @events.unpaid.future.confirmed.order(start: :asc).includes(:area, :coach, :event_change, :services)
+    @events_paid = @events.paid.future.order(start: :asc).includes(:area, :coach, :event_change, :services)
 
     @event_changes = current_user.event_changes.order(created_at: :desc).unpaid.future
     @recoupments = current_user.recoupments.where.not(price: 0)
@@ -28,9 +28,9 @@ class MyEventsController < EventsController
       return
     end
 
-    @past_paid_events = @events.order(start: :desc).paid.includes(:area, :stadium_services, :coach).past
-    @future_paid_events = @events.order(start: :desc).paid.includes(:area, :stadium_services, :coach).future
-    @confirmed_events = @events.order(start: :desc).unpaid.confirmed.includes(:area, :stadium_services, :coach, :order).future
+    @past_paid_events = @events.order(start: :desc).paid.includes(:area, :services, :coach).past
+    @future_paid_events = @events.order(start: :desc).paid.includes(:area, :services, :coach).future
+    @confirmed_events = @events.order(start: :desc).unpaid.confirmed.includes(:area, :services, :coach, :order).future
   end
 
   def grid
