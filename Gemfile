@@ -111,7 +111,6 @@ group :test do
   gem "launchy"
   gem "timecop"
   gem "selenium-webdriver"
-  gem "faker", github: 'stympy/faker'
   gem "rspec-rails"
 end
 
@@ -122,6 +121,7 @@ group :development, :test do
   gem "rubocop", require: false
   gem "spring"
   gem "railroady"
+  gem "faker", github: 'stympy/faker'
 end
 
 group :production, :staging do
