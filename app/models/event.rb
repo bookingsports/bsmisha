@@ -270,10 +270,6 @@ class Event < ActiveRecord::Base
   end
 
   def pay!
-    if overlaps? start, stop
-      self.errors.add(:base, 'накладываются на другие события')
-      raise ActiveRecord::Rollback
-    end
     rec = user.recoupments.where(area: area).first
     discount = user.discounts.where(area: area).first
     percent = 0

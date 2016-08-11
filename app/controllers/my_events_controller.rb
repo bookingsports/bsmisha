@@ -137,6 +137,8 @@ class MyEventsController < EventsController
       @event_changes.each(&:pay!)
     end
 
-    #redirect_to my_events_path, notice: "Заказы успешно оплачены"
+    if @events.map(&:errors).any?
+      redirect_to my_events_path, alert: "Возникли ошибки: " + @events.map(&:errors).map(&:full_messages).join(", ")
+    end
   end
 end

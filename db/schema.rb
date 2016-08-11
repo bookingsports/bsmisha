@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160810080005) do
+ActiveRecord::Schema.define(version: 20160811102255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -185,6 +185,16 @@ ActiveRecord::Schema.define(version: 20160810080005) do
 
   add_index "events_services", ["event_id"], name: "index_events_services_on_event_id", using: :btree
   add_index "events_services", ["service_id"], name: "index_events_services_on_service_id", using: :btree
+
+  create_table "order_discounts", force: :cascade do |t|
+    t.integer  "area_id",                  null: false
+    t.float    "start",      default: 0.0, null: false
+    t.integer  "value",      default: 0,   null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "order_discounts", ["area_id"], name: "index_order_discounts_on_area_id", using: :btree
 
   create_table "pictures", force: :cascade do |t|
     t.string   "name"
@@ -378,6 +388,7 @@ ActiveRecord::Schema.define(version: 20160810080005) do
   add_foreign_key "events", "users"
   add_foreign_key "events_services", "events"
   add_foreign_key "events_services", "services"
+  add_foreign_key "order_discounts", "areas"
   add_foreign_key "prices", "areas"
   add_foreign_key "recoupments", "areas"
   add_foreign_key "recoupments", "users"
