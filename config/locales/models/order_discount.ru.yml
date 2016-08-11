@@ -1,0 +1,16 @@
+ru:
+  activerecord:
+    models:
+      order_discount:
+        one: скидка на заказ
+        parent: скидки на заказ
+        accusative: скидки на заказ
+        other: скидки на заказы
+    attributes:
+      order_discount:
+        value: Количество, %
+        area: Площадка
+        area_id: Площадка
+        start: Начиная с данной суммы заказа действует скидка
+        created_at: Дата создания
+        updated_at: Дата изменения
