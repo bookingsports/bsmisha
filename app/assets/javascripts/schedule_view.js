@@ -97,7 +97,7 @@ $("#scheduler").kendoScheduler({
       e.container.find("#services-wrapper").hide()
     }
 
-    if (e.event.isNew && e.sender.viewName() == "month")
+    if (e.event.isNew() && e.sender.viewName() == "month")
     {
       start = e.container.find("[name=start][data-role=datetimepicker]");
       end = e.container.find("[name=stop][data-role=datetimepicker]");
