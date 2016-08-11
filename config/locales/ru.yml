@@ -65,5 +65,5 @@ ru:
       default_message: "Были введены неверные данные:"
   errors:
     messages:
-      extension_white_list_error: "- Формат изображения должен быть одним из следующих: .jpg .jpeg .gif .png"
+      extension_white_list_error: "- Формат изображения должен быть одним из следующих: %{allowed_types}"
       rmagick_processing_error: "- Ошибка при обработке изображения: возможно, файл пустой или не является изображением."
