@@ -43,10 +43,15 @@ class AreasController < ApplicationController
       @eventChanges = current_user.event_changes.future.unpaid.includes(:event)
     elsif params[:scope] == "coach" && current_user.present?
       @events = current_user.events.includes(:coach, :services).unconfirmed.future.where(area: @area).where(coach_id: @product.id).sort_by(&:start)
+      @eventChanges = @events.map(&:event_change)
     end
 
     @totalHours = @events.map{|e| e.duration_in_hours * e.occurrences}.inject(:+) || 0
     @total = @events.map(&:price).inject(:+) || 0
+    @totalChanges = @eventChanges.map(&:price).inject(:+) || 0
+
+    @recoupment = current_user.recoupments.where(area: @area) && current_user.recoupments.where(area: @area).first
+    @discount = current_user.discounts.where(area: @area) && current_user.discounts.where(area: @area).first
 
     respond_to do |format|
       format.js {}

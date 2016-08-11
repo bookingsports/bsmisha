@@ -23,10 +23,13 @@
         </ul>
       <% end %>
     <% if @eventChanges.present? %>
-      <%= t('changes', count: @eventChanges.count) %> на сумму <%= number_to_currency current_user.changes_total(area: @area, coach: @product.id), precision: 0 %></p>
+      <p><%= t('changes', count: @eventChanges.count) %> на сумму <%= number_to_currency @totalChanges, precision: 0 %></p>
     <% end %>
-    <% if current_user.recoupments.where(area: @area).present? &&  current_user.recoupments.where(area: @area).first.price > 0 %>
-      Отыгрышей на сумму <%= number_to_currency current_user.total_recoupments(area: @area), precision: 0 %>
+    <% if @recoupment.present? &&  @recoupment.price > 0 %>
+      <p>Отыгрышей на сумму <%= number_to_currency @recoupment.price, precision: 0 %></p>
+    <% end %>
+    <% if @discount.present? %>
+      <p>Скидка в <%= @discount.value %>%</p>
     <% end %>
     <%= link_to 'Перейти к оплате/Забронировать', my_events_path(), class: 'btn btn-primary add_to_cart_button  product_type_simple', data: { book: true} %>
   <% end %>
