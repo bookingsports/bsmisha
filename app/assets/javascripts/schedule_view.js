@@ -406,7 +406,7 @@ function validate (start, stop, event)
     return 'Нельзя изменить забронированный заказ';
   else if (event.paid && event.paidTransfer)
     return 'Нельзя изменить оплаченный и перенесенный заказ';
-  else if (timeIsPast(event.start))
+  else if (timeIsPast(start, event))
     return 'Невозможно сделать заказ на прошедшее время';
   else if (timeIsOccupied(start, stop, event))
     return 'Это время занято';
@@ -418,9 +418,9 @@ function validate (start, stop, event)
     return true;
 }
 
-function timeIsPast (start)
+function timeIsPast (start, event)
 {
-  if (start < new Date())
+  if (start < new Date() || event.start < new Date())
     return true;
   else
     return false;
