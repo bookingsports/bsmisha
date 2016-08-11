@@ -63,3 +63,6 @@ ru:
       # html: '<abbr title="required">*</abbr>'
     error_notification:
       default_message: "Были введены неверные данные:"
+  errors:
+    messages:
+      extension_white_list_error: "Формат изображения должен быть одним из следующих: jpg jpeg gif png"
