@@ -66,7 +66,7 @@ class Event < ActiveRecord::Base
   scope :future, -> { where arel_table['start'].gt Time.now }
   scope :unpaid, -> { where.not(status: Event.statuses["paid"])}
   scope :paid_or_confirmed, -> {
-    Event.paid.union(Event.confirmed).union(Event.locked).uniq
+    Event.where(status: [Event.statuses[:paid], Event.statuses[:confirmed], Event.statuses[:locked], Event.statuses[:for_sale]])
   }
   scope :between, -> (start, stop) do
     table_start = arel_table['start']
@@ -220,9 +220,8 @@ class Event < ActiveRecord::Base
 
   def overlaps? start, stop
     Event.where(Event.between(start, stop))
-          .where(user_id: user.id)
+          .where(user_id: user.id, area_id: area_id)
           .where.not(id: id)
-          .where(area_id: area_id)
           .union(Event.paid_or_confirmed.where(Event.between(start, stop))
           .where.not(id: id)
           .where(area_id: area_id))
