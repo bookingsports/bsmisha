@@ -4,11 +4,11 @@ Rails.application.routes.draw do
   end
 
   get 'grid/(:area_id)/coaches.json', to: 'coaches#index'
-  get 'grid/(:area_id)/events.json', to: 'events#index'
-  post 'grid/(:area_id)/events', to: 'events#create'
-  get 'grid/events.json', to: 'events#index'
-  delete 'grid/(:area_id)/events/(:id)', to: 'events#destroy'
-  delete 'grid/events/(:id)', to: 'events#destroy'
+  get 'grid/(:area_id)/events.json', to: 'events#index', defaults: { scope: 'grid' }
+  post 'grid/(:area_id)/events', to: 'events#create', defaults: { scope: 'grid' }
+  get 'grid/events.json', to: 'events#index', defaults: { scope: 'grid' }
+  delete 'grid/(:area_id)/events/(:id)', to: 'events#destroy', defaults: { scope: 'grid' }
+  delete 'grid/events/(:id)', to: 'events#destroy', defaults: { scope: 'grid' }
   get 'products/show'
   get 'grid/(:area_id)', to: 'dashboard#grid', as: 'dashboard_grid'
 

@@ -309,15 +309,24 @@ class Event < ActiveRecord::Base
   end
 
   def self.scoped_by options
-    @events = Event.paid_or_confirmed
-    options[:area] && (@events = @events.where(area: options[:area]))
-    options[:coach] && (@events = @events.where(coach: options[:coach]))
+    if options[:scope] != "grid" || (options[:user].present? && options[:user].type != "Customer")
+      @events = Event.paid_or_confirmed
+      options[:area] && (@events = @events.where(area: options[:area]))
+      options[:coach] && (@events = @events.where(coach: options[:coach]))
+    end
 
     if options[:user].present?
       @user_events = options[:user].events
       options[:area] && (@user_events = @user_events.where(area: options[:area]))
       options[:coach] && (@user_events = @user_events.where(coach: options[:coach]))
+    end
+
+    if @events.present? && @user_events.present?
       @events = @events.union(@user_events)
+    elsif @user_events.present?
+      @events = @user_events
+    elsif @events.blank? && @user_events.blank?
+      @events = Event.none
     end
 
     @events = @events.includes(:area, :coach, :services, :event_change, :user)
