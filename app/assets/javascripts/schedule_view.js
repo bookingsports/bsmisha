@@ -451,7 +451,7 @@ function eventLongerThanOneDay (start, stop)
 
 function hasSpanOfHalfAnHour (start, stop, event)
 {
-  if (gon.current_user.type == "StadiumUser")
+  if (gon.currentUser && gon.current_user.type == "StadiumUser")
     return false;
   occurencesBefore1 = scheduler.occurrencesInRange(new Date(start.getTime() - 1000 * 60 * 30), start)
   occurencesBefore2 = scheduler.occurrencesInRange(new Date(start.getTime() - 1000 * 60 * 60), new Date(start.getTime() - 1000 * 60 * 30))
