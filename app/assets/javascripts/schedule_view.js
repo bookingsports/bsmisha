@@ -398,24 +398,26 @@ $("#scheduler").kendoScheduler({
 
 function validate (start, stop, event)
 {
+  var returnString = [];
   if (!gon.current_user)
-    return "Пожалуйста, авторизуйтесь или зарегистрируйтесь";
-  else if (event.visual_type == 'disowned' || (event.visual_type == "for_sale" && event.user != gon.current_user))
-    return 'Нельзя изменить заказ чужого пользователя';
-  else if (event.visual_type == "confirmed")
-    return 'Нельзя изменить забронированный заказ';
-  else if (event.paid && event.paidTransfer)
-    return 'Нельзя изменить оплаченный и перенесенный заказ';
-  else if (timeIsPast(start, event))
-    return 'Невозможно сделать заказ на прошедшее время';
-  else if (timeIsOccupied(start, stop, event))
-    return 'Это время занято';
-  else if (eventLongerThanOneDay(start, stop, event))
-    return 'Заказ должен начинаться и заканчиваться в один день';
-  else if (hasSpanOfHalfAnHour(start, stop))
-    return 'Окна между заказами должны быть длиной в час или более';
-  else
-    return true;
+    returnString.push("Пожалуйста, авторизуйтесь или зарегистрируйтесь");
+  if (event.visual_type == 'disowned')
+    returnString.push('Нельзя изменить заказ чужого пользователя');
+  if (event.visual_type == 'for_sale')
+    returnString.push('Нельзя изменить заказ, выставленный на продажу');
+  if (event.visual_type == "confirmed")
+    returnString.push('Нельзя изменить забронированный заказ');
+  if (event.paid && event.paidTransfer)
+    returnString.push('Нельзя изменить оплаченный и перенесенный заказ');
+  if (timeIsPast(start, event))
+    returnString.push('Невозможно сделать заказ на прошедшее время');
+  if (timeIsOccupied(start, stop, event))
+    returnString.push('Это время занято');
+  if (eventLongerThanOneDay(start, stop, event))
+    returnString.push('Заказ должен начинаться и заканчиваться в один день');
+  if (hasSpanOfHalfAnHour(start, stop, event))
+    returnString.push('Окна между заказами должны быть длиной в час или более');
+  return (returnString.join(", ") || true);
 }
 
 function timeIsPast (start, event)
@@ -447,15 +449,22 @@ function eventLongerThanOneDay (start, stop)
     return true;
 }
 
-function hasSpanOfHalfAnHour (start, stop)
+function hasSpanOfHalfAnHour (start, stop, event)
 {
   if (gon.current_user.type == "StadiumUser")
     return false;
-  occurencesBefore1 = scheduler.occurrencesInRange(new Date(start.getTime() - 1000 * 60 * 30), start).length
-  occurencesBefore2 = scheduler.occurrencesInRange(new Date(start.getTime() - 1000 * 60 * 60), new Date(start.getTime() - 1000 * 60 * 30)).length
-  occurencesAfter1 = scheduler.occurrencesInRange(stop, new Date(stop.getTime() + 1000 * 60 * 30)).length
-  occurencesAfter2 = scheduler.occurrencesInRange(new Date(stop.getTime() + 1000 * 60 * 30), new Date(stop.getTime() + 1000 * 60 * 60)).length
-  if (occurencesBefore1 - occurencesBefore2 >= 0 && occurencesAfter1 - occurencesAfter2 >= 0)
+  occurencesBefore1 = scheduler.occurrencesInRange(new Date(start.getTime() - 1000 * 60 * 30), start)
+  occurencesBefore2 = scheduler.occurrencesInRange(new Date(start.getTime() - 1000 * 60 * 60), new Date(start.getTime() - 1000 * 60 * 30))
+  occurencesAfter1 = scheduler.occurrencesInRange(stop, new Date(stop.getTime() + 1000 * 60 * 30))
+  occurencesAfter2 = scheduler.occurrencesInRange(new Date(stop.getTime() + 1000 * 60 * 30), new Date(stop.getTime() + 1000 * 60 * 60))
+
+  idx = occurencesBefore1.indexOf(event); if(idx > -1) occurencesBefore1.splice(idx, 1);
+  idx = occurencesBefore2.indexOf(event); if(idx > -1) occurencesBefore2.splice(idx, 1);
+  idx = occurencesAfter1.indexOf(event); if(idx > -1) occurencesAfter1.splice(idx, 1);
+  idx = occurencesAfter2.indexOf(event); if(idx > -1) occurencesAfter2.splice(idx, 1);
+
+  if (occurencesBefore1.length - occurencesBefore2.length >= 0
+      && occurencesAfter1.length - occurencesAfter2.length >= 0)
     return false;
   else
     return true;
