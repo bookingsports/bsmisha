@@ -1,6 +1,6 @@
 <% if user_signed_in? and !current_user.admin? %>
   <div class='balance'>
-    <%= link_to deposit_requests_path do %>
+    <%= link_to (!current_user.kind_of?(StadiumUser) ? deposit_requests_path : dashboard_withdrawal_requests_path) do %>
       Баланс: <%= number_to_currency(current_user.wallet.total, precision: 0) %>
     <% end %>
   </div>
