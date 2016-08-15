@@ -137,7 +137,7 @@ class MyEventsController < EventsController
       @event_changes.each(&:pay!)
     end
 
-    if @events.map(&:errors).any?
+    if @events.map(&:errors).map(&:full_messages).flatten.any?
       redirect_to my_events_path, alert: "Возникли ошибки: " + @events.map(&:errors).map(&:full_messages).join(", ")
     end
   end
