@@ -26,7 +26,7 @@ class Stadium < ActiveRecord::Base
   include FriendlyId
   has_paper_trail
 
-  belongs_to :user
+  belongs_to :user, dependent: :destroy
   belongs_to :category, inverse_of: :stadiums
   has_many :areas, dependent: :destroy
   has_many :prices, -> { where('prices.stop > ?', Time.now) },  through: :areas
