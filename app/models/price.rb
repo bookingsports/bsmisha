@@ -53,7 +53,7 @@ class Price < ActiveRecord::Base
 
   # return value for current time
   scope :current, -> do
-    where('LOCALTIMESTAMP BETWEEN "start" AND "stop"').last || new
+    where('LOCALTIMESTAMP BETWEEN "start" AND "stop"').last
   end
 
   def name
