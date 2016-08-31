@@ -21,6 +21,7 @@ class Price < ActiveRecord::Base
   validates :area_id, :start, :stop, :daily_price_rules, presence: true
   validates :stop, greater_by_30_min: {than: :start}, allow_blank: true
   validates :start, :stop, step_by_30_min: true, allow_blank: true
+  validate :prices_overlap
 
   accepts_nested_attributes_for :daily_price_rules, reject_if: :all_blank, allow_destroy: true
 
@@ -68,6 +69,13 @@ class Price < ActiveRecord::Base
   end
 
   private
+    def prices_overlap
+      return false if errors.present?
+      if area.prices.where(Price.between(start, stop)).where.not(id: id).present?
+        errors.add(:base, "Периоды накладываются друг на друга.")
+      end
+    end
+
     def validate_price_rules_overlapping
       yield
       if daily_price_rules_overlap?
