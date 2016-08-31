@@ -33,6 +33,8 @@ class EventsController < ApplicationController
       @events = Event.scoped_by(coach: Coach.friendly.find(params[:coach_id]), area: current_product, user: current_user)
     elsif params[:scope] == "grid" && current_user.present? && current_user.type == "CoachUser"
       @events = Event.scoped_by(area: current_user.areas, user: current_user, coach: current_user.coach, scope: params[:scope])
+    elsif current_user.present? && params[:area_id].present? && current_user.type == "StadiumUser"
+      @events = Event.scoped_by(area: current_product, user: current_user, scope: params[:scope])
     elsif current_user.present? && current_user.type == "StadiumUser"
       @events = Event.scoped_by(area: current_user.areas, user: current_user, scope: params[:scope])
     else
