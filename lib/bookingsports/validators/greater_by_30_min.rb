@@ -3,7 +3,7 @@ module ActiveModel
     class GreaterBy30MinValidator < EachValidator
       def validate_each(record, attribute, value)
         if value - record.send(options[:than]) < 30.minutes
-          record.errors[attribute] << "can't be less than #{options[:than]} at least 30 min."
+          record.errors[attribute] << "должно быть больше, чем #{options[:than]} на как минимум 30 минут."
         end
       end
     end
