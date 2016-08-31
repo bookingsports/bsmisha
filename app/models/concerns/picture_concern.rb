@@ -3,7 +3,7 @@ module PictureConcern
 
   included do
     rails_admin do
-      visible false
+      navigation_label I18n.t(:products)
 
       object_label_method do
         :description
@@ -14,11 +14,13 @@ module PictureConcern
         field :description
         field :created_at
         field :updated_at
+        field :imageable
       end
 
       edit do
         field :name
         field :description
+        field :imageable
       end
     end
   end
