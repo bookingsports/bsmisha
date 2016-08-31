@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.2.3'
+ruby '2.2.5'
 
-gem 'rails', '4.2.5'
+gem 'rails', '4.2.6'
 
 # DATABASE
 gem 'pg'
@@ -31,7 +31,6 @@ gem 'dropzonejs-rails'
 gem 'lightbox2-rails'
 gem 'ckeditor'
 gem 'autoprefixer-rails'
-gem 'angularjs-rails'
 
 gem 'cancancan'
 
