@@ -20,7 +20,6 @@ $("#scheduler").kendoScheduler({
   allDaySlot: false,
   workDayStart: opens_at,
   workDayEnd: closes_at,
-  min: new Date(),
   showWorkHours: true,
   mobile: true,
   footer: false,
