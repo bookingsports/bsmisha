@@ -1,7 +1,6 @@
-//= require kendo.all
-//= require kendo.timezones.min
-//= require cultures/kendo.culture.ru-RU.min
-//= require messages/kendo.messages.ru-RU.min
+//= require fc/javascripts/fullcalendar.js
+//= require fc/javascripts/fullcalendar/lang-all.js
+//= require chosen.jquery.js
 //= require_self
 
 
@@ -12,8 +11,74 @@ url = "/stadiums/" + gon.stadium_slug + "/areas/events"
 areas_id = gon.areas_id;
 opens_at = new Date(gon.opens_at);
 closes_at = new Date(gon.closes_at);
-
 kendo.culture('ru-RU');
+$(document).ready(function() {
+    var date = new Date();
+    var d = date.getDate();
+    var m = date.getMonth();
+    var y = date.getFullYear();
+
+    $('#calendar').fullCalendar({
+        lang: 'ru',
+        allDaySlot: false,
+        defaultView: 'agendaWeek',
+        header: {
+            left: 'title',
+            center: '',
+            right: 'today prev next'
+        },
+
+        editable: true,
+        axisFormat: 'HH:mm',
+        droppable: true,
+        minTime: gon.opens_at,
+        maxTime: gon.closes_at,
+        timezone: 'local',
+        timeFormat: 'HH:mm',
+        events: "/events.json",
+        eventOverlap: false,
+        eventDurationEditable: false,
+        selectable: true,
+        selectHelper: true,
+        select: function(start, end, ev) {
+            if (!gon.current_user)
+            {
+                alert('Пожалуйста, сначала авторизуйтесь.');
+            }
+            else{
+                $.getScript('/events/new', function() {
+                    $('#event_start').val(moment(start).format('DD.MM.YYYY HH:mm'));
+                    $('#event_stop').val(moment(end).format('DD.MM.YYYY HH:mm'));
+                });
+            }
+        },
+        eventRender: function(event) {
+            console.log(event);
+            if (event.recurrence_rule) {
+                console.log(event.recurrence_rule);
+
+            }
+        },
+        eventClick: function(event, jsEvent, view) {
+
+            if (!gon.current_user)
+            {
+                alert('Пожалуйста, сначала авторизуйтесь.');
+            }
+            else {
+                $.getScript(event.edit_url, function() {
+                    $('.start_hidden').val(moment(event.start).format('YYYY-MM-DD HH:mm'));
+                    $('.end_hidden').val(moment(event.end).format('YYYY-MM-DD HH:mm'));
+
+                });
+            }
+
+        },
+        eventDrop: function (event, delta, revertFunc) {
+            console.log(event);
+        }
+    });
+});
 
 $("#scheduler").kendoScheduler({
     date: new Date(),
@@ -235,6 +300,7 @@ $("#scheduler").kendoScheduler({
         }
     }
 });
+/*
 
 scheduler = $("#scheduler").getKendoScheduler()
 
@@ -294,4 +360,4 @@ $("select#stadium").change();
 function updateSchedule() {
   areas_id = $(".check-box:checkbox:checked").map(function(elt) { return this.value }).get()
   scheduler.dataSource.read();
-}
+}*/

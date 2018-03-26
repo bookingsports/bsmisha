@@ -5,6 +5,10 @@
     = f.input :name, label: false
   %td.site-table__item-option
     %span.site-table__item-title
+      Вид спорта:
+    = f.association :category, label: false
+  %td.site-table__item-option
+    %span.site-table__item-title
       Стоимость часа:
     = link_to 'Настроить цены', dashboard_area_prices_path(area_id: f.object.id), class: 'btn btn-warning' if f.object.persisted?
   %td.site-table__item-option

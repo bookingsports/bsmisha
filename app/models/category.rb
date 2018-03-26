@@ -20,6 +20,7 @@ class Category < ActiveRecord::Base
   has_paper_trail
 
   has_many :stadiums, dependent: :destroy
+  has_many :areas, dependent: :destroy
 
   friendly_id :name, use: [:slugged]
   mount_uploader :icon, MapIconUploader

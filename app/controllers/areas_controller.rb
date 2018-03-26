@@ -14,14 +14,24 @@
 
 class AreasController < ApplicationController
   layout :set_layout
+  respond_to :json, :html
   before_filter :set_scope
 
   def index
     @stadium = Stadium.friendly.find(params[:stadium_id])
     @areas = @stadium.areas
+    gon.stadium_slug = @stadium.slug
+    gon.stadium = @stadium.id
+    gon.opens_at = Time.zone.parse(@stadium.opens_at.to_s)
+    gon.closes_at = Time.zone.parse(@stadium.closes_at.to_s)
+    gon.current_user = current_user
+    areas = []
+    @areas.each_with_index{|a,i| areas[i]={'id': a.id.to_s, 'name': a.name}}
+    respond_with areas
   end
 
   def show
+    puts params
     @area = Area.friendly.find params[:id]
     set_gon_area
     gon.scope = params[:scope]
@@ -35,9 +45,7 @@ class AreasController < ApplicationController
       render nothing: true
       return
     end
-
     @area = Area.friendly.find(params[:id])
-
     if params[:scope] == "stadium" && current_user.present?
       @events = current_user.events.includes(:coach, :services).unconfirmed.future.where(area: @area).sort_by(&:start)
       @eventChanges = current_user.event_changes.future.unpaid.includes(:event)

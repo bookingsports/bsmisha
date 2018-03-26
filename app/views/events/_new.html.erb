@@ -1,0 +1,53 @@
+
+<div class="modal fade" id="new_event">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Забронировать время</h4>
+      </div>
+      <div class="modal-body">
+
+        <% if (current_user.type == "StadiumUser" || "CoachUser" ) &&
+            (current_user.id == @product.stadium.user_id || @product.stadium.is_stadium_coach(current_user.id))%>
+          <div class="form-group radio_buttons optional event_kind">
+            <label class="radio_buttons optional control-label">Вид занятия</label>
+            <span class="radio">
+              <input class="radio_buttons optional" type="radio" value="0" checked="checked" id="event_kind_0">
+              <label class="collection_radio_buttons" for="event_kind_0">Индивидуальное</label>
+            </span>
+            <span class="radio">
+              <input class="radio_buttons optional" type="radio" value="1" id="event_kind_1">
+              <label class="collection_radio_buttons" for="event_kind_1">Группа</label>
+            </span>
+          </div>
+        <% end %>
+        <div class="individual">
+          <%= render 'form', event: @event %>
+        </div>
+        <div class="group", style="display:none">
+          <%= render 'group_events/form'%>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+    $('#event_kind_1, #event_kind_0').on('change',function(){
+        if( $('#event_kind_0').attr("checked")){
+            $('#event_kind_0').attr("checked", false)
+            $('#event_kind_1').attr("checked", true)
+            $("div.group").show()
+            $("div.individual").hide()
+
+        }
+        else{
+            $('#event_kind_1').attr("checked", false)
+            $('#event_kind_0').attr("checked", true)
+            $("div.group").hide()
+            $("div.individual").show()
+        }
+    });
+</script>

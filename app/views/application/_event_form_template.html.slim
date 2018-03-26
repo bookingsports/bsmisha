@@ -1,20 +1,48 @@
-<%= simple_form_for @event do |f| %>
-    <div class="form-inputs">
-      <%= f.input :date_range, :label => "Время занятия", input_html: { class: "form-control input-sm date-range-picker" } %>
-      <%= f.input_field :start, as: :hidden, value: Date.today, class: 'form-control input-sm start_hidden' %>
-      <%= f.input_field :stop, as: :hidden, value: Date.today, class: 'form-control input-sm end_hidden' %>
-      <%= f.hidden_field :area_id, class: 'form-control input-sm area_hidden'%>
-      <%= f.input :coach_id,:label => "Тренер", input_html: { class: "form-control input-sm" } %>
-      <%= link_to t('show_coaches_list'), coaches_path, target: '_blank' %>
-    </div>
+script#eventFormTemplate type="text/x-kendo-template"
+  .k-edit-label
+    label for='start' С
 
-    <div class="form-actions">
-      <%= f.button :submit, 'Забронировать' %>
-      <%= link_to 'Delete',
-                  event,
-                  method: :delete,
-                  class: 'btn btn-danger',
-                  data: { confirm: 'Are you sure?' },
-                  remote: true unless @event.new_record? %>
-    </div>
-<% end %>
+  .k-edit-field data-container-for='start'
+    input(type='text'
+          data-role="datetimepicker"
+          data-interval="30"
+          data-type="date"
+          data-bind="value:start"
+          name="start")
+
+    span data-for="start" class="k-invalid-msg" style="display: none;"
+
+  .k-edit-label
+    label for='end' По
+
+  .k-edit-field data-container-for='end'
+    input(type='text'
+          data-role="datetimepicker"
+          data-interval="30"
+          data-type="date"
+          data-bind="value:end"
+          name="stop"
+          data-datecompare-msg="Дата окончания должна быть больше чем дата начала минимум на 30 минут")
+
+    span data-for="end" class="k-invalid-msg" style="display: none;"
+  #recurrence-wrapper
+    .k-edit-label
+      label for='recurrenceRule' Повторения
+    .k-edit-field data-container-for='recurrenceRule'
+      div#recurrenceEditor data-bind="value:recurrenceRule" name="recurrenceRule" data-role="recurrenceeditor" data-frequencies='["never","weekly"]'
+  #coach-wrapper
+    .k-edit-label
+      label for='coach_id' Тренер
+    .k-edit-field data-container-for='coach_id'
+      select#coach_id data-bind='value:coach_id' data-role='dropdownlist'
+      = link_to t('show_coaches_list'), coaches_path, target: '_blank'
+  #services-wrapper
+    .k-edit-label
+      label for='service_ids' Доп. услуги
+    .k-edit-field data-container-for='service_ids'
+      select#service_ids data-bind="value:service_ids"
+  #reason-wrapper
+    .k-edit-label
+      label for='reason' Причина
+    .k-edit-field data-container-for='reason'
+      input#reason.scheduler_input data-bind='value:reason'

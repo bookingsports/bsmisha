@@ -1,0 +1,72 @@
+<%= simple_form_for @event do |f| %>
+    <div class="form-inputs">
+
+      <%= f.input :start, :label => "Начало", as: :date_time_picker, class: 'form-control input-sm start_hidden' %>
+      <%= f.input :stop, :label => "Конец", as: :date_time_picker, class: 'form-control input-sm end_hidden' %>
+      <%= f.hidden_field :area_id, class: 'form-control input-sm area_hidden'%>
+      <%= f.input :recurrence_id, collection: [["Разово",0] , ["Еженедельно", 1]], include_blank: false %>
+
+
+
+
+      <%= f.fields_for :event_guests do |p| %>
+
+          <%= p.input :email %>
+          <%= p.input :name %>
+      <% end %>
+
+
+      <div class="recurrence", style="display:none">
+        <%= f.input :recurrence_rule,
+                    :as => :check_boxes, :label => "Дни повторения",
+                    :collection => [['ПН', '1'], ['ВТ', '2'], ['СР', '3'], ['ЧТ', '4'], ['ПТ', '5'], ['СБ', '6'], ['ВС', '7']],
+                    :include_hidden => false
+        %>
+        <%= f.input :recurrence_exception,:label => "Дата окончания",  as: :date_time_picker, class: 'form-control input-sm end_hidden' %>
+      </div>
+
+      <% if !@coaches.blank? %>
+           <%= f.input :coach_id, as: :select, :label => t(:coach),
+                       collection: @coaches.map { |c| [c.name_and_price, c.coach_id] }, include_blank: true %>
+      <% end %>
+      <% if !@product.stadium.services.blank? %>
+        <div class="form-group select optional">
+          <%= f.label "Дополнительные услуги" %>
+          <%= f.collection_select :service_ids, @product.stadium.services.order(:name), :id, :service_name_and_price, {}, {multiple: true, class: 'chosen-select',:data => {:placeholder => ' '}} %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit 'Забронировать' , :class => 'btn btn-info'  %>
+      <%= link_to 'Delete',
+                  event,
+                  method: :delete,
+                  class: 'btn btn-danger',
+                  data: { confirm: 'Are you sure?' },
+                  remote: true unless @event.new_record? %>
+    </div>
+<% end %>
+<script type="text/javascript">
+    $(function () {
+        $('div.datetimepicker').datetimepicker({
+            locale: 'ru',
+            stepping: 30,
+            sideBySide: true
+        });
+        $('input#event_recurrence_exception').datetimepicker({
+            locale: 'ru',
+            format: "D MMMM YYYY"
+        });
+
+    });
+
+    $('select#event_recurrence_id').on('change',function(){
+        if( $(this).val()==1){
+            $("div.recurrence").show()
+        }
+        else{
+            $("div.recurrence").hide()
+        }
+    });
+</script>

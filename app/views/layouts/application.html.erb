@@ -26,6 +26,7 @@
       <%= gflash %>
       <%= content_for?(:sub_layout) ? yield(:sub_layout) : yield %>
     </main>
+    <div id='remote_container'></div>
     <%= render "layouts/footer" %>
     <%= javascript_include_tag 'application' %>
     <%= render 'event_form_template' %>

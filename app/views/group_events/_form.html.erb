@@ -1,13 +1,37 @@
-<%= simple_form_for @event do |f| %>
+
+<%= simple_form_for @group_event do |f| %>
     <div class="form-inputs">
-      <% if (current_user.type == "StadiumUser" || "CoachUser" ) && (current_user.id == @product.stadium.user_id || @product.stadium.is_stadium_coach(current_user.id))%>
-        <%= f.input :kind, :label => "Вид занятия", as: :radio_buttons,
-                  collection: [['Индивидуальное', 0], ['Группа', 1]] , checked: 0%>
-        <div class="group", style="display:none">
-          <%= f.input :reason, :label => "Название", class: 'form-control input-sm' %>
-          <%= f.input :description, class: 'form-control input-sm' %>
-        </div>
+      <% if (current_user.type == "StadiumUser" || "CoachUser" ) &&
+          (current_user.id == @product.stadium.user_id || @product.stadium.is_stadium_coach(current_user.id))%>
+        <%= f.input :name, :label => t(:caption), class: 'form-control input-sm' %>
+        <%= f.input :description, :label => t(:description), class: 'form-control input-sm' %>
       <% end %>
+
+      <h4>Приглашенные гости</h4>
+      <%= link_to_add_association 'Добавить гостя',
+                                  f, :event_guests, class: 'btn btn-primary', 'data-association-insertion-node' => '.event_guests',
+                                  'data-association-insertion-method' => 'append' %>
+      <table class="table table-hover site-table">
+
+        <thead class="site-table__head">
+          <tr>
+            <th>Ф.И.О. гостя</th>
+            <th>E-mail</th>
+            <th></th>
+          </tr>
+
+        </thead>
+        <tbody class=" event_guests site-table__body">
+          <%= f.simple_fields_for :event_guests do  |eg|
+            render "event_guest_fields", f: eg
+          end %>
+        <% puts @group_event.event_guests%>
+        </tbody>
+
+
+      </table>
+
+
       <%= f.input :start, :label => "Начало", as: :date_time_picker, class: 'form-control input-sm start_hidden' %>
       <%= f.input :stop, :label => "Конец", as: :date_time_picker, class: 'form-control input-sm end_hidden' %>
       <%= f.hidden_field :area_id, class: 'form-control input-sm area_hidden'%>
@@ -24,7 +48,7 @@
 
       <% if !@coaches.blank? %>
            <%= f.input :coach_id, as: :select, :label => t(:coach),
-                       collection: @coaches.map { |c| [c.name_and_price, c.coach_id] }, include_blank: true %>
+                       collection: @coaches.map { |c| [c.coach.name, c.coach_id] }, include_blank: true %>
       <% end %>
       <% if !@product.stadium.services.blank? %>
         <div class="form-group select optional">
@@ -35,13 +59,13 @@
     </div>
 
     <div class="form-actions">
-      <%= f.submit 'Забронировать' , :class => 'btn btn-info'  %>
+      <%= f.submit 'Сохранить' , :class => 'btn btn-info'  %>
       <%= link_to 'Delete',
                   event,
                   method: :delete,
                   class: 'btn btn-danger',
                   data: { confirm: 'Are you sure?' },
-                  remote: true unless @event.new_record? %>
+                  remote: true unless @group_event.new_record? %>
     </div>
 <% end %>
 <script type="text/javascript">
@@ -58,26 +82,12 @@
 
     });
 
-    $('select#event_recurrence_id').on('change',function(){
+    $('select#group_event_recurrence_id').on('change',function(){
         if( $(this).val()==1){
             $("div.recurrence").show()
         }
         else{
             $("div.recurrence").hide()
-        }
-    });
-
-    $('#event_kind_1, #event_kind_0').on('change',function(){
-        if( $('#event_kind_0').attr("checked")){
-            $('#event_kind_0').attr("checked", false)
-            $('#event_kind_1').attr("checked", true)
-            $("div.group").show()
-        }
-        else{
-            $('#event_kind_1').attr("checked", false)
-            $('#event_kind_0').attr("checked", true)
-
-            $("div.group").hide()
         }
     });
 </script>

@@ -45,7 +45,6 @@ class DailyPriceRule < ActiveRecord::Base
     self_stop = stop.strftime("%H%M%S%N")
     event_start = event.start.strftime("%H%M%S%N")
     event_stop = event.stop.strftime("%H%M%S%N")
-
     working_days.include?(event.wday) \
     && ((self_start >= event_start && self_start < event_stop) \
       || (self_stop > event_start && self_stop <= event_stop) \
@@ -87,7 +86,10 @@ class DailyPriceRule < ActiveRecord::Base
     event_stop = Time.new(d.year, d.month, d.day, e.stop.hour, e.stop.min, e.stop.sec)
     price_start = Time.new(d.year, d.month, d.day, start.hour, start.min, start.sec)
     price_stop = Time.new(d.year, d.month, d.day, stop.hour, stop.min, stop.sec)
-
+    puts  price_start
+    puts  price_stop
+    puts  event_start
+    puts  event_stop
     price = 0
     if price_start <= event_start && price_stop <= event_stop
       price = price_stop - event_start

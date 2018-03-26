@@ -1,19 +1,21 @@
 /*
  *= require ./framework_and_overrides
- *= require chosen
  *= require gritter
  *= require font-awesome
- *= require fullcalendar
- *= require jquery.datetimepicker
+ *= require fc/stylesheets/fullcalendar.css
  *= require dropzone/dropzone
  *= require jquery-ui
  *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
  *= require lightbox
+ *= require bootstrap-datetimepicker
  *= require kendo.common-material.core.min
  *= require kendo.common-material.min
  *= require kendo.material.min
  *= require_self
 */
+@import 'bootstrap-sprockets';
+@import 'bootstrap';
+@import 'chosen';
 @import "mixin";
 @import "header";
 @import "coach";
@@ -28,6 +30,7 @@
 @import "ticket";
 @import "checkbox";
 @import "error";
+
 
 html {
   position: relative;
@@ -681,4 +684,18 @@ h1, h2, h3, h4, h5, h6 {
   .photos__box .thumbnail {
     margin: 0 auto 20px;
   }
+}
+
+#calendar .ui-widget-content:hover {
+  background: #2a62bc;
+}
+
+#calendar .ui-widget-content {
+ transition: all .5s;
+}
+
+.modal.in .modal-dialog {
+  -webkit-transform: translate(0, 0);
+  transform: translate(0, 0);
+  top: 10%;
 }
