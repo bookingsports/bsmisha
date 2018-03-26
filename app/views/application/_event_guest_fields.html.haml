@@ -1,0 +1,11 @@
+%tr.nested-fields.site-table__item
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Ф.И.О. гостя:
+    = f.input :name, label: false
+  %td.site-table__item-option
+    %span.site-table__item-title
+      E-mail:
+    = f.input :email, label: false
+  %td.site-table__item-option
+    = link_to_remove_association 'Удалить', f, class: 'btn btn-danger'

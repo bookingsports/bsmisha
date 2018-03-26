@@ -1,0 +1,12 @@
+.row.top15
+  .col-xs-12.col-sm-12.col-md-12.col-lg-12
+    = label_tag "Стадион/тренер"
+    = select_tag :area, options_from_collection_for_select(current_user.products, :id, :name_with_stadium), class: 'form-control'
+    .top15{"data-grid" => ""}
+    :javascript
+      kendo.culture("ru-RU");
+      var grid = new Tennis.Views.ScheduleView({el: '[data-grid]'});
+      // var changes = new Tennis.Collections.Changes();
+      // var checkout = new Tennis.Views.CheckoutView({el: '[data-checkout]'});
+      // var changesView = new Tennis.Views.ChangesView({el: '[data-event-move]', collection: changes});
+      grid.render();

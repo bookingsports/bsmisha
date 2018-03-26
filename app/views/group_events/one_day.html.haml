@@ -1,0 +1,34 @@
+- content_for :scripts do
+  = javascript_include_tag 'one_day_schedule_view'
+
+.body-bg
+  %div.one_day__base
+    %h1.col-xs-12 Расписание
+    .col-xs-12
+      %hr
+    = form_tag one_day_events_path, method: :get, wrapper: 'horizontal_form', enforce_utf8: false do |f|
+      .col-xs-12
+        .row
+          .col-lg-4.col-xs-12
+            .row
+              .col-xs-12
+                = label_tag 'stadium', "Стадион"
+              .col-xs-12
+                = select_tag :stadium, options_from_collection_for_select(Stadium.active.select(&:has_areas?), "slug", "name", @stadium.slug), class: 'form-control'
+          .col-lg-8.col-xs-12
+            .row
+              %div#checkboxes_placeholder.check-wrap__cover
+                - @stadium.areas.each do |area|
+                  %div.col-sm-6.check-wrap
+                    = check_box_tag "areas[#{area.id}]", area.slug, @areas.where(slug: area.slug).present?, class: 'check-box'
+                    = label_tag "areas[#{area.id}]", area.name_with_stadium, class: 'check-label'
+      .col-xs-12
+        %hr
+      -#.col-md-4.col-xs-12
+      -#  %h4 Площадки
+      -#  %ul.nav.nav-pills.nav-stacked
+      -#    = active_link_to 'Все площадки', one_day_events_path(stadium: @stadium.slug), active: /^(?!.*id).*$/, wrap_tag: :li
+      -#    - @stadium.areas.each do |cc|
+      -#      = active_link_to [cc.name].compact.join(', '), one_day_events_path(stadium: @stadium.slug, area_id: cc.slug), active: /id=#{cc.slug}/, wrap_tag: :li
+      .col-xs-12
+        #calendar
