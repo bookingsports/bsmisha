@@ -12,7 +12,7 @@
     -else
       .col-md-10.col-sm-11.col-xs-12
         = render "schedule_legend"
-        #scheduler
+        #calendar
   - else
     -if current_user.areas.empty?
       .col-xs-12.text-center
@@ -24,4 +24,4 @@
             = active_link_to cc.name_with_stadium, dashboard_grid_path(cc), active: /#{cc.to_param}/, wrap_tag: :li
       .col-md-8.col-xs-12
         = render "schedule_legend"
-        #scheduler
+        #calendar

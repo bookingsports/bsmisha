@@ -1,8 +1,7 @@
-json.array! @events do |event|
+json.array! @group_events do |event|
   date_format = event.is_all_day? ? '%Y-%m-%d' : '%Y-%m-%dT%H:%M:%S'
   json.id event.id
-  json.kind event.kind
-  json.title (event.kind == 0 && (current_user.id == event.user_id || current_user.id == @stadium.user_id)) ? event.user.name : event.reason
+  json.title event.name
   json.start event.start.strftime(date_format)
   json.end event.stop.strftime(date_format)
   json.resources event.area_id.to_s
@@ -11,6 +10,6 @@ json.array! @events do |event|
   json.coach_id event.coach_id
   json.allDay event.is_all_day? ? true : false
 
-  json.update_url event_path(event, method: :patch)
-  json.edit_url edit_event_path(event)
+  json.update_url group_event_path(event, method: :patch)
+  json.edit_url edit_group_event_path(event)
 end

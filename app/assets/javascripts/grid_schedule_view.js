@@ -1,16 +1,87 @@
-//= require kendo.all
-//= require kendo.timezones.min
-//= require cultures/kendo.culture.ru-RU.min
-//= require messages/kendo.messages.ru-RU.min
+//= require fc/javascripts/fullcalendar.js
+//= require fc/javascripts/fullcalendar/lang-all.js
+//= require chosen.jquery.js
 //= require_self
 
 url = window.location.pathname + '/events';
-kendo.culture('ru-RU');
-
+area_id = gon.area_id;
 opens_at = new Date(gon.opens_at);
 closes_at = new Date(gon.closes_at);
 
-$("#scheduler").kendoScheduler({
+/*kendo.culture('ru-RU');*/
+
+canUpdate = true
+isGrid = location.href.indexOf("grid") != -1
+
+$(document).ready(function() {
+    var date = new Date();
+    var d = date.getDate();
+    var m = date.getMonth();
+    var y = date.getFullYear();
+
+    $('#calendar').fullCalendar({
+        lang: 'ru',
+        allDaySlot: false,
+        defaultView: 'agendaWeek',
+        header: {
+            left: 'title',
+            center: '',
+            right: 'today prev next'
+        },
+        editable: true,
+        axisFormat: 'HH:mm',
+        droppable: true,
+        minTime: gon.opens_at,
+        maxTime: gon.closes_at,
+        timezone: 'local',
+        timeFormat: 'HH:mm',
+        events: url + ".json",
+        eventOverlap: false,
+        eventDurationEditable: false,
+        selectable: true,
+        selectHelper: true,
+        select: function(start, end, ev) {
+            if (!gon.current_user)
+            {
+                alert('Пожалуйста, сначала авторизуйтесь.');
+            }
+            else{
+                $.getScript('/events/new?area_id='+ area_id, function() {
+                    $('#event_start').val(moment(start).format('DD.MM.YYYY HH:mm'));
+                    $('#event_stop').val(moment(end).format('DD.MM.YYYY HH:mm'));
+                    $('.area_hidden').val(area_id);
+                });
+            }
+        },
+        eventRender: function(event) {
+            console.log(event);
+            if (event.recurrence_rule) {
+                console.log(event.recurrence_rule);
+
+            }
+        },
+        eventClick: function(event, jsEvent, view) {
+
+            if (!gon.current_user)
+            {
+                alert('Пожалуйста, сначала авторизуйтесь.');
+            }
+            else {
+                $.getScript(event.edit_url, function() {
+                    $('.start_hidden').val(moment(event.start).format('YYYY-MM-DD HH:mm'));
+                    $('.end_hidden').val(moment(event.end).format('YYYY-MM-DD HH:mm'));
+
+                });
+            }
+
+        },
+        eventDrop: function (event, delta, revertFunc) {
+            console.log(event);
+        }
+    });
+});
+
+/*$("#scheduler").kendoScheduler({
     date: new Date(),
     allDaySlot: false,
     startTime: new Date('2013/6/13 07:00 AM'),
@@ -243,3 +314,4 @@ function timeIsOccupied(start, stop, event) {
         occurences.splice(idx, 1);
     return occurences.length > 0;
 }
+*/

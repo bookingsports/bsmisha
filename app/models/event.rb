@@ -40,14 +40,18 @@ class Event < ActiveRecord::Base
 
   has_one :event_change, dependent: :destroy
 
+  has_many :event_guests
+  accepts_nested_attributes_for :event_guests
+
   #has_many :prices, -> (event) { where Price.overlaps event }, through: :area
   #has_many :daily_price_rules, -> (event) { where DailyPriceRule.overlaps event }, through: :prices
 
   def prices
-    area.prices.includes(:daily_price_rules).select{|p| p.overlaps? self }
+   area.prices.includes(:daily_price_rules).select{|p| p.overlaps? self }
   end
 
   def daily_price_rules
+    puts "in ev daily_price_rules"
     self.prices.map(&:daily_price_rules).flatten.select{|d| d.overlaps? self }
   end
 
@@ -211,7 +215,10 @@ class Event < ActiveRecord::Base
 
   def prices_for_time start, stop
     prices = area.prices.where(Price.between start, stop)
+    puts "prices_for_time"
+    puts prices
     daily_price_rules = prices.first.daily_price_rules.where(DailyPriceRule.between start, stop)
+    prices daily_price_rules
   end
 
   def calculate_price
@@ -321,6 +328,11 @@ class Event < ActiveRecord::Base
       options[:coach] && (user_events = user_events.where(coach: options[:coach]))
     end
 
+    if !options[:user].present? && options[:area].present?
+      events = Event.paid_or_confirmed
+      events = events.where(area: options[:area])
+    end
+
     if events.present? && user_events.present?
       events = events.union(user_events)
     elsif user_events.present?
@@ -328,16 +340,15 @@ class Event < ActiveRecord::Base
     elsif events.blank? && user_events.blank?
       events = Event.none
     end
-
     events = events.includes(:area, :coach, :services, :event_change, :user)
     events
   end
-
   private
     def create_event_change_if_not_present
       if (!start_changed? && !stop_changed?) || unpaid?
         return true
       elsif event_change.present? && event_change.unpaid? # updating event change, rolling back original event
+        puts "ZOPA"
         event_change.update new_start: self.start, new_stop:self.stop, new_price: calculate_price
         self.start = start_was
         self.stop = stop_was
@@ -396,6 +407,7 @@ class Event < ActiveRecord::Base
     end
 
     def build_schedule
+      puts "in build_schedule"
       @schedule = IceCube::Schedule.new start do |s|
         if recurring?
           s.add_recurrence_rule(IceCube::Rule.from_ical(recurrence_rule))

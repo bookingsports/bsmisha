@@ -26,8 +26,8 @@ class Area < ActiveRecord::Base
   has_many :recoupments, dependent: :destroy
   has_many :discounts, dependent: :destroy
   has_many :order_discounts, dependent: :destroy
-
-  validates :name, :stadium_id, presence: true
+  belongs_to :category
+  validates :name, :stadium_id, :category_id, presence: true
   validates :change_price, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
   validates_uniqueness_of :slug
 

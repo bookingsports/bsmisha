@@ -73,6 +73,10 @@ class Stadium < ActiveRecord::Base
     areas.map(&:coaches).flatten.uniq
   end
 
+  def is_stadium_coach(id)
+    areas.joins(:coaches).where(coaches: {user_id: id}).map(&:coaches).flatten.uniq.count > 0
+  end
+
   def as_json(params = {})
     {
       icon: ActionController::Base.helpers.asset_path(category.try(:icon)),

@@ -22,25 +22,48 @@
 
 class EventsController < ApplicationController
   respond_to :json, :html
-  before_filter :authenticate_user!, except: [:index, :parents_events, :one_day]
+  before_filter :authenticate_user!, except: [:index, :new, :parents_events, :one_day]
 
   def index
+    @stadium = params[:stadium].present? ? Stadium.friendly.find(params[:stadium]) : Stadium.active.first
     if params[:from] == "one_day" && params[:areas].present?
       @events = Event.scoped_by(area: Area.where(slug: params[:areas]), user: nil)
+      puts "one_day area"
     elsif params[:from] == "one_day"
       @events = []
+      puts "one_day"
     elsif params[:scope] == "coach"
       @events = Event.scoped_by(coach: Coach.friendly.find(params[:coach_id]), area: current_product, user: current_user)
+      puts "coach"
     elsif params[:scope] == "grid" && current_user.present? && current_user.type == "CoachUser"
       @events = Event.scoped_by(area: current_user.areas, user: current_user, coach: current_user.coach, scope: params[:scope])
+      puts "grid"
     elsif current_user.present? && params[:area_id].present? && current_user.type == "StadiumUser"
       @events = Event.scoped_by(area: current_product, user: current_user, scope: params[:scope])
+      puts "ST user area"
     elsif current_user.present? && current_user.type == "StadiumUser"
       @events = Event.scoped_by(area: current_user.areas, user: current_user, scope: params[:scope])
+      puts "ST user"
+    elsif params[:stadium].present?
+      @events = Event.scoped_by(area: @stadium.areas)
+      puts "хрюха"
     else
       @events = Event.scoped_by(user: current_user, area: current_product, scope: params[:scope])
     end
+    puts "in index event"
+    puts @events
     respond_with @events
+  end
+
+  def new
+    if params[:area_id].present?
+      @product = Area.friendly.find params[:area_id]
+      if @product.coaches_areas.any?
+        @coaches = @product.coaches_areas
+      end
+    end
+    @event = Event.new
+    @group_event = GroupEvent.new
   end
 
   def parents_events
@@ -52,7 +75,6 @@ class EventsController < ApplicationController
         @events = []
       end
     end
-
     render :index
   end
 
@@ -62,7 +84,6 @@ class EventsController < ApplicationController
     gon.stadium_slug = @stadium.slug
     gon.opens_at = Time.zone.parse(@stadium.opens_at.to_s)
     gon.closes_at = Time.zone.parse(@stadium.closes_at.to_s)
-
     if params[:areas]
       @areas = Area.where(slug: params[:areas])
     else
@@ -73,7 +94,6 @@ class EventsController < ApplicationController
 
   def private
     @events = current_user.events
-
     respond_with @events do |format|
       # format.html { render layout:  }
     end
@@ -81,7 +101,7 @@ class EventsController < ApplicationController
 
   def create
     @event = current_user.events.create event_params.delete_if {|k,v| v.empty? }
-    @event.area = current_product
+
     if @event.recurring?
       @events = Event.split_recurring @event
       t = ActiveRecord::Base.transaction { @events.each(&:save) }
@@ -110,13 +130,15 @@ class EventsController < ApplicationController
       @event = current_user.events.find(params[:id])
     end
     if @event.update event_params
-      respond_with @event
+      redirect_to :back,  notice: "Занятие изменено."
     else
-      render json: { error: @event.errors.messages.values.join(" ") }
+      redirect_to :back, notice: @event.errors.messages.values.join(" ")
     end
   end
 
   def edit
+    @event = Event.find(params[:id])
+    @product = Area.friendly.find @event.area_id
   end
 
   def for_sale
@@ -127,9 +149,7 @@ class EventsController < ApplicationController
   end
 
   def show
-    @event = Event.find(params[:id])
-
-    respond_with @event
+    redirect_to :back, notice: "Занятие добавлено в корзину."
   end
 
   def ticket
@@ -175,17 +195,18 @@ class EventsController < ApplicationController
 
     end
 
-    def event_params
+
+     def event_params
       params.require(:event).permit(
         :id, :start, :stop, :area_id, :user_id, :coach_id, :is_all_day, :owned, :status, :reason,
-        :recurrence_rule, :recurrence_id, :recurrence_exception,
+        :recurrence_rule, :recurrence_id, :recurrence_exception, :kind, :description,
         service_ids: []
       )
     end
 
     def current_product
       if params[:area_id].present?
-        Area.friendly.find(params[:area_id]) \
+        Area.friendly.find(params[:area_id])
       elsif params[:stadium_id].present?
         Stadium.friendly.find(params[:stadium_id]).areas.includes(:stadium)
       else

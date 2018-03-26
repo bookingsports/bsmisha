@@ -28,7 +28,7 @@
 
 .checkbox {
   min-width: 25px;
-  width: 50%;
+  width: 10%;
   margin: 0;
 }
 
@@ -112,4 +112,13 @@
   .check-wrap__cover {
     margin-top: 0;
   }
+}
+
+.radio input[type="radio"],
+.radio-inline input[type="radio"],
+.checkbox input[type="checkbox"],
+.checkbox-inline input[type="checkbox"] {
+  position: absolute;
+  margin-left: 0px;
+  margin-top: 4px \9;
 }

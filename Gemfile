@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.2.5'
+ruby '2.3.1'
 
 gem 'rails', '4.2.6'
 
@@ -21,11 +21,9 @@ gem 'cocoon'
 gem 'gretel'
 gem 'underscore-rails'
 gem 'rails-backbone', github: 'codebrew/backbone-rails'
-gem 'momentjs-rails'
-gem 'fullcalendar-rails'
+gem 'momentjs-rails', '>= 2.9.0'
 gem 'jquery-ui-rails'
 gem 'handlebars_assets'
-gem 'jquery-datetimepicker-rails'
 gem 'font-awesome-rails'
 gem 'dropzonejs-rails'
 gem 'lightbox2-rails'
@@ -58,7 +56,7 @@ gem 'gritter', '1.1.0'
 # NESTED
 gem 'rails_admin_nestable', '~> 0.3.2'
 gem 'ancestry'
-
+gem 'momentjs-rails', '>= 2.9.0'
 # MAPS
 gem 'rails_admin_map_field', github: 'ivanzotov/rails_admin_map_field'
 gem 'gmaps4rails'
@@ -70,7 +68,6 @@ gem 'switch_user'
 gem 'rails-observers'
 gem 'ransack', github: 'activerecord-hackery/ransack'
 gem 'jquery-datatables-rails', '~> 3.3.0'
-
 # ADMIN
 gem 'rails_admin_history_rollback', github: 'ivanzotov/rails_admin_history_rollback'
 gem 'rails_admin', github: 'ivanzotov/rails_admin', branch: 'railsmob'
@@ -131,3 +128,5 @@ group :production, :staging do
   gem 'rails_12factor'
   gem 'heroku-deflater'
 end
+
+gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'

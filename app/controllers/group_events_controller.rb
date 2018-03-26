@@ -1,58 +1,36 @@
-# == Schema Information
-#
-# Table name: events
-#
-#  id                   :integer          not null, primary key
-#  start                :datetime
-#  stop                 :datetime
-#  description          :string
-#  coach_id             :integer
-#  area_id              :integer
-#  order_id             :integer
-#  user_id              :integer
-#  price                :float
-#  recurrence_rule      :string
-#  recurrence_exception :string
-#  recurrence_id        :integer
-#  is_all_day           :boolean
-#  status               :integer          default(0)
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
-#
-
-class EventsController < ApplicationController
+class GroupEventsController < ApplicationController
   respond_to :json, :html
   before_filter :authenticate_user!, except: [:index, :new, :parents_events, :one_day]
 
   def index
     @stadium = params[:stadium].present? ? Stadium.friendly.find(params[:stadium]) : Stadium.active.first
     if params[:from] == "one_day" && params[:areas].present?
-      @events = Event.scoped_by(area: Area.where(slug: params[:areas]), user: nil)
+      @group_events = GroupEvent.scoped_by(area: Area.where(slug: params[:areas]), user: nil)
       puts "one_day area"
     elsif params[:from] == "one_day"
-      @events = []
+      @group_events = []
       puts "one_day"
     elsif params[:scope] == "coach"
-      @events = Event.scoped_by(coach: Coach.friendly.find(params[:coach_id]), area: current_product, user: current_user)
+      @group_events = GroupEvent.scoped_by(coach: Coach.friendly.find(params[:coach_id]), area: current_product, user: current_user)
       puts "coach"
     elsif params[:scope] == "grid" && current_user.present? && current_user.type == "CoachUser"
-      @events = Event.scoped_by(area: current_user.areas, user: current_user, coach: current_user.coach, scope: params[:scope])
+      @group_events = GroupEvent.scoped_by(area: current_user.areas, user: current_user, coach: current_user.coach, scope: params[:scope])
       puts "grid"
     elsif current_user.present? && params[:area_id].present? && current_user.type == "StadiumUser"
-      @events = Event.scoped_by(area: current_product, user: current_user, scope: params[:scope])
+      @group_events = GroupEvent.scoped_by(area: current_product, user: current_user, scope: params[:scope])
       puts "ST user area"
     elsif current_user.present? && current_user.type == "StadiumUser"
-      @events = Event.scoped_by(area: current_user.areas, user: current_user, scope: params[:scope])
+      @group_events = GroupEvent.scoped_by(area: current_user.areas, user: current_user, scope: params[:scope])
       puts "ST user"
     elsif params[:stadium].present?
-      @events = Event.scoped_by(area: @stadium.areas)
+      @group_events = GroupEvent.scoped_by(area: @stadium.areas)
       puts "хрюха"
     else
-      @events = Event.scoped_by(user: current_user, area: current_product, scope: params[:scope])
+      @group_events = GroupEvent.scoped_by(user: current_user, area: current_product, scope: params[:scope])
     end
     puts "in index event"
-    puts @events
-    respond_with @events
+    puts @group_events
+    respond_with @group_events
   end
 
   def new
@@ -62,7 +40,6 @@ class EventsController < ApplicationController
         @coaches = @product.coaches_areas
       end
     end
-    @event = Event.new
     @group_event = GroupEvent.new
   end
 
@@ -70,9 +47,9 @@ class EventsController < ApplicationController
     if params[:scope] == "stadium"
       stadium = Stadium.friendly.find(params[:stadium_id])
       if current_user.present?
-        @events = stadium.areas.flat_map {|area| current_user.events.where(area: area)}
+        @group_events = stadium.areas.flat_map {|area| current_user.events.where(area: area)}
       else
-        @events = []
+        @group_events = []
       end
     end
     render :index
@@ -100,45 +77,56 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event = current_user.events.create event_params.delete_if {|k,v| v.empty? }
+    @group_event = current_user.group_events.create group_event_params.delete_if {|k,v| v.empty? }
 
-    if @event.recurring?
-      @events = Event.split_recurring @event
+    if @group_event.recurring?
+      @group_events = GroupEvent.split_recurring @group_event
       t = ActiveRecord::Base.transaction { @events.each(&:save) }
-      errors = @events.map(&:errors).map(&:messages).select(&:present?)
+      errors = @group_events.map(&:errors).map(&:messages).select(&:present?)
       if errors.blank?
-        respond_with @events
+        respond_with @group_events
       else
         render json: { error: errors.map(&:values).join(", ") }
       end
     else
-      if current_user.type == "StadiumUser" && current_user.stadium.areas.include?(@event.area)
-        @event.status = :locked
+      if current_user.type == "StadiumUser" && current_user.stadium.areas.include?(@group_event.area)
+        @group_event.status = :locked
       end
-      if @event.save
-        respond_with @event
+      if @group_event.save
+        respond_with @group_event
       else
-        render json: { error: @event.errors.messages.values.join(" ") }
+        render json: { error: @group_event.errors.messages.values.join(" ") }
       end
     end
   end
 
   def update
-    if current_user.present? && current_user.type == "StadiumUser"
-      @event = current_user.stadium_events.find(params[:id])
-    else
-      @event = current_user.events.find(params[:id])
-    end
-    if @event.update event_params
-      redirect_to :back,  notice: "Занятие изменено."
-    else
-      redirect_to :back, notice: @event.errors.messages.values.join(" ")
+    if current_user.present?
+      @group_event = GroupEvent.find(params[:id])
+
+      if current_user.id == @product.stadium.user_id || @product.stadium.is_stadium_coach(current_user.id)
+
+        if @group_event.update group_event_params
+          redirect_to :back,  notice: "Изменения успешно сохранены."
+        else
+          redirect_to :back, notice: event_guest.errors.messages.values.join(" ")
+        end
+      else
+        event_guest = @group_event.event_guests.new(:start=> @group_event.start,:stop=> @group_event.stop,
+                                                    :email => current_user.email, :name => current_user.name)
+        if event_guest.save
+          redirect_to :back,  notice: "Вы записаны на занятие."
+        else
+          redirect_to :back, notice: event_guest.errors.messages.values.join(" ")
+        end
+      end
+
     end
   end
 
   def edit
-    @event = Event.find(params[:id])
-    @product = Area.friendly.find @event.area_id
+    @group_event = GroupEvent.find(params[:id])
+    @product = Area.friendly.find @group_event.area_id
   end
 
   def for_sale
@@ -196,9 +184,9 @@ class EventsController < ApplicationController
     end
 
 
-     def event_params
-      params.require(:event).permit(
-        :id, :start, :stop, :area_id, :user_id, :coach_id, :is_all_day, :owned, :status, :reason,
+     def group_event_params
+      params.require(:group_event).permit(
+        :id, :start, :stop, :area_id, :user_id, :coach_id, :is_all_day, :status, :name,
         :recurrence_rule, :recurrence_id, :recurrence_exception, :kind, :description,
         service_ids: []
       )

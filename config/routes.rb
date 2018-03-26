@@ -53,7 +53,7 @@ Rails.application.routes.draw do
     resources :prices
   end
 
-  resources :events, :my_events do
+  resources :events, :my_events, :group_events do
     collection do
       get 'paid'
       get 'grid'
@@ -142,6 +142,7 @@ Rails.application.routes.draw do
 
   resources :stadiums, defaults: { scope: 'stadium' } do
     resources :events
+    resources :group_events
     resources :pictures, only: :index
     resources :reviews
     resources :areas, concerns: [:bookable, :totalable] do

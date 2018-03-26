@@ -31,6 +31,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :events, dependent: :destroy
+  has_many :group_events, dependent: :destroy
 
   has_many :event_changes, through: :events, dependent: :destroy
   has_many :recoupments, dependent: :destroy

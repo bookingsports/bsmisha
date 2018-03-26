@@ -15,5 +15,5 @@ json.paid event.paid?
 json.paid_transfer event.event_change.present? && event.event_change.paid?
 json.reason "Занято"
 
-json.update_url event_path(event, method: :patch)
-json.edit_url edit_event_path(event)
+json.update_url group_event_path(event, method: :patch)
+json.edit_url edit_group_event_path(event)

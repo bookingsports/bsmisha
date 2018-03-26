@@ -15,7 +15,7 @@
           - @product.user.product_areas.each do |cc|
             = active_link_to (@product.kind_of?(Stadium) ? cc.name : cc.name_with_stadium), url_for([@product, cc]), active: /areas\/#{cc.to_param}/, wrap_tag: :li
       .col-lg-12.col-md-6.col-xs-12
-        - if @area.prices.current.present?
+         - if @area.prices.present?
           h4 Стоимость занятий
           p= "(с #{@area.prices.current.start.strftime("%d.%m.%Y %H:%M")} по #{@area.prices.current.stop.strftime("%d.%m.%Y %H:%M")})"
           ul.list-group
@@ -48,5 +48,4 @@
               = number_to_currency( @area.coaches_areas.active.where(coach: @product).first.price)
 
   .col-lg-8.col-xs-12
-    = render "schedule_legend"
-    #scheduler
+     #calendar

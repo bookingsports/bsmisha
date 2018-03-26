@@ -1,7 +1,8 @@
 ru:
   website: Сайт
   stadiums: Главное меню
-
+  caption: Название
+  description: Описание
   users_types: Виды пользователей
   products_types: Виды продуктов
   products: Продукты
@@ -25,6 +26,9 @@ ru:
   coach: Тренер
   coach_user: Тренер
   customer: Клиент
+  show_coaches_list: Посмотреть список тренеров
+  create_group_event: Создать групповое занятие
+  create_event: Создать занятие
   hours:
     few: "%{count} часа"
     many: "%{count} часов"
