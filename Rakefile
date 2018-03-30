@@ -3,6 +3,7 @@
 
 require File.expand_path('../config/application', __FILE__)
 
+=begin
 begin
   require 'rspec/core/rake_task'
   RSpec::Core::RakeTask.new(:spec, :tag) do |t, task_args|
@@ -13,5 +14,6 @@ begin
   task default: :spec
 rescue LoadError
 end
+=end
 
 Rails.application.load_tasks
