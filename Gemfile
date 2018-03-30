@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 
-ruby '2.3.1'
+ruby '2.2.5'
 
 gem 'rails', '4.2.6'
 
 # DATABASE
-gem 'pg'
+gem 'pg', '~>0.18.4'
 gem 'postgres_ext'
 
 #MARKUP
@@ -33,7 +33,7 @@ gem 'autoprefixer-rails'
 gem 'cancancan'
 
 # IMAGES
-gem 'fog'
+gem 'fog', require: 'fog/aws'
 gem 'carrierwave'
 gem 'rmagick'
 gem 'rqrcode'
@@ -111,7 +111,6 @@ group :test do
 end
 
 group :development, :test do
-  gem "jasmine"
   gem "byebug"
   gem "web-console", "~> 2.0"
   gem "rubocop", require: false

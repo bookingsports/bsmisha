@@ -1,5 +1,5 @@
 CarrierWave.configure do |config|
-  config.storage = :fog
+
 
   config.fog_credentials = {
     provider: 'AWS',
@@ -7,6 +7,8 @@ CarrierWave.configure do |config|
     aws_access_key_id: Rails.application.secrets.aws_access_key_id.to_s,
     aws_secret_access_key: Rails.application.secrets.aws_secret_access_key.to_s
   }
+
+  config.storage = :fog
 
   config.fog_directory  = 'bookingsports'
   config.fog_public = true
