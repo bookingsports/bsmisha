@@ -121,7 +121,6 @@ end
 
 group :production, :staging do
   gem 'dalli'
-  gem 'skylight'
   gem 'bugsnag'
   gem 'unicorn'
   gem 'rails_12factor'
