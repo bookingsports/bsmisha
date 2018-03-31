@@ -21,8 +21,8 @@ class ApplicationController < ActionController::Base
   protected
 
     def configure_permitted_params
-      devise_parameter_sanitizer.for(:account_update) << [:name, :type, :phone, :avatar]
-      devise_parameter_sanitizer.for(:sign_up) << [:name, :type, :phone, :terms_agree, :avatar]
+      devise_parameter_sanitizer.permit(:account_update,keys: [:name, :type, :phone, :avatar])
+      devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :type, :phone, :terms_agree, :avatar])
     end
 
     def set_layout
