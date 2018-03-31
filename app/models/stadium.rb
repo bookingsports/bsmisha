@@ -41,7 +41,7 @@ class Stadium < ActiveRecord::Base
   accepts_nested_attributes_for :services, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :user, :account
 
-  after_create :make_area
+  #after_create :make_area
   after_create :create_account
   after_create :parse_address
   after_save :update_counter_cache
