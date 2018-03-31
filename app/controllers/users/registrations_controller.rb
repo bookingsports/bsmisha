@@ -22,7 +22,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:sign_up) { |u|
+    devise_parameter_sanitizer.permit(:sign_up) { |u|
       u.permit(:type, :name, :email, :phone, :password, :password_confirmation, :current_password, :terms_agree, stadium_attributes: [:name, :address, :description, :opens_at, :closes_at, :category_id])
     }
   end
