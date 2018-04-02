@@ -11,8 +11,8 @@
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Booking Sports - Бронируйте спорт надежно" %>">
     <%= favicon_link_tag 'favicon.png' %>
     <%= stylesheet_link_tag 'application', media: 'all' %>
-    <%= javascript_include_tag '//maps.google.com/maps/api/js?v=3.13&sensor=false&language=ru&libaries=places' %>
-    <%= javascript_include_tag '//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js' %>
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false&amp;language=ru&amp;key=AIzaSyAovmNaUrXoHbwRUZ1fyCpfk9ndABJiycE"
+            type="text/javascript"></script>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,300italic,400italic,500,500italic,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
     <%= include_gon %>
