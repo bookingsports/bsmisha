@@ -22,8 +22,8 @@ class AreasController < ApplicationController
     @areas = @stadium.areas
     gon.stadium_slug = @stadium.slug
     gon.stadium = @stadium.id
-    gon.opens_at = Time.zone.parse(@stadium.opens_at.to_s)
-    gon.closes_at = Time.zone.parse(@stadium.closes_at.to_s)
+    gon.opens_at = Time.zone.parse(@stadium.opens_at.to_s).strftime("%H:%M")
+    gon.closes_at = Time.zone.parse(@stadium.closes_at.to_s).strftime("%H:%M")
     gon.current_user = current_user
     areas = []
     @areas.each_with_index{|a,i| areas[i]={'id': a.id.to_s, 'name': a.name}}
