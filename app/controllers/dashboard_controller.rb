@@ -12,6 +12,8 @@ class DashboardController < ApplicationController
       @areas = current_user.events.past.map(&:area).uniq
     elsif params[:area_id].present?
       @area = Area.friendly.find(params[:area_id]) rescue current_user.product_areas.first
+      gon.opens_at = Time.zone.parse(@area.stadium.opens_at.to_s).strftime("%H:%M")
+      gon.closes_at = Time.zone.parse(@area.stadium.closes_at.to_s).strftime("%H:%M")
     else
       @areas = current_user.product_areas
     end

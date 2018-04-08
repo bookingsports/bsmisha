@@ -11,7 +11,6 @@
         h3 У вас пока не создано ни одного заказа! Заходите в наш #{ link_to 'список стадионов', stadiums_path }, и найдите подходящий вам стадион!
     -else
       .col-md-10.col-sm-11.col-xs-12
-        = render "schedule_legend"
         #calendar
   - else
     -if current_user.areas.empty?
@@ -23,5 +22,4 @@
           -current_user.product_areas.uniq.each do |cc|
             = active_link_to cc.name_with_stadium, dashboard_grid_path(cc), active: /#{cc.to_param}/, wrap_tag: :li
       .col-md-8.col-xs-12
-        = render "schedule_legend"
         #calendar

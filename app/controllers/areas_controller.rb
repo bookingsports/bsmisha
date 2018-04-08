@@ -34,6 +34,8 @@ class AreasController < ApplicationController
     puts params
     @area = Area.friendly.find params[:id]
     set_gon_area
+    gon.opens_at = Time.zone.parse(@stadium.opens_at.to_s).strftime("%H:%M")
+    gon.closes_at = Time.zone.parse(@stadium.closes_at.to_s).strftime("%H:%M")
     gon.scope = params[:scope]
     if params[:scope] == "coach"
       gon.coach_id = @product.id
