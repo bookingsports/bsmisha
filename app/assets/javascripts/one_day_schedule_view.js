@@ -9,9 +9,7 @@ if (!gon.areas_id)
 
 url = "/stadiums/" + gon.stadium_slug + "/areas/events"
 areas_id = gon.areas_id;
-opens_at = new Date(gon.opens_at);
-closes_at = new Date(gon.closes_at);
-kendo.culture('ru-RU');
+//kendo.culture('ru-RU');
 $(document).ready(function() {
     var date = new Date();
     var d = date.getDate();
@@ -80,7 +78,7 @@ $(document).ready(function() {
     });
 });
 
-$("#scheduler").kendoScheduler({
+/*$("#scheduler").kendoScheduler({
     date: new Date(),
     allDaySlot: false,
     height: 700,
@@ -325,7 +323,7 @@ function timeIsOccupied(start, stop, event) {
         occurences.splice(idx, 1);
     return occurences.length > 0;
 }
-
+*/
 $("select#stadium").change(function () {
     var value = $("select#stadium").val();
     $.ajax({
@@ -360,4 +358,4 @@ $("select#stadium").change();
 function updateSchedule() {
   areas_id = $(".check-box:checkbox:checked").map(function(elt) { return this.value }).get()
   scheduler.dataSource.read();
-}*/
+}

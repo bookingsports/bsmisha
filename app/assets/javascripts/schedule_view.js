@@ -9,6 +9,8 @@ url = window.location.pathname + '/events';
 
 canUpdate = true
 isGrid = location.href.indexOf("grid") != -1
+areas_id = gon.areas_id;
+console.log(areas_id)
 
 $(document).ready(function() {
     var date = new Date();

@@ -2,8 +2,14 @@
 //= require fc/javascripts/fullcalendar/lang-all.js
 //= require chosen.jquery.js
 //= require_self
+
 url = window.location.pathname + '/events';
 area_id = gon.area_id;
+opens_at = "8:00";
+closes_at = "24:00"
+console.log(gon.opens_at);
+console.log(gon.closes_at);
+
 /*kendo.culture('ru-RU');*/
 
 canUpdate = true
@@ -27,8 +33,8 @@ $(document).ready(function() {
         editable: true,
         axisFormat: 'HH:mm',
         droppable: true,
-        minTime: gon.opens_at,
-        maxTime: gon.closes_at,
+        minTime: opens_at,
+        maxTime: closes_at,
         timezone: 'local',
         timeFormat: 'HH:mm',
         events: url + ".json",
@@ -36,19 +42,6 @@ $(document).ready(function() {
         eventDurationEditable: false,
         selectable: true,
         selectHelper: true,
-        select: function(start, end, ev) {
-            if (!gon.current_user)
-            {
-                alert('Пожалуйста, сначала авторизуйтесь.');
-            }
-            else{
-                $.getScript('/events/new?area_id='+ area_id, function() {
-                    $('#event_start').val(moment(start).format('DD.MM.YYYY HH:mm'));
-                    $('#event_stop').val(moment(end).format('DD.MM.YYYY HH:mm'));
-                    $('.area_hidden').val(area_id);
-                });
-            }
-        },
         eventRender: function(event) {
             console.log(event);
             if (event.recurrence_rule) {
