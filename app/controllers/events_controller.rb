@@ -118,7 +118,8 @@ class EventsController < ApplicationController
       if @event.save
         respond_with @event
       else
-        render json: { error: @event.errors.messages.values.join(" ") }
+        flash[:error] = t(@event.errors.messages.values.join(" "))
+        redirect_to :back
       end
     end
   end
@@ -132,7 +133,8 @@ class EventsController < ApplicationController
     if @event.update event_params
       redirect_to :back,  notice: "Занятие изменено."
     else
-      redirect_to :back, notice: @event.errors.messages.values.join(" ")
+      flash[:error] = t(@event.errors.messages.values.join(" "))
+      redirect_to :back
     end
   end
 

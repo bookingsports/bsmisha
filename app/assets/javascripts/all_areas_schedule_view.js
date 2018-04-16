@@ -56,6 +56,11 @@ $(document).ready(function() {
            {
                alert('Пожалуйста, сначала авторизуйтесь.');
            }
+           if ( start.isBefore(moment()) )
+           {
+               alert('Нельзя создать заказ на прошедшее время!');
+               $('#calendar').fullCalendar('unselect');
+           }
            else{
                $.getScript('/events/new?area_id='+ ev.data.id, function() {
                    $('#event_start').val(moment(start).format('DD.MM.YYYY HH:mm'));

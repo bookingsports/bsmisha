@@ -3,6 +3,7 @@ ru:
   stadiums: Главное меню
   caption: Название
   description: Описание
+  can't be in the past:  "Одна или несколько дат указаны в прошлом"
   users_types: Виды пользователей
   products_types: Виды продуктов
   products: Продукты
@@ -71,3 +72,4 @@ ru:
     messages:
       extension_white_list_error: "- Формат изображения должен быть одним из следующих: %{allowed_types}"
       rmagick_processing_error: "- Ошибка при обработке изображения: возможно, файл пустой или не является изображением."
+
