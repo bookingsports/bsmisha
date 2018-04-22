@@ -103,9 +103,9 @@ class GroupEventsController < ApplicationController
   def update
     if current_user.present?
       @group_event = GroupEvent.find(params[:id])
+      @product = Area.friendly.find @group_event.area_id
 
       if current_user.id == @product.stadium.user_id || @product.stadium.is_stadium_coach(current_user.id)
-
         if @group_event.update group_event_params
           redirect_to :back,  notice: "Изменения успешно сохранены."
         else
@@ -120,7 +120,6 @@ class GroupEventsController < ApplicationController
           redirect_to :back, notice: event_guest.errors.messages.values.join(" ")
         end
       end
-
     end
   end
 

@@ -2,22 +2,14 @@
 //= require fc/javascripts/fullcalendar/lang-all.js
 //= require chosen.jquery.js
 //= require_self
-
 url = window.location.pathname + '/events';
 
 /*kendo.culture('ru-RU');*/
 
 canUpdate = true
 isGrid = location.href.indexOf("grid") != -1
-areas_id = gon.areas_id;
-console.log(areas_id)
-
+area_id = gon.area_id;
 $(document).ready(function() {
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
-
     $('#calendar').fullCalendar({
         lang: 'ru',
         allDaySlot: false,
@@ -34,7 +26,10 @@ $(document).ready(function() {
         maxTime: gon.closes_at,
         timezone: 'local',
         timeFormat: 'HH:mm',
-        events: url + ".json",
+        eventSources: [
+            "/events.json?stadium=" + gon.stadium ,
+            "/group_events.json?stadium=" + gon.stadium ,
+        ],
         eventOverlap: false,
         eventDurationEditable: false,
         selectable: true,
@@ -44,18 +39,23 @@ $(document).ready(function() {
             {
                 alert('Пожалуйста, сначала авторизуйтесь.');
             }
+            if ( start.isBefore(moment()) )
+            {
+                alert('Нельзя создать заказ на прошедшее время!');
+                $('#calendar').fullCalendar('unselect');
+            }
             else{
-                $.getScript('/events/new?area_id='+ area_id, function() {
+                $.getScript('/events/new?area_id='+ gon.area_id, function() {
                     $('#event_start').val(moment(start).format('DD.MM.YYYY HH:mm'));
                     $('#event_stop').val(moment(end).format('DD.MM.YYYY HH:mm'));
-                    $('.area_hidden').val(area_id);
+                    $('#group_event_start').val(moment(start).format('DD.MM.YYYY HH:mm'));
+                    $('#group_event_stop').val(moment(end).format('DD.MM.YYYY HH:mm'));
+                    $('.area_hidden').val(gon.area_id);
                 });
             }
         },
         eventRender: function(event) {
-            console.log(event);
             if (event.recurrence_rule) {
-                console.log(event.recurrence_rule);
 
             }
         },
@@ -65,21 +65,27 @@ $(document).ready(function() {
             {
                 alert('Пожалуйста, сначала авторизуйтесь.');
             }
+            if ( event.start.isBefore(moment()) )
+            {
+                alert('Занятие прошло!');
+                $('#calendar').fullCalendar('unselect');
+            }
             else {
                 $.getScript(event.edit_url, function() {
                     $('.start_hidden').val(moment(event.start).format('YYYY-MM-DD HH:mm'));
                     $('.end_hidden').val(moment(event.end).format('YYYY-MM-DD HH:mm'));
-
+                    $('#group_event_start').val(moment(event.start).format('DD.MM.YYYY HH:mm'));
+                    $('#group_event_stop').val(moment(event.end).format('DD.MM.YYYY HH:mm'));
                 });
             }
 
         },
         eventDrop: function (event, delta, revertFunc) {
-            console.log(event);
-        }
+                   }
     });
 });
 
+/*
 $("#scheduler").kendoScheduler({
   culture: 'ru-RU',
   date: new Date(),
@@ -538,6 +544,7 @@ function hide_never ()
   $(".k-recur-end-never").closest("li").hide();
   $(".k-recur-end-count").click();
 }
+*/
 
 /*
 scheduler = $("#scheduler").getKendoScheduler();

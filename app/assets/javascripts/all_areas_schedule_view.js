@@ -80,10 +80,14 @@ $(document).ready(function() {
         },
         eventClick: function(event, jsEvent, view) {
 
-
             if (!gon.current_user)
             {
                 alert('Пожалуйста, сначала авторизуйтесь.');
+            }
+            if ( event.start.isBefore(moment()) )
+            {
+                alert('Занятие прошло!');
+                $('#calendar').fullCalendar('unselect');
             }
             else {
                 $.getScript(event.edit_url, function() {

@@ -9,6 +9,10 @@ $('.terms_agree_checkbox').change(function() {
       $(this).parents('form').find('.terms-required').attr('disabled', 'disabled');
 });
 
+$(window).load(function() {
+    $('.terms_agree_checkbox').attr("checked", false);
+});
+
 $('#user_type_selector').change(function() {
   $('.form_container').css('display', 'none');
   switch($('#user_type_selector').val())
