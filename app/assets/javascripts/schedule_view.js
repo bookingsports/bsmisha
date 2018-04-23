@@ -3,7 +3,6 @@
 //= require chosen.jquery.js
 //= require_self
 url = window.location.pathname + '/events';
-
 /*kendo.culture('ru-RU');*/
 
 canUpdate = true

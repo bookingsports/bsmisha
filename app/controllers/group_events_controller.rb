@@ -136,7 +136,7 @@ class GroupEventsController < ApplicationController
   end
 
   def show
-    redirect_to :back, notice: "Занятие добавлено в корзину."
+    redirect_to :back, notice: "Занятие создано."
   end
 
   def ticket

@@ -14,6 +14,11 @@ ru:
         parent: событие
         accusative: событие
         other: события
+      group_event:
+        one: событие
+        parent: событие
+        accusative: событие
+        other: события
     attributes:
       event:
         start: Начало
@@ -32,3 +37,17 @@ ru:
         is_all_day: На весь день?
         user: Пользователь
         status: Статус
+      group_event:
+        start: Начало
+        stop: Конец
+        description: Описание
+        coach: Тренер
+        area: Площадка
+        order: Заказ
+        recurrence_rule: Правило повторения
+        recurrence_exception: Исключение повторения
+        recurrence_id: Повторение
+        services: Услуги
+        event_change: Переносы события
+        created_at: Дата создания
+        updated_at: Дата изменения

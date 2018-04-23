@@ -52,12 +52,12 @@ class ApplicationController < ActionController::Base
     def set_gon_area
       if @area
         gon.area_id = @area.id
-        gon.opens_at = Time.zone.parse(@area.stadium.opens_at.to_s)
-        gon.closes_at = Time.zone.parse(@area.stadium.closes_at.to_s)
+        gon.opens_at = Time.zone.parse(@area.stadium.opens_at.to_s).strftime("%H:%M")
+        gon.closes_at = Time.zone.parse(@area.stadium.closes_at.to_s).strftime("%H:%M")
         gon.area_my_events_path = area_my_events_path(@area)
       elsif @areas
-        gon.opens_at = Time.zone.parse(@areas.map(&:stadium).map(&:opens_at).min.to_s)
-        gon.closes_at = Time.zone.parse(@areas.map(&:stadium).map(&:closes_at).max.to_s)
+        gon.opens_at = Time.zone.parse(@areas.map(&:stadium).map(&:opens_at).min.to_s).strftime("%H:%M")
+        gon.closes_at = Time.zone.parse(@areas.map(&:stadium).map(&:closes_at).max.to_s).strftime("%H:%M")
       end
     end
 
