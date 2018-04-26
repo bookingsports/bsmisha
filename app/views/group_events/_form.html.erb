@@ -5,6 +5,8 @@
           (current_user.id == @product.stadium.user_id || @product.stadium.is_stadium_coach(current_user.id))%>
         <%= f.input :name, :label => t(:caption), class: 'form-control input-sm' %>
         <%= f.input :description, :label => t(:description), class: 'form-control input-sm' %>
+        <%= f.input :price, :label => "Цена", class: 'form-control input-sm' %>
+
       <% end %>
 
       <h4>Приглашенные гости</h4>
@@ -50,22 +52,10 @@
            <%= f.input :coach_id, as: :select, :label => t(:coach),
                        collection: @coaches.map { |c| [c.coach.name, c.coach_id] }, include_blank: true %>
       <% end %>
-      <% if !@product.stadium.services.blank? %>
-        <div class="form-group select optional">
-          <%= f.label "Дополнительные услуги" %>
-          <%= f.collection_select :service_ids, @product.stadium.services.order(:name), :id, :service_name_and_price, {}, {multiple: true, class: 'chosen-select',:data => {:placeholder => ' '}} %>
-        </div>
-      <% end %>
     </div>
 
     <div class="form-actions">
       <%= f.submit 'Сохранить' , :class => 'btn btn-info'  %>
-      <%= link_to 'Delete',
-                  event,
-                  method: :delete,
-                  class: 'btn btn-danger',
-                  data: { confirm: 'Are you sure?' },
-                  remote: true unless @group_event.new_record? %>
     </div>
 <% end %>
 <script type="text/javascript">

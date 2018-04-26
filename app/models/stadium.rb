@@ -99,6 +99,10 @@ class Stadium < ActiveRecord::Base
     areas_count > 0
   end
 
+  def categories
+    areas.map(&:category).flatten.uniq
+  end
+
   private
 
     def parse_address

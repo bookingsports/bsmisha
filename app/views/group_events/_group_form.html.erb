@@ -5,6 +5,11 @@
       <br>
         <%= f.label @group_event.description %>
       </br>
+       <p>
+         <%= f.label "Цена" %>
+         <%= @group_event.price_with_cur %>
+       </p>
+
 
     <%= f.label "Время занятия" %>
     <%= f.label @group_event.start.strftime('%H:%M') + " - " + @group_event.stop.strftime('%H:%M')  %>
@@ -16,12 +21,6 @@
           <%= f.label t(:coach) %>
           <%= f.label @group_event.coach.name%>
         </br>
-      <% end %>
-      <% if !@product.stadium.services.blank? %>
-        <div class="form-group select optional">
-          <% f.label "Дополнительные услуги" %>
-          <%= f.collection_select :service_ids, @product.stadium.services.order(:name), :id, :service_name_and_price, {}, {multiple: true, class: 'chosen-select',:data => {:placeholder => ' '}} %>
-        </div>
       <% end %>
     </div>
 

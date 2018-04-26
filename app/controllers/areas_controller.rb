@@ -19,7 +19,11 @@ class AreasController < ApplicationController
 
   def index
     @stadium = Stadium.friendly.find(params[:stadium_id])
-    @areas = @stadium.areas
+    if params[:category_id]
+      @areas = @stadium.areas.where(category_id: params[:category_id] )
+    else
+      @areas = @stadium.areas
+    end
     gon.stadium_slug = @stadium.slug
     gon.stadium = @stadium.id
     gon.opens_at = Time.zone.parse(@stadium.opens_at.to_s).strftime("%H:%M")
@@ -31,7 +35,6 @@ class AreasController < ApplicationController
   end
 
   def show
-    puts params
     @area = Area.friendly.find params[:id]
     set_gon_area
     gon.stadium = @area.stadium.id

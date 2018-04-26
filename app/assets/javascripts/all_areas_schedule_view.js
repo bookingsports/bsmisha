@@ -2,7 +2,7 @@
 //= require fc/javascripts/fullcalendar/lang-all.js
 //= require chosen.jquery.js
 //= require_self
-url = window.location.pathname + '/events';
+url = window.location.pathname;
 //kendo.culture('ru-RU');
 var matchingDaysBetween = function (start, end, test) {
     var days = [];
@@ -123,8 +123,31 @@ $(document).ready(function() {
 
 });
 
+/*
+$("select#category").change(function () {
+    var value = $("select#category").val();
+    $.ajax({
+        type: "GET",
+        url: url + '.json?category_id=' + value ,
+        success: function (msg) {
+            alert(msg);
+            $("#checkboxes_placeholder").empty();
+            $('#calendar').fullCalendar( ).refresh();
+            $('#schedule').show();
+            msg.forEach(function (area) {
+                $("#checkboxes_placeholder").append('' +
+                    '<div class="col-sm-6 check-wrap">' +
+                    '<input type="checkbox" name="areas[]" class="check-box" id="areas_' + area.id + '" value="' + area.slug + '" checked="checked" />' +
+                    '<label for="areas_' + area.id + '" class="check-label">' + area.name_with_stadium + '</label>' +
+                    '</div>');
+            });
+        }
+    });
+});
+*/
 
 
+/*
 $("#scheduler").kendoScheduler({
   date: new Date(),
   allDaySlot: false,
@@ -399,3 +422,4 @@ function timeIsOccupied (start, stop, event)
     occurences.splice(idx, 1);
   return occurences.length > 0;
 }
+*/

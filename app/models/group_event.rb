@@ -20,6 +20,11 @@ class GroupEvent < ActiveRecord::Base
     end
   end
 
+  def price_with_cur
+    return price.to_s + " руб."
+
+  end
+
   def recurring?
     recurrence_rule.present?
   end
@@ -84,7 +89,6 @@ class GroupEvent < ActiveRecord::Base
   end
 
   def build_schedule
-    puts "in build_schedule"
     @schedule = IceCube::Schedule.new start do |s|
       if recurring?
         s.add_recurrence_rule(IceCube::Rule.from_ical(recurrence_rule))
