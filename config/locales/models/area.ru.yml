@@ -1,4 +1,5 @@
 ru:
+  show_schedule: Показать расписание
   activerecord:
     models:
       area:

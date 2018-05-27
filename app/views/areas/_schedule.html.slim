@@ -1,0 +1,11 @@
+
+ .col-lg-3.col-xs-12
+      = render 'total'
+      h4 Площадки
+      ul.nav.nav-pills.nav-stacked
+        - if @product.kind_of? Stadium
+          = active_link_to 'Все площадки', stadium_areas_path + '?category_id=' + @category.to_s, active: /areas$/, wrap_tag: :li
+        - @areas.each do |cc|
+          = active_link_to [cc.name].compact.join(', '), url_for([@product, cc]), active: /areas\/#{cc.to_param}/, wrap_tag: :li
+ .col-lg-9.col-xs-12
+   #calendar

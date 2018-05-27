@@ -3,27 +3,8 @@
 //= require chosen.jquery.js
 //= require_self
 url = window.location.pathname;
-//kendo.culture('ru-RU');
-var matchingDaysBetween = function (start, end, test) {
-    var days = [];
-    var day = new Date(start);
-    for (day; day < end; day.setDate(day.getDate() + 1)) {
-        if (test(day)) {
-            console.log("in");
-            days.push(moment(day)); // push a copy of day
-        }
-    }
-    console.log(days);
-    return days;
-}
-var isContainInDow = function (dow,day){
-    return dow.includes(day.getDay());
-}
-$(document).ready(function() {
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
+
+var callCalendar = function () {
 
     $('#calendar').fullCalendar({
         lang: 'ru',
@@ -46,30 +27,30 @@ $(document).ready(function() {
             "/events.json?stadium=" + gon.stadium ,
             "/group_events.json?stadium=" + gon.stadium ,
         ],
-        resources: window.location.pathname,
+        resources: gon.areas,
         eventOverlap: false,
         eventDurationEditable: false,
         selectable: true,
         selectHelper: true,
-       select: function(start, end, ev) {
-           if (!gon.current_user)
-           {
-               alert('Пожалуйста, сначала авторизуйтесь.');
-           }
-           if ( start.isBefore(moment()) )
-           {
-               alert('Нельзя создать заказ на прошедшее время!');
-               $('#calendar').fullCalendar('unselect');
-           }
-           else{
-               $.getScript('/events/new?area_id='+ ev.data.id, function() {
-                   $('#event_start').val(moment(start).format('DD.MM.YYYY HH:mm'));
-                   $('#event_stop').val(moment(end).format('DD.MM.YYYY HH:mm'));
-                   $('#group_event_start').val(moment(start).format('DD.MM.YYYY HH:mm'));
-                   $('#group_event_stop').val(moment(end).format('DD.MM.YYYY HH:mm'));
-                   $('.area_hidden').val(ev.data.id);
-               });
-           }
+        select: function(start, end, ev) {
+            if (!gon.current_user)
+            {
+                alert('Пожалуйста, сначала авторизуйтесь.');
+            }
+            if ( start.isBefore(moment()) )
+            {
+                alert('Нельзя создать заказ на прошедшее время!');
+                $('#calendar').fullCalendar('unselect');
+            }
+            else{
+                $.getScript('/events/new?area_id='+ ev.data.id, function() {
+                    $('#event_start').val(moment(start).format('DD.MM.YYYY HH:mm'));
+                    $('#event_stop').val(moment(end).format('DD.MM.YYYY HH:mm'));
+                    $('#group_event_start').val(moment(start).format('DD.MM.YYYY HH:mm'));
+                    $('#group_event_stop').val(moment(end).format('DD.MM.YYYY HH:mm'));
+                    $('.area_hidden').val(ev.data.id);
+                });
+            }
         },
         eventRender: function(event) {
             console.log(event);
@@ -105,46 +86,39 @@ $(document).ready(function() {
         }
     });
 
-    $('#calendar').fullCalendar( 'addEventSource',
-        function (start, end, timezone, callback) {
-            var days = matchingDaysBetween(start, end, function (day) {
-                return isContainInDow([1,5,3],day); //test function
-            });
-            callback(days.map(function (day) { // map days to events
-                return {
-                    start: moment(day).hour(12),
-                    end: moment(day).hour(14),
-                    resources: "45",
-                    title: "lunch",
-                };
-            }));
-        }
-    );
+}
 
-});
-
-/*
-$("select#category").change(function () {
-    var value = $("select#category").val();
-    $.ajax({
-        type: "GET",
-        url: url + '.json?category_id=' + value ,
-        success: function (msg) {
-            alert(msg);
-            $("#checkboxes_placeholder").empty();
-            $('#calendar').fullCalendar( ).refresh();
-            $('#schedule').show();
-            msg.forEach(function (area) {
-                $("#checkboxes_placeholder").append('' +
-                    '<div class="col-sm-6 check-wrap">' +
-                    '<input type="checkbox" name="areas[]" class="check-box" id="areas_' + area.id + '" value="' + area.slug + '" checked="checked" />' +
-                    '<label for="areas_' + area.id + '" class="check-label">' + area.name_with_stadium + '</label>' +
-                    '</div>');
-            });
+var setCheckedAreas = function () {
+    gon.areas.forEach( function(area) {
+            $('#areas_'+area.id).prop("checked", true);
         }
+    )
+}
+
+$(document).ready(function() {
+    setCheckedAreas();
+    callCalendar();
+
+    $("select#category_id").change(function () {
+        var value = $("select#category_id").val();
+        $('.sch').hide();
+        $.ajax({
+            type: "GET",
+            url: url + '.json?category_id=' + value ,
+            success: function (msg) {
+                $("#checkboxes_placeholder").empty();
+                msg.forEach(function (area) {
+                    $("#checkboxes_placeholder").append('' +
+                        '<div class="col-sm-6 check-wrap">' +
+                        '<input type="checkbox" name="areas['+ area.id +']" id="areas_' + area.id + '" value="' + area.id + '" checked = true class="check-box" />' +
+                        '<label class="check-label" for="areas_' + area.id + '" >' + area.name + '</label>' +
+                        '</div>');
+                });
+            }
+        });
     });
 });
-*/
+
 
 
 /*

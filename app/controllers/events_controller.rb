@@ -28,30 +28,21 @@ class EventsController < ApplicationController
     @stadium = params[:stadium].present? ? Stadium.friendly.find(params[:stadium]) : Stadium.active.first
     if params[:from] == "one_day" && params[:areas].present?
       @events = Event.scoped_by(area: Area.where(slug: params[:areas]), user: nil)
-      puts "one_day area"
     elsif params[:from] == "one_day"
       @events = []
-      puts "one_day"
     elsif params[:scope] == "coach"
       @events = Event.scoped_by(coach: Coach.friendly.find(params[:coach_id]), area: current_product, user: current_user)
-      puts "coach"
     elsif params[:scope] == "grid" && current_user.present? && current_user.type == "CoachUser"
       @events = Event.scoped_by(area: current_user.areas, user: current_user, coach: current_user.coach, scope: params[:scope])
-      puts "grid"
     elsif current_user.present? && params[:area_id].present? && current_user.type == "StadiumUser"
       @events = Event.scoped_by(area: current_product, user: current_user, scope: params[:scope])
-      puts "ST user area"
     elsif current_user.present? && current_user.type == "StadiumUser"
       @events = Event.scoped_by(area: current_user.areas, user: current_user, scope: params[:scope])
-      puts "ST user"
     elsif params[:stadium].present?
       @events = Event.scoped_by(area: @stadium.areas)
-      puts "хрюха"
     else
       @events = Event.scoped_by(user: current_user, area: current_product, scope: params[:scope])
     end
-    puts "in index event"
-    puts @events
     respond_with @events
   end
 

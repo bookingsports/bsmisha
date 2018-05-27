@@ -1,17 +1,32 @@
 - content_for :scripts do
   = javascript_include_tag 'all_areas_schedule_view'
-/.col-xs-12
-/  = label_tag 'stadium', "Стадион"
-/  .col-xs-12
-/    = select("name", "id", @product.areas.collect {|r| [ r.category.name, r.category.id ] }, { :include_blank => false })
-.row.top15
-  .col-lg-3.col-xs-12
-    =render 'total'
-    h4 Площадки
-    ul.nav.nav-pills.nav-stacked
-      - if @product.kind_of? Stadium
-        = active_link_to 'Все площадки', stadium_areas_path, active: /areas$/, wrap_tag: :li
-      - @product.areas.each do |cc|
-        = active_link_to [cc.name].compact.join(', '), url_for([@product, cc]), active: /areas\/#{cc.to_param}/, wrap_tag: :li
-  .col-lg-9.col-xs-12
-    #calendar
+
+hr
+  =form_tag(stadium_areas_path, method: "get")  do
+    .col-xs-12
+      row
+        .col-lg-4.col-xs-12
+          row
+            .col-xs-12
+              = label_tag 'category', "Выберите, интересующий Вас, вид спорта:"
+              .col-xs-6
+                = select_tag :category_id, options_from_collection_for_select(@product.categories, "id", "name", @category), class: 'form-control'
+        .col-lg-8.col-xs-12
+          row
+            .col-xs-12
+              = label_tag 'category', "Выберите площадки:"
+            div#checkboxes_placeholder.check-wrap__cover
+              - @stadium.areas.where(category_id: @category).each do |area|
+                div.col-sm-6.check-wrap
+                  = check_box_tag "areas[#{area.id}]", area.id, false, class: 'check-box'
+                  = label_tag "areas[#{area.id}]", area.name, class: 'check-label'
+        .col-lg-4
+          br
+            .col-xs-12
+              =submit_tag("#{t(:show_schedule)}",:class => 'btn btn-info')
+      .col-xs-12
+        hr
+
+  .col-xs-12
+    row.sch
+      = render 'schedule'
