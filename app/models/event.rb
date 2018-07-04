@@ -51,7 +51,6 @@ class Event < ActiveRecord::Base
   end
 
   def daily_price_rules
-    puts "in ev daily_price_rules"
     self.prices.map(&:daily_price_rules).flatten.select{|d| d.overlaps? self }
   end
 
@@ -348,7 +347,6 @@ class Event < ActiveRecord::Base
       if (!start_changed? && !stop_changed?) || unpaid?
         return true
       elsif event_change.present? && event_change.unpaid? # updating event change, rolling back original event
-        puts "ZOPA"
         event_change.update new_start: self.start, new_stop:self.stop, new_price: calculate_price
         self.start = start_was
         self.stop = stop_was
@@ -407,7 +405,6 @@ class Event < ActiveRecord::Base
     end
 
     def build_schedule
-      puts "in build_schedule"
       @schedule = IceCube::Schedule.new start do |s|
         if recurring?
           s.add_recurrence_rule(IceCube::Rule.from_ical(recurrence_rule))

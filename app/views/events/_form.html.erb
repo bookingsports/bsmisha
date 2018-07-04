@@ -6,12 +6,6 @@
       <%= f.hidden_field :area_id, class: 'form-control input-sm area_hidden'%>
       <%= f.input :recurrence_id, collection: [["Разово",0] , ["Еженедельно", 1]], include_blank: false %>
 
-      <%= f.fields_for :event_guests do |p| %>
-
-          <%= p.input :email %>
-          <%= p.input :name %>
-      <% end %>
-
       <div class="recurrence", style="display:none">
         <%= f.input :recurrence_rule,
                     :as => :check_boxes, :label => "Дни повторения",

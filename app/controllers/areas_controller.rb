@@ -15,6 +15,7 @@
 class AreasController < ApplicationController
   layout :set_layout
   respond_to :json, :html
+  before_action :total, only: [ :show]
   before_filter :set_scope
 
   def index
@@ -72,10 +73,6 @@ class AreasController < ApplicationController
 
     @recoupment = current_user.recoupments.where(area: @area) && current_user.recoupments.where(area: @area).first
     @discount = current_user.discounts.where(area: @area) && current_user.discounts.where(area: @area).first
-
-    respond_to do |format|
-      format.js {}
-    end
   end
 
   private

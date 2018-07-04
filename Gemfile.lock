@@ -146,13 +146,6 @@ GEM
       uniform_notifier (~> 1.11.0)
     byebug (10.0.1)
     cancancan (2.1.3)
-    capybara (2.18.0)
-      addressable
-      mini_mime (>= 0.1.3)
-      nokogiri (>= 1.3.3)
-      rack (>= 1.0.0)
-      rack-test (>= 0.5.4)
-      xpath (>= 2.0, < 4.0)
     carrierwave (1.2.2)
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
@@ -658,8 +651,6 @@ GEM
       railties (>= 4.0)
       sprockets-rails (>= 2.0, < 4.0)
     xml-simple (1.1.5)
-    xpath (3.0.0)
-      nokogiri (~> 1.8)
 
 PLATFORMS
   ruby
@@ -677,7 +668,6 @@ DEPENDENCIES
   bullet
   byebug
   cancancan
-  capybara
   carrierwave
   ckeditor
   cocoon
@@ -760,4 +750,4 @@ RUBY VERSION
    ruby 2.2.5p319
 
 BUNDLED WITH
-   1.16.0
+   1.16.2
