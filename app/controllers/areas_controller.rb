@@ -55,7 +55,6 @@ class AreasController < ApplicationController
 
   def total
     if current_user.nil?
-      render nothing: true
       return
     end
     @area = Area.friendly.find(params[:id])

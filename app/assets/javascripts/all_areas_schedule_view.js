@@ -35,9 +35,9 @@ var callCalendar = function () {
         select: function(start, end, ev) {
             if (!gon.current_user)
             {
-                alert('Пожалуйста, сначала авторизуйтесь.');
+                //alert('Пожалуйста, сначала авторизуйтесь.');
             }
-            if ( start.isBefore(moment()) )
+            if ( gon.current_user && start.isBefore(moment()) )
             {
                 alert('Нельзя создать заказ на прошедшее время!');
                 $('#calendar').fullCalendar('unselect');

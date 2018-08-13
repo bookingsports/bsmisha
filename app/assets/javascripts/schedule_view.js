@@ -38,8 +38,9 @@ $(document).ready(function() {
             {
                 alert('Пожалуйста, сначала авторизуйтесь.');
             }
-            if ( start.isBefore(moment()) )
+            if ( gon.current_user && start.isBefore(moment()) )
             {
+                alert(gon.current_user);
                 alert('Нельзя создать заказ на прошедшее время!');
                 $('#calendar').fullCalendar('unselect');
             }
