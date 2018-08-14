@@ -157,9 +157,9 @@ Rails.application.routes.draw do
   root to: 'visitors#index'
   devise_for :users, controllers: {registrations: "users/registrations"}
   
-  #devise_scope :user do
-    #get '/users/sign_out' => 'devise/sessions#destroy'
-  #end
+  devise_scope :user do
+    get '/users/sign_out' => 'devise/sessions#destroy'
+  end
 
   get 'switch_user' => 'switch_user#set_current_user'
 
