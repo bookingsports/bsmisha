@@ -55,9 +55,12 @@ class ApplicationController < ActionController::Base
         gon.opens_at = Time.zone.parse(@area.stadium.opens_at.to_s).strftime("%H:%M")
         gon.closes_at = Time.zone.parse(@area.stadium.closes_at.to_s).strftime("%H:%M")
         gon.area_my_events_path = area_my_events_path(@area)
-      elsif @areas
+      elsif !@areas.blank?
         gon.opens_at = Time.zone.parse(@areas.map(&:stadium).map(&:opens_at).min.to_s).strftime("%H:%M")
         gon.closes_at = Time.zone.parse(@areas.map(&:stadium).map(&:closes_at).max.to_s).strftime("%H:%M")
+      else
+        gon.opens_at = "7:00"
+        gon.closes_at = "24:00"
       end
     end
 
