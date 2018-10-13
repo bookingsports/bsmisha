@@ -6,14 +6,13 @@
         <%= f.label @group_event.description %>
       </br>
        <p>
-         <%= f.label "Цена" %>
+         <%= f.label "Цена за разовое занятие" %>
          <%= @group_event.price_with_cur %>
        </p>
 
-
-    <%= f.label "Время занятия" %>
-    <%= f.label @group_event.start.strftime('%H:%M') + " - " + @group_event.stop.strftime('%H:%M')  %>
-    <%= f.hidden_field :area_id, class: 'form-control input-sm area_hidden'%>
+      <%= f.label "Время занятия" %>
+      <%= f.label @group_event.start.strftime('%H:%M') + " - " + @group_event.stop.strftime('%H:%M')  %>
+      <%= f.hidden_field :area_id, class: 'form-control input-sm area_hidden'%>
 
 
       <% if @group_event.coach_id %>

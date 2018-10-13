@@ -5,6 +5,7 @@ class GroupEvent < ActiveRecord::Base
   validates :stop, greater_by_30_min: {than: :start}, allow_blank: true
   validates :start, :stop, step_by_30_min: true, allow_blank: true
   validate :start_is_not_in_the_past
+  validates :max_count_participants, presence: true
 
 
   belongs_to :user
