@@ -14,18 +14,26 @@
             = active_link_to 'Все площадки', stadium_areas_path, active: /areas$/, wrap_tag: :li
           - @product.user.product_areas.each do |cc|
             = active_link_to (@product.kind_of?(Stadium) ? cc.name : cc.name_with_stadium), url_for([@product, cc]), active: /areas\/#{cc.to_param}/, wrap_tag: :li
-      .col-lg-12.col-md-6.col-xs-12
-         - if @area.prices.present?
-          h4 Стоимость занятий
-          p= "(с #{@area.prices.current.start.strftime("%d.%m.%Y %H:%M")} по #{@area.prices.current.stop.strftime("%d.%m.%Y %H:%M")})"
-          ul.list-group
-            - @area.prices.current.daily_price_rules.sort_by{ |x| [x.working_days, x.start] }.each do |rule|
-              li class=(rule.is_discount ? "price-discount list-group-item" : "list-group-item")
-                = rule.working_days.map{ |d| d.present? ? t(:"date.abbr_day_names").at(d.to_i) : nil }.join(', ')
-                = ' ' + rule.start.utc.strftime('%H:%M') + ' - ' + rule.stop.utc.strftime('%H:%M')
-                = ' ' + number_to_integer_currency(rule.value)
-                - if rule.is_discount
-                  = " (Акция)"
+
+      #accordionExample.accordion
+        .col-lg-12.col-md-6.col-xs-12
+          .card
+            #headingTwo.card-header
+              h5.mb-0
+                button.btn.btn-link.collapsed aria-controls="collapseTwo" aria-expanded="false" data-target="#collapseTwo" data-toggle="collapse" type="button"
+                  h4 Стоимость занятий
+            #collapseTwo.collapse aria-labelledby="headingTwo" data-parent="#accordionExample"
+              .card-body
+                p= "(с #{@area.prices.current.start.strftime("%d.%m.%Y %H:%M")} по #{@area.prices.current.stop.strftime("%d.%m.%Y %H:%M")})"
+                ul.list-group
+                  - @area.prices.current.daily_price_rules.sort_by {|x| [x.working_days, x.start]}.each do |rule|
+                    li class=(rule.is_discount ? "price-discount list-group-item" : "list-group-item")
+                      = rule.working_days.map {|d| d.present? ? t(:"date.abbr_day_names").at(d.to_i) : nil}.join(', ')
+                      = ' ' + rule.start.utc.strftime('%H:%M') + ' - ' + rule.stop.utc.strftime('%H:%M')
+                      = ' ' + number_to_integer_currency(rule.value)
+                      - if rule.is_discount
+                        = " (Акция)"
+
       .col-lg-12.col-md-6.col-xs-12
         - if @area.stadium.services.any?
           h4 Дополнительные услуги
