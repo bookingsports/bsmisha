@@ -186,7 +186,7 @@ class GroupEventsController < ApplicationController
      def group_event_params
       params.require(:group_event).permit(
         :id, :start, :stop, :area_id, :user_id, :coach_id, :is_all_day, :status, :name,
-        :price, :recurrence_rule, :recurrence_id, :recurrence_exception, :kind, :description,
+        :price, :recurrence_rule, :recurrence_id, :recurrence_exception, :kind, :description,:max_count_participants,
         service_ids: []
       )
     end
