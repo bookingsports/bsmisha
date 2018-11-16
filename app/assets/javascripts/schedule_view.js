@@ -26,8 +26,8 @@ $(document).ready(function() {
         timezone: 'local',
         timeFormat: 'HH:mm',
         eventSources: [
-            "/events.json?stadium=" + gon.stadium ,
-            "/group_events.json?stadium=" + gon.stadium ,
+            "/events.json?area_id=" + gon.area_id ,
+            "/group_events.json?area_id=" + gon.area_id ,
         ],
         eventOverlap: false,
         eventDurationEditable: false,
