@@ -21,5 +21,6 @@
         ul.nav.nav-pills.nav-stacked
           -current_user.product_areas.uniq.each do |cc|
             = active_link_to cc.name_with_stadium, dashboard_grid_path(cc), active: /#{cc.to_param}/, wrap_tag: :li
+    - if params[:area_id].present?
       .col-md-8.col-xs-12
         #calendar
