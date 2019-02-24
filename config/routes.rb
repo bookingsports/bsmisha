@@ -94,7 +94,7 @@ Rails.application.routes.draw do
   post 'payments/success'
   post 'payments/failure'
 
-  match 'payments'=> "payments#process_order", via: [:get, :post]
+  match 'payu_payments'=> "payu_payments#notification", via: [:get, :post]
 
   namespace :dashboard do
     post 'product', to: "products#update"
