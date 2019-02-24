@@ -94,6 +94,8 @@ Rails.application.routes.draw do
   post 'payments/success'
   post 'payments/failure'
 
+  match 'payments'=> "payments#process_order", via: [:get, :post]
+
   namespace :dashboard do
     post 'product', to: "products#update"
     resource :product, concerns: [:has_pictures], except: [:create] do

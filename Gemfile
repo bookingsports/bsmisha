@@ -29,7 +29,7 @@ gem 'dropzonejs-rails'
 gem 'lightbox2-rails'
 gem 'ckeditor'
 gem 'autoprefixer-rails'
-
+gem 'ruby-hmac'
 gem 'cancancan'
 
 # IMAGES

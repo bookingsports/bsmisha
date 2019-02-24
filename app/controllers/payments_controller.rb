@@ -4,30 +4,34 @@ class PaymentsController < ApplicationController
   before_filter :set_request_and_response
 
   def process_order
-    if @request.robokassa?
-      if params["SignatureValue"] == Digest::MD5.hexdigest("#{params["OutSum"]}:#{@request.id}:#{Rails.application.secrets.merchant_password2}").upcase
-        @request.update status: :success
-        render text: "OK#{@request.id}", status: 200
-      else
-        @request.update status: :failure
-        render text: "fail", status: 200
-      end
+    if request.get?
+      return true
     else
-      if valid_signature?
-        @request.update status: :success
+      if @request.robokassa?
+        if params["SignatureValue"] == Digest::MD5.hexdigest("#{params["OutSum"]}:#{@request.id}:#{Rails.application.secrets.merchant_password2}").upcase
+          @request.update status: :success
+          render text: "OK#{@request.id}", status: 200
+        else
+          @request.update status: :failure
+          render text: "fail", status: 200
+        end
       else
-        @request.update status: :failure
-      end
+        if valid_signature?
+          @request.update status: :success
+        else
+          @request.update status: :failure
+        end
 
-      xml = Builder::XmlMarkup.new
-      xml.instruct! :xml, version: '1.0', encoding: 'UTF-8'
-      xml.paymentAvisoResponse(performedDatetime: Time.current.iso8601,
-        code: code_process,
-        invoiceId: params[:invoice_id],
-        shopId: Rails.application.secrets.shop_id
-      )
-      xml.target!
-      render text: xml
+        xml = Builder::XmlMarkup.new
+        xml.instruct! :xml, version: '1.0', encoding: 'UTF-8'
+        xml.paymentAvisoResponse(performedDatetime: Time.current.iso8601,
+                                 code: code_process,
+                                 invoiceId: params[:invoice_id],
+                                 shopId: Rails.application.secrets.shop_id
+        )
+        xml.target!
+        render text: xml
+      end
     end
   end
 
