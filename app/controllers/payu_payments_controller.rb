@@ -1,7 +1,7 @@
 class PayuPaymentsController < ApplicationController
     def notification
       if request.get?
-        return true
+        render text: true
       else
         current_time = Time.now.strftime('%Y%m%d%H%M%S')
         checksum = SignatureService.new(ipn_response_data(current_time)).checksum
