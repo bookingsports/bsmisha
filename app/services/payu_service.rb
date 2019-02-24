@@ -48,8 +48,7 @@ class PayuService
         bill_lname: @customer.last_name,
         bill_email: @customer.email,
         bill_phone: @customer.phone,
-        back_ref: "bookingsports.ru/my_events",
-            #root_url(host: Rails.application.secrets.host, event_id: event.id), # URL, на который вас перенаправит после осуществления оплаты
+        back_ref: "http://bookingsports.ru/my_events",
         language: 'ru'
     }
   end
