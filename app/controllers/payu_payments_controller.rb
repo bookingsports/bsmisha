@@ -1,5 +1,7 @@
 class PayuPaymentsController < ApplicationController
-    def notification
+  skip_before_action :verify_authenticity_token
+
+  def notification
       if request.get?
         render text: true
       else
