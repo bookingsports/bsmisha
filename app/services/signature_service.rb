@@ -5,8 +5,6 @@ class SignatureService
 
   def initialize(hash)
     @hash = hash            # Хеш с данными
-    puts Rails.application.secrets.switch_form.class
-    puts Rails.application.secrets.switch_form
   end
 
   def checksum              # Нужен секретный ключ из Панели управления Пэя

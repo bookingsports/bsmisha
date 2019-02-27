@@ -84,7 +84,7 @@ class Event < ActiveRecord::Base
   before_save :create_event_change_if_not_present
   after_save do
     if daily_price_rules.map{|p| p.time_for_event(self)}.sum < duration_in_hours
-      errors.add(:price, "Нельзя создать/перенести событие на это время.")
+      errors.add(:price, "Нельзя создать/перенести занятие на это время.")
       raise ActiveRecord::Rollback
     end
   end
@@ -95,7 +95,7 @@ class Event < ActiveRecord::Base
   after_destroy :update_counter_cache
 
   def name
-    "Событие с #{start} по #{stop}"
+    "Аренда площадки #{start.strftime("%d.%m.%Y")} с #{start.strftime("%I:%M")} до #{stop.strftime("%I:%M")}"
   end
 
   def wday
@@ -214,8 +214,6 @@ class Event < ActiveRecord::Base
 
   def prices_for_time start, stop
     prices = area.prices.where(Price.between start, stop)
-    puts "prices_for_time"
-    puts prices
     daily_price_rules = prices.first.daily_price_rules.where(DailyPriceRule.between start, stop)
     prices daily_price_rules
   end
