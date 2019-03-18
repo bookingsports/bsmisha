@@ -357,15 +357,12 @@ class Event < ActiveRecord::Base
     hash[:price].push((self.price-self.coach_price)*(1.0 - Rails.application.secrets.tax.to_f/100))
     #данные по услугам тренера
     if !self.coach_id.blank?
-      hash[:pname].push("Услуги тренера #{self.coach.name} на стадионе #{self.area.name_with_stadium}
-                        #{start.strftime("%d.%m.%Y")} с #{start.strftime("%I:%M")} до #{stop.strftime("%I:%M")}")
+      hash[:pname].push("Услуги тренера #{self.coach.name} на стадионе #{self.area.name_with_stadium} #{start.strftime("%d.%m.%Y")} с #{start.strftime("%I:%M")} до #{stop.strftime("%I:%M")}")
       hash[:pcode].push(self.id.to_s + "_" + self.coach_id.to_s)
-      hash[:price].push(self.coach_price*Rails.application.secrets.tax.to_f/100)
+      hash[:price].push(self.coach_price*(1.0 - Rails.application.secrets.tax.to_f/100))
       hash[:order_qty].push(1)
       hash[:order_vat].push(0)
-      if self.coach.merchant_id
-        hash[:order_mplace_merchant].push(self.coach.merchant_id.blank? ? self.area.stadium.merchant_id : self.coach.merchant_id)
-      end
+      hash[:order_mplace_merchant].push(self.coach.merchant_id.blank? ? self.area.stadium.merchant_id : self.coach.merchant_id)
     end
     return hash
   end
