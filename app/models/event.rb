@@ -359,7 +359,7 @@ class Event < ActiveRecord::Base
     if !self.coach_id.blank?
       hash[:pname].push("Услуги тренера #{self.coach.name} на стадионе #{self.area.name_with_stadium}
                         #{start.strftime("%d.%m.%Y")} с #{start.strftime("%I:%M")} до #{stop.strftime("%I:%M")}")
-      hash[:pcode].push(self.id.to_s + "_" + self.coach_id)
+      hash[:pcode].push(self.id.to_s + "_" + self.coach_id.to_s)
       hash[:price].push(self.coach_price*Rails.application.secrets.tax.to_f/100)
       hash[:order_qty].push(1)
       hash[:order_vat].push(0)
