@@ -87,16 +87,17 @@
     %input#ORDER_REF{:name => "ORDER_REF", :type => "hidden", :value => @signature[:order_ref] }/
     %input#ORDER_DATE{:name => "ORDER_DATE", :type => "hidden", :value => @signature[:order_date]}/
     - @signature[:order_pname].each.with_index do |val,ind|
-      %input#ORDER_PNAME0{:name => "ORDER_PNAME[]", :type => "hidden", :value => @signature[:order_pname][ind]}/
-      %input#ORDER_PCODE0{:name => "ORDER_PCODE[]", :type => "hidden", :value => @signature[:order_pcode][ind]}/
-      %input#ORDER_MPLACE_MERCHANT0{:name => "ORDER_MPLACE_MERCHANT[]", :type => "hidden", :value => @signature[:order_mplace_merchant][ind]}/
-      %input#ORDER_PRICE0{:name => "ORDER_PRICE[]", :type => "hidden", :value => @signature[:order_price][ind]}/
-      %input#ORDER_QTY0{:name => "ORDER_QTY[]", :type => "hidden", :value => @signature[:order_qty][ind]}/
-      %input#ORDER_VAT0{:name => "ORDER_VAT[]", :type => "hidden", :value => @signature[:order_vat][ind]}/
-      -#%input#BILL_COUNTRYCODE{:name => "BILL_COUNTRYCODE", :type => "hidden", :value => "ru"}/
-      -#%input#PAY_METHOD{:name => "PAY_METHOD", :type => "hidden", :value => "CCVISAMC"}/
+      -val.each.with_index do |in_val,in_ind|
+        %input#ORDER_PNAME0{:name => "ORDER_PNAME[]", :type => "hidden", :value => @signature[:order_pname][ind][in_ind]}/
+        %input#ORDER_PCODE0{:name => "ORDER_PCODE[]", :type => "hidden", :value => @signature[:order_pcode][ind][in_ind]}/
+        %input#ORDER_MPLACE_MERCHANT0{:name => "ORDER_MPLACE_MERCHANT[]", :type => "hidden", :value => @signature[:order_mplace_merchant][ind][in_ind]}/
+        %input#ORDER_PRICE0{:name => "ORDER_PRICE[]", :type => "hidden", :value => @signature[:order_price][ind][in_ind]}/
+        %input#ORDER_QTY0{:name => "ORDER_QTY[]", :type => "hidden", :value => @signature[:order_qty][ind][in_ind]}/
+        %input#ORDER_VAT0{:name => "ORDER_VAT[]", :type => "hidden", :value => @signature[:order_vat][ind][in_ind]}/
+        -#%input#BILL_COUNTRYCODE{:name => "BILL_COUNTRYCODE", :type => "hidden", :value => "ru"}/
+        -#%input#PAY_METHOD{:name => "PAY_METHOD", :type => "hidden", :value => "CCVISAMC"}/
     %input#BILL_FNAME{:name => "BILL_FNAME", :type => "hidden", :value => @signature[:bill_fname]}/
-    %input#BILL_LNAME{:name => "BILL_LNAME", :type => "hidden", :value => "test"}/
+    %input#BILL_LNAME{:name => "BILL_LNAME", :type => "hidden", :value => @signature[:bill_lname]}/
     %input{:name => "BACK_REF", :type => "hidden", :value => @signature[:back_ref]}/
     %input#BILL_EMAIL{:name => "BILL_EMAIL", :type => "hidden", :value => @signature[:bill_email]}/
     %input#BILL_PHONE{:name => "BILL_PHONE", :type => "hidden", :value => @signature[:bill_phone]}/

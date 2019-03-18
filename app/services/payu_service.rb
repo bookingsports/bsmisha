@@ -28,24 +28,32 @@ class PayuService
   end
 
   def order_data
-    {
-        order_date: @events.first.created_at.strftime('%F %T'),
-        order_pname: @events.map { |item| item.name },
-        order_pcode: @events.map { |item| item.id.to_s },
-        order_price: @events.map { |item| (item.price).to_s },
-        order_qty: Array.new(@events.count, '1'),
-        order_vat: Array.new(@events.count, '0'),
-        #order_shipping: event.delivery_price,
-        #prices_currency: 'RUB',
-        order_mplace_merchant: @events.map {|item| Rails.application.secrets.merchant_st } ,
-        testorder: Rails.application.secrets.payment_is_test.to_s.upcase,                   # Для проведения тестовых платежей
-    }
+    order_data = {order_date: @events.first.created_at.strftime('%F %T'),
+                  order_pname: [],
+                  order_pcode: [],
+                  order_price: [],
+                  order_qty: [],
+                  order_vat: [],
+                  #order_shipping: event.delivery_price,
+                  #prices_currency: 'RUB',
+                  order_mplace_merchant: [],
+                  testorder: Rails.application.secrets.payment_is_test.to_s.upcase}
+    @events.each do |ev|
+      ev_hash = ev.convert_for_order
+      order_data[:order_pname].push(ev_hash[:pname])
+      order_data[:order_pcode].push(ev_hash[:pcode])
+      order_data[:order_price].push(ev_hash[:price])
+      order_data[:order_qty].push(ev_hash[:order_qty])
+      order_data[:order_vat].push(ev_hash[:order_vat])
+      order_data[:order_mplace_merchant].push(ev_hash[:order_mplace_merchant])
+    end
+    return order_data
   end
 
   def account_data
     {
         bill_fname: @customer.name,
-        bill_lname: @customer.last_name,
+        bill_lname: @customer.last_name ,
         bill_email: @customer.email,
         bill_phone: @customer.phone,
         back_ref: "http://bookingsports.ru/my_events",

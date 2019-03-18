@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181007142847) do
+ActiveRecord::Schema.define(version: 20190317080306) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 20181007142847) do
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
     t.integer  "paid_events_counter", default: 0
+    t.string   "merchant_id"
   end
 
   add_index "coaches", ["slug"], name: "index_coaches_on_slug", unique: true, using: :btree
@@ -358,6 +359,7 @@ ActiveRecord::Schema.define(version: 20181007142847) do
     t.integer  "paid_events_counter",      default: 0
     t.integer  "lowest_price"
     t.integer  "highest_price"
+    t.string   "merchant_id"
   end
 
   add_index "stadiums", ["category_id"], name: "index_stadiums_on_category_id", using: :btree

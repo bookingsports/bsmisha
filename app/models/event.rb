@@ -340,6 +340,36 @@ class Event < ActiveRecord::Base
     events = events.includes(:area, :coach, :services, :event_change, :user)
     events
   end
+
+  def convert_for_order
+    hash = {pname: ["Комиссия BookingSports",self.name],
+            pcode: [],
+            price: [],
+            order_qty: [1,1],
+            order_vat: [0,0],
+            order_mplace_merchant: [Rails.application.secrets.merchant_st, self.area.stadium.merchant_id] }
+    #данные по комисси сервиса BS
+    hash[:pcode].push(self.id.to_s + "_com")
+    hash[:price].push(self.price*Rails.application.secrets.tax.to_f/100)
+    #данные по стадиону
+    hash[:pcode].push(self.id.to_s)
+    puts Rails.application.secrets.tax.to_f/100
+    hash[:price].push((self.price-self.coach_price)*(1.0 - Rails.application.secrets.tax.to_f/100))
+    #данные по услугам тренера
+    if !self.coach_id.blank?
+      hash[:pname].push("Услуги тренера #{self.coach.name} на стадионе #{self.area.name_with_stadium}
+                        #{start.strftime("%d.%m.%Y")} с #{start.strftime("%I:%M")} до #{stop.strftime("%I:%M")}")
+      hash[:pcode].push(self.id.to_s + "_" + self.coach_id)
+      hash[:price].push(self.coach_price*Rails.application.secrets.tax.to_f/100)
+      hash[:order_qty].push(1)
+      hash[:order_vat].push(0)
+      if self.coach.merchant_id
+        hash[:order_mplace_merchant].push(self.coach.merchant_id.blank? ? self.area.stadium.merchant_id : self.coach.merchant_id)
+      end
+    end
+    return hash
+  end
+
   private
     def create_event_change_if_not_present
       if (!start_changed? && !stop_changed?) || unpaid?
