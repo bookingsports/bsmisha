@@ -347,7 +347,7 @@ class Event < ActiveRecord::Base
             price: [],
             order_qty: [1,1],
             order_vat: [0,0],
-            order_mplace_merchant: [Rails.application.secrets.merchant_st, self.area.stadium.merchant_id] }
+            order_mplace_merchant: [Rails.application.secrets.merchant_st, self.area.stadium.account.merchant_id] }
     #данные по комисси сервиса BS
     hash[:pcode].push(self.id.to_s + "_com")
     hash[:price].push(self.price*Rails.application.secrets.tax.to_f/100)
@@ -362,7 +362,7 @@ class Event < ActiveRecord::Base
       hash[:price].push(self.coach_price*(1.0 - Rails.application.secrets.tax.to_f/100))
       hash[:order_qty].push(1)
       hash[:order_vat].push(0)
-      hash[:order_mplace_merchant].push(self.coach.merchant_id.blank? ? self.area.stadium.merchant_id : self.coach.merchant_id)
+      hash[:order_mplace_merchant].push(self.coach.account.merchant_id.blank? ? self.area.stadium.account.merchant_id : self.coach.account.merchant_id)
     end
     return hash
   end

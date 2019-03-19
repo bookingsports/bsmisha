@@ -13,6 +13,7 @@ module AccountConcern
         field :agreement_number
         field :date
         field :bik
+        field :merchant_id
         field :created_at
         field :updated_at
       end
@@ -26,6 +27,7 @@ module AccountConcern
         field :agreement_number
         field :date
         field :bik
+        field :merchant_id
         field :created_at
         field :updated_at
       end
@@ -39,6 +41,7 @@ module AccountConcern
         field :agreement_number
         field :date
         field :bik
+        field :merchant_id
       end
     end
   end
