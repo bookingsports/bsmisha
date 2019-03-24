@@ -6,7 +6,7 @@ class GroupEvent < ActiveRecord::Base
   validates :start, :stop, step_by_30_min: true, allow_blank: true
   validate :start_is_not_in_the_past
   validates :max_count_participants, presence: true
-
+  validate :not_overlaps_other_events
 
   belongs_to :user
   belongs_to :coach
@@ -14,6 +14,23 @@ class GroupEvent < ActiveRecord::Base
 
   has_many :event_guests
   accepts_nested_attributes_for :event_guests
+
+  enum status: [:unconfirmed, :confirmed, :locked, :for_sale, :paid]
+
+  scope :past, -> { where arel_table['stop'].lt Time.now }
+  scope :future, -> { where arel_table['start'].gt Time.now }
+  scope :unpaid, -> { where.not(status: Event.statuses["paid"])}
+  scope :paid_or_confirmed, -> {
+    GroupEvent.where(status: [GroupEvent.statuses[:paid], GroupEvent.statuses[:confirmed], GroupEvent.statuses[:locked], GroupEvent.statuses[:for_sale]])
+  }
+  scope :between, -> (start, stop) do
+    table_start = arel_table['start']
+    table_stop = arel_table['stop']
+
+    table_start.gteq(start).and(table_start.lt(stop))
+        .or(table_stop.gt(start).and(table_stop.lteq(stop)))
+        .or(table_start.lt(start).and(table_stop.gt(stop)))
+  end
 
   def start_is_not_in_the_past
     if start.present? && start < Time.now
@@ -60,13 +77,13 @@ class GroupEvent < ActiveRecord::Base
   end
 
   def overlaps? start, stop
-    Event.where(Event.between(start, stop))
+    GroupEvent.where(GroupEvent.between(start, stop))
         .where(user_id: user.id, area_id: area_id)
         .where.not(id: id)
-        .union(Event.paid_or_confirmed.where(Event.between(start, stop))
-                   .where.not(id: id)
-                   .where(area_id: area_id))
-        .present?
+        .union(GroupEvent.paid_or_confirmed.where(GroupEvent.between(start, stop))
+        .where.not(id: id)
+        .where(area_id: area_id))
+        .present? || overlaps_individual_events?(start,stop)
   end
 
   def has_at_least_one_occurrence
@@ -100,6 +117,16 @@ class GroupEvent < ActiveRecord::Base
         s.add_recurrence_rule(IceCube::SingleOccurrenceRule.new start)
       end
     end
+  end
+
+  def overlaps_individual_events? start, stop
+    Event.where(Event.between(start, stop))
+        .where(user_id: user.id, area_id: area_id)
+        .where.not(id: id)
+        .union(Event.paid_or_confirmed.where(Event.between(start, stop))
+        .where.not(id: id)
+        .where(area_id: area_id))
+        .present?
   end
 
 end

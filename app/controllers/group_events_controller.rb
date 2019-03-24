@@ -81,7 +81,7 @@ class GroupEventsController < ApplicationController
 
     if @group_event.recurring?
       @group_events = GroupEvent.split_recurring @group_event
-      t = ActiveRecord::Base.transaction { @events.each(&:save) }
+      t = ActiveRecord::Base.transaction { @group_events.each(&:save) }
       errors = @group_events.map(&:errors).map(&:messages).select(&:present?)
       if errors.blank?
         respond_with @group_events
@@ -95,7 +95,8 @@ class GroupEventsController < ApplicationController
       if @group_event.save
         respond_with @group_event
       else
-        render json: { error: @group_event.errors.messages.values.join(" ") }
+        flash[:error] = t(@group_event.errors.messages.values.join(" "))
+        redirect_to :back
       end
     end
   end

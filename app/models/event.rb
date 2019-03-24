@@ -229,7 +229,7 @@ class Event < ActiveRecord::Base
           .union(Event.paid_or_confirmed.where(Event.between(start, stop))
           .where.not(id: id)
           .where(area_id: area_id))
-          .present?
+          .present? || overlaps_group_events?(start,stop)
   end
 
   def past?
@@ -353,7 +353,6 @@ class Event < ActiveRecord::Base
     hash[:price].push(self.price*Rails.application.secrets.tax.to_f/100)
     #данные по стадиону
     hash[:pcode].push(self.id.to_s)
-    puts Rails.application.secrets.tax.to_f/100
     hash[:price].push((self.price-self.coach_price)*(1.0 - Rails.application.secrets.tax.to_f/100))
     #данные по услугам тренера
     if !self.coach_id.blank?
@@ -440,5 +439,15 @@ class Event < ActiveRecord::Base
           s.add_recurrence_rule(IceCube::SingleOccurrenceRule.new start)
         end
       end
+    end
+
+    def overlaps_group_events? start,stop
+       GroupEvent.where(GroupEvent.between(start, stop))
+          .where(user_id: user.id, area_id: area_id)
+          .where.not(id: id)
+          .union(GroupEvent.paid_or_confirmed.where(GroupEvent.between(start, stop))
+          .where.not(id: id)
+          .where(area_id: area_id))
+          .present?
     end
 end
