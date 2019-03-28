@@ -11,9 +11,9 @@ class PayuPaymentsController < ApplicationController
         if event.present?
           if params[:ORDERSTATUS] == "PAYMENT_AUTHORIZED"
             puts "in auth"
-            event.update status: :confirmed
-          elsif params[:ORDERSTATUS] == "COMPLETE"
             event.update status: :paid
+          elsif params[:ORDERSTATUS] == "COMPLETE"
+            event.update status: :paid_approved
           elsif params[:ORDERSTATUS] == "REVERSED" || params[:orderstatus] == "REFUND"
             event.update status: :canceled
           end

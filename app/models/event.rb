@@ -57,7 +57,7 @@ class Event < ActiveRecord::Base
   has_and_belongs_to_many :services
   accepts_nested_attributes_for :services
 
-  enum status: [:unconfirmed, :confirmed, :locked, :for_sale, :paid, :canceled]
+  enum status: [:unconfirmed, :confirmed, :locked, :for_sale, :paid, :paid_approved, :canceled]
 
   attr_reader :schedule
 
@@ -69,7 +69,7 @@ class Event < ActiveRecord::Base
   scope :future, -> { where arel_table['start'].gt Time.now }
   scope :unpaid, -> { where.not(status: Event.statuses["paid"])}
   scope :paid_or_confirmed, -> {
-    Event.where(status: [Event.statuses[:paid], Event.statuses[:confirmed], Event.statuses[:locked], Event.statuses[:for_sale]])
+    Event.where(status: [Event.statuses[:paid], Event.statuses[:paid_approved], Event.statuses[:confirmed], Event.statuses[:locked], Event.statuses[:for_sale]])
   }
   scope :between, -> (start, stop) do
     table_start = arel_table['start']
