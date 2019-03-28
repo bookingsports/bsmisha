@@ -442,12 +442,6 @@ class Event < ActiveRecord::Base
     end
 
     def overlaps_group_events? start,stop
-       GroupEvent.where(GroupEvent.between(start, stop))
-          .where(user_id: user.id, area_id: area_id)
-          .where.not(id: id)
-          .union(GroupEvent.paid_or_confirmed.where(GroupEvent.between(start, stop))
-          .where.not(id: id)
-          .where(area_id: area_id))
-          .present?
+       GroupEvent.where(GroupEvent.between(start, stop)).where(area_id: area_id).where.not(id: id).present?
     end
 end

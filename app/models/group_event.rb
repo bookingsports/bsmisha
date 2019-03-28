@@ -15,7 +15,7 @@ class GroupEvent < ActiveRecord::Base
   has_many :event_guests
   accepts_nested_attributes_for :event_guests
 
-  enum status: [:unconfirmed, :confirmed, :locked, :for_sale, :paid]
+  enum status: [:unconfirmed, :confirmed, :locked, :paid]
 
   scope :past, -> { where arel_table['stop'].lt Time.now }
   scope :future, -> { where arel_table['start'].gt Time.now }
@@ -30,6 +30,10 @@ class GroupEvent < ActiveRecord::Base
     table_start.gteq(start).and(table_start.lt(stop))
         .or(table_stop.gt(start).and(table_stop.lteq(stop)))
         .or(table_start.lt(start).and(table_stop.gt(stop)))
+  end
+
+  def duration
+    stop - start
   end
 
   def start_is_not_in_the_past
@@ -78,11 +82,8 @@ class GroupEvent < ActiveRecord::Base
 
   def overlaps? start, stop
     GroupEvent.where(GroupEvent.between(start, stop))
-        .where(user_id: user.id, area_id: area_id)
         .where.not(id: id)
-        .union(GroupEvent.paid_or_confirmed.where(GroupEvent.between(start, stop))
-        .where.not(id: id)
-        .where(area_id: area_id))
+        .where(area_id: area_id)
         .present? || overlaps_individual_events?(start,stop)
   end
 
