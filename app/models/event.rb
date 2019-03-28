@@ -57,7 +57,7 @@ class Event < ActiveRecord::Base
   has_and_belongs_to_many :services
   accepts_nested_attributes_for :services
 
-  enum status: [:unconfirmed, :confirmed, :locked, :for_sale, :paid]
+  enum status: [:unconfirmed, :confirmed, :locked, :for_sale, :paid, :canceled]
 
   attr_reader :schedule
 
