@@ -6,7 +6,7 @@ class PayuPaymentsController < ApplicationController
         render text: true
       else
         event = Event.find(params[:REFNOEXT])
-        if event
+        if event.present?
           if params[:orderstatus] == "PAYMENT_AUTHORIZED"
             event.update status: :confirmed
           elsif params[:orderstatus] == "COMPLETE"
