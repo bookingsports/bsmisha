@@ -6,6 +6,9 @@ class PayuPaymentsController < ApplicationController
         render text: true
       else
         event = Event.find(params[:REFNOEXT])
+        current_time = Time.now.strftime('%Y%m%d%H%M%S')
+        checksum = SignatureService.new(ipn_response_data(current_time)).checksum
+        render plain: "<epayment>#{current_time}|#{checksum}</epayment>"
         puts event.status
         puts params
         if event.present?
@@ -19,9 +22,6 @@ class PayuPaymentsController < ApplicationController
           end
         end
         puts event.status
-        current_time = Time.now.strftime('%Y%m%d%H%M%S')
-        checksum = SignatureService.new(ipn_response_data(current_time)).checksum
-        render plain: "<epayment>#{current_time}|#{checksum}</epayment>"
       end
     end
 
