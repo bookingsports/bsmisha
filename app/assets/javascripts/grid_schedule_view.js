@@ -57,9 +57,10 @@ $(document).ready(function() {
             }
             else {
                 $.getScript(event.edit_url, function() {
-                    $('.start_hidden').val(moment(event.start).format('YYYY-MM-DD HH:mm'));
-                    $('.end_hidden').val(moment(event.end).format('YYYY-MM-DD HH:mm'));
-
+                    $('.start_hidden').val(moment(event.start).format('DD.MM.YYYY HH:mm'));
+                    $('.end_hidden').val(moment(event.end).format('DD.MM.YYYY HH:mm'));
+                    $('#group_event_start').val(moment(event.start).format('DD.MM.YYYY HH:mm'));
+                    $('#group_event_stop').val(moment(event.end).format('DD.MM.YYYY HH:mm'));
                 });
             }
 
