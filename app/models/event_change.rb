@@ -21,6 +21,8 @@ class EventChange < ActiveRecord::Base
 
   scope :past, -> { where arel_table['new_stop'].lt Time.now }
   scope :future, -> { where arel_table['new_start'].gt Time.now }
+  scope :event_past, -> { where arel_table['old_stop'].lt Time.now }
+  scope :event_future, -> { where arel_table['old_start'].gt Time.now }
   scope :of_areas, ->(*areas) do
     joins(event: :events_areas).
     where(events_areas: {area_id: areas}).uniq

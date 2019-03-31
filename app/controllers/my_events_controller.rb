@@ -8,7 +8,7 @@ class MyEventsController < EventsController
     @events_confirmed = @events.unpaid.future.confirmed.order(start: :asc).includes(:area, :coach, :event_change, :services)
     @events_paid = @events.paid.future.order(start: :asc).includes(:area, :coach, :event_change, :services)
 
-    @event_changes = current_user.event_changes.order(created_at: :desc).unpaid.future
+    @event_changes = current_user.event_changes.order(created_at: :desc).unpaid.event_future
     @recoupments = current_user.recoupments.where.not(price: 0)
     @discounts = current_user.discounts
 
@@ -116,7 +116,7 @@ class MyEventsController < EventsController
     end
     @event_ids = params[:event_ids]
     @events = Event.where(id: params[:event_ids])
-    @event_changes = EventChange.where(id: params[:event_change_ids])
+    @event_changes = EventChange.where(id: params[:event_change_ids]).event_future
     @area_ids = (@events.map(&:area_id) + @event_changes.map{|e| e.event.area_id}).uniq
     @recoupments = current_user.recoupments.where(area: @area_ids)
     @discounts = current_user.discounts.where(area: @area_ids).includes(:area)
