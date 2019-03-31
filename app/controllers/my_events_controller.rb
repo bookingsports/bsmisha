@@ -120,7 +120,11 @@ class MyEventsController < EventsController
     @area_ids = (@events.map(&:area_id) + @event_changes.map{|e| e.event.area_id}).uniq
     @recoupments = current_user.recoupments.where(area: @area_ids)
     @discounts = current_user.discounts.where(area: @area_ids).includes(:area)
-    @signature = PayuService.new(@event_ids).send_params
+    if params[:event_ids].present?
+      @signature = PayuService.new(current_user,@events).send_params
+    elsif params[:event_change_ids].present?
+      @signature = PayuService.new(current_user,@event_changes).send_params
+    end
     @total = @events.map{|e| e.price *
           (@discounts.where(area_id: e.area_id).present? ? @discounts.where(area_id: e.area_id).first.percent : 1) }.inject(:+).to_i +
           @event_changes.map{|e| e.total *

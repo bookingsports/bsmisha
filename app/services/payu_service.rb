@@ -3,13 +3,13 @@
 class PayuService
   attr_reader :event
 
-  def initialize(params)
-    @events = Event.where(id: params)
-    @customer = @events.first.user
+  def initialize(cus,items)
+    @items = items
+    @customer = cus
   end
 
   def send_params
-    return unless @events.present?
+    return unless @items.present?
 
     send_hash = shop_data.merge(order_data)
 
@@ -23,12 +23,12 @@ class PayuService
   def shop_data
     {
         merchant: Rails.application.secrets.merchant_login,                # ID сайта в системе PayU
-        order_ref: @events.first.id.to_s                                           # ID заказа
+        order_ref: @items.first.id.to_s                                           # ID заказа
     }
   end
 
   def order_data
-    order_data = {order_date: @events.first.created_at.strftime('%F %T'),
+    order_data = {order_date: @items.first.created_at.strftime('%F %T'),
                   order_pname: [],
                   order_pcode: [],
                   order_price: [],
@@ -38,7 +38,7 @@ class PayuService
                   #prices_currency: 'RUB',
                   order_mplace_merchant: [],
                   testorder: Rails.application.secrets.payment_is_test.to_s.upcase}
-    @events.each do |ev|
+    @items.each do |ev|
       ev_hash = ev.convert_for_order
       order_data[:order_pname].push(ev_hash[:pname])
       order_data[:order_pcode].push(ev_hash[:pcode])

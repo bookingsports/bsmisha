@@ -26,7 +26,7 @@ class EventChange < ActiveRecord::Base
     where(events_areas: {area_id: areas}).uniq
   end
 
-  enum status: [:unpaid, :paid]
+  enum status: [:unpaid, :paid, :paid_approved, :canceled]
 
   after_save :update_event
 
@@ -83,6 +83,23 @@ class EventChange < ActiveRecord::Base
 
     pay_with_percent! percent
     self.update status: :paid
+  end
+
+  def convert_for_order
+    hash = {pname: ["Комиссия BookingSports",self.name],
+            pcode: [],
+            price: [],
+            order_qty: [1,1],
+            order_vat: [0,0],
+            order_mplace_merchant: [Rails.application.secrets.merchant_st, self.event.area.stadium.account.merchant_id] }
+    #данные по комисси сервиса BS
+    hash[:pcode].push(self.id.to_s + "_com")
+    hash[:price].push(self.calculate_new_price*Rails.application.secrets.tax.to_f/100)
+    #данные по стадиону
+    hash[:pcode].push("ec_" + self.event_id.to_s + "_" + self.id.to_s)
+    hash[:price].push((self.calculate_new_price)*(1.0 - Rails.application.secrets.tax.to_f/100))
+    puts hash
+    return hash
   end
 
   private

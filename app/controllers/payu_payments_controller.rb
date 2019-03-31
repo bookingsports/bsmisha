@@ -5,22 +5,24 @@ class PayuPaymentsController < ApplicationController
       if request.get?
         render text: true
       else
-        event = Event.find(params[:REFNOEXT])
+        item = Event.find(params[:REFNOEXT])
+        if item.blank?
+          item = EventChange.find(params[:REFNOEXT])
+        end
         current_time = Time.now.strftime('%Y%m%d%H%M%S')
         checksum = SignatureService.new(ipn_response_data(current_time)).checksum
         render plain: "<epayment>#{current_time}|#{checksum}</epayment>"
-        if event.present?
+        if item.present?
           if params[:ORDERSTATUS] == "PAYMENT_AUTHORIZED"
-            event.update status: :paid
+            item.update status: :paid
           elsif params[:ORDERSTATUS] == "COMPLETE"
-            event.update status: :paid_approved
+            item.update status: :paid_approved
           elsif params[:ORDERSTATUS] == "REVERSED" || params[:orderstatus] == "REFUND"
-            event.update status: :canceled
+            item.update status: :canceled
           end
         end
       end
     end
-
   private
 
   def ipn_response_data(current_time)
