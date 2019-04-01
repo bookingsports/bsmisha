@@ -42,6 +42,7 @@ module EventConcern
         field :area
         field :event_change
         field :user
+        field :event_guest
       end
     end
   end

@@ -1,5 +1,5 @@
 class EventObserver < ActiveRecord::Observer
-  def after_update event
+  def after_save event
     if event.status_was == "for_sale" && event.paid? # if event is sold
       EventMailer.event_buying_mail(event).deliver_now
       EventMailer.event_sold_notify_old_owner(event).deliver_now

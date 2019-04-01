@@ -79,6 +79,9 @@ class Event < ActiveRecord::Base
     .or(table_stop.gt(start).and(table_stop.lteq(stop)))
     .or(table_start.lt(start).and(table_stop.gt(stop)))
   end
+  scope :paid, -> {
+    Event.where(status: [Event.statuses[:paid], Event.statuses[:paid_approved]])
+  }
 
   after_initialize :build_schedule
   before_save :create_event_change_if_not_present
@@ -144,7 +147,7 @@ class Event < ActiveRecord::Base
   end
 
   def paid?
-    status == "paid"
+    status == "paid" || status == "paid_approved"
   end
 
   def recurring?
