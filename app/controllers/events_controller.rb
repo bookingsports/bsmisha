@@ -28,30 +28,21 @@ class EventsController < ApplicationController
     @stadium = params[:stadium].present? ? Stadium.friendly.find(params[:stadium]) : Stadium.active.first
     if params[:from] == "one_day" && params[:areas].present?
       @events = Event.scoped_by(area: Area.where(slug: params[:areas]), user: nil)
-      puts "1"
     elsif params[:from] == "one_day"
       @events = []
-      puts "2"
     elsif params[:scope] == "coach"
-      puts "coach"
       @events = Event.scoped_by(coach: Coach.friendly.find(params[:coach_id]), area: current_product, user: current_user)
     elsif params[:scope] == "grid" && current_user.present? && current_user.type == "CoachUser"
-     puts "grid"
       @events = Event.scoped_by(area: current_user.areas, user: current_user, coach: current_user.coach, scope: params[:scope])
     elsif current_user.present? && params[:area_id].present? && current_user.type == "StadiumUser"
-      puts "3"
       @events = Event.scoped_by(area: current_product, user: current_user, scope: params[:scope])
     elsif current_user.present? && current_user.type == "StadiumUser"
-     puts "4"
       @events = Event.scoped_by(area: current_user.areas, user: current_user, scope: params[:scope])
     elsif params[:stadium].present?
-      puts "5"
       @events = Event.scoped_by(area: @stadium.areas)
     else
-      puts "6"
       @events = Event.scoped_by(user: current_user, area: current_product, scope: params[:scope])
     end
-    puts @events.count
     respond_with @events
   end
 

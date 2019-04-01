@@ -21,6 +21,12 @@
           </ul>
         <% end %>
         </ul>
+        <ul>
+          <% @group_events.each do |group_event| %>
+            <li><%= "Занятие в группе " + group_event.start.strftime("%d.%m.%Y %H:%M") + " - " + group_event.stop.strftime("%H:%M") %>
+              <p>Стоимость: <%= number_to_currency group_event.price %></p>
+          <% end %>
+        </ul>
       <% end %>
     <% if @eventChanges.present? %>
       <p><%= t('changes', count: @eventChanges.count) %> на сумму <%= number_to_currency @totalChanges, precision: 0 %></p>

@@ -7,6 +7,7 @@ class GroupEvent < ActiveRecord::Base
   validate :start_is_not_in_the_past
   validates :max_count_participants, presence: true
   validate :not_overlaps_other_events
+  validate :validate_guests_count
 
   belongs_to :user
   belongs_to :coach
@@ -30,6 +31,12 @@ class GroupEvent < ActiveRecord::Base
     table_start.gteq(start).and(table_start.lt(stop))
         .or(table_stop.gt(start).and(table_stop.lteq(stop)))
         .or(table_start.lt(start).and(table_stop.gt(stop)))
+  end
+
+  def validate_guests_count
+    if self.event_guests.size > self.max_count_participants
+      errors.add(:event_guests, "Максимальное количество участников в данной группе " + self.max_count_participants.to_s)
+    end
   end
 
   def duration

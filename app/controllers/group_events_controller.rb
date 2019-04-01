@@ -101,15 +101,17 @@ class GroupEventsController < ApplicationController
         if @group_event.update group_event_params
           redirect_to :back,  notice: "Изменения успешно сохранены."
         else
-          redirect_to :back, notice: event_guest.errors.messages.values.join(" ")
+          flash[:error] = @group_event.errors.messages.values.join(" ")
+          redirect_to :back
         end
       else
         event_guest = @group_event.event_guests.new(:start=> @group_event.start,:stop=> @group_event.stop,
-                                                    :email => current_user.email, :name => current_user.name)
+                                                    :email => current_user.email, :name => current_user.name, :user_id => current_user.id )
         if event_guest.save
-          redirect_to :back,  notice: "Вы записаны на занятие."
+          redirect_to :back,  notice: "Занятие добавлено в корзину"
         else
-          redirect_to :back, notice: event_guest.errors.messages.values.join(" ")
+          flash[:error] = event_guest.errors.messages.values.join(" ")
+          redirect_to :back
         end
       end
     end
@@ -178,8 +180,8 @@ class GroupEventsController < ApplicationController
      def group_event_params
       params.require(:group_event).permit(
         :id, :start, :stop, :area_id, :user_id, :coach_id, :is_all_day, :status, :name,
-        :price, :recurrence_rule, :recurrence_id, :recurrence_exception, :kind, :description,:max_count_participants,
-        service_ids: []
+        :price, :recurrence_rule, :recurrence_id, :recurrence_exception, :kind, :description, :max_count_participants,
+        service_ids: [], event_guests_attributes: [:id, :name, :email, :user_id, :_destroy]
       )
     end
 
