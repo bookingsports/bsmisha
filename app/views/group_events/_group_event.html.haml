@@ -2,16 +2,16 @@
   %td.site-table__item-option
     %span.site-table__item-title
       Площадка:
-    = event.area.name
+    = group_event.area.name
   %td.site-table__item-option
     %span.site-table__item-title
       Начало:
-    = l event.start, format: :short
+    = l group_event.start, format: :short
   %td.site-table__item-option
     %span.site-table__item-title
       Конец:
-    = l event.stop, format: :short
+    = l group_event.stop, format: :short
   %td.site-table__item-option
     %span.site-table__item-title
       Цена:
-    = number_to_integer_currency event.price
+    = number_to_integer_currency group_event.price

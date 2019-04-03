@@ -4,9 +4,13 @@ class MyEventsController < EventsController
 
   def index
     @events = current_user.events
+    @g_events = current_user.recorded_group_events
     @events_unconfirmed = @events.unpaid.future.unconfirmed.order(start: :asc).includes(:area, :coach, :event_change, :services)
+    @g_events_unconfirmed = @g_events.where("event_guests.status != 3").future.where("event_guests.status = 0").order(start: :asc)
     @events_confirmed = @events.unpaid.future.confirmed.order(start: :asc).includes(:area, :coach, :event_change, :services)
+    @g_events_confirmed = @g_events.where("event_guests.status != 3").future.where("event_guests.status = 1").order(start: :asc)
     @events_paid = @events.paid.future.order(start: :asc).includes(:area, :coach, :event_change, :services)
+    @g_events_paid = @g_events.where("event_guests.status = 3").future.order(start: :asc)
 
     @event_changes = current_user.event_changes.order(created_at: :desc).unpaid.event_future
     @recoupments = current_user.recoupments.where.not(price: 0)
@@ -41,11 +45,19 @@ class MyEventsController < EventsController
   end
 
   def confirm
-    if params[:event_ids].present?
-      begin
-        current_user.events.where(id: params[:event_ids]).each {|e| e.update! status: Event.statuses[:confirmed]}
-      rescue => e
-        return redirect_to my_events_url, alert: e.message
+    if params[:event_ids].present? || params[:g_event_ids].present?
+      if params[:event_ids].present?
+        begin
+          current_user.events.where(id: params[:event_ids]).each {|e| e.update! status: Event.statuses[:confirmed]}
+        rescue => e
+          return redirect_to my_events_url, alert: e.message
+        end
+      else
+        begin
+          current_user.event_guests.where(:group_event_id => params[:g_event_ids]).each {|e| e.update! status: EventGuest.statuses[:confirmed]}
+        rescue => e
+          return redirect_to my_events_url, alert: e.message
+        end
       end
       redirect_to my_events_url, notice: "Заказы успешно забронированы."
     else
@@ -110,20 +122,23 @@ class MyEventsController < EventsController
   end
 
   def confirm_pay
-    if params[:event_ids].blank? && params[:event_change_ids].blank?
+    if params[:event_ids].blank? && params[:event_change_ids].blank? && params[:g_event_ids].blank?
       redirect_to my_events_url, alert: "Не выбрано ни одного заказа"
       return
     end
     @event_ids = params[:event_ids]
     @events = Event.where(id: params[:event_ids])
+    @g_events = current_user.recorded_group_events.where(id: params[:g_event_ids])
     @event_changes = EventChange.where(id: params[:event_change_ids]).event_future
-    @area_ids = (@events.map(&:area_id) + @event_changes.map{|e| e.event.area_id}).uniq
+    @area_ids = (@events.map(&:area_id) + @event_changes.map{|e| e.event.area_id} + @g_events.map(&:area_id)).uniq
     @recoupments = current_user.recoupments.where(area: @area_ids)
     @discounts = current_user.discounts.where(area: @area_ids).includes(:area)
     if params[:event_ids].present?
       @signature = PayuService.new(current_user,@events).send_params
     elsif params[:event_change_ids].present?
       @signature = PayuService.new(current_user,@event_changes).send_params
+    elsif params[:g_event_ids].present?
+      @signature = PayuService.new(current_user,@g_events).send_params
     end
     @total = @events.map{|e| e.price *
           (@discounts.where(area_id: e.area_id).present? ? @discounts.where(area_id: e.area_id).first.percent : 1) }.inject(:+).to_i +

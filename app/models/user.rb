@@ -57,6 +57,10 @@ class User < ActiveRecord::Base
     GroupEvent.joins(:event_guests).where("event_guests.user_id =" + self.id.to_s)
   end
 
+  def event_guests
+    EventGuest.where(user_id: self.id.to_s)
+  end
+
   def total(options = {})
     events_maybe_scoped_by(options).unconfirmed.future.map(&:price).inject(:+) || 0
   end

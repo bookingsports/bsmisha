@@ -64,6 +64,66 @@
     = f.button 'Перейти к оплате', value: :pay, class: 'btn btn-success'
     = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}, class: 'btn btn-danger'
 
+- if @g_events_unconfirmed.present?
+
+  = form_for :group_events, url: bulk_process_my_events_path do |f|
+    %h4 Неоплаченные групповые занятия
+    %table.table.table-hover.site-table#unconfirmed-g-events
+      %thead.site-table__head
+        %tr
+          %th
+            .check-wrap.check-wrap--table
+              = check_box_tag "check_all_unpaid", 'check_all', false, class: 'check_all'
+              = label_tag "check_all_unpaid", '', class: 'check-label'
+          %th Стадион
+          %th Площадка
+          %th Дата занятия
+          %th Время тренировки
+          %th Тренер
+          %th Доп. услуги
+          %th Стоимость
+      %tbody.site-table__body
+        - @g_events_unconfirmed.each do |event|
+          %tr.site-table__item
+            %td.site-table__item-option
+              .check-wrap.check-wrap--table
+                = check_box_tag "g_event_ids[]", event.id, false, { class: 'check-box', id: "g_event_ids_#{event.id}" }
+                = label_tag "g_event_ids[#{event.id}]", '', class: 'check-label'
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Стадион:
+              = link_to event.area.stadium.name, event.area.stadium
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Площадка:
+              = link_to event.area.name, stadium_area_path(event.area.stadium, event.area)
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Дата занятия:
+
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Время тренировки:
+              = event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Тренер:
+              - if event.coach.present?
+                = link_to event.coach.name, event.coach
+              - else
+                &mdash;
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Доп. услуги:
+                &mdash;
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Стоимость:
+              = number_to_integer_currency event.price
+    = f.button 'Забронировать', value: :confirm, data: {confirm: "Подтвердите бронирование"}, class: 'btn btn-primary'
+    = f.button 'Перейти к оплате', value: :pay, class: 'btn btn-success'
+    = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}, class: 'btn btn-danger'
+
 - if @events_confirmed.present?
   %hr
   = form_for :events, url: bulk_process_my_events_path do |f|
@@ -122,6 +182,65 @@
                 Доп. услуги:
               - if event.services.any?
                 = event.services.map(&:name).join(', ')
+              - else
+                &mdash;
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Стоимость:
+              = number_to_integer_currency event.price
+    = f.button 'Перейти к оплате', value: :pay, class: 'btn btn-success'
+    = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}, class: 'btn btn-danger'
+
+- if @g_events_confirmed.present?
+  %hr
+  = form_for :group_events, url: bulk_process_my_events_path do |f|
+    %h4 Забронированные групповые занятия
+
+    .col-sm-6.col-xs-12.panel.panel-info
+      .panel-body
+        Забронированные занятия автоматически удаляются за сутки до начала в 21:00 в случае неоплаты
+
+    %table.table.table-hover.site-table#confirmed-g-events
+      %thead.site-table__head
+        %tr
+          %th
+            .check-wrap.check-wrap--table
+              = check_box_tag "check_all_reserved", 'check_all', false, class: 'check_all'
+              = label_tag "check_all_reserved", '', class: 'check-label'
+          %th Стадион
+          %th Площадка
+          %th Дата занятия
+          %th Время тренировки
+          %th Тренер
+          %th Стоимость
+      %tbody.site-table__body
+        - @g_events_confirmed.each do |event|
+          %tr.site-table__item
+            %td.site-table__item-option
+              .check-wrap.check-wrap--table
+                = check_box_tag "g_event_ids[]", event.id, false, { class: 'check-box', id: "g_event_ids_#{event.id}" }
+                = label_tag "g_event_ids[#{event.id}]", '', class: 'check-label'
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Стадион:
+              = link_to event.area.stadium.name, event.area.stadium
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Площадка:
+              = link_to event.area.name, stadium_area_path(event.area.stadium, event.area)
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Дата занятия:
+              = event.start.strftime('%d.%m.%Y')
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Время тренировки:
+              = event.start.strftime("%H:%M") + ' - ' + event.stop.strftime("%H:%M")
+            %td.site-table__item-option
+              %span.site-table__item-title
+                Тренер:
+              - if event.coach.present?
+                = link_to event.coach.name, event.coach
               - else
                 &mdash;
             %td.site-table__item-option

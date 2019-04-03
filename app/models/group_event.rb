@@ -137,4 +137,32 @@ class GroupEvent < ActiveRecord::Base
         .present?
   end
 
+  def convert_for_order
+    hash = {pname: ["Комиссия BookingSports",self.name],
+            pcode: [],
+            price: [],
+            order_qty: [1,1],
+            order_vat: [0,0],
+            order_mplace_merchant: [Rails.application.secrets.merchant_st, self.area.stadium.account.merchant_id] }
+    #данные по комисси сервиса BS
+    hash[:pcode].push(self.id.to_s + "_com")
+    hash[:price].push(self.price*Rails.application.secrets.tax.to_f/100)
+    #данные по стадиону
+    hash[:pcode].push(self.id.to_s)
+    hash[:price].push((self.price)*(1.0 - Rails.application.secrets.tax.to_f/100))
+    #данные по услугам тренера
+    # TODO: Продумать сколько и как переводить тренеру
+=begin
+    if !self.coach_id.blank?
+      hash[:pname].push("Услуги тренера #{self.coach.name} на стадионе #{self.area.name_with_stadium} #{start.strftime("%d.%m.%Y")} с #{start.strftime("%I:%M")} до #{stop.strftime("%I:%M")}")
+      hash[:pcode].push(self.id.to_s + "_" + self.coach_id.to_s)
+      hash[:price].push(self.coach_price*(1.0 - Rails.application.secrets.tax.to_f/100))
+      hash[:order_qty].push(1)
+      hash[:order_vat].push(0)
+      hash[:order_mplace_merchant].push(self.coach.account.merchant_id.blank? ? self.area.stadium.account.merchant_id : self.coach.account.merchant_id)
+    end
+=end
+    return hash
+  end
+
 end

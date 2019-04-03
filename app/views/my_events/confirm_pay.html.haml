@@ -1,13 +1,26 @@
 %h3=# "Заказ #{@order.guid}"
-%table.table.table-hover.site-table
-  %thead.site-table__head
-    %tr
-      %th Площадка
-      %th Начало
-      %th Конец
-      %th Цена
-  %tbody.site-table__body
-    = render @events
+- if @events.present?
+  %table.table.table-hover.site-table
+    %thead.site-table__head
+      %tr
+        %th Площадка
+        %th Начало
+        %th Конец
+        %th Цена
+    %tbody.site-table__body
+      = render @events
+
+- if @g_events.present?
+  %table.table.table-hover.site-table
+    %thead.site-table__head
+      %tr
+        %th Площадка
+        %th Начало
+        %th Конец
+        %th Цена
+    %tbody.site-table__body
+      = render @g_events
+
 - if @event_changes.present?
   %h4 Переносы
   %h5 Перенос заказа осуществляется 1 раз. После оплаты вы уже не сможете его поменять.
