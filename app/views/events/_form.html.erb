@@ -9,7 +9,7 @@
       <div class="recurrence", style="display:none">
         <%= f.input :recurrence_rule,
                     :as => :check_boxes, :label => "Дни повторения",
-                    :collection => [['ПН', '1'], ['ВТ', '2'], ['СР', '3'], ['ЧТ', '4'], ['ПТ', '5'], ['СБ', '6'], ['ВС', '7']],
+                     :collection => [['ПН', '1'], ['ВТ', '2'], ['СР', '3'], ['ЧТ', '4'], ['ПТ', '5'], ['СБ', '6'], ['ВС', '0']],
                     :include_hidden => false
         %>
         <%= f.input :recurrence_exception,:label => "Дата окончания",  as: :date_time_picker, class: 'form-control input-sm end_hidden' %>
@@ -28,7 +28,7 @@
     </div>
 
     <div class="form-actions">
-      <%= f.submit 'Забронировать' , :class => 'btn btn-info'  %>
+      <%= f.submit 'Добавить в корзину' , :class => 'btn btn-info'  %>
       <%#= link_to 'Delete',
                   event,
                   method: :delete,
@@ -46,7 +46,7 @@
         });
         $('input#event_recurrence_exception').datetimepicker({
             locale: 'ru',
-            format: "D MMMM YYYY"
+            format: "D.MM.YYYY"
         });
 
     });

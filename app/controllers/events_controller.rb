@@ -100,7 +100,8 @@ class EventsController < ApplicationController
       if errors.blank?
         respond_with @events
       else
-        render json: { error: errors.map(&:values).join(", ") }
+        flash[:error] = errors.map(&:values).join(", ")
+        redirect_to :back
       end
     else
       if current_user.type == "StadiumUser" && current_user.stadium.areas.include?(@event.area)
@@ -192,10 +193,10 @@ class EventsController < ApplicationController
      def event_params
       params.require(:event).permit(
         :id, :start, :stop, :area_id, :user_id, :coach_id, :is_all_day, :owned, :status, :reason,
-        :recurrence_rule, :recurrence_id, :recurrence_exception, :kind, :description,
-        service_ids: []
+         :recurrence_id, :recurrence_exception, :kind, :description,
+        service_ids: [], recurrence_rule: []
       )
-    end
+     end
 
     def current_product
       if params[:area_id].present?

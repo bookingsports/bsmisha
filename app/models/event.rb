@@ -199,12 +199,15 @@ class Event < ActiveRecord::Base
   end
 
   def calculate_area_price
+=begin
     if recurring?
       build_schedule
       @schedule.all_occurrences.map{|e| prices_for_time(e, e + duration).map{|p| p.time_for_event(self) * p.value}.sum}.sum
     else
       daily_price_rules.map{|p| p.time_for_event(self) * p.value}.sum
     end
+=end
+    daily_price_rules.map{|p| p.time_for_event(self) * p.value}.sum
   end
 
   def coach_stadium_price
@@ -218,7 +221,7 @@ class Event < ActiveRecord::Base
   def prices_for_time start, stop
     prices = area.prices.where(Price.between start, stop)
     daily_price_rules = prices.first.daily_price_rules.where(DailyPriceRule.between start, stop)
-    prices daily_price_rules
+    prices = daily_price_rules
   end
 
   def calculate_price
@@ -300,10 +303,7 @@ class Event < ActiveRecord::Base
   def self.split_recurring event
     if event.recurring?
       schedule = IceCube::Schedule.new event.start do |s|
-        s.add_recurrence_rule(IceCube::Rule.from_ical(event.recurrence_rule))
-        if event.recurrence_exception.present? && event.recurrence_exception =~ /=/
-          s.add_exception_rule(IceCube::Rule.from_ical(event.recurrence_exception))
-        end
+        s.add_recurrence_rule(IceCube::Rule.weekly.day(event.recurrence_rule.tr('[]"','').split(',').map(&:to_i)).until(event.recurrence_exception.to_date))
       end
       return schedule.all_occurrences.map do |o|
         e = event.dup
@@ -420,12 +420,14 @@ class Event < ActiveRecord::Base
 
     def not_overlaps_other_events
       if start.present? && stop.present? && !recurring? && overlaps?(start, stop)
-        errors.add(:base, 'Данное занятие накладывается на другое оплаченное или забронированное занятие')
+        error_text = "Занятие #{start.strftime("%d.%m.%Y")} с #{start.strftime("%I:%M")} до #{stop.strftime("%I:%M")} не добавлено в корзину,так как оно накладывается на другое оплаченное или забронированное занятие"
+        errors.add(:base, error_text)
       elsif start.present? && stop.present?
         build_schedule
+        error_text = "Занятие #{start.strftime("%d.%m.%Y")} с #{start.strftime("%I:%M")} до #{stop.strftime("%I:%M")} не добавлено в корзину,так как оно накладывается на другое оплаченное или забронированное занятие"
         @schedule.all_occurrences.each do |e|
           if overlaps?(e, e + duration)
-            errors.add(:base, 'Данное занятие накладывается на другое оплаченное или забронированное занятие')
+            errors.add(:base, error_text)
           end
         end
       end
@@ -434,10 +436,7 @@ class Event < ActiveRecord::Base
     def build_schedule
       @schedule = IceCube::Schedule.new start do |s|
         if recurring?
-          s.add_recurrence_rule(IceCube::Rule.from_ical(recurrence_rule))
-          if recurrence_exception.present? && recurrence_exception =~ /=/
-            s.add_exception_rule(IceCube::Rule.from_ical(recurrence_exception))
-          end
+          s.add_recurrence_rule(IceCube::Rule.weekly.day(recurrence_rule.tr('[]"','').split(',').map(&:to_i)).until(recurrence_exception.to_date))
         else
           s.add_recurrence_rule(IceCube::SingleOccurrenceRule.new start)
         end
