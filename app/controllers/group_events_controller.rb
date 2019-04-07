@@ -71,7 +71,6 @@ class GroupEventsController < ApplicationController
     @group_event = current_user.group_events.create group_event_params.delete_if {|k,v| v.empty? }
 
     if @group_event.recurring?
-      puts "in rec"
       @group_events = GroupEvent.split_recurring @group_event
       puts @group_events
       t = ActiveRecord::Base.transaction { @group_events.each(&:save) }

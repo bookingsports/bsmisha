@@ -133,6 +133,11 @@ class EventsController < ApplicationController
   def edit
     @event = Event.find(params[:id])
     @product = Area.friendly.find @event.area_id
+    if current_user.id == @event.user_id ||
+        (current_user.type == "StadiumUser" && current_user.id == @product.stadium.user_id )
+    else
+      redirect_to :back,  notice: "Вы не можете редактировать это занятие"
+    end
   end
 
   def for_sale
