@@ -71,13 +71,16 @@ class GroupEventsController < ApplicationController
     @group_event = current_user.group_events.create group_event_params.delete_if {|k,v| v.empty? }
 
     if @group_event.recurring?
+      puts "in rec"
       @group_events = GroupEvent.split_recurring @group_event
+      puts @group_events
       t = ActiveRecord::Base.transaction { @group_events.each(&:save) }
       errors = @group_events.map(&:errors).map(&:messages).select(&:present?)
       if errors.blank?
         respond_with @group_events
       else
-        render json: { error: errors.map(&:values).join(", ") }
+        flash[:error] = errors.map(&:values).join(", ")
+        redirect_to :back
       end
     else
       if current_user.type == "StadiumUser" && current_user.stadium.areas.include?(@group_event.area)
@@ -180,8 +183,8 @@ class GroupEventsController < ApplicationController
      def group_event_params
       params.require(:group_event).permit(
         :id, :start, :stop, :area_id, :user_id, :coach_id, :is_all_day, :status, :name,
-        :price, :recurrence_rule, :recurrence_id, :recurrence_exception, :kind, :description, :max_count_participants,
-        service_ids: [], event_guests_attributes: [:id, :name, :email, :user_id, :_destroy]
+        :price, :recurrence_id, :recurrence_exception, :kind, :description, :max_count_participants,
+        service_ids: [], recurrence_rule: [],  event_guests_attributes: [:id, :name, :email, :user_id, :_destroy]
       )
     end
 

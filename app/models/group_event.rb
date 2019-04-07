@@ -58,6 +58,21 @@ class GroupEvent < ActiveRecord::Base
     recurrence_rule.present?
   end
 
+  def self.split_recurring event
+    if event.recurring?
+      schedule = IceCube::Schedule.new event.start do |s|
+        s.add_recurrence_rule(IceCube::Rule.weekly.day(event.recurrence_rule.tr('[]"','').split(',').map(&:to_i)).until(event.recurrence_exception.to_date))
+      end
+      return schedule.all_occurrences.map do |o|
+        e = event.dup
+        e.assign_attributes(start: o, stop: o + event.duration, recurrence_rule: nil, recurrence_exception: nil)
+        e
+      end
+    else
+      [event]
+    end
+  end
+
   def self.scoped_by options
     if options[:scope] != "grid" || (options[:user].present? && options[:user].type != "Customer")
       events = GroupEvent.all
@@ -103,12 +118,14 @@ class GroupEvent < ActiveRecord::Base
 
   def not_overlaps_other_events
     if start.present? && stop.present? && !recurring? && overlaps?(start, stop)
-      errors.add(:base, 'Данное занятие накладывается на другое оплаченное или забронированное занятие')
+      error_text = "Занятие #{start.strftime("%d.%m.%Y")} с #{start.strftime("%I:%M")} до #{stop.strftime("%I:%M")} не добавлено в корзину,так как оно накладывается на другое оплаченное или забронированное занятие"
+      errors.add(:base, error_text)
     elsif start.present? && stop.present?
       build_schedule
       @schedule.all_occurrences.each do |e|
+        error_text = "Занятие #{start.strftime("%d.%m.%Y")} с #{start.strftime("%I:%M")} до #{stop.strftime("%I:%M")} не добавлено в корзину,так как оно накладывается на другое оплаченное или забронированное занятие"
         if overlaps?(e, e + duration)
-          errors.add(:base, 'Данное занятие накладывается на другое оплаченное или забронированное занятие')
+          errors.add(:base, error_text)
         end
       end
     end
@@ -117,10 +134,7 @@ class GroupEvent < ActiveRecord::Base
   def build_schedule
     @schedule = IceCube::Schedule.new start do |s|
       if recurring?
-        s.add_recurrence_rule(IceCube::Rule.from_ical(recurrence_rule))
-        if recurrence_exception.present? && recurrence_exception =~ /=/
-          s.add_exception_rule(IceCube::Rule.from_ical(recurrence_exception))
-        end
+        s.add_recurrence_rule(IceCube::Rule.weekly.day(recurrence_rule.tr('[]"','').split(',').map(&:to_i)).until(recurrence_exception.to_date))
       else
         s.add_recurrence_rule(IceCube::SingleOccurrenceRule.new start)
       end
