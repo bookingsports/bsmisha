@@ -95,7 +95,10 @@ class EventsController < ApplicationController
 
     if @event.recurring?
       @events = Event.split_recurring @event
-      t = ActiveRecord::Base.transaction { @events.each(&:save) }
+      t = ActiveRecord::Base.transaction { @events.each {|e| if e.start!= @event.start
+                                                               e.save
+                                                             else e.destroy
+                                                             end} }
       errors = @events.map(&:errors).map(&:messages).select(&:present?)
       if errors.blank?
         respond_with @events
