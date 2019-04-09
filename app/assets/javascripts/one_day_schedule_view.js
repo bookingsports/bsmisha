@@ -11,10 +11,6 @@ url = "/stadiums/" + gon.stadium_slug + "/areas/events"
 areas_id = gon.areas_id;
 //kendo.culture('ru-RU');
 $(document).ready(function() {
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
 
     $('#calendar').fullCalendar({
         lang: 'ru',
@@ -25,7 +21,6 @@ $(document).ready(function() {
             center: '',
             right: 'today prev next'
         },
-
         editable: true,
         axisFormat: 'HH:mm',
         droppable: true,
