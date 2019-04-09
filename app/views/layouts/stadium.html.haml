@@ -11,7 +11,8 @@
               %ul.nav.nav-pills.nav-justified.stadium-nav
                 = active_link_to "Описание", @stadium, wrap_tag: :li, active: :exclusive
                 = active_link_to "Расписание", stadium_areas_path(@stadium), wrap_tag: :li, active: /stadiums\/[a-zA-Z0-9\-]*\/areas/
-                = active_link_to "Кафе", stadium_events_path(@stadium), wrap_tag: :li, active: :exclusive
+                - if Rails.application.secrets.hide_wallet == "false"
+                  = active_link_to "Кафе", stadium_events_path(@stadium), wrap_tag: :li, active: :exclusive
                 = active_link_to "Галерея", stadium_pictures_path(@stadium), wrap_tag: :li, active: :exclusive
                 = active_link_to "Отзывы", stadium_reviews_path(@stadium), wrap_tag: :li, active: :exclusive
               = yield

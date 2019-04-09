@@ -7,4 +7,5 @@
   = nav.active_link_to 'Тренеры', dashboard_coach_users_path
   = nav.active_link_to 'Настройки', edit_user_registration_path
   = nav.active_link_to 'Заказы', paid_my_events_path
-  = nav.active_link_to 'Вывод средств', dashboard_withdrawal_requests_path
+  - if Rails.application.secrets.hide_wallet == "false"
+    = nav.active_link_to 'Вывод средств', dashboard_withdrawal_requests_path

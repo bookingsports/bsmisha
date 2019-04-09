@@ -1,5 +1,6 @@
 - with_options wrap_tag: :li, active: :inclusive do |nav|
   = nav.active_link_to 'Расписание', dashboard_grid_path(), active: /grid/
-  = nav.active_link_to 'Кошелек', deposit_requests_path
+  - if Rails.application.secrets.hide_wallet == "false"
+    = nav.active_link_to 'Кошелек', deposit_requests_path
   = nav.active_link_to 'Настройки', edit_user_registration_path
   = nav.active_link_to 'Заказы', my_events_path
