@@ -15,9 +15,6 @@ var callCalendar = function () {
             center: '',
             right: 'today prev next'
         },
-        titleFormat:{
-            day: 'dddd, d MMMM , yyyy'
-        },
         editable: true,
         axisFormat: 'HH:mm',
         droppable: true,
