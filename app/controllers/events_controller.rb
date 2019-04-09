@@ -95,10 +95,11 @@ class EventsController < ApplicationController
 
     if @event.recurring?
       @events = Event.split_recurring @event
+      @events.shift
       t = ActiveRecord::Base.transaction { @events.each(&:save) }
       errors = @events.map(&:errors).map(&:messages).select(&:present?)
       if errors.blank?
-        respond_with @events
+        redirect_to :back,  notice: "Занятия добавлены в корзину."
       else
         flash[:error] = errors.map(&:values).join(", ")
         redirect_to :back
