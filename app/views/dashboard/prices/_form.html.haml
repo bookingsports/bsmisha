@@ -2,14 +2,14 @@
   .col-sm-4
     .panel.panel-info
       .panel-body
-        Выберите период действия ваших цен, затем добавьте правила для изменения цен в течение дня. Если вы, к примеру, не хотите чтобы цены в течение дня и недели менялись, то создайте правило выбрав все дни недели и указав как начало и конец 09:00 и 18:00.
+        Выберите период действия ваших цен, затем добавьте правила для изменения цен в течение дня. Если вы, к примеру, не хотите чтобы цены в течение дня и недели менялись, то создайте правило выбрав все дни недели и указав как начало и конец #{@area.stadium.opens_at.strftime("%H:%M")} и #{@area.stadium.closes_at.strftime("%H:%M")}.
   .col-sm-8
     = simple_form_for([:dashboard, @area, @price]) do |f|
       = f.error_notification
       .has-error.help-block= f.error :base
       .form-inputs
         %h5= @area.name_with_stadium
-        = f.input :start, as: :datetime, default: DateTime.current.beginning_of_year, minute_step: 30
+        = f.input :start, as: :datetime, default: DateTime.current, minute_step: 30
         = f.input :stop, as: :datetime, default: DateTime.current.end_of_year, minute_step: 30
         = link_to_add_association '+ добавить правило', f, :daily_price_rules, 'data-association-insertion-node' => '.rule_fields', 'data-association-insertion-method' => 'prepend'
 

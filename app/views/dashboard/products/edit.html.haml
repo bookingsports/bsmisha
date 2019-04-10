@@ -24,7 +24,7 @@
     .row
       .col-xs-12
         %h4 Площадки
-        = link_to_add_association 'Добавить площадку', f, :areas, class: 'btn btn-primary', 'data-association-insertion-node' => '.areas', 'data-association-insertion-method' => 'append'
+        = link_to_add_association 'Добавить площадку', f, :areas, class: 'btn btn-primary', 'data-association-insertion-node' => '.areas', 'data-association-insertion-method' => 'prepend'
 
         %table.table.table-hover.site-table
           %thead.site-table__head
@@ -39,7 +39,7 @@
               = render "area_fields", f: area
 
         %h4 Дополнительные услуги
-        = link_to_add_association 'Добавить услугу', f, :services, class: 'btn btn-primary', 'data-association-insertion-node' => '.services', 'data-association-insertion-method' => 'append'
+        = link_to_add_association 'Добавить услугу', f, :services, class: 'btn btn-primary', 'data-association-insertion-node' => '.services', 'data-association-insertion-method' => 'prepend'
 
         %table.table.table-hover.site-table
           %thead.site-table__head
