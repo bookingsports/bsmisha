@@ -27,7 +27,7 @@
             <tr>
               <td><%= event.id %></td>
               <td><%= event.area.name %></td>
-              <td><%= l(event.schedule.first.to_date) %></td>
+              <td><%= l(event.schedule.first.to_date, format: '%d.%m.%Y, %a') %></td>
               <td><%= event.start.strftime("%H:%M") %>&nbsp;&mdash; <%= event.stop.strftime("%H:%M") %></td>
               <td>
                 <div class="ticket_table_line">

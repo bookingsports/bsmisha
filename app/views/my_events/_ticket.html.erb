@@ -54,7 +54,7 @@
           <div class="col-xs-6">
             <div class="ticket_table_box_line">
               <span>дата заказа</span>
-              <span class="big"><%= l(event.schedule.first.to_date) %></span>
+              <span class="big"><%= l(event.schedule.first.to_date, format: '%d.%m.%Y, %a') %></span>
             </div>
           </div>
           <div class="col-xs-6">

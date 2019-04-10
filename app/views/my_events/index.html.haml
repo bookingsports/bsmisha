@@ -37,7 +37,7 @@
             %td.site-table__item-option
               %span.site-table__item-title
                 Дата занятия:
-              = l(event.schedule.first.to_date)
+              = l(event.schedule.first.to_date, format: '%d.%m.%Y, %a')
             %td.site-table__item-option
               %span.site-table__item-title
                 Время тренировки:
@@ -100,7 +100,7 @@
             %td.site-table__item-option
               %span.site-table__item-title
                 Дата занятия:
-
+              = l(event.start.to_date, format: '%d.%m.%Y, %a')
             %td.site-table__item-option
               %span.site-table__item-title
                 Время тренировки:
@@ -165,7 +165,7 @@
             %td.site-table__item-option
               %span.site-table__item-title
                 Дата занятия:
-              = l(event.schedule.first.to_date)
+              = l(event.schedule.first.to_date, format: '%d.%m.%Y, %a')
             %td.site-table__item-option
               %span.site-table__item-title
                 Время тренировки:
@@ -231,7 +231,7 @@
             %td.site-table__item-option
               %span.site-table__item-title
                 Дата занятия:
-              = event.start.strftime('%d.%m.%Y')
+              = l(event.start.to_date, format: '%d.%m.%Y, %a')
             %td.site-table__item-option
               %span.site-table__item-title
                 Время тренировки:
@@ -396,7 +396,7 @@
           %td.site-table__item-option
             %span.site-table__item-title
               Дата занятия:
-            = l(event.start.to_date)
+            = l(event.start.to_date, format: '%d.%m.%Y, %a')
           %td.site-table__item-option
             %span.site-table__item-title
               Время тренировки:
