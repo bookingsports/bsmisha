@@ -20,4 +20,5 @@
       Статус:
     = I18n.t "enums.coaches_area.status.#{coach_area.status}"
   %td.site-table__item-option
-    = link_to fa_icon('times') + ' Отвязаться', dashboard_employment_path(id: coach_area.id), method: :delete, data_confirm: 'Вы уверены?', class: 'btn btn-sm btn-danger'
+    = button_to dashboard_employment_path(id: coach_area.id), method: :delete, data_confirm: 'Вы уверены?', class: 'btn btn-sm btn-danger'do
+      =fa_icon("times", :text => "Отвязаться")
