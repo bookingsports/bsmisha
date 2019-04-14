@@ -65,7 +65,7 @@
     = f.button 'Удалить', value: :destroy, data: {confirm: "Вы действительно хотите удалить заказы?"}, class: 'btn btn-danger'
 
 - if @g_events_unconfirmed.present?
-
+  %hr
   = form_for :group_events, url: bulk_process_my_events_path do |f|
     %h4 Неоплаченные групповые занятия
     %table.table.table-hover.site-table#unconfirmed-g-events
@@ -73,8 +73,8 @@
         %tr
           %th
             .check-wrap.check-wrap--table
-              = check_box_tag "check_all_unpaid", 'check_all', false, class: 'check_all'
-              = label_tag "check_all_unpaid", '', class: 'check-label'
+              = check_box_tag "check_all_g_unpaid", 'check_all', false, class: 'check_all'
+              = label_tag "check_all_g_unpaid", '', class: 'check-label'
           %th Стадион
           %th Площадка
           %th Дата занятия
@@ -205,8 +205,8 @@
         %tr
           %th
             .check-wrap.check-wrap--table
-              = check_box_tag "check_all_reserved", 'check_all', false, class: 'check_all'
-              = label_tag "check_all_reserved", '', class: 'check-label'
+              = check_box_tag "check_all_g_reserved", 'check_all', false, class: 'check_all'
+              = label_tag "check_all_g_reserved", '', class: 'check-label'
           %th Стадион
           %th Площадка
           %th Дата занятия

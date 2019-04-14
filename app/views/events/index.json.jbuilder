@@ -1,7 +1,7 @@
 json.array! @events do |event|
   date_format = event.is_all_day? ? '%Y-%m-%d' : '%Y-%m-%dT%H:%M:%S'
   json.id event.id
-  json.title (current_user.present? && (current_user.id == event.user_id || current_user.id == @stadium.user_id)) ? event.user.name : event.reason
+  json.title (current_user.present? && (current_user.id == event.user_id || current_user.id == @stadium.user_id)) ? event.user.name : "Занято"
   json.start event.start.strftime(date_format)
   json.end event.stop.strftime(date_format)
   json.resources event.area_id.to_s

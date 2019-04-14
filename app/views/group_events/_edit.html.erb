@@ -4,9 +4,11 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <% if current_user.id == @group_event.user_id%>
-            <h4 class="modal-title">Изменить параметры занятия</h4>
-        <% else %>
-            <h4 class="modal-title">Записаться на групповое занятие</h4>
+          <h4 class="modal-title">Изменить параметры занятия</h4>
+        <% elsif @already_enrollment  %>
+          <h4 class="modal-title">Вы записаны на групповое занятие</h4>
+        <% else%>
+          <h4 class="modal-title">Записаться на групповое занятие</h4>
         <% end %>
       </div>
       <div class="modal-body">

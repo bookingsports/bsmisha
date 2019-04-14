@@ -24,7 +24,9 @@
     </div>
 
     <div class="form-actions">
-      <%= f.submit 'Записаться' , :class => 'btn btn-info'  %>
+      <% if !@already_enrollment %>
+        <%= f.submit 'Записаться' , :class => 'btn btn-info'  %>
+    <% end %>
     </div>
 <% end %>
 <script type="text/javascript">

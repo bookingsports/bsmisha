@@ -3,7 +3,7 @@ date_format = event.is_all_day? ? '%Y-%m-%d' : '%Y-%m-%dT%H:%M:%S'
 json.start event.start_for(current_user).strftime(date_format)
 json.end event.stop_for(current_user).strftime(date_format)
 json.recurrence_rule event.recurrence_rule
-json.title current_user.id == event.user_id ? event.user.name : event.reason
+json.title (current_user.present? && (current_user.id == event.user_id || current_user.id == @stadium.user_id)) ? event.user.name : "занято"
 json.kind event.kind.to_int
 json.visual_type event.visual_type_for(current_user)
 json.area_name event.area.try(:name)

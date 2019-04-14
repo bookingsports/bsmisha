@@ -6,9 +6,9 @@ class MyEventsController < EventsController
     @events = current_user.events
     @g_events = current_user.recorded_group_events
     @events_unconfirmed = @events.unpaid.future.unconfirmed.order(start: :asc).includes(:area, :coach, :event_change, :services)
-    @g_events_unconfirmed = @g_events.where("event_guests.status != 3").future.where("event_guests.status = 0").order(start: :asc)
+    @g_events_unconfirmed = @g_events.future.where("event_guests.status = 0").order(start: :asc)
     @events_confirmed = @events.unpaid.future.confirmed.order(start: :asc).includes(:area, :coach, :event_change, :services)
-    @g_events_confirmed = @g_events.where("event_guests.status != 3").future.where("event_guests.status = 1").order(start: :asc)
+    @g_events_confirmed = @g_events.future.where("event_guests.status = 1").order(start: :asc)
     @events_paid = @events.paid.future.order(start: :asc).includes(:area, :coach, :event_change, :services)
     @g_events_paid = @g_events.where("event_guests.status = 3").future.order(start: :asc)
 
@@ -106,12 +106,16 @@ class MyEventsController < EventsController
   end
 
   def destroy
-    if params[:event_ids].present? || params[:event_change_ids].present?
+    if params[:event_ids].present? || params[:event_change_ids].present? || params[:g_event_ids].present?
       params[:event_ids].present? && current_user.events.unpaid.where(id: params[:event_ids]).each do |event|
         if event.confirmed?
           EventMailer.confirmed_event_cancelled_notify_stadium(event, "Заказ удален пользователем").deliver_now
           event.coach.present? && EventMailer.confirmed_event_cancelled_notify_coach(event, "Заказ удален пользователем").deliver_now
         end
+        event.destroy
+      end
+      params[:g_event_ids].present? && current_user.event_guests.where(:group_event_id => params[:g_event_ids]).where.not(:status => 2).each do |event|
+        #TODO: отправка письма об отмене подтвержденного заказа
         event.destroy
       end
       params[:event_change_ids].present? && current_user.event_changes.unpaid.where(id: params[:event_change_ids]).destroy_all

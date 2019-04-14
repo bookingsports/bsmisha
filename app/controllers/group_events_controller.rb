@@ -122,6 +122,7 @@ class GroupEventsController < ApplicationController
   def edit
     @group_event = GroupEvent.find(params[:id])
     @product = Area.friendly.find @group_event.area_id
+    @already_enrollment = @group_event.event_guests.where(:email => current_user.email).present?
   end
 
   def for_sale

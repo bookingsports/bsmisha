@@ -96,10 +96,17 @@ class EventsController < ApplicationController
     if @event.recurring?
       @events = Event.split_recurring @event
       @events.shift
+      if current_user.type == "StadiumUser" && current_user.stadium.areas.include?(@event.area)
+        @events.each{|e|  e.status = :locked}
+      end
       t = ActiveRecord::Base.transaction { @events.each(&:save) }
       errors = @events.map(&:errors).map(&:messages).select(&:present?)
       if errors.blank?
-        redirect_to :back,  notice: "Занятия добавлены в корзину."
+        notice = "Занятия добавлены в корзину."
+        if current_user.type == "StadiumUser" && current_user.stadium.areas.include?(@event.area)
+          notice = "Занятия добавлены в календарь."
+        end
+        redirect_to :back,  notice: notice
       else
         flash[:error] = errors.map(&:values).join(", ")
         redirect_to :back
