@@ -70,9 +70,8 @@ class AreasController < ApplicationController
     @totalHours = @events.map{|e| e.duration_in_hours * e.occurrences}.inject(:+) || 0
     @total = @events.map(&:price).inject(:+) || 0
     @totalChanges = @eventChanges.map(&:total).inject(:+) || 0
-
     @recoupment = current_user.recoupments.where(area: @area) && current_user.recoupments.where(area: @area).first
-    @discount = current_user.discounts.where(area: @area) && current_user.discounts.where(area: @area).first
+    @discount = @area.discounts.where("type_user = 'all_users' OR type_user = 'only_selected' AND user_id =" + current_user.id.to_s).where("hours_count <= ?", @totalHours).order("hours_count ASC, value DESC").first
   end
 
   private

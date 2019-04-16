@@ -8,4 +8,12 @@
       Скидка, %:
     = f.input :value, label: false
   %td.site-table__item-option
+    %span.site-table__item-title
+      Кол-во часов для получения скидки:
+    = f.input :hours_count, label: false
+  %td.site-table__item-option
+    %span.site-table__item-title
+      Предоставить скидку:
+    = f.input :type_user, collection: [["Только выбранному", :only_selected], ["Всем пользователям",:all_users ]],  label: false, include_blank: false
+  %td.site-table__item-option
     = link_to_remove_association 'Удалить скидку', f, class: 'btn btn-danger'

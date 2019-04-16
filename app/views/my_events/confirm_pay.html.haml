@@ -64,7 +64,7 @@
             = rec.price
 
 - if @discounts.present?
-  %h4 Скидки
+  %h4 Скидки (на аренду площадки)
   %table.table.table-hover.site-table
     %thead.site-table__head
       %tr
@@ -82,7 +82,7 @@
               Скидка, %
             = disc.value
 
-- if current_user.wallet.can_spend? @total
+-# if current_user.wallet.can_spend? @total
   = form_tag pay_my_events_path, method: :post do |f|
     - @events.each do |e|
       = hidden_field_tag "event_ids[]", e.id
@@ -92,7 +92,7 @@
       = submit_tag "Подтвердить заказ", class: 'btn btn-success'
     - else
       = submit_tag "Заплатить #{number_to_integer_currency @total} из кошелька", class: 'btn btn-success'
-- else
+-# else
   %div.btn.btn-primary.disabled Недостаточно средств
 - if Rails.application.secrets.switch_form
   %form{:action => "https://secure.payu.ru/order/lu.php", :method => "POST", :name => "live_update"}

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190401192918) do
+ActiveRecord::Schema.define(version: 20190414141630) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -154,9 +154,11 @@ ActiveRecord::Schema.define(version: 20190401192918) do
   create_table "discounts", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "area_id"
-    t.float    "value",      default: 0.0
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.float    "value",       default: 0.0
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.integer  "hours_count"
+    t.string   "type_user"
   end
 
   add_index "discounts", ["area_id"], name: "index_discounts_on_area_id", using: :btree

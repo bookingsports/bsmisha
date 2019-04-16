@@ -54,7 +54,7 @@ class Dashboard::ProductsController < DashboardController
         account_attributes: [:id, :number, :company, :inn, :kpp, :agreement_number, :date, :bik],
         areas_attributes: [:id, :name, :price, :change_price, :category_id, :_destroy,
                           recoupments_attributes: [:id, :user_id, :_destroy, :area_id, :price, :reason],
-                          discounts_attributes: [:id, :user_id, :_destroy, :area_id, :value]],
+                          discounts_attributes: [:id, :user_id, :_destroy, :area_id, :value, :hours_count, :type_user]],
         services_attributes: [:id, :periodic, :price, :name, :_destroy],
       )
     end

@@ -135,8 +135,35 @@ class MyEventsController < EventsController
     @g_events = current_user.recorded_group_events.where(id: params[:g_event_ids])
     @event_changes = EventChange.where(id: params[:event_change_ids]).event_future
     @area_ids = (@events.map(&:area_id) + @event_changes.map{|e| e.event.area_id} + @g_events.map(&:area_id)).uniq
+    @e_area_ids = @events.map(&:area_id).uniq
     @recoupments = current_user.recoupments.where(area: @area_ids)
-    @discounts = current_user.discounts.where(area: @area_ids).includes(:area)
+
+    @discounts = []
+    @all_discounts = (current_user.discounts.where(area: @e_area_ids).union(Discount.where(type_user: "all_users", area_id: @e_area_ids))).uniq
+    @all_discounts.each do |d|
+      if @events.where(area_id: d.area_id).map(&:duration_in_hours).sum >= d.hours_count
+        if @discounts.present?
+          find_equals_area_discount = false
+          @discounts.each_with_index do |disc,ind|
+            if d.area_id == disc.area_id
+              if d.value > disc.value
+                @discounts.delete_at(ind)
+                @discounts.push(d)
+              end
+              find_equals_area_discount = true
+            end
+            if find_equals_area_discount
+              break
+            end
+          end
+          if !find_equals_area_discount
+            @discounts.push(d)
+          end
+        else
+          @discounts.push(d)
+        end
+      end
+    end
     if params[:event_ids].present?
       @signature = PayuService.new(current_user,@events).send_params
     elsif params[:event_change_ids].present?
@@ -144,11 +171,13 @@ class MyEventsController < EventsController
     elsif params[:g_event_ids].present?
       @signature = PayuService.new(current_user,@g_events).send_params
     end
+=begin
     @total = @events.map{|e| e.price *
           (@discounts.where(area_id: e.area_id).present? ? @discounts.where(area_id: e.area_id).first.percent : 1) }.inject(:+).to_i +
           @event_changes.map{|e| e.total *
           (@discounts.where(area_id: e.event.area_id).present? ? @discounts.where(area: e.event.area_id).first.percent : 1) }.inject(:+).to_i -
           current_user.recoupments.where(area: @area_ids).uniq.map(&:price).sum
+=end
   end
 
   def pay

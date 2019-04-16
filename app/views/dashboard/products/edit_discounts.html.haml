@@ -10,6 +10,8 @@
         %tr
           %th Пользователь
           %th Скидка, %
+          %th Кол-во единовременно купленных часов для получения скидки
+          %th Предоставить скидку:
           %th
       %tbody{class: "site-table__body discounts_#{area.object.id}"}
         = area.simple_fields_for :discounts, area.object.discounts.any? && area.object.discounts do |disc|
