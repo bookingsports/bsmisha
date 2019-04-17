@@ -72,4 +72,4 @@ ru:
     messages:
       extension_white_list_error: "- Формат изображения должен быть одним из следующих: %{allowed_types}"
       rmagick_processing_error: "- Ошибка при обработке изображения: возможно, файл пустой или не является изображением."
-
+  "Dont leave intervals less then 60 minutes": "Между двумя занятиями не может оставаться интервала менее 60 минут"

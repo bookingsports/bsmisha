@@ -33,6 +33,8 @@ class Event < ActiveRecord::Base
   validate :not_overlaps_other_events
   validate :has_at_least_one_occurrence
   validate :not_booking_too_late
+  validate :check_30_min_intervals_before_events
+  validate :check_30_min_intervals_after_events
 
   belongs_to :user
   belongs_to :coach
@@ -415,6 +417,38 @@ class Event < ActiveRecord::Base
       build_schedule
       if @schedule.all_occurrences.count <= 0
         errors.add(:recurrence_rule, "doesn't have any occurrences")
+      end
+    end
+
+    def check_30_min_intervals_before_events
+      event = Event.where(Event.between(start.beginning_of_day(),start)).where(user_id: user.id, area_id: area)
+              .where("stop <= ?", start).where.not(id: id)
+              .union(Event.paid_or_confirmed
+                    .where(Event.between(start.beginning_of_day(),start))
+                    .where("stop <= ?", start).where.not(id: id).where(area_id: area))
+              .order('start DESC').first
+      group_event = GroupEvent.where(GroupEvent.between(start.beginning_of_day(), start))
+                              .where("stop <= ?", start).where(area_id: area_id).where.not(id: id).order('start ASC').first
+      if event.present? && ((start - event.stop)/ 1.minute).round > 0 && ((start - event.stop)/ 1.minute).round < 60
+        errors.add(:base, "Dont leave intervals less then 60 minutes")
+      elsif group_event.present? && ((start - group_event.stop)/ 1.minute).round > 0 && ((start - group_event.stop)/ 1.minute).round < 60
+        errors.add(:base, "Dont leave intervals less then 60 minutes")
+      end
+    end
+
+    def check_30_min_intervals_after_events
+      event = Event.where(Event.between(stop,stop.end_of_day())).where("start >= ?", stop)
+                  .where(user_id: user.id, area_id: area_id)
+                  .where.not(id: id)
+                  .union(Event.paid_or_confirmed.where(Event.between(stop,stop.end_of_day())).where("start >= ?", stop)
+                             .where.not(id: id)
+                             .where(area_id: area_id)).order('start ASC').first
+      group_event = GroupEvent.where(GroupEvent.between(stop,stop.end_of_day()))
+                              .where("start >= ?", stop).where(area_id: area_id).where.not(id: id).order('start ASC').first
+      if event.present? && ((event.start - stop)/ 1.minute).round > 0 && ((event.start - stop)/ 1.minute).round < 60
+        errors.add(:base, "Dont leave intervals less then 60 minutes")
+      elsif  group_event.present? && ((group_event.start - stop)/ 1.minute).round >0 && ((group_event.start - stop)/ 1.minute).round < 60
+        errors.add(:base, "Dont leave intervals less then 60 minutes")
       end
     end
 
