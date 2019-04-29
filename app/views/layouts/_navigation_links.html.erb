@@ -6,10 +6,12 @@
 <li><%= link_to stadiums_path do %>
   Стадионы
 <% end %>
-<li><%= link_to one_day_events_path do %>
-  Расписание
+<% if Rails.application.secrets.hide_wallet == "false" %>
+  <li><%= link_to one_day_events_path do %>
+      Расписание
+    <% end %>
+  </li>
 <% end %>
-</li>
 <% if Rails.application.secrets.hide_wallet == "false" && current_user.present? && (current_user.type == "Customer" || current_user.type == "CoachUser") %>
   <li>
     <%= link_to for_sale_events_path do %>
