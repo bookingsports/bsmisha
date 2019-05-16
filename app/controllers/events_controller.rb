@@ -98,6 +98,7 @@ class EventsController < ApplicationController
       @events.shift
       if current_user.type == "StadiumUser" && current_user.stadium.areas.include?(@event.area)
         @events.each{|e|  e.status = :locked}
+        @event.status = :locked
       end
       t = ActiveRecord::Base.transaction { @events.each(&:save) }
       errors = @events.map(&:errors).map(&:messages).select(&:present?)
