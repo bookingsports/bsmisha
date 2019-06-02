@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_params, if: :devise_controller?
   before_action :find_static_pages
   before_action :set_gon_user
-
+  helper_method :current_order
   layout :set_layout
 
   rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
@@ -19,6 +19,14 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+    def current_order
+      if !session[:order_id].nil?
+        Order.find(session[:order_id])
+      else
+        Order.new(:user_id => current_user.id)
+      end
+    end
+
 
     def configure_permitted_params
       devise_parameter_sanitizer.permit(:account_update,keys: [:name, :type, :phone, :avatar])

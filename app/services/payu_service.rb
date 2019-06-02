@@ -3,13 +3,13 @@
 class PayuService
   attr_reader :event
 
-  def initialize(cus,items)
-    @items = items
+  def initialize(cus,order)
+    @order = order
     @customer = cus
   end
 
   def send_params
-    return unless @items.present?
+    return unless @order.present?
 
     send_hash = shop_data.merge(order_data)
 
@@ -23,12 +23,12 @@ class PayuService
   def shop_data
     {
         merchant: Rails.application.secrets.merchant_login,                # ID сайта в системе PayU
-        order_ref: @items.first.id.to_s                                           # ID заказа
+        order_ref: @order.id.to_s                                           # ID заказа
     }
   end
 
   def order_data
-    order_data = {order_date: @items.first.created_at.strftime('%F %T'),
+    order_data = {order_date: @order.created_at.strftime('%F %T'),
                   order_pname: [],
                   order_pcode: [],
                   order_price: [],
@@ -38,8 +38,14 @@ class PayuService
                   #prices_currency: 'RUB',
                   order_mplace_merchant: [],
                   testorder: Rails.application.secrets.payment_is_test.to_s.upcase}
-    @items.each do |ev|
-      ev_hash = ev.convert_for_order
+    @order.order_items.each do |oi|
+      if oi.event.present?
+        ev_hash = oi.event.convert_for_order
+      elsif oi.group_event.present?
+        ev_hash = oi.group_event.convert_for_order
+      elsif oi.event_change.present?
+        ev_hash = oi.event_change.convert_for_order
+      end
       order_data[:order_pname].push(ev_hash[:pname])
       order_data[:order_pcode].push(ev_hash[:pcode])
       order_data[:order_price].push(ev_hash[:price])

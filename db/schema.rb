@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190414141630) do
+ActiveRecord::Schema.define(version: 20190421190756) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,16 +61,6 @@ ActiveRecord::Schema.define(version: 20190414141630) do
   add_index "categories", ["ancestry"], name: "index_categories_on_ancestry", using: :btree
   add_index "categories", ["slug"], name: "index_categories_on_slug", unique: true, using: :btree
 
-  create_table "coach_profiles", force: :cascade do |t|
-    t.string   "description"
-    t.string   "photo"
-    t.integer  "user_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "coach_profiles", ["user_id"], name: "index_coach_profiles_on_user_id", using: :btree
-
   create_table "coaches", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "slug"
@@ -93,17 +83,6 @@ ActiveRecord::Schema.define(version: 20190414141630) do
 
   add_index "coaches_areas", ["area_id"], name: "index_coaches_areas_on_area_id", using: :btree
   add_index "coaches_areas", ["coach_id"], name: "index_coaches_areas_on_coach_id", using: :btree
-
-  create_table "courts", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "stadium_id"
-    t.decimal  "price",        precision: 8, scale: 2
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-    t.decimal  "change_price", precision: 8, scale: 2
-  end
-
-  add_index "courts", ["stadium_id"], name: "index_courts_on_stadium_id", using: :btree
 
   create_table "daily_price_rules", force: :cascade do |t|
     t.integer  "price_id"
@@ -174,7 +153,6 @@ ActiveRecord::Schema.define(version: 20190414141630) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.integer  "status",     default: 0
-    t.string   "summary"
   end
 
   add_index "event_changes", ["event_id"], name: "index_event_changes_on_event_id", using: :btree
@@ -252,13 +230,6 @@ ActiveRecord::Schema.define(version: 20190414141630) do
   add_index "group_events", ["coach_id"], name: "index_group_events_on_coach_id", using: :btree
   add_index "group_events", ["user_id"], name: "index_group_events_on_user_id", using: :btree
 
-  create_table "options", force: :cascade do |t|
-    t.integer  "tax",            default: 5
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.string   "feedback_email"
-  end
-
   create_table "order_discounts", force: :cascade do |t|
     t.integer  "area_id",                  null: false
     t.float    "start",      default: 0.0, null: false
@@ -268,6 +239,37 @@ ActiveRecord::Schema.define(version: 20190414141630) do
   end
 
   add_index "order_discounts", ["area_id"], name: "index_order_discounts_on_area_id", using: :btree
+
+  create_table "order_items", force: :cascade do |t|
+    t.integer  "event_id"
+    t.integer  "event_change_id"
+    t.integer  "group_event_id"
+    t.integer  "order_id"
+    t.decimal  "unit_price",      precision: 12, scale: 2
+    t.integer  "quantity"
+    t.decimal  "discount",        precision: 8,  scale: 2
+    t.decimal  "total_price",     precision: 12, scale: 2
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+  end
+
+  add_index "order_items", ["event_change_id"], name: "index_order_items_on_event_change_id", using: :btree
+  add_index "order_items", ["event_id"], name: "index_order_items_on_event_id", using: :btree
+  add_index "order_items", ["group_event_id"], name: "index_order_items_on_group_event_id", using: :btree
+  add_index "order_items", ["order_id"], name: "index_order_items_on_order_id", using: :btree
+
+  create_table "orders", force: :cascade do |t|
+    t.integer  "user_id"
+    t.decimal  "subtotal",   precision: 12, scale: 2
+    t.decimal  "discount",   precision: 8,  scale: 2
+    t.decimal  "total",      precision: 12, scale: 2
+    t.integer  "status",                              default: 0
+    t.datetime "order_date"
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+  end
+
+  add_index "orders", ["user_id"], name: "index_orders_on_user_id", using: :btree
 
   create_table "pictures", force: :cascade do |t|
     t.string   "name"
@@ -328,19 +330,6 @@ ActiveRecord::Schema.define(version: 20190414141630) do
 
   add_index "services", ["stadium_id"], name: "index_services_on_stadium_id", using: :btree
 
-  create_table "stadia", force: :cascade do |t|
-    t.integer  "category_id"
-    t.integer  "user_id"
-    t.string   "name"
-    t.string   "phone"
-    t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "stadia", ["category_id"], name: "index_stadia_on_category_id", using: :btree
-  add_index "stadia", ["user_id"], name: "index_stadia_on_user_id", using: :btree
-
   create_table "stadiums", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "category_id"
@@ -348,8 +337,8 @@ ActiveRecord::Schema.define(version: 20190414141630) do
     t.string   "phone"
     t.string   "description"
     t.string   "address"
-    t.float    "latitude",                 default: 55.75
-    t.float    "longitude",                default: 37.61
+    t.float    "latitude"
+    t.float    "longitude"
     t.string   "slug"
     t.integer  "status",                   default: 0
     t.string   "email"
@@ -380,18 +369,18 @@ ActiveRecord::Schema.define(version: 20190414141630) do
   add_index "static_pages", ["slug"], name: "index_static_pages_on_slug", unique: true, using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                                          default: "",         null: false
-    t.string   "encrypted_password",                             default: "",         null: false
+    t.string   "email",                  default: "",         null: false
+    t.string   "encrypted_password",     default: "",         null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                                  default: 0,          null: false
+    t.integer  "sign_in_count",          default: 0,          null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
     t.string   "name"
-    t.string   "type",                                           default: "Customer"
+    t.string   "type",                   default: "Customer"
     t.string   "avatar"
     t.string   "phone"
     t.datetime "created_at"
@@ -400,10 +389,6 @@ ActiveRecord::Schema.define(version: 20190414141630) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.integer  "role"
-    t.string   "slug"
-    t.decimal  "price",                  precision: 8, scale: 2, default: 0.0
-    t.integer  "status"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
@@ -466,9 +451,7 @@ ActiveRecord::Schema.define(version: 20190414141630) do
 
   add_foreign_key "areas", "categories"
   add_foreign_key "areas", "stadiums"
-  add_foreign_key "coach_profiles", "users"
   add_foreign_key "coaches", "users"
-  add_foreign_key "courts", "stadiums"
   add_foreign_key "daily_price_rules", "prices"
   add_foreign_key "deposit_requests", "wallets"
   add_foreign_key "deposit_responses", "deposit_requests"
@@ -487,13 +470,16 @@ ActiveRecord::Schema.define(version: 20190414141630) do
   add_foreign_key "group_events", "coaches"
   add_foreign_key "group_events", "users"
   add_foreign_key "order_discounts", "areas"
+  add_foreign_key "order_items", "event_changes"
+  add_foreign_key "order_items", "events"
+  add_foreign_key "order_items", "group_events"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "orders", "users"
   add_foreign_key "prices", "areas"
   add_foreign_key "recoupments", "areas"
   add_foreign_key "recoupments", "users"
   add_foreign_key "reviews", "users"
   add_foreign_key "services", "stadiums"
-  add_foreign_key "stadia", "categories"
-  add_foreign_key "stadia", "users"
   add_foreign_key "stadiums", "categories"
   add_foreign_key "stadiums", "users"
   add_foreign_key "wallets", "users"

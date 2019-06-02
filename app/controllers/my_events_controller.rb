@@ -164,13 +164,29 @@ class MyEventsController < EventsController
         end
       end
     end
-    if params[:event_ids].present?
-      @signature = PayuService.new(current_user,@events).send_params
-    elsif params[:event_change_ids].present?
-      @signature = PayuService.new(current_user,@event_changes).send_params
-    elsif params[:g_event_ids].present?
-      @signature = PayuService.new(current_user,@g_events).send_params
+    @order = current_order
+    if session[:order_id].blank?
+      @order.save
+      session[:order_id] = @order.id
+    else
+      @order.order_items.destroy_all
     end
+    if params[:event_ids].present?
+      @events.each do |e|
+        @order.order_items.new(:event_id => e.id, :unit_price => e.price, :quantity => 1 )
+      end
+    elsif params[:event_change_ids].present?
+      @event_changes.each do |ec|
+        @order.order_items.new(:event_change_id => ec.id, :unit_price => ec.total, :quantity => 1 )
+      end
+    elsif params[:g_event_ids].present?
+      @g_events.each do |ge|
+        @order.order_items.new(:group_event_id => ge.id, :unit_price => ge.price, :quantity => 1 )
+      end
+    end
+    @order.save
+    @signature = PayuService.new(current_user,@order).send_params
+    session.delete(:order_id)
 =begin
     @total = @events.map{|e| e.price *
           (@discounts.where(area_id: e.area_id).present? ? @discounts.where(area_id: e.area_id).first.percent : 1) }.inject(:+).to_i +
