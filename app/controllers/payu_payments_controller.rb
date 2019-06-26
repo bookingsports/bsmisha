@@ -14,12 +14,13 @@ class PayuPaymentsController < ApplicationController
             order.update_status(:paid)
           elsif params[:ORDERSTATUS] == "COMPLETE"
             order.update status: :paid_approved
+            CashierChecks.new(order,"SaleReceiptRequest").send_request
           elsif params[:ORDERSTATUS] == "REVERSED" || params[:orderstatus] == "REFUND"
             order.update status: :canceled
           end
         end
       end
-    end
+  end
   private
 
   def ipn_response_data(current_time)
