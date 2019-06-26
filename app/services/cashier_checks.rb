@@ -22,13 +22,11 @@ class CashierChecks
     request["Accept"] = "application/json"
     request["X-Access-Token"] = Rails.application.secrets.ekam_token
     request.body = send_params.to_json
-    puts request.body
     req_options = {
         use_ssl: uri.scheme == "https",
     }
 
     response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
-      puts "in"
       http.request(request)
     end
   end
@@ -44,7 +42,7 @@ class CashierChecks
     electron_amount:	@order.subtotal,
     email:	@user.email,
     phone_number:	@user.phone,
-    should_print:	false,
+    should_print:	Rails.application.secrets.should_print,
     order_id:	@order.id,
     cashier_name:	"Яковлев Вадим",
     draft: "false",
