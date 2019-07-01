@@ -1,9 +1,7 @@
 - content_for :main_cache_key do
   = [cache_key_for_categories, cache_key_for_stadiums]
-
-
-
-= render 'map', search_on_map: false, q: @q #TODO search on map
+//TODO: search on map
+= render 'map', search_on_map: false, q: @q
 
 .body-bg
   .container-fluid.homepage-container
