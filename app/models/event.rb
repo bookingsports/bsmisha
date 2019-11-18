@@ -453,17 +453,9 @@ class Event < ActiveRecord::Base
     end
 
     def not_overlaps_other_events
-      if start.present? && stop.present? && !recurring? && overlaps?(start, stop)
+      if start.present? && stop.present? && overlaps?(start, stop)
         error_text = "Занятие #{start.strftime("%d.%m.%Y")} с #{start.strftime("%I:%M")} до #{stop.strftime("%I:%M")} не добавлено в корзину,так как оно накладывается на другое оплаченное или забронированное занятие"
         errors.add(:base, error_text)
-      elsif start.present? && stop.present?
-          build_schedule
-          error_text = "Занятие #{start.strftime("%d.%m.%Y")} с #{start.strftime("%I:%M")} до #{stop.strftime("%I:%M")} не добавлено в корзину,так как оно накладывается на другое оплаченное или забронированное занятие"
-          @schedule.all_occurrences.each do |e|
-            if overlaps?(e, e + duration)
-              errors.add(:base, error_text)
-            end
-          end
       end
     end
 
