@@ -27,10 +27,11 @@
       <% end %>
     </div>
     <div class="form-actions">
-      <%= f.submit 'Добавить в корзину' , :class => 'btn btn-info'  %>
+      <%= f.submit action_label, :class => 'btn btn-info'  %>
       <% if !@event.id.blank? && current_user.type == "StadiumUser" && current_user.id == @product.stadium.user_id && @event.user_id == current_user.id %>
         <%= button_to 'Delete', event_path(@event), :method => 'delete', :class => 'btn btn-danger' %>
       <% end %>
+    </div>
 <% end %>
 <script type="text/javascript">
     $(function () {

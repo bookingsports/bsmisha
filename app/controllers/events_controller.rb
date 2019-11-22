@@ -41,7 +41,7 @@ class EventsController < ApplicationController
     elsif params[:stadium].present?
       @events = Event.scoped_by(area: @stadium.areas)
     else
-      @events = Event.scoped_by(user: current_user, area: current_product, scope: params[:scope])
+      @events = Event.scoped_by(user: current_user, area: current_product, scope: params[:scope]).paid_or_confirmed
     end
     respond_with @events
   end

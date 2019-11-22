@@ -30,6 +30,8 @@ ru:
   show_coaches_list: Посмотреть список тренеров
   create_group_event: Создать групповое занятие
   create_event: Создать занятие
+  apply_change: Применить изменения
+  add_to_basket: Добавить в корзину
   hours:
     few: "%{count} часа"
     many: "%{count} часов"
