@@ -5,21 +5,14 @@
 
 url = window.location.pathname + '/events';
 area_id = gon.area_id;
-opens_at = "8:00";
-closes_at = "24:00"
-console.log(gon.opens_at);
-console.log(gon.closes_at);
-
+opens_at = gon.opens_at;
+closes_at = gon.closes_at;
 /*kendo.culture('ru-RU');*/
 
-canUpdate = true
-isGrid = location.href.indexOf("grid") != -1
+canUpdate = true;
+isGrid = location.href.indexOf("grid") != -1;
 
 $(document).ready(function() {
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
 
     $('#calendar').fullCalendar({
         lang: 'ru',
