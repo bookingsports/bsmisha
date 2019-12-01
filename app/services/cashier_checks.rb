@@ -74,7 +74,7 @@ class CashierChecks
 
   def agent_data(order_item)
     agent_data= {
-        agent_type:	5,
+        agent_type:	32,
         agent_name:	nil,
         agent_phone: nil,
         agent_inn: nil,
