@@ -14,6 +14,7 @@ class PayuPaymentsController < ApplicationController
             order.update_status(:paid)
           elsif params[:ORDERSTATUS] == "COMPLETE"
             order.update status: :paid_approved
+            puts "start send_request"
             CashierChecks.new(order,"SaleReceiptRequest").send_request
           elsif params[:ORDERSTATUS] == "REVERSED" || params[:orderstatus] == "REFUND"
             order.update status: :canceled

@@ -25,10 +25,11 @@ class CashierChecks
     req_options = {
         use_ssl: uri.scheme == "https",
     }
-
+    puts "in cashier send req"
     response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
       http.request(request)
     end
+    puts response
   end
 
   private
