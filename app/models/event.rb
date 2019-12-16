@@ -42,6 +42,8 @@ class Event < ActiveRecord::Base
 
   has_one :event_change, dependent: :destroy
 
+  has_many :order_items, dependent: :destroy
+
   has_many :event_guests
   accepts_nested_attributes_for :event_guests
 
