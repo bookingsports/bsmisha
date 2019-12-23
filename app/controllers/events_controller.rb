@@ -92,7 +92,6 @@ class EventsController < ApplicationController
 
   def create
     @event = current_user.events.create event_params.delete_if {|k,v| v.empty? }
-
     if @event.recurring?
       @events = Event.split_recurring @event
       @events.shift
@@ -100,16 +99,21 @@ class EventsController < ApplicationController
         @events.each{|e|  e.status = :locked}
         @event.status = :locked
       end
-      t = ActiveRecord::Base.transaction { @events.each(&:save) }
-      errors = @events.map(&:errors).map(&:messages).select(&:present?)
-      if errors.blank?
-        notice = "Занятия добавлены в корзину."
-        if current_user.type == "StadiumUser" && current_user.stadium.areas.include?(@event.area)
-          notice = "Занятия добавлены в календарь."
+      if @event.save
+        t = ActiveRecord::Base.transaction { @events.each(&:save) }
+        errors = @events.map(&:errors).map(&:messages).select(&:present?)
+        if errors.blank?
+          notice = "Занятия добавлены в корзину."
+          if current_user.type == "StadiumUser" && current_user.stadium.areas.include?(@event.area)
+            notice = "Занятия добавлены в календарь."
+          end
+          redirect_to :back,  notice: notice
+        else
+          flash[:error] = errors.map(&:values).join(", ")
+          redirect_to :back
         end
-        redirect_to :back,  notice: notice
       else
-        flash[:error] = errors.map(&:values).join(", ")
+        flash[:error] = t(@event.errors.messages.values.join(" "))
         redirect_to :back
       end
     else
