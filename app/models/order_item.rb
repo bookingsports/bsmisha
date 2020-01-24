@@ -18,7 +18,8 @@ class OrderItem < ActiveRecord::Base
       event.price
     elsif group_event.present?
       group_event.price
-    elseif
+    elsif event_change.present?
+      event_change.calculate_new_price
     end
   end
 
