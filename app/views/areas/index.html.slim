@@ -5,14 +5,12 @@ hr
   =form_tag(stadium_areas_path, method: "get")  do
     .col-xs-12
       row
-        .col-lg-4.col-xs-12
-          row
-            .col-xs-12
-              = label_tag 'category', "Выберите, интересующий Вас, вид спорта:"
-              .col-xs-6
-                = select_tag :category_id, options_from_collection_for_select(@product.categories, "id", "name", @category), class: 'form-control'
+        div.col-lg-4.col-xs-12
+          .col-xs-12
+            = label_tag 'category', "Выберите, интересующий Вас, вид спорта:"
+          .col-xs-6
+            = select_tag :category_id, options_from_collection_for_select(@product.categories, "id", "name", @category), class: 'form-control'
         .col-lg-8.col-xs-12
-          row
             .col-xs-12
               = label_tag 'category', "Выберите площадки:"
             div#checkboxes_placeholder.check-wrap__cover

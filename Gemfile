@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.2.5'
+ruby '2.7.2'
 
-gem 'rails', '4.2.6'
+gem 'rails', '4.2.11.1'
 
 # DATABASE
 gem 'pg', '~>0.18.4'
@@ -128,3 +128,4 @@ group :production, :staging do
 end
 
 gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
+gem 'bigdecimal', '~> 1.4'
